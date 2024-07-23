@@ -17,16 +17,17 @@ from llama_index.core.readers.file.base import is_default_fs
 from llama_index.core.utils import print_text
 from llama_index.core.llms import LLM
 
-from .extractors.metadata_extract import PaperMetadataExtractor
-from .extractors.source_analyze import PaperSourceAnalyzer
 from .parsers.base import MetadataContents, ChunkContents, CONTENT_TYPE_NAME
 from .parsers.auto import auto_parse_paper
+from .extractors.source_analyze import PaperSourceAnalyzer
+from .extractors.metadata_extract import (
+	PaperMetadataExtractor,
+	PAPER_POSSESSOR,
+)
 
 
 logger = logging.getLogger(__name__)
 
-
-POSSESSOR = 'Possessor'
 
 
 class PaperReader:
@@ -172,7 +173,7 @@ class PaperReader:
 					paper_metadata[metadata_name] = meta_doc.text
 
 		possessor = self.get_paper_possessor(file_path)
-		paper_metadata[POSSESSOR] = possessor
+		paper_metadata[PAPER_POSSESSOR] = possessor
 
 		for idx, doc in enumerate(parsed_docs):
 			doc.metadata.update(paper_metadata)

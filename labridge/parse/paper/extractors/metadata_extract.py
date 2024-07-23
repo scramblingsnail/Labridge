@@ -15,9 +15,11 @@ from ....custom_query_engine.query_engines import SingleQueryEngine
 
 r""" a dictionary of {'metadata': 'description'} """
 PAPER_LEVEL_KEYWORDS = "Paper keywords"
+PAPER_TITLE = "Title"
+PAPER_POSSESSOR = "Possessor"
 
 DEFAULT_NECESSARY_METADATA = {
-	"Title": "The title often appears as a single concise sentence at the head of a paper.",
+	PAPER_TITLE: "The title often appears as a single concise sentence at the head of a paper.",
 	"Abstract": "abstract often appears as the first paragraph in the text of a paper. "
 				"It generally includes 100 to 300 words. Use the original text",
 	"Authors": "The authors name often appears at the header of a paper, following the title."

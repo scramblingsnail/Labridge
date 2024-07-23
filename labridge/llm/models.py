@@ -7,6 +7,7 @@ from llama_index.core.postprocessor import SentenceTransformerRerank
 
 
 def completion_to_prompt(completion):
+	# print(completion)
 	return f"<|system|>\n</s>\n<|user|>\n{completion}</s>\n<|assistant|>\n"
 
 
@@ -33,7 +34,7 @@ def messages_to_prompt(messages):
 
 def get_reranker(reranker_path: str = None, rerank_top_n: int = None):
 	reranker_path = reranker_path or "/root/autodl-tmp/bge-reranker-large"
-	rerank_top_n = rerank_top_n or 3
+	rerank_top_n = rerank_top_n or 100
 	return SentenceTransformerRerank(model=reranker_path, top_n=rerank_top_n)
 
 
@@ -44,7 +45,7 @@ def get_models(model_path: str = None, embed_model_path: str = None, context_win
 
 	model_path = model_path or qwen_path
 	embed_model_path = embed_model_path or embedding_path
-	context_window = context_window or 8000
+	context_window = context_window or 16000
 	max_new_tokens = max_new_tokens or 1024
 
 	quantization_config = BitsAndBytesConfig(
@@ -63,7 +64,7 @@ def get_models(model_path: str = None, embed_model_path: str = None, context_win
 		tokenizer_name=model_path,
 		context_window=context_window,
 		max_new_tokens=max_new_tokens,
-		generate_kwargs={"temperature": 0.05, "top_k": 4, "top_p": 0.95},
+		generate_kwargs={"temperature": 0.01, "top_k": 4, "top_p": 0.95},
 		device_map="cuda",
 		messages_to_prompt=messages_to_prompt,
 		completion_to_prompt=completion_to_prompt,

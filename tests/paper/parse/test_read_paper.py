@@ -123,9 +123,9 @@ def test_paper_to_index(input_dirs, persist_dir):
 
 if __name__ == "__main__":
 	# test_paper_source()
-	test_read_single_paper()
+	# test_read_single_paper()
 	# test_read_papers()
-	# test_read_directory()
+	test_read_directory()
 	#
 	# store_dir = root / "storage/papers/杨再正"
 	# file_dirs = [

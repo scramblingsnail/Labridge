@@ -5,6 +5,8 @@ from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from transformers.utils.quantization_config import BitsAndBytesConfig
 from llama_index.core.postprocessor import SentenceTransformerRerank
 
+from .zhipu import ZhiPuLLM, ZhiPuEmbedding
+
 
 def completion_to_prompt(completion):
 	# print(completion)
@@ -38,8 +40,20 @@ def get_reranker(reranker_path: str = None, rerank_top_n: int = None):
 	return SentenceTransformerRerank(model=reranker_path, top_n=rerank_top_n)
 
 
-def get_models(model_path: str = None, embed_model_path: str = None, context_window: int = None,
-			   max_new_tokens: int = None, load_in_8bit: bool = True):
+def get_models(
+	model_path: str = None,
+	embed_model_path: str = None,
+	context_window: int = None,
+	max_new_tokens: int = None,
+	load_in_8bit: bool = True,
+	use_api: bool = True,
+):
+	if use_api:
+		llm = ZhiPuLLM()
+		embed_model = ZhiPuEmbedding()
+		return llm, embed_model
+
+
 	qwen_path = '/root/autodl-tmp/Qwen2-7B-Instruct'
 	embedding_path = '/root/autodl-tmp/bge-large-zh-v1.5'
 

@@ -1,0 +1,37 @@
+import time
+import json
+from typing import Tuple
+
+
+def get_time() -> Tuple[str, str]:
+	now = time.strftime('%Y-%m-%d %H:%M:%S')
+	date, h_m_s = now.split()
+	return date, h_m_s
+
+
+def pack_user_message(user_id: str, message_str: str, chat_group_id: str = None):
+	if chat_group_id is None:
+		user_message = (
+			f"You are chatting with a user one-to-one\n"
+			f"User id: {user_id}\n"
+			f"Message: {message_str}\n"
+		)
+	else:
+		user_message = (
+			f"You are in a group chat, the chat group id is {chat_group_id}\n"
+			f"A user in this group has sent a message to you:\n"
+			f"User id: {user_id}\n"
+			f"Message: {message_str}\n"
+		)
+	message_dict = {
+		"user_id": user_id,
+		"chat_group_id": chat_group_id,
+		"message": user_message,
+	}
+	message_str = json.dumps(message_dict)
+	return message_str
+
+def unpack_user_message(message_str: str):
+	message_dict = json.loads(message_str)
+	user_id, chat_group_id, message = message_dict["user_id"], message_dict["chat_group_id"], message_dict["message"]
+	return user_id, chat_group_id, message

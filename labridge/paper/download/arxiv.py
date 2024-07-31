@@ -108,7 +108,6 @@ class ArxivCategory(object):
 		else:
 			self.category = self.category_from_arxiv()
 			self.save_category()
-		print(self.category)
 
 	def _default_persist_path(self) -> str:
 		root = Path(__file__)
@@ -266,3 +265,33 @@ class ArxivDailyDownloader(object):
 		"""
 		for paper in paper_dict.keys():
 			paper.download_pdf(dirpath=paper_dict[paper], filename=f"{paper.title}.pdf")
+
+
+class ArxivSearcher(object):
+	r"""
+	This class searches for papers in the arxiv.
+	"""
+	def __init__(self, max_results_num: int = 5):
+		self.max_results_num = max_results_num
+		self.category = ArxivCategory()
+		self.client = ArxivClient()
+		self.searcher = Search(
+			query="",
+			sort_by=SortCriterion.Relevance,
+			sort_order=SortOrder.Descending,
+		)
+
+	def search(self, search_str: str) -> List[Result]:
+		r"""
+		Search according to the title or abstract.
+		"""
+		query = f"ti:{search_str}+OR+abs:{search_str}"
+		self.searcher.query = query
+		count = 0
+		results = []
+		for result in self.client.results(search=self.searcher):
+			count += 1
+			results.append(result)
+			if count >= self.max_results_num:
+				break
+		return results

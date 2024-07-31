@@ -16,7 +16,7 @@ def get_default_paper_query_engines(llm, embed_model, re_ranker):
 		vector_similarity_top_k=10,
 		summary_similarity_top_k=3,
 		docs_top_k=2,
-		re_retrieve_top_k=4,
+		re_retrieve_top_k=3,
 		final_use_context=True,
 		final_use_summary=True,
 	)
@@ -28,4 +28,4 @@ def get_default_paper_query_engines(llm, embed_model, re_ranker):
 	)
 
 	paper_sub_query_engine = PaperSubQueryEngine(llm=llm, paper_query_engine=paper_query_engine)
-	return paper_query_engine, paper_sub_query_engine
+	return paper_query_engine, paper_sub_query_engine, paper_retriever

@@ -34,7 +34,7 @@ ZH_CHAT_MOTIVATION_TMPL = (
 		)
 
 
-KB_REACT_CHAT_SYSTEM_HEADER = """\
+MY_REACT_CHAT_SYSTEM_HEADER = """\
 
 You are designed to help with a variety of tasks, from answering questions \
     to providing summaries to other types of analyses.
@@ -48,41 +48,19 @@ to complete each subtask.
 You have access to the following tools:
 {tool_desc}
 
-## Judge the user's motivation
-First of all, please use the following format to analyze the user's motivation.
-
-···
-Thought: I need to use the motivation analyzer tool to analyze the motivation of the user.
-Action: the tool name for motivation analysis (one of {tool_names})
-Action Input: the user's query string. in a JSON format representing the kwargs (e.g. {{"user_str": "hello world"}})
-```
-
-Please ALWAYS start with THIS thought.
-
-Please use a valid JSON format for the Action Input. Do NOT do this {{"user_str": "hello world"}}.
-
-the user will respond in the following format:
-
-```
-Observation: motivation response
-```
-
-you must use the motivation analyzer tool to jude whether the user is gossiping with you or seeking for help.
-If the user is just gossiping with you, you are not forced to use extra tools.
-
-If the user is seeking for help, you must use at least one proper extra tools to help you to answer the question.
-When using extra tools, you must follow the instruction below:
+you must follow the instruction below:
 
 ## Output Format
 To answer the question using extra tools, please use the following format.
 
 ```
-Thought: I need to use a tool to help me answer the question.
+Thought: Think step-by-step, In each step I can only do no more than ONE action. In order to answer the overall question, 
+given the executed actions and their observations, What's my target in this step? Which tool should I use to help me accomplish this target?
 Action: tool name (one of {tool_names}) if using a tool.
 Action Input: the input to the tool, in a JSON format representing the kwargs (e.g. {{"input": "hello world", "num_beams": 5}})
 ```
 
-Please ALWAYS start with a Thought.
+Please ALWAYS start with a Thought, You can Only do ONE thought each time.
 
 Please use a valid JSON format for the Action Input. Do NOT do this {{'input': 'hello world', 'num_beams': 5}}.
 
@@ -95,15 +73,7 @@ Observation: tool response
 After that, you MUST respond in the one of the following two formats:
 
 ```
-Thought: I can answer without using any more tools. 
-	If the user is just gossiping with me, I do not need to attach extra information and directly answer.
-	Otherwise, before answering, I must collect the Titles of reference papers and the possessors from former observations. 
-	Then, I will attach these reference information to the end of my answer, for each reference, output it as the
-	following format:\n
-	**Reference 1**
-	\t**Title**: <title of the reference paper>
-	\t**Possessor** <possessor of the reference paper>
-	
+Thought: I have complete all the sub-tasks and I can answer without using any more tools. 
 Answer: [your answer with references here]
 ```
 
@@ -111,6 +81,53 @@ Answer: [your answer with references here]
 Thought: I cannot answer the question with the provided tools.
 Answer: Sorry, I cannot answer your query.
 ```
+
+## Current Conversation
+Below is the current conversation consisting of interleaving human and assistant messages.
+
+"""
+
+
+INSTRUCT_CHAT_SYSTEM_HEADER = """
+You are designed to help with a variety of tasks, from answering questions
+to providing summaries to other types of analyses.
+
+## Tools
+You have access to a wide variety of tools. You are responsible for using
+the tools in any sequence you deem appropriate to complete the task at hand.
+This may require breaking the task into subtasks and using different tools
+to complete each subtask.
+
+You have access to the following tools:
+{tool_desc}
+
+Several tools have been previously chose by another assistant:
+Previous choice: {prev_response}
+
+The User gives some suggestions to the previously selected action:
+User suggestion: {suggestion}
+
+Now you should adopt the user's suggestions to optimize the tool choices to better answer the question.
+If the user gives no valid suggestion, or agrees with the previous selected action,
+no modification is needed, just use the previous selected action.
+
+you must follow the instruction below:
+
+## Output Format
+please use the following format.
+
+```
+Thought: Given the previous action: {prev_response}, Following the user's suggestions: {suggestion}, 
+I need to choose a proper tool to meet the user's requirements better.
+Action: tool name (one of {tool_names}) if using a tool.
+Action Input: the input to the tool, in a JSON format representing the kwargs (e.g. {{"input": "hello world", "num_beams": 5}})
+```
+
+Please ALWAYS start with a Thought.
+
+Please use a valid JSON format for the Action Input. Do NOT do this {{'input': 'hello world', 'num_beams': 5}}.
+
+If this format is used, the user will respond in the following format:
 
 ## Current Conversation
 Below is the current conversation consisting of interleaving human and assistant messages.

@@ -53,8 +53,6 @@ class PaperReader:
 			The optional metadata that is not forced to extract from the paper.
 			It is a dictionary with k-v pairs like: {metadata_name: description}.
 		extract_retry_times: max retry times if not all necessary metadata is extracted.
-		transformations: The transformations to apply to the documents,
-			including chunking operation and chunk-level transformations.
 		service_context (ServiceContext): the service context.
 		recursive (bool): Whether to recursively search in subdirectories.
             False by default.

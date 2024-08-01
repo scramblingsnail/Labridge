@@ -5,11 +5,11 @@ from llama_index.core.agent.react.formatter import ReActChatFormatter
 from llama_index.core.tools.query_engine import QueryEngineTool
 from llama_index.core.agent.react.base import ReActAgent
 
-from labridge.prompt.chat import KB_REACT_CHAT_SYSTEM_HEADER, ZH_CHAT_MOTIVATION_TMPL
-from labridge.custom_query_engine.paper.utils import get_default_paper_query_engines
-from labridge.custom_query_engine.query_engines import SingleQueryEngine
+from labridge.common.chat.chat import KB_REACT_CHAT_SYSTEM_HEADER, ZH_CHAT_MOTIVATION_TMPL
+from labridge.paper.query_engine.utils import get_default_paper_query_engines
+from labridge.common.query_engine.query_engines import SingleQueryEngine
 from labridge.llm.models import get_models, get_reranker
-from labridge.custom_query_engine.paper.paper_query_engine import (
+from labridge.paper.query_engine.paper_query_engine import (
 	PAPER_QUERY_TOOL_NAME,
 	PAPER_QUERY_TOOL_DESCRIPTION,
 	PAPER_SUB_QUERY_TOOL_NAME,

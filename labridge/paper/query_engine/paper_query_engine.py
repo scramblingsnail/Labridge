@@ -34,8 +34,8 @@ dispatcher = instrument.get_dispatcher(__name__)
 
 PAPER_QUERY_TOOL_NAME = "Paper_query_tool"
 PAPER_QUERY_TOOL_DESCRIPTION = (
-	"This tool helps you to answer the query with the access to abundant research papers."
-	"When answering academic queries, use this tool to make your answer accurate, professional, and convincing."
+	"This tool will answer academic questions with the help of abundant research papers, "
+	"you can use the output of this tool as response directly, without extra modifications."
 )
 
 PAPER_SUB_QUERY_TOOL_NAME = "Paper_sub_queries_tool"
@@ -45,6 +45,8 @@ PAPER_SUB_QUERY_TOOL_DESCRIPTION = (
 	"then utilize the information in these research papers to answer these sub-queries,"
 	"finally merge these information to obtain the answer of the complex raw query.\n"
 	"When answering COMPLEX academic queries, use this tool to make your answer logical, comprehensive and professional."
+	"Similarly,The obtained results of this tool are often conclusive and concise, without enough detailed information."
+	"When answering academic queries, use this tool to make your answer accurate, professional, and convincing."
 )
 
 class PaperQueryEngine(RetrieverQueryEngine):
@@ -67,13 +69,14 @@ class PaperQueryEngine(RetrieverQueryEngine):
 			postprocessors = []
 		else:
 			postprocessors = [re_ranker, ]
+		self.retrieved_nodes = None
 		super().__init__(retriever=paper_retriever,
 						 node_postprocessors=postprocessors,
 						 response_synthesizer=response_synthesizer)
 
-	def _get_ref_info(self, nodes: List[NodeWithScore]):
+	def get_ref_info(self):
 		doc_ids, doc_titles, doc_possessors = [], [], []
-		for node_score in nodes:
+		for node_score in self.retrieved_nodes:
 			ref_doc_id = node_score.node.ref_doc_id
 			if ref_doc_id not in doc_ids:
 				doc_ids.append(ref_doc_id)
@@ -95,10 +98,9 @@ class PaperQueryEngine(RetrieverQueryEngine):
 		with self.callback_manager.event(CBEventType.QUERY,
 				payload={EventPayload.QUERY_STR: query_bundle.query_str}) as query_event:
 			nodes = self.retrieve(query_bundle)
+			self.retrieved_nodes = nodes
 			response = self._response_synthesizer.synthesize(query=query_bundle, nodes=nodes, )
 			query_event.on_end(payload={EventPayload.RESPONSE: response})
-			ref_str = self._get_ref_info(nodes)
-			response.response += ref_str
 		return response
 
 	@dispatcher.span
@@ -109,8 +111,6 @@ class PaperQueryEngine(RetrieverQueryEngine):
 			nodes = await self.aretrieve(query_bundle)
 			response = await self._response_synthesizer.asynthesize(query=query_bundle, nodes=nodes, )
 			query_event.on_end(payload={EventPayload.RESPONSE: response})
-			ref_str = self._get_ref_info(nodes)
-			response.response += ref_str
 		return response
 
 class PaperSubQueryEngine(SubQuestionQueryEngine):

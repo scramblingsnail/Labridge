@@ -526,6 +526,7 @@ class PaperDirectorySummaryStore:
 		self,
 		pdf_path: str,
 		possessor: str,
+		paper_summary: str = None,
 		verbose: bool=False,
 	) -> Union[str, None]:
 		r"""
@@ -534,6 +535,7 @@ class PaperDirectorySummaryStore:
 		Args:
 			pdf_path (str): the path of the new paper.
 			possessor (str): the possessor of this new paper.
+			paper_summary (str): the summary of the new paper.
 			verbose (bool): whether to show progress.
 
 		Returns:
@@ -547,9 +549,11 @@ class PaperDirectorySummaryStore:
 		if not possessor_dir.exists():
 			raise ValueError(f"The member {possessor} do not exist. Please sign up as a member first.")
 
-		pdf_docs = PyMuPDFReader().load_data(file_path=pdf_path)
-		# typically, the first page includes conclusive information of a paper.
-		first_page = pdf_docs[0].text
+		if paper_summary is None:
+			pdf_docs = PyMuPDFReader().load_data(file_path=pdf_path)
+			# typically, the first page includes conclusive information of a paper.
+			paper_summary = pdf_docs[0].text
+
 		dir_summary_nodes = self.get_dir_nodes()
 
 		selected_nodes = []
@@ -562,7 +566,7 @@ class PaperDirectorySummaryStore:
 			raw_response = self.llm.predict(
 				DIR_CHOICE_SELECT_PROMPT,
 				dir_context_str=dir_context_str,
-				paper_str=first_page,
+				paper_str=paper_summary,
 			)
 			raw_choices, relevances = default_parse_choice_select_answer_fn(raw_response, len(summary_nodes))
 			choice_idxs = [choice - 1 for choice in raw_choices]

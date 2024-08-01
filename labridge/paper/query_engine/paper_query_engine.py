@@ -1,3 +1,4 @@
+import json
 import llama_index.core.instrumentation as instrument
 
 from llama_index.core.response_synthesizers.tree_summarize import TreeSummarize
@@ -8,7 +9,6 @@ from llama_index.core.question_gen.types import BaseQuestionGenerator
 from llama_index.core.response_synthesizers import BaseSynthesizer
 from llama_index.core.base.response.schema import RESPONSE_TYPE
 from llama_index.core.tools.query_engine import QueryEngineTool
-from llama_index.core.selectors import LLMMultiSelector
 from llama_index.core.schema import (
 	QueryBundle,
 	NodeWithScore,
@@ -74,7 +74,7 @@ class PaperQueryEngine(RetrieverQueryEngine):
 						 node_postprocessors=postprocessors,
 						 response_synthesizer=response_synthesizer)
 
-	def get_ref_info(self):
+	def get_ref_info(self) -> List[str]:
 		doc_ids, doc_titles, doc_possessors = [], [], []
 		for node_score in self.retrieved_nodes:
 			ref_doc_id = node_score.node.ref_doc_id
@@ -85,12 +85,13 @@ class PaperQueryEngine(RetrieverQueryEngine):
 				doc_titles.append(title)
 				doc_possessors.append(possessor)
 
-		ref_str = "\n\n**References:**\n\n"
+		references = []
 		for doc_idx in range(len(doc_titles)):
-			ref_str += f"**REF {doc_idx+1}**:\n"
+			ref_str = f"**REFERENCE:**:\n"
 			ref_str += f"\t**Title:** {doc_titles[doc_idx]}\n"
 			ref_str += f"\t**Possessor:** {doc_possessors[doc_idx]}\n"
-		return ref_str
+			references.append(ref_str)
+		return references
 
 	@dispatcher.span
 	def _query(self, query_bundle: QueryBundle) -> RESPONSE_TYPE:

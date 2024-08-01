@@ -1,11 +1,11 @@
 import llama_index.core.instrumentation as instrument
-import datetime
 
 from llama_index.core.agent.react.output_parser import ReActOutputParser
-from llama_index.core.agent.runner.base import AgentRunner
 from llama_index.core.memory.chat_memory_buffer import ChatMemoryBuffer
 from llama_index.core.agent.react.formatter import ReActChatFormatter
+from llama_index.core.agent.runner.base import AgentRunner
 from llama_index.core.objects.base import ObjectRetriever
+from llama_index.core.base.llms.types import MessageRole
 from llama_index.core.base.llms.types import ChatMessage
 from llama_index.core.callbacks import CallbackManager
 from llama_index.core.memory.types import BaseMemory
@@ -13,8 +13,8 @@ from llama_index.core.tools.types import BaseTool
 from llama_index.core.settings import Settings
 from llama_index.core.utils import print_text
 from llama_index.core.tools import ToolOutput
+from llama_index.core.agent.types import Task
 from llama_index.core.llms.llm import LLM
-from llama_index.core.chat_engine.types import AgentChatResponse
 from llama_index.core.instrumentation.events.agent import (
     AgentChatWithStepStartEvent,
     AgentChatWithStepEndEvent,
@@ -24,8 +24,6 @@ from llama_index.core.chat_engine.types import (
     ChatResponseMode,
 )
 
-from llama_index.core.memory.vector_memory import _stringify_chat_message
-
 from typing import (
     Sequence,
     Callable,
@@ -34,12 +32,11 @@ from typing import (
 	Union,
 	Type,
 	Any,
-	Tuple,
 )
 
-from .react_step import InstructReActAgentWorker
 from labridge.accounts.users import AccountManager
 from labridge.common.chat.utils import unpack_user_message
+from .react_step import InstructReActAgentWorker
 
 
 dispatcher = instrument.get_dispatcher(__name__)
@@ -104,16 +101,32 @@ class InstructReActAgent(AgentRunner):
 	def enable_comment(self):
 		return self._enable_comment
 
+	def final_process_tool_logs(self, task: Task) -> str:
+		tool_log_dict = task.extra_state["tool_log"]
+		tool_logs = []
+
+		if len(tool_log_dict.keys()) < 1:
+			return ""
+
+		for tool_name in tool_log_dict.keys():
+			tool_logs.extend(list(set(tool_log_dict[tool_name])))
+
+		tool_logs = '\n'.join(tool_logs)
+		tool_logs = f"TOOLS LOG:\n" + tool_logs
+		task.extra_state["new_memory"].put(
+			ChatMessage(
+				content=tool_logs,
+				role=MessageRole.TOOL,
+			)
+		)
+		return tool_logs
+
 	@dispatcher.span
 	def _chat(self, message: str, chat_history: Optional[List[ChatMessage]] = None,
 		tool_choice: Union[str, dict] = "auto",
 		mode: ChatResponseMode = ChatResponseMode.WAIT, ) -> AGENT_CHAT_RESPONSE_TYPE:
 		"""
 		Chat with step executor.
-
-		Assert the message is as the following format:
-		**User id:** XXX
-		**Query:** XXX
 		"""
 		if chat_history is not None:
 			self.memory.set(chat_history)
@@ -132,8 +145,6 @@ class InstructReActAgent(AgentRunner):
 
 		while True:
 			# pass step queue in as argument, assume step executor is stateless
-			# Ask User
-			# get step
 			cur_step_output = self._run_step(task.task_id, step=step, mode=mode, tool_choice=tool_choice)
 
 			if cur_step_output.is_last:
@@ -154,17 +165,10 @@ class InstructReActAgent(AgentRunner):
 			# ensure tool_choice does not cause endless loops
 			tool_choice = "auto"
 
-		# TODO: use the ChatVectorMemory to record the long-term chat history (including tool logs.)
-
+		tool_logs = self.final_process_tool_logs(task=task)
 		result = self.finalize_response(task.task_id, result_output, )
 		# add the tool log if necessary.
-		result.response += "\n\n".join([""] + task.extra_state["tool_log"])
-
-		# for msg in self.memory.get_all():
-		# 	# update current batch textnode
-		# 	sub_dict = _stringify_chat_message(msg)
-		# 	print(sub_dict)
-
+		result.response += f"\n\n{tool_logs}"
 		dispatcher.event(AgentChatWithStepEndEvent(response=result))
 		return result
 
@@ -196,8 +200,9 @@ class InstructReActAgent(AgentRunner):
 			# ensure tool_choice does not cause endless loops
 			tool_choice = "auto"
 
+		tool_logs = self.final_process_tool_logs(task=task)
 		result = self.finalize_response(task.task_id, result_output, )
-		result.response += "\n\n".join([""] + task.extra_state["tool_log"])
+		result.response += f"\n{tool_logs}"
 		dispatcher.event(AgentChatWithStepEndEvent(response=result))
 		return result
 

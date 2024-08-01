@@ -1,3 +1,5 @@
+import json
+
 from ..base import FunctionBaseTool
 
 
@@ -30,5 +32,5 @@ class QueryUserTool(FunctionBaseTool):
 	def __init__(self):
 		super().__init__(fn=query_user)
 
-	def log(self):
-		return None
+	def log(self) -> str:
+		return json.dumps(None)

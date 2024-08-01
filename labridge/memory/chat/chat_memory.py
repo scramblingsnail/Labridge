@@ -1,23 +1,33 @@
 import fsspec
-import uuid
-
-from llama_index.core.memory.vector_memory import VectorMemory, _get_starter_node_for_new_batch, _stringify_chat_message
-from llama_index.core.indices.vector_store import VectorStoreIndex
-from llama_index.core.base.embeddings.base import BaseEmbedding
-from llama_index.core.storage import StorageContext
-from llama_index.core import load_index_from_storage
-from llama_index.core.base.llms.types import ChatMessage, MessageRole
-from llama_index.core import Settings
-from llama_index.core.schema import TextNode, NodeRelationship, RelatedNodeInfo, BaseNode, MetadataMode
 
 from pathlib import Path
 from typing import List
 
+from llama_index.core.indices.vector_store import VectorStoreIndex
+from llama_index.core.base.embeddings.base import BaseEmbedding
+from llama_index.core import load_index_from_storage
+from llama_index.core.storage import StorageContext
 from llama_index.core.bridge.pydantic import Field
+from llama_index.core import Settings
+from llama_index.core.schema import (
+	TextNode,
+	NodeRelationship,
+	RelatedNodeInfo,
+	BaseNode,
+	MetadataMode,
+)
+from llama_index.core.memory.vector_memory import (
+	VectorMemory,
+	_get_starter_node_for_new_batch,
+	_stringify_chat_message,
+)
+from llama_index.core.base.llms.types import (
+	ChatMessage,
+	MessageRole,
+)
 
 from labridge.accounts.users import AccountManager
 from labridge.common.chat.utils import get_time
-
 from labridge.llm.models import get_models
 
 
@@ -66,7 +76,7 @@ class ChatVectorMemory(VectorMemory):
 	@property
 	def memory_id(self) -> str:
 		root = Path(__file__)
-		for idx in range(3):
+		for idx in range(4):
 			root = root.parent
 
 		mem_id = Path(self.persist_dir).relative_to(root / CHAT_MEMORY_PERSIST_DIR)
@@ -91,10 +101,10 @@ class ChatVectorMemory(VectorMemory):
 		account_manager = AccountManager()
 
 		if memory_id not in account_manager.get_users() + account_manager.get_chat_groups():
-			return f"The memory id {memory_id} need to be registered as a user_id or a chat_group_id first."
+			raise ValueError(f"Invalid user id or chat group id: {memory_id}.")
 
 		root = Path(__file__)
-		for idx in range(3):
+		for idx in range(4):
 			root = root.parent
 
 		persist_dir = str(root / f"{CHAT_MEMORY_PERSIST_DIR}/{memory_id}")
@@ -119,8 +129,8 @@ class ChatVectorMemory(VectorMemory):
 		text_node = _get_starter_node_for_new_batch()
 		text_node.id_ = MEMORY_FIRST_NODE_NAME
 		text_node.text += init_msg.content
-		text_node.metadata[CHAT_DATE_NAME] = init_msg.additional_kwargs[CHAT_DATE_NAME]
-		text_node.metadata[CHAT_TIME_NAME] = init_msg.additional_kwargs[CHAT_TIME_NAME]
+		text_node.metadata[CHAT_DATE_NAME] = [init_msg.additional_kwargs[CHAT_DATE_NAME],]
+		text_node.metadata[CHAT_TIME_NAME] = [init_msg.additional_kwargs[CHAT_TIME_NAME],]
 
 		last_id_info_node = TextNode(text=text_node.node_id, id_=MEMORY_LAST_NODE_ID_NAME)
 
@@ -150,13 +160,24 @@ class ChatVectorMemory(VectorMemory):
 		self.vector_index.insert_nodes([node])
 
 	def put(self, message: ChatMessage) -> None:
-		"""Put chat history."""
+		"""
+		Put chat history.
+
+		Metadata: `CHAT_DATE_NAME`: [date, ]; `CHAT_TIME_NAME`: [time, ]
+
+		The node_id of the Last Text Node is stored in the node `MEMORY_LAST_NODE_ID_NAME`
+		Every time a New Text Node is put in, execute:
+
+		- Last Text Node -> next_node = New Text Node
+		- New Text Node -> prev_node = Last Text Node
+		- let New Text Node be the Last Text Node
+		"""
 		if not self.batch_by_user_message or message.role in [MessageRole.USER, MessageRole.SYSTEM, ]:
 			# if not batching by user message, commit to vector store immediately after adding
 			self.cur_batch_textnode = _get_starter_node_for_new_batch()
 			# add date and time
-			self.cur_batch_textnode.metadata[CHAT_DATE_NAME] = message.additional_kwargs[CHAT_DATE_NAME]
-			self.cur_batch_textnode.metadata[CHAT_TIME_NAME] = message.additional_kwargs[CHAT_TIME_NAME]
+			self.cur_batch_textnode.metadata[CHAT_DATE_NAME] = [message.additional_kwargs[CHAT_DATE_NAME],]
+			self.cur_batch_textnode.metadata[CHAT_TIME_NAME] = [message.additional_kwargs[CHAT_TIME_NAME],]
 			# add previous and next relationships.
 			last_info_node = self.vector_index._docstore.get_node(MEMORY_LAST_NODE_ID_NAME)
 			last_node_id = last_info_node.text
@@ -178,7 +199,7 @@ class ChatVectorMemory(VectorMemory):
 		content = sub_dict["content"] or ""
 		new_msg = (
 			f">>> {role} message:\n"
-			f"{content}\n\n"
+			f"{content.strip()}\n"
 		)
 		self.cur_batch_textnode.text += new_msg
 		# self.cur_batch_textnode.metadata["sub_dicts"].append(sub_dict)
@@ -202,7 +223,7 @@ def update_chat_memory(memory_id: str, chat_messages: List[ChatMessage], embed_m
 		embed_model:
 
 	Returns:
-		None or Error string..
+		None or Error string.
 
 	"""
 	chat_memory = ChatVectorMemory.from_memory_id(
@@ -224,7 +245,7 @@ if __name__ == "__main__":
 	llm , embed_model = get_models()
 
 	root = Path(__file__)
-	for idx in range(3):
+	for idx in range(4):
 		root = root.parent
 
 	chat_memory = ChatVectorMemory.from_storage(
@@ -243,3 +264,7 @@ if __name__ == "__main__":
 	prev_id = last_node.prev_node.node_id
 	prev_node = chat_memory.vector_index._docstore.get_node(prev_id)
 	print("previous: \n", prev_node.get_content(metadata_mode=MetadataMode.LLM))
+
+	prev_next_id = prev_node.next_node.node_id
+	prev_next_node = chat_memory.vector_index._docstore.get_node(prev_next_id)
+	print("pre-next: \n", prev_next_node.get_content(metadata_mode=MetadataMode.LLM))

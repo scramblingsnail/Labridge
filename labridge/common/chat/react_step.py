@@ -1,13 +1,41 @@
-import llama_index.core.instrumentation as instrument
 import uuid
+import llama_index.core.instrumentation as instrument
 
-from llama_index.core.agent.react.step import (
-	ReActAgentWorker,
+from llama_index.core.agent.react.output_parser import ReActOutputParser
+from llama_index.core.memory.chat_memory_buffer import ChatMemoryBuffer
+from llama_index.core.agent.react.formatter import ReActChatFormatter
+from llama_index.core.agent.react.step import ReActAgentWorker
+from llama_index.core.objects.base import ObjectRetriever
+from llama_index.core.base.llms.types import MessageRole
+from llama_index.core.tools.types import AsyncBaseTool
+from llama_index.core.memory.types import BaseMemory
+from llama_index.core.settings import Settings
+from llama_index.core.utils import print_text
+from llama_index.core.llms.llm import LLM
+from llama_index.core.agent.react.types import (
+    ActionReasoningStep,
+    BaseReasoningStep,
+    ObservationReasoningStep,
+)
+from llama_index.core.agent.types import (
+    Task,
+    TaskStep,
+    TaskStepOutput,
+)
+from llama_index.core.callbacks import (
+    CallbackManager,
+    CBEventType,
+    EventPayload,
+)
+from llama_index.core.base.llms.types import (
+	ChatMessage,
+	ChatResponse,
+)
+from llama_index.core.tools import (
+	BaseTool,
+	ToolOutput,
 )
 
-from llama_index.core.memory.chat_memory_buffer import ChatMemoryBuffer
-
-from .react_chat_format import InstructChatFormatter
 
 from typing import (
     Any,
@@ -20,48 +48,20 @@ from typing import (
     Callable,
 )
 
-from llama_index.core.agent.react.formatter import ReActChatFormatter
-from llama_index.core.agent.react.output_parser import ReActOutputParser
-from llama_index.core.agent.react.types import (
-    ActionReasoningStep,
-    BaseReasoningStep,
-    ObservationReasoningStep,
-)
-from llama_index.core.agent.types import (
-    Task,
-    TaskStep,
-    TaskStepOutput,
-)
-from llama_index.core.base.llms.types import MessageRole
-from llama_index.core.callbacks import (
-    CallbackManager,
-    CBEventType,
-    EventPayload,
-)
-from llama_index.core.base.llms.types import ChatMessage, ChatResponse
-from llama_index.core.llms.llm import LLM
-from llama_index.core.objects.base import ObjectRetriever
-from llama_index.core.settings import Settings
-from llama_index.core.tools import BaseTool, ToolOutput
-from llama_index.core.tools.types import AsyncBaseTool
-from llama_index.core.utils import print_text
-from llama_index.core.memory.types import BaseMemory
-
-from labridge.paper.query_engine.paper_query_engine import PAPER_QUERY_TOOL_NAME
-from labridge.memory.chat_memory import CHAT_DATE_NAME, CHAT_TIME_NAME
+from labridge.memory.chat.chat_memory import update_chat_memory
+from labridge.tools.utils import unpack_tool_output
 from labridge.accounts.users import AccountManager
-from labridge.memory.chat_memory import update_chat_memory
+from labridge.tools.base import OUTPUT_LOG_TOOLS
+from labridge.memory.chat.chat_memory import (
+	CHAT_DATE_NAME,
+	CHAT_TIME_NAME,
+)
+
+from .react_chat_format import InstructChatFormatter
 from .utils import get_time
 
-from labridge.tools.utils import unpack_tool_output
 
 dispatcher = instrument.get_dispatcher(__name__)
-
-
-# The tools whose log should be sent to the user.
-OUTPUT_LOG_TOOLS = [
-	PAPER_QUERY_TOOL_NAME,
-]
 
 
 def add_user_step_to_reasoning(
@@ -184,8 +184,8 @@ class InstructReActAgentWorker(ReActAgentWorker):
 		current_reasoning: List[BaseReasoningStep] = []
 		# temporary memory for new messages
 		new_memory = ChatMemoryBuffer.from_defaults()
-		# the tool log that are supposed to be added to the final response.
-		tool_log = []
+		# the tool log that are supposed to be added to the final response, key: tool name, value: tool_log_list.
+		tool_log = {}
 
 		# initialize task state
 		task_state = {
@@ -347,23 +347,23 @@ class InstructReActAgentWorker(ReActAgentWorker):
 							EventPayload.TOOL: tool.metadata, }, ) as event:
 					try:
 						tool_output = tool.call(**reasoning_step.action_input)
-						print(">>> tool output: \n", tool_output)
 						tool_output_str, tool_log = unpack_tool_output(tool_out_json=tool_output.content)
 						tool_output.content = tool_output_str
-						if tool_log is not None:
-							date, h_m_s = get_time()
-							additional_kwargs = {
-								CHAT_DATE_NAME: date,
-								CHAT_TIME_NAME: h_m_s,
-							}
-							task.extra_state["new_memory"].put(
-								ChatMessage(
-									content=tool_log,
-									role=MessageRole.TOOL,
-									additional_kwargs=additional_kwargs,
-								)
-							)
-							task.extra_state["tool_log"].append(tool_log)
+						if tool_log is not None and tool.metadata.name in OUTPUT_LOG_TOOLS:
+							if tool.metadata.name not in task.extra_state["tool_log"]:
+								if isinstance(tool_log, str):
+									task.extra_state["tool_log"][tool.metadata.name] = [tool_log]
+								elif isinstance(tool_log, list):
+									task.extra_state["tool_log"][tool.metadata.name] = tool_log
+								else:
+									raise ValueError(f"Invalid too_log type: {type(tool_log)}")
+							else:
+								if isinstance(tool_log, str):
+									task.extra_state["tool_log"][tool.metadata.name].append(tool_log)
+								elif isinstance(tool_log, list):
+									task.extra_state["tool_log"][tool.metadata.name].extend(tool_log)
+								else:
+									raise ValueError(f"Invalid too_log type: {type(tool_log)}")
 
 					except Exception as e:
 						tool_output = ToolOutput(
@@ -373,7 +373,6 @@ class InstructReActAgentWorker(ReActAgentWorker):
 							raw_output=e,
 							is_error=True,
 						)
-						print(f">>> {tool_output.content}")
 					event.on_end(payload={EventPayload.FUNCTION_OUTPUT: str(tool_output)})
 			else:
 				tool_output = self._handle_nonexistent_tool_name(reasoning_step)
@@ -419,19 +418,22 @@ class InstructReActAgentWorker(ReActAgentWorker):
 						tool_output = await tool.acall(**reasoning_step.action_input)
 						tool_output_str, tool_log = unpack_tool_output(tool_out_json=tool_output.content)
 						tool_output.content = tool_output_str
-						if tool_log is not None:
-							date, h_m_s = get_time()
-							additional_kwargs = {
-								CHAT_DATE_NAME: date,
-								CHAT_TIME_NAME: h_m_s,
-							}
-							task.extra_state["new_memory"].put(
-								ChatMessage(
-									content=tool_log,
-									role=MessageRole.TOOL,
-									additional_kwargs=additional_kwargs,
-								)
-							)
+						if tool_log is not None and tool.metadata.name in OUTPUT_LOG_TOOLS:
+							if tool.metadata.name not in task.extra_state["tool_log"]:
+								if isinstance(tool_log, str):
+									task.extra_state["tool_log"][tool.metadata.name] = [tool_log]
+								elif isinstance(tool_log, list):
+									task.extra_state["tool_log"][tool.metadata.name] = tool_log
+								else:
+									raise ValueError(f"Invalid too_log type: {type(tool_log)}")
+							else:
+								if isinstance(tool_log, str):
+									task.extra_state["tool_log"][tool.metadata.name].append(tool_log)
+								elif isinstance(tool_log, list):
+									task.extra_state["tool_log"][tool.metadata.name].extend(tool_log)
+								else:
+									raise ValueError(f"Invalid too_log type: {type(tool_log)}")
+
 					except Exception as e:
 						tool_output = ToolOutput(content=f"Error: {e!s}", tool_name=tool.metadata.name,
 							raw_input={"kwargs": reasoning_step.action_input}, raw_output=e, is_error=True, )

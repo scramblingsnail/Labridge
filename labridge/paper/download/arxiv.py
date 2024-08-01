@@ -60,7 +60,11 @@ class ArxivClient(Client):
 	Number of times to retry a failing API request before raising an Exception.
 	"""
 	def __init_(self, page_size: int = 100, delay_seconds: float = 3.0, num_retries: int = 3):
-		super().__init__(page_size=page_size, delay_seconds=delay_seconds, num_retries=num_retries)
+		super().__init__(
+			page_size=page_size,
+			delay_seconds=delay_seconds,
+			num_retries=num_retries
+		)
 
 	def query_format(self, url_args: dict):
 		r"""  """
@@ -207,22 +211,7 @@ class ArxivDailyDownloader(object):
 
 	def _valid_date(self, date: datetime.date, start_date: datetime.date, end_date: datetime.date) -> bool:
 		r""" Check if the date is 'recent' """
-		start_time = [start_date.year, start_date.month, start_date.day]
-		end_time = [end_date.year, end_date.month, end_date.day]
-		current_time = [date.year, date.month, date.day]
-
-		def check(idx):
-			if idx >= len(current_time):
-				return False
-			if start_time[idx] < current_time[idx] < end_time[idx]:
-				return True
-			elif current_time[idx] < start_time[idx] or current_time[idx] > end_time[idx]:
-				return False
-			else:
-				if idx == len(current_time) - 1:
-					return True
-				return check(idx + 1)
-		return check(0)
+		return start_date <= date <= end_date
 
 	def get_daily_papers_info(self, relevant_categories: List[str]) -> List[Result]:
 		r"""

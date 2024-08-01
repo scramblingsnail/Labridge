@@ -4,6 +4,8 @@ All functions in this file need the authorization of the users before execution.
 All Interactions should be returned as tool output.
 """
 
+import json
+
 from ..base import QueryEngineBaseTool
 from labridge.paper.query_engine.paper_query_engine import (
 	PaperQueryEngine,
@@ -30,8 +32,7 @@ class PaperQueryTool(QueryEngineBaseTool):
 		Get the log: specifically, the references.
 		"""
 		ref_info = self.query_engine.get_ref_info()
-		query_log = f"Using {PAPER_QUERY_TOOL_NAME}:{ref_info}"
-		return query_log
+		return json.dumps(ref_info)
 
 
 def insert_new_paper(user_id: str, paper_path: str):

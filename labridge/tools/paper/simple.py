@@ -1,3 +1,5 @@
+import json
+
 from llama_index.core.tools import FunctionTool
 from inspect import signature
 
@@ -36,15 +38,15 @@ class AddNumberTool(FunctionBaseTool):
 	def __init__(self):
 		super().__init__(fn=add)
 
-	def log(self):
-		return None
+	def log(self) -> str:
+		return json.dumps(None)
 
 class MultiplyNumberTool(FunctionBaseTool):
 	def __init__(self):
 		super().__init__(fn=multiply)
 
-	def log(self):
-		return None
+	def log(self) -> str:
+		return json.dumps(None)
 
 
 if __name__ == "__main__":

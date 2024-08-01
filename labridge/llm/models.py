@@ -48,12 +48,6 @@ def get_models(
 	load_in_8bit: bool = True,
 	use_api: bool = True,
 ):
-	if use_api:
-		llm = ZhiPuLLM()
-		embed_model = ZhiPuEmbedding()
-		return llm, embed_model
-
-
 	qwen_path = '/root/autodl-tmp/Qwen2-7B-Instruct'
 	embedding_path = '/root/autodl-tmp/bge-large-zh-v1.5'
 
@@ -61,6 +55,12 @@ def get_models(
 	embed_model_path = embed_model_path or embedding_path
 	context_window = context_window or 16000
 	max_new_tokens = max_new_tokens or 1024
+
+	if use_api:
+		llm = ZhiPuLLM()
+		# embed_model = HuggingFaceEmbedding(model_name=embed_model_path)
+		embed_model = ZhiPuEmbedding()
+		return llm, embed_model
 
 	quantization_config = BitsAndBytesConfig(
 		load_in_8bit=load_in_8bit,

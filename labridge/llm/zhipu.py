@@ -1,13 +1,20 @@
-from llama_index.core.llms import CustomLLM
-from llama_index.core.base.embeddings.base import BaseEmbedding, Embedding
 from llama_index.core.llms.callbacks import llm_completion_callback
-from llama_index.core.base.llms.types import LLMMetadata, CompletionResponse, CompletionResponseGen
-from typing import Any
+from llama_index.core.llms import CustomLLM
+from llama_index.core.base.llms.types import (
+	LLMMetadata,
+	CompletionResponse,
+	CompletionResponseGen,
+)
+from llama_index.core.base.embeddings.base import (
+	BaseEmbedding,
+	Embedding,
+)
 
+from typing import Any
 from zhipuai import ZhipuAI
 
 
-client = ZhipuAI(api_key="your zhipu api key")
+client = ZhipuAI(api_key="71eff193fe38f344074931101d510511.EYE7gbcTFUFQdfe4")
 
 
 class ZhiPuLLM(CustomLLM):

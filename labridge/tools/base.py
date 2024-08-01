@@ -1,16 +1,48 @@
-from llama_index.core.tools import FunctionTool, QueryEngineTool
-from llama_index.core.base.base_query_engine import BaseQueryEngine
-from typing import Callable, Any, Optional
-from inspect import signature
 from llama_index.core.tools.utils import create_schema_from_function
-from llama_index.core.tools.types import ToolMetadata, ToolOutput
-from abc import abstractmethod
+from llama_index.core.base.base_query_engine import BaseQueryEngine
+from llama_index.core.bridge.pydantic import BaseModel
+from llama_index.core.tools.types import AsyncBaseTool
+from llama_index.core.retrievers import BaseRetriever
+from llama_index.core.schema import NodeWithScore
+from llama_index.core.tools.types import (
+	ToolMetadata,
+	ToolOutput,
+)
+from llama_index.core.tools import (
+	FunctionTool,
+	QueryEngineTool,
+)
 
-from .utils import pack_tool_output
+from inspect import signature
+from abc import abstractmethod
+from typing import (
+	Callable,
+	Any,
+	Optional,
+	List,
+	Type,
+	Union,
+)
+
+from labridge.paper.query_engine.paper_query_engine import PAPER_QUERY_TOOL_NAME
+from .utils import (
+	pack_tool_output,
+	create_schema_from_class_method,
+)
+
 
 r"""
 All tool output will be followed by a log string that describe the tool's operation.
 """
+
+
+# The tool_log of these tools will be recorded in the chat memory and sent to the user.
+OUTPUT_LOG_TOOLS = [
+	PAPER_QUERY_TOOL_NAME,
+]
+
+TOOL_LOG_TYPE = Union[str, List[str]]
+
 
 
 class FunctionBaseTool(FunctionTool):
@@ -33,7 +65,7 @@ class FunctionBaseTool(FunctionTool):
 
 	@abstractmethod
 	def log(self, *args: Any, **kwargs: Any) -> str:
-		r""" Return the log string, describing the tool's operation. """
+		r""" Return the log json string, describing the tool's operation. """
 
 	def call(self, *args: Any, **kwargs: Any) -> ToolOutput:
 		"""Call. and add log suffix"""
@@ -69,7 +101,7 @@ class QueryEngineBaseTool(QueryEngineTool):
 		)
 
 	@abstractmethod
-	def log(self) -> Optional[str]:
+	def log(self) -> str:
 		r""" Return the log string, describing the tool's operation. """
 
 	def call(self, *args: Any, **kwargs: Any) -> ToolOutput:
@@ -95,3 +127,90 @@ class QueryEngineBaseTool(QueryEngineTool):
 			raw_input={"input": query_str},
 			raw_output=response,
 		)
+
+class RetrieverBaseTool(AsyncBaseTool):
+	def __init__(
+		self,
+		name: str,
+		retriever: BaseRetriever,
+		retrieve_fn: Callable,
+		description: Optional[str] = None,
+	):
+		fn_schema = self._get_retriever_fn_schema(name=name, fn=retrieve_fn)
+		description = description or self._retriever_fn_description_from_docstring(name=name, fn=retrieve_fn)
+
+		self._retriever = retriever
+		self._metadata = ToolMetadata(
+			name=name,
+			description=description,
+			fn_schema=fn_schema,
+		)
+
+	def _get_retriever_fn_schema(self, name: str, fn: Callable) -> Type[BaseModel]:
+		fn_schema = create_schema_from_class_method(name=name, func=fn)
+		return fn_schema
+
+	def _retriever_fn_description_from_docstring(self, name: str, fn: Callable) -> str:
+		docstring = fn.__doc__
+		description = f"{name}{signature(fn)}\n{docstring}"
+		return description
+
+	@abstractmethod
+	def log(self, retrieve_kwargs: dict) -> str:
+		r""" Return the log string. """
+
+	@abstractmethod
+	def _get_retriever_input(self, *args: Any, **kwargs: Any) -> dict:
+		r""" Parse the input of the call method to the input of the retrieve method of the retriever. """
+
+	@abstractmethod
+	def _retrieve(self, retrieve_kwargs: dict) -> List[NodeWithScore]:
+		r""" Use the retriever to retrieve relevant nodes. """
+
+	@abstractmethod
+	async def _aretrieve(self, retrieve_kwargs: dict) -> List[NodeWithScore]:
+		r""" Asynchronously use the retriever to retrieve relevant nodes. """
+
+	@abstractmethod
+	def _nodes_to_tool_output(self, nodes: List[NodeWithScore]) -> str:
+		r""" output the retrieved contents in a specific format. """
+
+	@property
+	def retriever(self) -> BaseRetriever:
+		return self._retriever
+
+	@property
+	def metadata(self) -> ToolMetadata:
+		return self._metadata
+
+	def call(self, *args: Any, **kwargs: Any) -> ToolOutput:
+		retrieve_kwargs = self._get_retriever_input(*args, **kwargs)
+		nodes = self._retrieve(retrieve_kwargs=retrieve_kwargs)
+		retrieve_output = self._nodes_to_tool_output(nodes=nodes)
+		tool_log = self.log(retrieve_kwargs)
+
+		content = pack_tool_output(tool_output=retrieve_output, tool_log=tool_log)
+		return ToolOutput(
+			content=content,
+			tool_name=self.metadata.name,
+			raw_input={"input": retrieve_kwargs},
+			raw_output=nodes,
+		)
+
+	async def acall(self, *args: Any, **kwargs: Any) -> ToolOutput:
+		retrieve_kwargs = self._get_retriever_input(*args, **kwargs)
+		nodes = await self._aretrieve(retrieve_kwargs=retrieve_kwargs)
+		retrieve_output = self._nodes_to_tool_output(nodes=nodes)
+		tool_log = self.log(retrieve_kwargs=retrieve_kwargs)
+
+		content = pack_tool_output(tool_output=retrieve_output, tool_log=tool_log)
+		return ToolOutput(
+			content=content,
+			tool_name=self.metadata.name,
+			raw_input={"input": retrieve_kwargs},
+			raw_output=nodes,
+		)
+
+
+
+

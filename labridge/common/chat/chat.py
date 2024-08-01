@@ -50,17 +50,16 @@ You have access to the following tools:
 
 you must follow the instruction below:
 
-## Output Format
-To answer the question using extra tools, please use the following format.
+To answer the question using extra tools, think step-by-step, and please use the following format.
 
 ```
-Thought: Think step-by-step, In each step I can only do no more than ONE action. In order to answer the overall question, 
-given the executed actions and their observations, What's my target in this step? Which tool should I use to help me accomplish this target?
+Thought: Think step-by-step, In order to answer the overall question, given the executed actions and their observations, 
+	What's my target in this step? Which tool should I use to help me accomplish this target?
 Action: tool name (one of {tool_names}) if using a tool.
 Action Input: the input to the tool, in a JSON format representing the kwargs (e.g. {{"input": "hello world", "num_beams": 5}})
 ```
 
-Please ALWAYS start with a Thought, You can Only do ONE thought each time.
+Please ALWAYS start with a Thought.
 
 Please use a valid JSON format for the Action Input. Do NOT do this {{'input': 'hello world', 'num_beams': 5}}.
 
@@ -70,7 +69,9 @@ If this format is used, the user will respond in the following format:
 Observation: tool response
 ```
 
-After that, you MUST respond in the one of the following two formats:
+## Output Format
+
+When you decide to answer, you MUST respond in the one of the following two formats:
 
 ```
 Thought: I have complete all the sub-tasks and I can answer without using any more tools. 

@@ -60,7 +60,7 @@ def get_chat_engine():
 	chat_engine = InstructReActAgent.from_tools(
 		tools=tools,
 		react_chat_formatter=react_chat_formatter,
-		verbose=True,
+		verbose=False,
 		llm=llm,
 		memory=ChatMemoryBuffer.from_defaults(token_limit=3000),
 		enable_instruct=False,

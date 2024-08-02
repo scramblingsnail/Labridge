@@ -8,7 +8,7 @@ from .paper_query_engine import (
 from ..retrieve.paper_retriever import PaperRetriever
 
 
-def get_default_paper_query_engines(llm, embed_model, re_ranker):
+def get_default_paper_query_engines(llm, embed_model, re_ranker=None):
 	service_context = ServiceContext.from_defaults(embed_model=embed_model, llm=llm)
 
 	paper_retriever = PaperRetriever.from_storage(

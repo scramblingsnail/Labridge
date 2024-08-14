@@ -51,7 +51,7 @@ npm start
         - prompt                # prompt
         - query_engine          # query engine
     - interface             # 前端接口
-        - web                   # Web UI
+        - web                   # Web Backend Server
     - llm                   # 模型
         - models                # 定义、获取模型
     - paper                 # 文献相关
@@ -67,6 +67,7 @@ npm start
 - tests                 # 测试用例 & debug
     - interface
     - paper
+- web-frontend          # 前端app
 ```
 
 ## Docstring

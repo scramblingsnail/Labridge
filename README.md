@@ -1,13 +1,15 @@
 # Labridge
 
 ## 环境
+
 `python>=3.10.8`
 `CUDA>=11.8`
-`node=v18.12.0` 
+`node=v18.12.0`
 
 [requirements](./requirements.txt)
 
 ## 使用模型
+
 Re-ranker model:
 `bge-reranker-large`
 
@@ -21,10 +23,20 @@ Embedding model:
 
 ## Run Web
 
+Start backend server:
+
 ```sh
 export PYTHONPATH=.
+fastapi dev labridge/interface/web/http_server.py
 ```
 
+Start frontend devtool:
+
+```sh
+cd web-frontend
+npm i
+npm start
+```
 
 ## 代码结构
 
@@ -32,7 +44,7 @@ export PYTHONPATH=.
 - docs                  # 原始文档库目录
     - papers                # 原始文献库目录
     - cfgs
-    
+
 - labridge              # 源代码目录
     - common                # 通用组件
         - chat                  # chat相关
@@ -58,7 +70,9 @@ export PYTHONPATH=.
 ```
 
 ## Docstring
+
 ### 示例一
+
 ```text
 r"""
 Read a PDF paper, and extract valid meta_data from it.
@@ -100,6 +114,7 @@ Args:
 ```
 
 ### 示例二:
+
 ```text
 r"""
 Read a single pdf paper.
@@ -120,15 +135,16 @@ Returns:
 ```
 
 ## Retrieve:
+
 ### Papers
+
 在针对文献的检索中，我们采用了混合与多级检索的策略。
 
-1. 在第一步检索中，我们使用了文献数据库中的向量数据库`VectorIndex`与Summary数据库`DocumentSummaryIndex`同时进行检索。
-其中，`VectorIndex`的检索依据是文章内容（References 除外）每个 `text_chunk` 与 `query_str`的embedding向量之间的相似性。
-`DocumentSummaryIndex`的检索依据是每篇文章的Summary（在构建过程中提取）与`query_str`的embedding向量之间的相似性。 
-将这二者检索所得的nodes的 `doc_id` 取并集，并在此基础上进行下一步检索。
-2. 在第二步检索中，我们利用LLM对第一步中获得的Papers, 与 `query_str`进行相关性排序，选出相关性最强的几篇 Paper。
-3. 在第三步检索中，在对第二步中获得的Paper基础上，用它们的 `text_chunk` 与`query_str`的embedding向量之间的相似性进行排序，
-最后最相关的几个 `text_chunk`。
-4. （可选）将以上检索所得的nodes的 `prev_node`, `next_node`, 以及对应的文献的 `summary_node` 加入到检索结果中。
-       
+1. 在第一步检索中，我们使用了文献数据库中的向量数据库`VectorIndex`与 Summary 数据库`DocumentSummaryIndex`同时进行检索。
+   其中，`VectorIndex`的检索依据是文章内容（References 除外）每个 `text_chunk` 与 `query_str`的 embedding 向量之间的相似性。
+   `DocumentSummaryIndex`的检索依据是每篇文章的 Summary（在构建过程中提取）与`query_str`的 embedding 向量之间的相似性。
+   将这二者检索所得的 nodes 的 `doc_id` 取并集，并在此基础上进行下一步检索。
+2. 在第二步检索中，我们利用 LLM 对第一步中获得的 Papers, 与 `query_str`进行相关性排序，选出相关性最强的几篇 Paper。
+3. 在第三步检索中，在对第二步中获得的 Paper 基础上，用它们的 `text_chunk` 与`query_str`的 embedding 向量之间的相似性进行排序，
+   最后最相关的几个 `text_chunk`。
+4. （可选）将以上检索所得的 nodes 的 `prev_node`, `next_node`, 以及对应的文献的 `summary_node` 加入到检索结果中。

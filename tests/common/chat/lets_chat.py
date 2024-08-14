@@ -26,11 +26,11 @@ def get_chat_engine():
 	llm, embed_model = get_models()
 	Settings.embed_model = embed_model
 	Settings.llm = llm
-	re_ranker = get_reranker()
+	# re_ranker = get_reranker()
 	paper_query_engine, paper_sub_query_engine, paper_retriever = get_default_paper_query_engines(
 		llm=llm,
 		embed_model=embed_model,
-		re_ranker=re_ranker,
+		# re_ranker=re_ranker,
 	)
 	motivation_engine = SingleQueryEngine(llm=llm, prompt_tmpl=ZH_CHAT_MOTIVATION_TMPL)
 
@@ -112,6 +112,8 @@ def chat_in_group():
 		print("Response: ", response)
 
 
+def show_file(file_path):
+	pass
 
 if __name__ == "__main__":
 	chat_one_to_one()

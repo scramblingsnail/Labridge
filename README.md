@@ -3,6 +3,7 @@
 ## 环境
 `python>=3.10.8`
 `CUDA>=11.8`
+`node=v18.12.0` 
 
 [requirements](./requirements.txt)
 
@@ -17,6 +18,12 @@ Embedding model:
 `bge-large-zh-v1.5`
 
 以上模型放在路径 `/root/autodl-tmp` 下。
+
+## Run Web
+
+```sh
+export PYTHONPATH=.
+```
 
 
 ## 代码结构

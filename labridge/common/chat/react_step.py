@@ -51,14 +51,15 @@ from typing import (
 from labridge.memory.chat.chat_memory import update_chat_memory
 from labridge.tools.utils import unpack_tool_output
 from labridge.accounts.users import AccountManager
-from labridge.tools.base import OUTPUT_LOG_TOOLS
-from labridge.memory.chat.chat_memory import (
-	CHAT_DATE_NAME,
-	CHAT_TIME_NAME,
+from labridge.tools.base.tool_base import OUTPUT_LOG_TOOLS
+from labridge.tools.base.tool_log import ToolLog
+from labridge.memory.base import (
+	LOG_DATE_NAME,
+	LOG_TIME_NAME,
 )
 
 from .react_chat_format import InstructChatFormatter
-from .utils import get_time
+from labridge.common.utils.time import get_time
 
 
 dispatcher = instrument.get_dispatcher(__name__)
@@ -76,8 +77,8 @@ def add_user_step_to_reasoning(
 		record_str = step.input
 		date, h_m_s = get_time()
 		additional_kwargs = {
-			CHAT_DATE_NAME: date,
-			CHAT_TIME_NAME: h_m_s,
+			LOG_DATE_NAME: date,
+			LOG_TIME_NAME: h_m_s,
 		}
 		memory.put(
 			ChatMessage(
@@ -184,8 +185,8 @@ class InstructReActAgentWorker(ReActAgentWorker):
 		current_reasoning: List[BaseReasoningStep] = []
 		# temporary memory for new messages
 		new_memory = ChatMemoryBuffer.from_defaults()
-		# the tool log that are supposed to be added to the final response, key: tool name, value: tool_log_list.
-		tool_log = {}
+		# the tool log list with ToolLogs.
+		tool_log = []
 
 		# initialize task state
 		task_state = {
@@ -249,8 +250,8 @@ class InstructReActAgentWorker(ReActAgentWorker):
 		if is_done:
 			date, h_m_s = get_time()
 			additional_kwargs = {
-				CHAT_DATE_NAME: date,
-				CHAT_TIME_NAME: h_m_s,
+				LOG_DATE_NAME: date,
+				LOG_TIME_NAME: h_m_s,
 			}
 			task.extra_state["new_memory"].put(
 				ChatMessage(
@@ -306,8 +307,8 @@ class InstructReActAgentWorker(ReActAgentWorker):
 		if is_done:
 			date, h_m_s = get_time()
 			additional_kwargs = {
-				CHAT_DATE_NAME: date,
-				CHAT_TIME_NAME: h_m_s,
+				LOG_DATE_NAME: date,
+				LOG_TIME_NAME: h_m_s,
 			}
 			task.extra_state["new_memory"].put(
 				ChatMessage(
@@ -342,29 +343,14 @@ class InstructReActAgentWorker(ReActAgentWorker):
 			reasoning_step = cast(ActionReasoningStep, current_reasoning[-1])
 			if reasoning_step.action in tools_dict:
 				tool = tools_dict[reasoning_step.action]
-				with self.callback_manager.event(CBEventType.FUNCTION_CALL,
+				with self.callback_manager.event(
+						CBEventType.FUNCTION_CALL,
 						payload={EventPayload.FUNCTION_CALL: reasoning_step.action_input,
-							EventPayload.TOOL: tool.metadata, }, ) as event:
+							EventPayload.TOOL: tool.metadata,
+						},
+				) as event:
 					try:
 						tool_output = tool.call(**reasoning_step.action_input)
-						tool_output_str, tool_log = unpack_tool_output(tool_out_json=tool_output.content)
-						tool_output.content = tool_output_str
-						if tool_log is not None and tool.metadata.name in OUTPUT_LOG_TOOLS:
-							if tool.metadata.name not in task.extra_state["tool_log"]:
-								if isinstance(tool_log, str):
-									task.extra_state["tool_log"][tool.metadata.name] = [tool_log]
-								elif isinstance(tool_log, list):
-									task.extra_state["tool_log"][tool.metadata.name] = tool_log
-								else:
-									raise ValueError(f"Invalid too_log type: {type(tool_log)}")
-							else:
-								if isinstance(tool_log, str):
-									task.extra_state["tool_log"][tool.metadata.name].append(tool_log)
-								elif isinstance(tool_log, list):
-									task.extra_state["tool_log"][tool.metadata.name].extend(tool_log)
-								else:
-									raise ValueError(f"Invalid too_log type: {type(tool_log)}")
-
 					except Exception as e:
 						tool_output = ToolOutput(
 							content=f"Error: {e!s}",
@@ -379,14 +365,34 @@ class InstructReActAgentWorker(ReActAgentWorker):
 
 		task.extra_state["sources"].append(tool_output)
 
+		tool_output_str, tool_log_str = unpack_tool_output(tool_out_json=tool_output.content)
+		if tool is not None and tool.metadata.return_direct:
+			observation = tool_output_str
+		else:
+			observation = f"Tool output:\n{tool_output_str}\nTool logs:\n{tool_log_str}"
+
+		# record the tool log.
+		if tool_log_str:
+			tool_log = ToolLog.loads(log_str=tool_log_str)
+			task.extra_state["tool_log"].append(tool_log)
+			task.extra_state["new_memory"].put(
+				ChatMessage(
+					content=tool_log_str,
+					role=MessageRole.TOOL,
+				)
+			)
+
 		observation_step = ObservationReasoningStep(
-			observation=str(tool_output),
+			observation=observation,
 			return_direct=(tool.metadata.return_direct and not tool_output.is_error if tool else False),
 		)
 		current_reasoning.append(observation_step)
 		if self._verbose:
 			print_text(f"{observation_step.get_content()}\n", color="blue")
-		return (current_reasoning, tool.metadata.return_direct and not tool_output.is_error if tool else False,)
+		return (
+			current_reasoning,
+			tool.metadata.return_direct and not tool_output.is_error if tool else False,
+		)
 
 	async def _aprocess_actions(
 		self,
@@ -416,24 +422,6 @@ class InstructReActAgentWorker(ReActAgentWorker):
 							EventPayload.TOOL: tool.metadata, }, ) as event:
 					try:
 						tool_output = await tool.acall(**reasoning_step.action_input)
-						tool_output_str, tool_log = unpack_tool_output(tool_out_json=tool_output.content)
-						tool_output.content = tool_output_str
-						if tool_log is not None and tool.metadata.name in OUTPUT_LOG_TOOLS:
-							if tool.metadata.name not in task.extra_state["tool_log"]:
-								if isinstance(tool_log, str):
-									task.extra_state["tool_log"][tool.metadata.name] = [tool_log]
-								elif isinstance(tool_log, list):
-									task.extra_state["tool_log"][tool.metadata.name] = tool_log
-								else:
-									raise ValueError(f"Invalid too_log type: {type(tool_log)}")
-							else:
-								if isinstance(tool_log, str):
-									task.extra_state["tool_log"][tool.metadata.name].append(tool_log)
-								elif isinstance(tool_log, list):
-									task.extra_state["tool_log"][tool.metadata.name].extend(tool_log)
-								else:
-									raise ValueError(f"Invalid too_log type: {type(tool_log)}")
-
 					except Exception as e:
 						tool_output = ToolOutput(content=f"Error: {e!s}", tool_name=tool.metadata.name,
 							raw_input={"kwargs": reasoning_step.action_input}, raw_output=e, is_error=True, )
@@ -443,13 +431,32 @@ class InstructReActAgentWorker(ReActAgentWorker):
 
 		task.extra_state["sources"].append(tool_output)
 
-		observation_step = ObservationReasoningStep(observation=str(tool_output),
+		tool_output_str, tool_log_str = unpack_tool_output(tool_out_json=tool_output.content)
+		if tool is not None and tool.metadata.return_direct:
+			observation = tool_output_str
+		else:
+			observation = f"Tool output:\n{tool_output_str}\nTool logs:\n{tool_log_str}"
+
+		# record the tool log.
+		if tool_log_str:
+			tool_log = ToolLog.loads(log_str=tool_log_str)
+			task.extra_state["tool_log"].append(tool_log)
+			task.extra_state["new_memory"].put(
+				ChatMessage(
+					content=tool_log_str,
+					role=MessageRole.TOOL,
+				)
+			)
+
+		observation_step = ObservationReasoningStep(observation=observation,
 			return_direct=(tool.metadata.return_direct and not tool_output.is_error if tool else False), )
 
 		current_reasoning.append(observation_step)
 		if self._verbose:
 			print_text(f"{observation_step.get_content()}\n", color="blue")
-		return (current_reasoning, tool.metadata.return_direct and not tool_output.is_error if tool else False,)
+		return (
+			current_reasoning, tool.metadata.return_direct and not tool_output.is_error if tool else False,
+		)
 
 	def finalize_task(self, task: Task, **kwargs: Any) -> None:
 		"""Finalize task, after all the steps are completed."""

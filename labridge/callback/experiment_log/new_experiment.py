@@ -2,7 +2,8 @@ from llama_index.core.embeddings import BaseEmbedding
 from llama_index.core.llms import LLM
 from llama_index.core import Settings
 
-from labridge.tools.callback.base import CallBackOperationBase
+from labridge.callback.base.operation_base import CallBackOperationBase
+from labridge.callback.base.operation_log import OperationOutputLog, OP_DESCRIPTION, OP_REFERENCES
 from labridge.memory.experiment.experiment_log import ExperimentLog
 
 
@@ -34,7 +35,7 @@ class CreateNewExperimentLogOperation(CallBackOperationBase):
 		verbose: bool = False,
 	):
 		embed_model = embed_model or Settings.embed_model
-		print("Here 2: ", type(embed_model))
+		self.op_name = CreateNewExperimentLogOperation.__name__
 		llm = llm or Settings.llm
 		super().__init__(
 			llm=llm,
@@ -54,15 +55,10 @@ class CreateNewExperimentLogOperation(CallBackOperationBase):
 		)
 		return op_description
 
-	def do_operation(self, **kwargs) -> str:
+	def do_operation(self, **kwargs) -> OperationOutputLog:
 		user_id = kwargs["user_id"]
 		expr_name = kwargs[NEW_EXPERIMENT_NAME_KEY]
 		expr_description = kwargs[NEW_EXPERIMENT_DESCRIPTION_KEY]
-
-		print(self._embed_model)
-		print(user_id, expr_name, expr_description)
-
-
 		expr_log_store = ExperimentLog.from_user_id(
 			user_id=user_id,
 			embed_model=self._embed_model,
@@ -78,7 +74,15 @@ class CreateNewExperimentLogOperation(CallBackOperationBase):
 			f"Have created a new experiment log record for the user {user_id}.\n"
 			f"Experiment name: {expr_name}"
 		)
-		return op_log_str
+		return OperationOutputLog(
+			operation_name=self.op_name,
+			operation_output=None,
+			log_to_user=None,
+			log_to_system={
+				OP_DESCRIPTION: op_log_str,
+				OP_REFERENCES: None,
+			}
+		)
 
-	async def ado_operation(self, **kwargs) -> str:
+	async def ado_operation(self, **kwargs) -> OperationOutputLog:
 		return self.do_operation(**kwargs)

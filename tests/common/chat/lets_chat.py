@@ -1,70 +1,87 @@
+import asyncio
 import llama_index.core.instrumentation as instrument
 
+from llama_index.core.utils import print_text
 from llama_index.core.agent.react.formatter import ReActChatFormatter
 from llama_index.core.memory.chat_memory_buffer import ChatMemoryBuffer
 
-from labridge.common.chat.chat import MY_REACT_CHAT_SYSTEM_HEADER, ZH_CHAT_MOTIVATION_TMPL
+from labridge.common.chat.chat import MY_REACT_CHAT_SYSTEM_HEADER
 from labridge.paper.query_engine.utils import get_default_paper_query_engines
 from labridge.common.query_engine.query_engines import SingleQueryEngine
 from labridge.llm.models import get_models, get_reranker
 
 from llama_index.core import Settings
 from labridge.common.chat.react import InstructReActAgent
-from labridge.tools.paper.simple import AddNumberTool, MultiplyNumberTool
-from labridge.tools.common.query_user import QueryUserTool
-from labridge.tools.paper.paper_warehouse import PaperQueryTool
+from labridge.tools.paper.global_papers.query import PaperQueryTool
+
+from labridge.tools.memory.chat.retrieve import ChatMemoryRetrieverTool
+from labridge.tools.memory.experiment.retrieve import ExperimentLogRetrieveTool
+from labridge.tools.memory.experiment.insert import (
+	CreateNewExperimentLogTool,
+	SetCurrentExperimentTool,
+	RecordExperimentLogTool,
+)
+
+from labridge.tools.paper.global_papers.retriever import SharedPaperRetrieverTool
+from labridge.tools.paper.download.arxiv_download import ArXivSearchDownloadTool
+from labridge.tools.paper.temporary_papers.insert import AddNewRecentPaperTool
+from labridge.tools.paper.temporary_papers.paper_retriever import RecentPaperRetrieveTool
+from labridge.tools.paper.temporary_papers.paper_summarize import RecentPaperSummarizeTool
+
+
+from labridge.tools.common.date_time import GetCurrentDateTimeTool, GetDateTimeFromNowTool
+
 from labridge.common.chat.utils import pack_user_message
 from labridge.accounts.users import AccountManager
-from labridge.tools.memory.retrieve import ChatMemoryRetrieverTool
-from labridge.tools.common.date_time import GetCurrentDateTimeTool, GetDateTimeFromNowTool
 
 
 dispatcher = instrument.get_dispatcher(__name__)
+
+
+def get_tools():
+	return [
+		ChatMemoryRetrieverTool(),
+		ExperimentLogRetrieveTool(),
+		CreateNewExperimentLogTool(),
+		SetCurrentExperimentTool(),
+		RecordExperimentLogTool(),
+		SharedPaperRetrieverTool(),
+		ArXivSearchDownloadTool(),
+		AddNewRecentPaperTool(),
+		RecentPaperRetrieveTool(),
+		RecentPaperSummarizeTool(),
+		GetCurrentDateTimeTool(),
+		GetDateTimeFromNowTool(),
+	]
+
 
 
 def get_chat_engine():
 	llm, embed_model = get_models()
 	Settings.embed_model = embed_model
 	Settings.llm = llm
-	re_ranker = get_reranker()
-	paper_query_engine, paper_sub_query_engine, paper_retriever = get_default_paper_query_engines(
-		llm=llm,
-		embed_model=embed_model,
-		re_ranker=re_ranker,
-	)
-	motivation_engine = SingleQueryEngine(llm=llm, prompt_tmpl=ZH_CHAT_MOTIVATION_TMPL)
 
-	chat_history_retrieve_tool = ChatMemoryRetrieverTool()
-
-	paper_query_tool = PaperQueryTool(paper_query_engine=paper_query_engine)
-	add_tool = AddNumberTool()
-	mul_tool = MultiplyNumberTool()
-	query_user_tool = QueryUserTool()
-	current_datetime_tool = GetCurrentDateTimeTool()
-	datetime_from_now_tool = GetDateTimeFromNowTool()
+	# re_ranker = get_reranker()
+	# paper_query_engine, paper_sub_query_engine, paper_retriever = get_default_paper_query_engines(
+	# 	llm=llm,
+	# 	embed_model=embed_model,
+	# 	re_ranker=re_ranker,
+	# )
 
 	# react chat formatter
-
-	tools = [
-		add_tool,
-		mul_tool,
-		paper_query_tool,
-		chat_history_retrieve_tool,
-		# query_user_tool,
-		# current_datetime_tool,
-		# datetime_from_now_tool,
-	]
+	tools = get_tools()
 
 	react_chat_formatter = ReActChatFormatter.from_defaults(system_header=MY_REACT_CHAT_SYSTEM_HEADER)
 
 	chat_engine = InstructReActAgent.from_tools(
 		tools=tools,
 		react_chat_formatter=react_chat_formatter,
-		verbose=False,
+		verbose=True,
 		llm=llm,
 		memory=ChatMemoryBuffer.from_defaults(token_limit=3000),
 		enable_instruct=False,
 		enable_comment=False,
+		max_iterations=20,
 	)
 	return chat_engine
 
@@ -84,7 +101,7 @@ def chat_one_to_one():
 		)
 		# print(message)
 		response = chat_engine.chat(message=message)
-		print("Response: ", response)
+		print_text(f"Assistant:\n{response.response}", color="blue", end="\n")
 
 
 def chat_in_group():
@@ -112,8 +129,24 @@ def chat_in_group():
 		print("Response: ", response)
 
 
+async def chat_1():
+	print("start chat_1")
+	ss = input("User: ")
+	await asyncio.sleep(2)
+	print("end chat_2")
+
+async def chat_2():
+	print("start chat_2")
+	await asyncio.sleep(3)
+	print("end chat_2")
+
+
+def test_async():
+	loop = asyncio.get_event_loop()
+	tasks = [chat_1(), chat_2()]
+	loop.run_until_complete(asyncio.wait(tasks))
+
 
 if __name__ == "__main__":
 	chat_one_to_one()
-
-
+	# test_async()

@@ -32,10 +32,12 @@ from typing import (
 	Union,
 	Type,
 	Any,
+	Tuple,
 )
 
 from labridge.accounts.users import AccountManager
 from labridge.common.chat.utils import unpack_user_message
+from labridge.tools.utils import get_all_system_logs, get_extra_str_to_user, get_ref_file_paths
 from .react_step import InstructReActAgentWorker
 
 
@@ -101,25 +103,25 @@ class InstructReActAgent(AgentRunner):
 	def enable_comment(self):
 		return self._enable_comment
 
-	def final_process_tool_logs(self, task: Task) -> str:
-		tool_log_dict = task.extra_state["tool_log"]
-		tool_logs = []
+	def final_process_tool_logs(self, task: Task) -> Tuple[str, List[str]]:
+		r"""
+		Record the log_to_system.
+		Extract the log_to_user.
+		Extract the references.
 
-		if len(tool_log_dict.keys()) < 1:
-			return ""
+		"""
+		tool_log_list = task.extra_state["tool_log"]
+		tool_logs_str = get_all_system_logs(tool_logs=tool_log_list)
 
-		for tool_name in tool_log_dict.keys():
-			tool_logs.extend(list(set(tool_log_dict[tool_name])))
-
-		tool_logs = '\n'.join(tool_logs)
-		tool_logs = f"TOOLS LOG:\n" + tool_logs
-		task.extra_state["new_memory"].put(
-			ChatMessage(
-				content=tool_logs,
-				role=MessageRole.TOOL,
-			)
-		)
-		return tool_logs
+		# task.extra_state["new_memory"].put(
+		# 	ChatMessage(
+		# 		content=tool_logs_str,
+		# 		role=MessageRole.TOOL,
+		# 	)
+		# )
+		to_user_logs = get_extra_str_to_user(tool_logs=tool_log_list)
+		ref_file_paths = get_ref_file_paths(tool_logs=tool_log_list)
+		return to_user_logs, ref_file_paths
 
 	@dispatcher.span
 	def _chat(self, message: str, chat_history: Optional[List[ChatMessage]] = None,
@@ -145,7 +147,12 @@ class InstructReActAgent(AgentRunner):
 
 		while True:
 			# pass step queue in as argument, assume step executor is stateless
-			cur_step_output = self._run_step(task.task_id, step=step, mode=mode, tool_choice=tool_choice)
+			cur_step_output = self._run_step(
+				task.task_id,
+				step=step,
+				mode=mode,
+				tool_choice=tool_choice,
+			)
 
 			if cur_step_output.is_last:
 				result_output = cur_step_output
@@ -165,11 +172,19 @@ class InstructReActAgent(AgentRunner):
 			# ensure tool_choice does not cause endless loops
 			tool_choice = "auto"
 
-		tool_logs = self.final_process_tool_logs(task=task)
+		to_user_logs, ref_file_paths = self.final_process_tool_logs(task=task)
 		result = self.finalize_response(task.task_id, result_output, )
 		# add the tool log if necessary.
-		result.response += f"\n\n{tool_logs}"
+		result.response += f"\n\n{to_user_logs}"
 		dispatcher.event(AgentChatWithStepEndEvent(response=result))
+
+		print(">>> chat history:")
+		print(self.memory.get())
+
+		if result.metadata is None:
+			result.metadata = {"references": ref_file_paths}
+		else:
+			result.metadata.update({"references": ref_file_paths})
 		return result
 
 	@dispatcher.span
@@ -188,7 +203,12 @@ class InstructReActAgent(AgentRunner):
 		step = self.state.get_step_queue(task.task_id).popleft()
 		while True:
 			# pass step queue in as argument, assume step executor is stateless
-			cur_step_output = await self._run_step(task.task_id, step=step, mode=mode, tool_choice=tool_choice)
+			cur_step_output = await self._run_step(
+				task.task_id,
+				step=step,
+				mode=mode,
+				tool_choice=tool_choice,
+			)
 
 			if cur_step_output.is_last:
 				result_output = cur_step_output
@@ -200,10 +220,14 @@ class InstructReActAgent(AgentRunner):
 			# ensure tool_choice does not cause endless loops
 			tool_choice = "auto"
 
-		tool_logs = self.final_process_tool_logs(task=task)
+		to_user_logs, ref_file_paths = self.final_process_tool_logs(task=task)
 		result = self.finalize_response(task.task_id, result_output, )
-		result.response += f"\n{tool_logs}"
+		result.response += f"\n\n{to_user_logs}"
 		dispatcher.event(AgentChatWithStepEndEvent(response=result))
+		if result.metadata is None:
+			result.metadata = {"references": ref_file_paths}
+		else:
+			result.metadata.update({"references": ref_file_paths})
 		return result
 
 	@classmethod

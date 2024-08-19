@@ -103,7 +103,7 @@ class BasePaperParser:
 			```
 
 		Returns:
-			Tuple[List, Optional[str]]
+			Tuple[List, Optional[str]]:
 
 				- The separated paper text (List[str]): For example: [Main text, References 1, Methods, References 2]
 				- The title (Optional[str]): Might be None if PyMuPDF failed to extract the doc toc. In that case you may

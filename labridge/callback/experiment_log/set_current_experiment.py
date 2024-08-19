@@ -3,7 +3,8 @@ from llama_index.core.embeddings import BaseEmbedding
 from llama_index.core import Settings
 from labridge.memory.experiment.experiment_log import ExperimentLog
 
-from labridge.tools.callback.base import CallBackOperationBase
+from labridge.callback.base.operation_log import OperationOutputLog, OP_DESCRIPTION, OP_REFERENCES
+from labridge.callback.base.operation_base import CallBackOperationBase
 from labridge.common.utils.time import get_time, str_to_datetime, str_to_delta_time, datetime_to_str
 
 
@@ -25,7 +26,7 @@ CURRENT_EXPERIMENT_DURATION_KEY = "experiment_duration"
 SET_CURRENT_EXPERIMENT_REQUIRED_INFOS = {
 	CURRENT_EXPERIMENT_NAME_KEY: "The name of the experiment that will be in progress",
 	CURRENT_EXPERIMENT_DURATION_KEY: "The duration of the experiment in progress, "
-									   "it should be given in the following FORMAT: Hours:Minutes:Seconds",
+									   "it MUST be transformed to the following FORMAT: <Hours>h:<Minutes>m:<Seconds>s",
 }
 
 
@@ -38,6 +39,7 @@ class SetCurrentExperimentOperation(CallBackOperationBase):
 
 		llm = llm or Settings.llm
 		embed_model = embed_model or Settings.embed_model
+		self.op_name = SetCurrentExperimentOperation.__name__
 		super().__init__(
 			llm=llm,
 			embed_model=embed_model,
@@ -64,7 +66,7 @@ class SetCurrentExperimentOperation(CallBackOperationBase):
 		)
 		return op_description
 
-	def do_operation(self, **kwargs) -> str:
+	def do_operation(self, **kwargs) -> OperationOutputLog:
 		user_id = kwargs["user_id"]
 		experiment_name = kwargs["experiment_name"]
 		experiment_duration = kwargs["experiment_duration"]
@@ -92,7 +94,15 @@ class SetCurrentExperimentOperation(CallBackOperationBase):
 			f"Experiment name: {experiment_name}.\n"
 			f"Start from {start_date}, {start_time} to {end_date}, {end_time}."
 		)
-		return op_log_str
+		return OperationOutputLog(
+			operation_name=self.op_name,
+			operation_output=None,
+			log_to_user=None,
+			log_to_system={
+				OP_DESCRIPTION: op_log_str,
+				OP_REFERENCES: None,
+			}
+		)
 
-	async def ado_operation(self, **kwargs) -> str:
+	async def ado_operation(self, **kwargs) -> OperationOutputLog:
 		return self.do_operation(**kwargs)

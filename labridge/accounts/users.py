@@ -10,6 +10,9 @@ CHAT_GROUP_IDS_PERSIST_PATH = "storage/accounts/chat_group_ids.json"
 
 
 class AccountManager(object):
+	r"""
+	TODO: docstring.
+	"""
 	def __init__(self):
 		root = Path(__file__)
 		for idx in range(3):
@@ -42,10 +45,10 @@ class AccountManager(object):
 	def get_chat_groups(self) -> List[str]:
 		return list(self._get_chat_group_ids_dict().keys())
 
-	def is_valid_user(self, user_id: str):
+	def check_valid_user(self, user_id: str):
 		user_list = self.get_users()
 		if user_id not in user_list:
-			raise ValueError(f"The user {user_id} is not registered.")
+			raise ValueError(f"Invalid user id, the user {user_id} is not registered.")
 
 	def is_valid_chat_group(self, chat_group_id: str):
 		chat_group_list = self.get_chat_groups()
@@ -63,7 +66,7 @@ class AccountManager(object):
 	def add_chat_group(self, chat_group_id: str, user_list: List[str]) -> Optional[str]:
 		for user_id in user_list:
 			try:
-				self.is_valid_user(user_id)
+				self.check_valid_user(user_id)
 			except ValueError as e:
 				return f"Error: {e!s}"
 
@@ -78,7 +81,7 @@ class AccountManager(object):
 	def update_chat_group_members(self, chat_group_id: str, new_user_list: List[str]) -> Optional[str]:
 		for user_id in new_user_list:
 			try:
-				self.is_valid_user(user_id)
+				self.check_valid_user(user_id)
 			except ValueError as e:
 				return f"Error: {e!s}"
 

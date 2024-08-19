@@ -7,7 +7,8 @@ from llama_index.core.utils import print_text
 from llama_index.core.embeddings import BaseEmbedding
 from llama_index.core import Settings
 from llama_index.core.llms import LLM
-from labridge.tools.callback.base import CallBackOperationBase
+from labridge.callback.base.operation_base import CallBackOperationBase
+from labridge.callback.base.operation_log import OperationOutputLog, OP_DESCRIPTION, OP_REFERENCES
 
 from pathlib import Path
 from typing import Tuple, Optional, List
@@ -16,6 +17,7 @@ from labridge.paper.download.arxiv import Result
 from labridge.paper.store.temorary_store import TMP_PAPER_WAREHOUSE_DIR
 from labridge.paper.download.async_utils import adownload_file
 from labridge.paper.store.temorary_store import RecentPaperStore
+from labridge.reference.paper import PaperInfo
 
 
 ARXIV_DOWNLOAD_OPERATION_NAME = "ArxivDownloadOperation"
@@ -37,11 +39,6 @@ ARXIV_DOWNLOADING_STR = \
 正在为您从 aXiv 下载文献 ...
 """
 
-ARXIV_DOWNLOAD_END_STR = \
-"""
-已全部下载完毕。
-"""
-
 
 class ArxivDownloadOperation(CallBackOperationBase):
 	def __init__(
@@ -52,11 +49,12 @@ class ArxivDownloadOperation(CallBackOperationBase):
 	):
 		root = Path(__file__)
 
-		for idx in range(5):
+		for idx in range(4):
 			root = root.parent
 
 		self.root = root
 		self._fs = fsspec.filesystem("file")
+		self.op_name = ArxivDownloadOperation.__name__
 		embed_model = embed_model or Settings.embed_model
 		llm = llm or Settings.llm
 		super().__init__(
@@ -140,11 +138,17 @@ class ArxivDownloadOperation(CallBackOperationBase):
 			print(f"Download failed. Error: {e}")
 			return None
 
-	@staticmethod
-	def _get_log(user_id: str, succeed_papers: List[Tuple[str, str]], fail_papers: List[str]) -> str:
+	def _get_log(
+		self,
+		user_id: str,
+		succeed_papers: List[Tuple[str, str]],
+		fail_papers: List[str]
+	) -> OperationOutputLog:
 		logs = []
 		if succeed_papers:
 			logs.append(f"Successfully download these papers, and restore them in the recent papers of user {user_id}:")
+
+		ref_paper_infos = []
 
 		for title, file_path in succeed_papers:
 			download_log = {
@@ -153,15 +157,29 @@ class ArxivDownloadOperation(CallBackOperationBase):
 			}
 			download_log_str = json.dumps(download_log)
 			logs.append(download_log_str)
+			paper_info = PaperInfo(
+				title=title,
+				file_path=file_path,
+				possessor=user_id,
+			)
+			ref_paper_infos.append(paper_info.dumps())
 
 		if fail_papers:
 			failed_log = "These paper downloading failed:\n"
 			failed_log += "\n".join(fail_papers)
 			logs.append(failed_log)
 		log_str = "\n\n".join(logs)
-		return log_str
+		return OperationOutputLog(
+			operation_name=self.op_name,
+			operation_output=None,
+			log_to_user=None,
+			log_to_system={
+				OP_DESCRIPTION: log_str,
+				OP_REFERENCES: ref_paper_infos,
+			}
+		)
 
-	def do_operation(self, **kwargs) -> str:
+	def do_operation(self, **kwargs) -> OperationOutputLog:
 		r"""
 		do the downloading operation and return the log string.
 
@@ -171,7 +189,7 @@ class ArxivDownloadOperation(CallBackOperationBase):
 				for each paper, the `title` and `pdf_url` must be provided
 
 		Returns:
-			str:
+			OperationLog:
 				The output log.
 		"""
 		user_id = kwargs.get("user_id", None)
@@ -208,13 +226,10 @@ class ArxivDownloadOperation(CallBackOperationBase):
 				tmp_paper_store.put(paper_file_path=file_path)
 
 		tmp_paper_store.persist()
-
-		# TODO: send to the user.
-		print(ARXIV_DOWNLOAD_END_STR)
 		output_log = self._get_log(user_id=user_id, succeed_papers=succeed, fail_papers=fail)
 		return output_log
 
-	async def ado_operation(self, **kwargs) -> str:
+	async def ado_operation(self, **kwargs) -> OperationOutputLog:
 		r"""
 		Asynchronously do the downloading operation and return the log string.
 
@@ -263,9 +278,6 @@ class ArxivDownloadOperation(CallBackOperationBase):
 		task_list = tuple([asyncio.create_task(single_op(paper_info)) for paper_info in paper_infos])
 		await asyncio.gather(*task_list)
 		tmp_paper_store.persist()
-
-		# TODO: send to the user.
-		print(ARXIV_DOWNLOAD_END_STR)
 		output_log = self._get_log(user_id=user_id, succeed_papers=succeed, fail_papers=fail)
 		print(output_log)
 		return output_log

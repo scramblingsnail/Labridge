@@ -1,39 +1,4 @@
 
-
-ZH_CHAT_MOTIVATION_HEADER = (
-"The original query is as follows: {query_str}\n"
-    "We have provided an existing answer: {existing_answer}\n"
-    "We have the opportunity to refine the existing answer "
-    "(only if needed) with some more context below.\n"
-    "------------\n"
-    "{context_msg}\n"
-    "------------\n"
-    "Given the new context, refine the original answer to better "
-    "answer the query. "
-    "If the context isn't useful, return the original answer.\n"
-    "Refined Answer: "
-)
-
-
-ZH_CHAT_MOTIVATION_TMPL = (
-			"请判断用户给出的如下内容的动机性质\n"
-			"用户可能是在与你闲聊，或者在向你寻求各种方面的帮助\n"
-			"举例："
-			"\n\n"
-			"用户给出的文字内容：今天的天气不错。\n"
-			"返回判断的动机：在与我闲聊。"
-			"\n\n"
-			"用户给出的文字内容：请问神经网络量化的原理是什么？\n"
-			"返回判断的动机：在向我寻求学术方面的帮助。"
-			"\n\n"
-			"用户给出的文字内容：请问清华大学有哪些院系？\n"
-			"返回判断的动机：在向我寻求常识性的帮助。"
-			"\n\n"
-			"用户给出的文字内容：{}\n"
-			"返回判断的动机："
-		)
-
-
 MY_REACT_CHAT_SYSTEM_HEADER = """\
 
 You are designed to help with a variety of tasks, from answering questions \
@@ -72,10 +37,11 @@ Observation: tool response
 ## Output Format
 
 When you decide to answer, you MUST respond in the one of the following two formats:
+You MUST return valid and direct response that can answer the user's question, DO NOT output the Tool Call.
 
 ```
 Thought: I have complete all the sub-tasks and I can answer without using any more tools. 
-Answer: [your answer with references here]
+Answer: [your answer here]
 ```
 
 ```

@@ -1,23 +1,40 @@
 import json
 import copy
 
-from llama_index.core.settings import Settings
 from llama_index.core.llms import LLM
-from llama_index.core.prompts.base import PromptTemplate, PromptType
-from llama_index.core.indices.utils import default_parse_choice_select_answer_fn
 from typing import List, Dict, Optional, Tuple
 
-from labridge.llm.models import get_models
+from labridge.interact.collect.types.info_base import CollectingInfoBase
+from labridge.interact.collect.types.common_info import CollectingCommonInfo
+from labridge.interact.prompt.collect.collect_info.prompt_keys import CollectPromptKeys
+from labridge.interact.prompt.collect.modify_info.prompt_keys import ModifyPromptKeys
 
-from labridge.tools.interact.prompt.collect_select import COLLECT_CHOICE_SELECT_PROMPT, MODIFY_CHOICE_SELECT_PROMPT
+from labridge.interact.collect.manager.collect_manger import CollectManager
+from labridge.interact.prompt.collect.collect_info.common_info import COLLECT_COMMON_INFO_PROMPT
+from labridge.interact.prompt.collect.modify_info.common_info import MODIFY_COMMON_INFO_PROMPT
 
 
-from labridge.tools.interact.types import (
-	CollectingInfoBase, CollectingInfoType, CollectPromptKeys, COMMON_COLLECT_BATCH_SIZE, SELECT_CHOICE_BATCH_SIZE,
-	CollectingCommonInfo, CollectingSelectInfo, ModifyPromptKeys, SELECT_MIN_SCORE
+COLLECT_COMMON_INFO_QUERY = (
+	"请补充完善如下信息, 您随时可以放弃本信息收集流程."
 )
 
 
+def parse_common_collected_info(extract_info: str, info_keys: List[str]) -> dict:
+	try:
+		chars = [char for char in extract_info]
+		idx1 = chars.index("{")
+		idx2 = chars.index("}")
+		valid_info = "".join(chars[idx1:idx2+1])
+		print(valid_info)
+		items = json.loads(valid_info)
+	except Exception:
+		raise ValueError("Error: You should output a valid dictionary in JSON format !!!")
+
+	output_info = dict()
+	for key in items.keys():
+		if key in info_keys and items[key] is not None:
+			output_info[key] = items[key]
+	return output_info
 
 
 class CommonInfoCollector:
@@ -66,7 +83,7 @@ class CommonInfoCollector:
 
 	@property
 	def collecting_query(self) -> str:
-		query_to_user = f"{COLLECT_INFO_QUERY}\n"
+		query_to_user = f"{COLLECT_COMMON_INFO_QUERY}\n"
 		for key in self.collecting_keys:
 			query_to_user += f"\t{key}\n"
 		return query_to_user
@@ -85,11 +102,9 @@ class CommonInfoCollector:
 		if abort:
 			return abort
 
-		info_type = self._common_infos.info_type
-		info_prompt = COLLECT_PROMPT_DICT[info_type]
 		for batch_info_dict in self._common_infos.info_content():
 			predict_kwargs = {
-				"prompt": info_prompt,
+				"prompt": COLLECT_COMMON_INFO_PROMPT,
 				CollectPromptKeys.user_response_key: user_response,
 			}
 			predict_kwargs.update(batch_info_dict)
@@ -116,11 +131,9 @@ class CommonInfoCollector:
 		if abort:
 			return abort
 
-		info_type = self._common_infos.info_type
-		info_prompt = COLLECT_PROMPT_DICT[info_type]
 		for batch_info_dict in self._common_infos.info_content():
 			predict_kwargs = {
-				"prompt": info_prompt,
+				"prompt": COLLECT_COMMON_INFO_PROMPT,
 				CollectPromptKeys.user_response_key: user_response,
 			}
 			predict_kwargs.update(batch_info_dict)
@@ -133,6 +146,9 @@ class CommonInfoCollector:
 		return abort
 
 	def modify(self) -> Tuple[bool, bool]:
+		if self._common_infos is None:
+			return False, False
+
 		doing_modify = True
 		abort = False
 		while doing_modify and not abort:
@@ -153,6 +169,9 @@ class CommonInfoCollector:
 		return doing_modify, abort
 
 	async def amodify(self) -> Tuple[bool, bool]:
+		if self._common_infos is None:
+			return False, False
+
 		doing_modify = True
 		abort = False
 		while doing_modify and not abort:
@@ -174,11 +193,9 @@ class CommonInfoCollector:
 
 
 	def single_modify(self, user_response: str):
-		info_type = self._common_infos.info_type
-		modify_prompt = MODIFY_PROMPT_DICT[info_type]
 		for batch_info_dict in self._common_infos.modify_info_content():
 			predict_kwargs = {
-				"prompt": modify_prompt,
+				"prompt": MODIFY_COMMON_INFO_PROMPT,
 				ModifyPromptKeys.user_comment_key: user_response,
 			}
 			predict_kwargs.update(batch_info_dict)
@@ -191,11 +208,9 @@ class CommonInfoCollector:
 			self._common_infos.update_collected_info(collected_info_dict=new_info_dict)
 
 	async def asingle_modify(self, user_response: str):
-		info_type = self._common_infos.info_type
-		modify_prompt = MODIFY_PROMPT_DICT[info_type]
 		for batch_info_dict in self._common_infos.modify_info_content():
 			predict_kwargs = {
-				"prompt": modify_prompt,
+				"prompt": MODIFY_COMMON_INFO_PROMPT,
 				ModifyPromptKeys.user_comment_key: user_response,
 			}
 			predict_kwargs.update(batch_info_dict)

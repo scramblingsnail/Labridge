@@ -1,5 +1,5 @@
 import os
-import random
+import json
 
 from typing import Optional, Tuple, List, Union, cast, Dict, Any
 from pathlib import Path
@@ -23,6 +23,7 @@ from llama_index.core.schema import (
 	RelatedNodeInfo,
 	TextNode,
 	NodeWithScore,
+	BaseNode,
 )
 from llama_index.core.settings import (
     Settings,
@@ -55,7 +56,7 @@ from ..parse.parsers.base import (
 	METHODS,
 	CONTENT_TYPE_NAME,
 )
-from ..prompt.store.paper_summary import (
+from ..prompt.synthesize.paper_summarize import (
 	PAPER_SUMMARIZE_QUERY,
 	METHODS_SUMMARIZE_QUERY,
 )
@@ -78,7 +79,7 @@ DEFAULT_PAPER_SUMMARY_PERSIST_DIR = "storage/papers/paper_summary_index"
 DEFAULT_DIRECTORY_SUMMARY_PERSIST_DIR = "storage/papers/directory_summary_index"
 
 
-class PaperStorage:
+class PaperStorage(object):
 	r"""
 	Store the papers in vector index and summary index.
 	The vector index stores the text chunks of the main text (and methods) and their embeddings.
@@ -270,7 +271,7 @@ class PaperStorage:
 			raise ValueError(f"Doc not in paper warehouse.")
 
 		for doc in paper_docs:
-			doc_type = doc.doc_id.split('_')[-1]
+			doc_type = doc.metadata[CONTENT_TYPE_NAME]
 			if doc_type not in SummarizeQueries.keys():
 				raise ValueError(f'Invalid paper doc type: {doc_type}. Acceptable: {list(SummarizeQueries.keys())}.')
 			sum_query = SummarizeQueries[doc_type]
@@ -384,7 +385,7 @@ class PaperDirectorySummaryStore:
 			index_id=PAPER_SUMMARY_INDEX_ID,
 			service_context=self.service_context,
 		)
-		doc_id_to_summary_id = paper_summary_index._index_struct.doc_id_to_summary_id
+		doc_id_to_summary_id = paper_summary_index.index_struct.doc_id_to_summary_id
 
 		if not Path(self.directory_summary_persist_dir).exists():
 			rel_paper_root = Path(self.paper_root).relative_to(self.root)
@@ -407,7 +408,7 @@ class PaperDirectorySummaryStore:
 				index_id=DIR_SUMMARY_INDEX_ID,
 				service_context=self.service_context,
 			)
-		dir_id_to_summary_id = dir_summary_index._index_struct.doc_id_to_summary_id
+		dir_id_to_summary_id = dir_summary_index.index_struct.doc_id_to_summary_id
 
 		def dfs(current_dir: Path):
 			if not current_dir.is_dir():
@@ -497,7 +498,6 @@ class PaperDirectorySummaryStore:
 		if dir_summary_index.index_id != DIR_SUMMARY_INDEX_ID:
 			dir_summary_index.set_index_id(DIR_SUMMARY_INDEX_ID)
 		dir_summary_index.storage_context.persist(persist_dir=str(self.directory_summary_persist_dir))
-
 
 	def _auto_construct(self):
 		r"""

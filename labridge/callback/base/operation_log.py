@@ -1,57 +1,80 @@
-
-
 import json
 
 
-TOOL_OP_DESCRIPTION = "operation_description"
-TOOL_REFERENCES = "references"
+OP_DESCRIPTION = "operation_description"
+OP_REFERENCES = "references"
 
 LOG_TO_SYSTEM_KEYS = [
-	TOOL_OP_DESCRIPTION,
-	TOOL_REFERENCES,
+	OP_DESCRIPTION,
+	OP_REFERENCES,
 ]
 
 
 from typing import Optional, Dict, List, Union
 
 
-class OperationLog(object):
+class OperationOutputLog(object):
 	r"""
-	This class record the log of a specific tool.
-
+	This class record the log of a specific callback operation.
+	The `operation_output` will be a part of the corresponding tool output.
 	The `log_to_user` and `references` in `log_to_system` will be presented to the users.
 
-	log_to_user (str): This log might be presented to the users.
-	log_to_system (dict): This log is more structured, specifically, it is a dictionary in JSON format.
-		The keys 'operation_description' and 'references' are required. The values of `references` are either
-		None or List[str], where the `str` is in JSON format.
+	Args:
+		operation_name (str): The operation name.
+		operation_output (str): The operation output.
+		log_to_user (str): This log might be presented to the users.
+		log_to_system (dict): This log is more structured, specifically, it is a dictionary in JSON format.
+			The keys 'operation_description' and 'references' are required. The values of `references` are either
+			None or List[str], where the `str` is in JSON format, for example, the dumped string of a `PaperInfo`.
 	"""
 	def __init__(
 		self,
-		tool_name: str,
+		operation_name: str,
+		operation_output: Optional[str],
 		log_to_user: Optional[str],
 		log_to_system: Dict[str, Union[str, Optional[List[str]]]]
 
 	):
-		self.tool_name = tool_name
+		self.operation_name = operation_name
+		self.operation_output = operation_output
 		self.log_to_user = log_to_user
 
 		for key in LOG_TO_SYSTEM_KEYS:
 			if key not in log_to_system.keys():
 				raise ValueError(f"The key {key} is required in the log_to_system.")
 
-		ref = log_to_system[TOOL_REFERENCES]
+		ref = log_to_system[OP_REFERENCES]
 		if ref and not isinstance(ref, list):
-			raise ValueError(f"The value of '{TOOL_REFERENCES}' can only be list or None.")
+			raise ValueError(f"The value of '{OP_REFERENCES}' can only be list or None.")
 		self.log_to_system = log_to_system
 
+	@classmethod
+	def construct(
+		cls,
+		operation_name: str,
+		operation_output: str,
+		op_description: str,
+		op_references: Optional[List[str]] = None,
+		log_to_user: Optional[str] = None,
+	):
+		return cls(
+			operation_name=operation_name,
+			operation_output=operation_output,
+			log_to_user=log_to_user,
+			log_to_system={
+				OP_DESCRIPTION: op_description,
+				OP_REFERENCES: op_references,
+			}
+		)
+
 	def dumps(self) -> str:
-		logs = {
-			"tool_name": self.tool_name,
+		output_logs = {
+			"operation_name": self.operation_name,
+			"operation_output": self.operation_output,
 			"log_to_user": self.log_to_user,
 			"log_to_system": self.log_to_system,
 		}
-		return json.dumps(logs)
+		return json.dumps(output_logs)
 
 	@classmethod
 	def loads(
@@ -59,15 +82,17 @@ class OperationLog(object):
 		log_str: str,
 	):
 		try:
-			logs = json.loads(log_str)
-			tool_name = logs["tool_name"]
-			log_to_user = logs["log_to_user"]
-			log_to_system = logs["log_to_system"]
+			output_logs = json.loads(log_str)
+			operation_name = output_logs["operation_name"]
+			operation_output = output_logs["operation_output"]
+			log_to_user = output_logs["log_to_user"]
+			log_to_system = output_logs["log_to_system"]
 			return cls(
-				tool_name=tool_name,
+				operation_name=operation_name,
+				operation_output=operation_output,
 				log_to_user=log_to_user,
 				log_to_system=log_to_system,
 			)
 		except Exception:
-			raise ValueError("Invalid tool log string.")
+			raise ValueError("Invalid operation log string.")
 

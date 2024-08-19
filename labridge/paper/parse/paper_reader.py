@@ -23,6 +23,7 @@ from .extractors.source_analyze import PaperSourceAnalyzer
 from .extractors.metadata_extract import (
 	PaperMetadataExtractor,
 	PAPER_POSSESSOR,
+	PAPER_REL_FILE_PATH,
 )
 
 
@@ -148,9 +149,11 @@ class PaperReader:
 			raise ValueError("Expect a PDF file.")
 		if show_progress:
 			print_text(f">>> Loading {file_path}", color="blue", end="\n")
-		parsed_docs = auto_parse_paper(file_path=file_path,
-									   source_analyzer=self.source_analyzer,
-									   use_llm_for_source=self.use_llm_for_source)
+		parsed_docs = auto_parse_paper(
+			file_path=file_path,
+			source_analyzer=self.source_analyzer,
+			use_llm_for_source=self.use_llm_for_source
+		)
 
 		chunk_docs, extra_docs, metadata_docs = [], [], []
 		for doc in parsed_docs:
@@ -161,6 +164,7 @@ class PaperReader:
 			else:
 				extra_docs.append(doc)
 
+		# metadata
 		paper_metadata = dict()
 
 		if self.extract_metadata:
@@ -172,6 +176,7 @@ class PaperReader:
 
 		possessor = self.get_paper_possessor(file_path)
 		paper_metadata[PAPER_POSSESSOR] = possessor
+		paper_metadata[PAPER_REL_FILE_PATH] = str(file_path.relative_to(self.root))
 
 		for idx, doc in enumerate(parsed_docs):
 			doc.metadata.update(paper_metadata)

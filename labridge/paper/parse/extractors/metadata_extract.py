@@ -14,6 +14,7 @@ from ....common.query_engine.query_engines import SingleQueryEngine
 
 
 r""" a dictionary of {'metadata': 'description'} """
+PAPER_REL_FILE_PATH = "File path"
 PAPER_LEVEL_KEYWORDS = "Paper keywords"
 PAPER_TITLE = "Title"
 PAPER_POSSESSOR = "Possessor"

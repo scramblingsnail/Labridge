@@ -20,12 +20,15 @@ from llama_index.core.query_engine import (
 )
 
 from typing import Optional, List
+from pathlib import Path
 
+from labridge.reference.paper import PaperInfo
 from ..prompt.synthesize.synthesize import PAPER_TREE_SUMMARIZE_PROMPT_SEL
 from ..retrieve.paper_retriever import PaperRetriever
 from ..parse.extractors.metadata_extract import (
 	PAPER_POSSESSOR,
 	PAPER_TITLE,
+	PAPER_REL_FILE_PATH,
 )
 
 
@@ -62,7 +65,6 @@ class PaperQueryEngine(RetrieverQueryEngine):
 	):
 		response_synthesizer = TreeSummarize(
 			llm=llm,
-			callback_manager=paper_retriever.callback_manager,
 			summary_template=PAPER_TREE_SUMMARIZE_PROMPT_SEL,
 			verbose=verbose,)
 		if re_ranker is None:
@@ -70,28 +72,35 @@ class PaperQueryEngine(RetrieverQueryEngine):
 		else:
 			postprocessors = [re_ranker, ]
 		self.retrieved_nodes = None
+		root = Path(__file__)
+		for idx in range(4):
+			root = root.parent
+		self.root = root
+
 		super().__init__(retriever=paper_retriever,
 						 node_postprocessors=postprocessors,
 						 response_synthesizer=response_synthesizer)
 
-	def get_ref_info(self) -> List[str]:
+	def get_ref_info(self) -> List[PaperInfo]:
 		doc_ids, doc_titles, doc_possessors = [], [], []
+		ref_infos = []
 		for node_score in self.retrieved_nodes:
 			ref_doc_id = node_score.node.ref_doc_id
 			if ref_doc_id not in doc_ids:
 				doc_ids.append(ref_doc_id)
 				title = node_score.node.metadata.get(PAPER_TITLE) or ref_doc_id
 				possessor = node_score.node.metadata.get(PAPER_POSSESSOR)
+				rel_path = node_score.node.metadata.get(PAPER_REL_FILE_PATH)
+				paper_info = PaperInfo(
+					title=title,
+					possessor=possessor,
+					file_path=str(self.root / rel_path),
+				)
+				ref_infos.append(paper_info)
+
 				doc_titles.append(title)
 				doc_possessors.append(possessor)
-
-		references = []
-		for doc_idx in range(len(doc_titles)):
-			ref_str = f"**REFERENCE:**:\n"
-			ref_str += f"\t**Title:** {doc_titles[doc_idx]}\n"
-			ref_str += f"\t**Possessor:** {doc_possessors[doc_idx]}\n"
-			references.append(ref_str)
-		return references
+		return ref_infos
 
 	@dispatcher.span
 	def _query(self, query_bundle: QueryBundle) -> RESPONSE_TYPE:

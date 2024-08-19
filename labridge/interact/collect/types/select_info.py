@@ -12,7 +12,6 @@ from ...prompt.collect.modify_info.prompt_keys import ModifyPromptKeys
 from typing import List, Dict, Iterator, Tuple
 
 
-
 SELECT_CHOICE_BATCH_SIZE = 8
 
 SELECT_MIN_SCORE = 6

@@ -27,14 +27,13 @@ from llama_index.core.base.llms.types import (
 )
 
 from labridge.accounts.users import AccountManager
-from labridge.common.chat.utils import get_time
+from labridge.common.utils.time import get_time
 from labridge.llm.models import get_models
+from labridge.memory.base import LOG_DATE_NAME, LOG_TIME_NAME
 
 
 CHAT_MEMORY_PERSIST_DIR = "storage/chat_memory"
 CHAT_MEMORY_VECTOR_INDEX_ID = "chat_memory"
-CHAT_DATE_NAME = "date"
-CHAT_TIME_NAME = "time"
 
 MEMORY_FIRST_NODE_NAME = "init_node"
 CHAT_GROUP_MEMBERS_NODE_NAME = "members"
@@ -44,7 +43,6 @@ MEMORY_LAST_NODE_ID_NAME = "last_node_id"
 # TODO: 对于群聊来说，外边还要套一个检测，只有在 @助手的时候才会回应，其余时间在记录群聊记录。
 
 class ChatVectorMemory(VectorMemory):
-	# TODO: is that valid?
 	persist_dir: str = Field(
 		default="",
 		description="The persist dir of the memory index relative to the root.",
@@ -122,15 +120,15 @@ class ChatVectorMemory(VectorMemory):
 			content=f"This Memory Index is used for storing the chat history related to the USER/CHAT GROUP: {memory_id}\n"
 					f"Description: {description}.",
 			additional_kwargs={
-				CHAT_DATE_NAME: date,
-				CHAT_TIME_NAME: h_m_s,
+				LOG_DATE_NAME: date,
+				LOG_TIME_NAME: h_m_s,
 			},
 		)
 		text_node = _get_starter_node_for_new_batch()
 		text_node.id_ = MEMORY_FIRST_NODE_NAME
 		text_node.text += init_msg.content
-		text_node.metadata[CHAT_DATE_NAME] = [init_msg.additional_kwargs[CHAT_DATE_NAME],]
-		text_node.metadata[CHAT_TIME_NAME] = [init_msg.additional_kwargs[CHAT_TIME_NAME],]
+		text_node.metadata[LOG_DATE_NAME] = [init_msg.additional_kwargs[LOG_DATE_NAME],]
+		text_node.metadata[LOG_TIME_NAME] = [init_msg.additional_kwargs[LOG_TIME_NAME],]
 
 		last_id_info_node = TextNode(text=text_node.node_id, id_=MEMORY_LAST_NODE_ID_NAME)
 
@@ -138,7 +136,7 @@ class ChatVectorMemory(VectorMemory):
 		if group_members is not None:
 			for user_id in group_members:
 				try:
-					account_manager.is_valid_user(user_id=user_id)
+					account_manager.check_valid_user(user_id=user_id)
 				except ValueError as e:
 					return f"Error: {e!s}"
 			members_node = TextNode(text=",".join(group_members))
@@ -163,7 +161,7 @@ class ChatVectorMemory(VectorMemory):
 		"""
 		Put chat history.
 
-		Metadata: `CHAT_DATE_NAME`: [date, ]; `CHAT_TIME_NAME`: [time, ]
+		Metadata: `LOG_DATE_NAME`: [date, ]; `LOG_TIME_NAME`: [time, ]
 
 		The node_id of the Last Text Node is stored in the node `MEMORY_LAST_NODE_ID_NAME`
 		Every time a New Text Node is put in, execute:
@@ -176,8 +174,8 @@ class ChatVectorMemory(VectorMemory):
 			# if not batching by user message, commit to vector store immediately after adding
 			self.cur_batch_textnode = _get_starter_node_for_new_batch()
 			# add date and time
-			self.cur_batch_textnode.metadata[CHAT_DATE_NAME] = [message.additional_kwargs[CHAT_DATE_NAME],]
-			self.cur_batch_textnode.metadata[CHAT_TIME_NAME] = [message.additional_kwargs[CHAT_TIME_NAME],]
+			self.cur_batch_textnode.metadata[LOG_DATE_NAME] = [message.additional_kwargs[LOG_DATE_NAME],]
+			self.cur_batch_textnode.metadata[LOG_TIME_NAME] = [message.additional_kwargs[LOG_TIME_NAME],]
 			# add previous and next relationships.
 			last_info_node = self.vector_index._docstore.get_node(MEMORY_LAST_NODE_ID_NAME)
 			last_node_id = last_info_node.text

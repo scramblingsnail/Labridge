@@ -128,24 +128,8 @@ def chat_in_group():
 		response = chat_engine.chat(message=message)
 		print("Response: ", response)
 
-
-async def chat_1():
-	print("start chat_1")
-	ss = input("User: ")
-	await asyncio.sleep(2)
-	print("end chat_2")
-
-async def chat_2():
-	print("start chat_2")
-	await asyncio.sleep(3)
-	print("end chat_2")
-
-
-def test_async():
-	loop = asyncio.get_event_loop()
-	tasks = [chat_1(), chat_2()]
-	loop.run_until_complete(asyncio.wait(tasks))
-
+def show_file(file_path):
+	pass
 
 if __name__ == "__main__":
 	chat_one_to_one()

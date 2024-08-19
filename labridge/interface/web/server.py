@@ -5,7 +5,7 @@ from llama_index.core.agent.react.formatter import ReActChatFormatter
 from llama_index.core.tools.query_engine import QueryEngineTool
 from llama_index.core.agent.react.base import ReActAgent
 
-from labridge.common.chat.chat import KB_REACT_CHAT_SYSTEM_HEADER, ZH_CHAT_MOTIVATION_TMPL
+from labridge.common.chat.chat import MY_REACT_CHAT_SYSTEM_HEADER, ZH_CHAT_MOTIVATION_TMPL
 from labridge.paper.query_engine.utils import get_default_paper_query_engines
 from labridge.common.query_engine.query_engines import SingleQueryEngine
 from labridge.llm.models import get_models, get_reranker
@@ -44,7 +44,7 @@ def get_chat_engine():
 	)
 
 	# react chat formatter
-	react_chat_formatter = ReActChatFormatter.from_defaults(system_header=KB_REACT_CHAT_SYSTEM_HEADER)
+	react_chat_formatter = ReActChatFormatter.from_defaults(system_header=MY_REACT_CHAT_SYSTEM_HEADER)
 	chat_engine = ReActAgent.from_tools(
 		tools=[
 			motivation_tool,

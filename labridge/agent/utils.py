@@ -41,7 +41,6 @@ def get_tools():
 	]
 
 
-
 def get_chat_engine():
 	llm, embed_model = get_models()
 	Settings.embed_model = embed_model

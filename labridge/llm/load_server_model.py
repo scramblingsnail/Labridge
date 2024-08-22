@@ -1,12 +1,18 @@
 import torch
 
 from llama_index.llms.huggingface import HuggingFaceLLM
-from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from transformers.utils.quantization_config import BitsAndBytesConfig
-from llama_index.core.postprocessor import SentenceTransformerRerank
 
-from .zhipu import ZhiPuLLM, ZhiPuEmbedding
-from .mindspore_models import MindsporeLLM, MindsporeEmbedding
+from .zhipu import ZhiPuLLM
+from .mindspore_models import MindsporeLLM
+
+
+
+DEFAULT_SERVER_LLM_PATH = '/root/autodl-tmp/Qwen2-7B-Instruct'
+DEFAULT_SERVER_CONTEXT_WINDOW = 16000
+DEFAULT_SERVER_MAX_NEW_TOKENS = 1024
+
+DEFAULT_SERVER_GENERATE_KWARGS = {"temperature": 0.01, "top_k": 4, "top_p": 0.95}
 
 
 def completion_to_prompt(completion):
@@ -35,39 +41,26 @@ def messages_to_prompt(messages):
 	return prompt
 
 
-def get_reranker(reranker_path: str = None, rerank_top_n: int = None):
-	reranker_path = reranker_path or "/root/autodl-tmp/bge-reranker-large"
-	rerank_top_n = rerank_top_n or 100
-	return SentenceTransformerRerank(model=reranker_path, top_n=rerank_top_n)
-
-
-def get_models(
+def load_server_llm(
 	model_path: str = None,
-	embed_model_path: str = None,
 	context_window: int = None,
 	max_new_tokens: int = None,
+	generate_kwargs: dict = None,
 	load_in_8bit: bool = True,
 	use_api: bool = False,
 	use_mindspore: bool = False,
 ):
-	qwen_path = '/root/autodl-tmp/Qwen2-7B-Instruct'
-	embedding_path = '/root/autodl-tmp/bge-large-zh-v1.5'
-
-	model_path = model_path or qwen_path
-	embed_model_path = embed_model_path or embedding_path
-	context_window = context_window or 16000
-	max_new_tokens = max_new_tokens or 1024
-
+	model_path = model_path or DEFAULT_SERVER_LLM_PATH
+	context_window = context_window or DEFAULT_SERVER_CONTEXT_WINDOW
+	max_new_tokens = max_new_tokens or DEFAULT_SERVER_MAX_NEW_TOKENS
+	generate_kwargs = generate_kwargs or DEFAULT_SERVER_GENERATE_KWARGS
 	if use_api:
 		llm = ZhiPuLLM()
-		embed_model = HuggingFaceEmbedding(model_name=embed_model_path)
-		# embed_model = ZhiPuEmbedding()
-		return llm, embed_model
+		return llm
 
 	if use_mindspore:
 		llm = MindsporeLLM()
-		embed_model = MindsporeEmbedding(model_name=embed_model_path)
-		return llm, embed_model
+		return llm
 
 	quantization_config = BitsAndBytesConfig(
 		load_in_8bit=load_in_8bit,
@@ -80,16 +73,16 @@ def get_models(
 		"trust_remote_code": True,
 		"quantization_config": quantization_config,
 	}
+
 	llm = HuggingFaceLLM(
 		model_name=model_path,
 		tokenizer_name=model_path,
 		context_window=context_window,
 		max_new_tokens=max_new_tokens,
-		generate_kwargs={"temperature": 0.01, "top_k": 4, "top_p": 0.95},
+		generate_kwargs=generate_kwargs,
 		device_map="cuda",
 		messages_to_prompt=messages_to_prompt,
 		completion_to_prompt=completion_to_prompt,
 		model_kwargs=model_kwargs
 	)
-	embed_model = HuggingFaceEmbedding(model_name=embed_model_path)
-	return llm, embed_model
+	return llm

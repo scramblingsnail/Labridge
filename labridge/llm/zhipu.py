@@ -62,6 +62,7 @@ class ZhiPuLLM(CustomLLM):
 			gen_tokens += token
 			yield CompletionResponse(text=response, delta=token)
 
+
 class ZhiPuEmbedding(BaseEmbedding):
 	model_name = "embedding-2"
 

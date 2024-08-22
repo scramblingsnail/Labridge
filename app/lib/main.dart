@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:http/http.dart' as http;
@@ -19,12 +20,21 @@ String randomString() {
 }
 
 const String labridgeName = 'Labridge';
-const uuid =  Uuid();
+const uuid = Uuid();
 final _labridgeId = uuid.v5(Uuid.NAMESPACE_URL, 'Labridge');
 final _labridge = types.User(id: _labridgeId, firstName: 'Labridge');
 
 void main() {
   runApp(const MyApp());
+  if (Platform.isAndroid) {
+    SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Color(0xff1d1c21), // navigation bar color
+      statusBarIconBrightness: Brightness.dark, // status bar icons' color
+      systemNavigationBarIconBrightness: Brightness.dark, //naviga
+    );
+    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -44,12 +54,22 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   final List<types.Message> _messages = [];
-  final _user = const types.User(id: '82091008-a484-4a89-ae75-a22bf8d6f3ac', firstName: 'Yichen', lastName: 'Zhao');
+  final _user = const types.User(
+      id: '82091008-a484-4a89-ae75-a22bf8d6f3ac',
+      firstName: 'Yichen',
+      lastName: 'Zhao');
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          // backgroundColor: Colors.black,
+          centerTitle: true,
+          title: const Text('Labridge', ),
+          // titleTextStyle: const TextStyle(color: Colors.white),
+        ),
+        // extendBodyBehindAppBar: true,
         body: Chat(
           messages: _messages,
           onAttachmentPressed: _handleAttachmentPressed,
@@ -205,7 +225,6 @@ class _MyHomePageState extends State<MyHomePage> {
     types.TextMessage message,
     types.PreviewData previewData,
   ) {
-
     final index = _messages.indexWhere((element) => element.id == message.id);
     final updatedMessage = (_messages[index] as types.TextMessage).copyWith(
       previewData: previewData,
@@ -227,6 +246,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _addMessage(textMessage);
 
     await Future.delayed(const Duration(seconds: 1));
+
     /// TODO: Replace this code to HTTP API
     final debugLabridgeTextMessage = types.TextMessage(
       author: _labridge,

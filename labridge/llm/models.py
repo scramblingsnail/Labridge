@@ -6,7 +6,7 @@ from transformers.utils.quantization_config import BitsAndBytesConfig
 from llama_index.core.postprocessor import SentenceTransformerRerank
 
 from .zhipu import ZhiPuLLM, ZhiPuEmbedding
-from .mindspore_models import MindsporeLLM, MindsporeEmbedding
+# from .mindspore_models import MindsporeLLM, MindsporeEmbedding
 
 
 def completion_to_prompt(completion):
@@ -47,7 +47,7 @@ def get_models(
 	context_window: int = None,
 	max_new_tokens: int = None,
 	load_in_8bit: bool = True,
-	use_api: bool = False,
+	use_api: bool = True,
 	use_mindspore: bool = False,
 ):
 	qwen_path = '/root/autodl-tmp/Qwen2-7B-Instruct'
@@ -64,10 +64,10 @@ def get_models(
 		# embed_model = ZhiPuEmbedding()
 		return llm, embed_model
 
-	if use_mindspore:
-		llm = MindsporeLLM()
-		embed_model = MindsporeEmbedding(model_name=embed_model_path)
-		return llm, embed_model
+	# if use_mindspore:
+	# 	llm = MindsporeLLM()
+	# 	embed_model = MindsporeEmbedding(model_name=embed_model_path)
+	# 	return llm, embed_model
 
 	quantization_config = BitsAndBytesConfig(
 		load_in_8bit=load_in_8bit,

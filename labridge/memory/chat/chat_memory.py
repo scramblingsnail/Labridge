@@ -40,8 +40,6 @@ CHAT_GROUP_MEMBERS_NODE_NAME = "members"
 MEMORY_LAST_NODE_ID_NAME = "last_node_id"
 
 
-# TODO: 对于群聊来说，外边还要套一个检测，只有在 @助手的时候才会回应，其余时间在记录群聊记录。
-
 class ChatVectorMemory(VectorMemory):
 	persist_dir: str = Field(
 		default="",

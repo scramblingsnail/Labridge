@@ -173,7 +173,7 @@ class MindsporeEmbedding(BaseEmbedding):
 	def __init__(
 		self,
 		model_name: str = DEFAULT_MINDSPORE_EMBEDDING,
-		device: str = "CPU",
+		device: str = "Ascend",
 		query_instruction: Optional[str] = None,
 		text_instruction: Optional[str] = None,
 		normalize: bool = True,

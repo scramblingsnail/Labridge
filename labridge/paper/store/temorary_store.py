@@ -185,7 +185,7 @@ class RecentPaperStore(object):
 		put a new paper into the vector index.
 
 		Args:
-			paper_file_path (str): The path of the paper.
+			paper_file_path (str): The absolute path of the paper.
 			extra_metadata (dict): Extra metadata of the paper.
 				For example, if the paper is downloaded from arXiv,
 				much structured information will be provided by the downloader.

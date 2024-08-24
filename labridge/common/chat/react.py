@@ -194,7 +194,12 @@ class InstructReActAgent(AgentRunner):
 		"""Chat with step executor."""
 		if chat_history is not None:
 			self.memory.set(chat_history)
-		task = self.create_task(message)
+
+		user_id, chat_group_id, chat_message = unpack_user_message(message_str=message)
+		task = self.create_task(chat_message)
+		task.extra_state["user_id"] = user_id
+		if chat_group_id is not None:
+			task.extra_state["chat_group_id"] = chat_group_id
 
 		result_output = None
 		dispatcher.event(AgentChatWithStepStartEvent(user_msg=message))
@@ -203,7 +208,7 @@ class InstructReActAgent(AgentRunner):
 		step = self.state.get_step_queue(task.task_id).popleft()
 		while True:
 			# pass step queue in as argument, assume step executor is stateless
-			cur_step_output = await self._run_step(
+			cur_step_output = await self._arun_step(
 				task.task_id,
 				step=step,
 				mode=mode,

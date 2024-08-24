@@ -16,6 +16,7 @@ from labridge.interact.prompt.authorize.analyze_agree import (
 	ANALYZE_AGREE_WORD,
 	ANALYZE_DISAGREE_WORD,
 )
+from labridge.interface.server_backend import SocketManager, ClientSocketType
 
 
 STRICT_AGREE_WORDS = [
@@ -103,7 +104,8 @@ def operation_authorize(
 	# TODO: send the operation description to the user.
 	print(query_str)
 
-	# TODO: wait the user response.
+
+	# TODO: wait for the user response.
 	user_response = input("User: ")
 
 	agree = False
@@ -195,10 +197,19 @@ async def aoperation_authorize(
 		query_str = AUTHORIZE_QUERY_TMPL.format(operation_description=op_description)
 
 	# TODO: send the operation description to the user.
-	print(query_str)
+	# print(query_str)
+	await SocketManager.send_text_to_client(
+		user_id=user_id,
+		text=query_str,
+		socket_type=ClientSocketType.CHAT_TEXT,
+	)
 
 	# TODO: wait the user response.
-	user_response = input("User: ")
+	# user_response = input("User: ")
+	user_response = await SocketManager.receive_text_from_client(
+		user_id=user_id,
+		socket_type=ClientSocketType.CHAT_TEXT,
+	)
 
 	agree = False
 	if authorize_strict_mode:

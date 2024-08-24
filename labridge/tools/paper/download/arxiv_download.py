@@ -14,6 +14,7 @@ from labridge.tools.base.tool_log import ToolLog, TOOL_OP_DESCRIPTION, TOOL_REFE
 from labridge.paper.download.arxiv import ArxivSearcher
 from labridge.callback.paper.paper_download import ArxivDownloadOperation
 from labridge.tools.base.function_base_tools import CallBackBaseTool, FuncOutputWithLog
+from labridge.interface.server_backend import SocketManager, ClientSocketType
 
 MAX_SEARCH_RESULTS_NUM = 5
 
@@ -85,9 +86,29 @@ class ArXivSearchDownloadTool(CallBackBaseTool):
 		r""" Let the user select among the candidate papers """
 		query_str = self._select_query(results=results)
 		# TODO: Send the query str to the user.
-		print(f"Assistant:\nDear{user_id},{query_str}")
+		to_user_msg = f"Assistant:\nDear{user_id},{query_str}"
+		print(to_user_msg)
+
 		# TODO receive the message from the user.
 		user_response = input("User: ")
+
+		numbers = self._parse_user_select(
+			user_response=user_response,
+			result_num=len(results),
+		)
+		indices = [n - 1 for n in numbers]
+		return indices, user_response
+
+	async def _auser_select_results(self, user_id: str, results: List[Result]) -> Tuple[List[int], str]:
+		r""" Let the user select among the candidate papers """
+		query_str = self._select_query(results=results)
+		# TODO: Send the query str to the user.
+		to_user_msg = f"Assistant:\nDear{user_id},{query_str}"
+		await SocketManager.send_text_to_client(user_id=user_id, text=to_user_msg)
+
+		# TODO receive the message from the user.
+		user_response = await SocketManager.receive_text_from_client(user_id=user_id)
+
 		numbers = self._parse_user_select(
 			user_response=user_response,
 			result_num=len(results),
@@ -242,7 +263,7 @@ class ArXivSearchDownloadTool(CallBackBaseTool):
 		self.account_manager.check_valid_user(user_id=user_id)
 
 		results = search_arxiv(search_str=search_str, max_results_num=self._max_results_num)
-		indices, user_response = self._user_select_results(user_id=user_id, results=results)
+		indices, user_response = await self._auser_select_results(user_id=user_id, results=results)
 
 		if len(indices) < 1:
 			operation_log_str = (

@@ -1,12 +1,8 @@
-from typing import Union
+from typing import Annotated, Union
 
-from fastapi import FastAPI
+from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from labridge.agent.utils import get_chat_engine
-from labridge.accounts.users import AccountManager
-from labridge.common.chat.utils import pack_user_message
-
 
 app = FastAPI()
 
@@ -20,47 +16,33 @@ app.add_middleware(
 )
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
-
-
 class HTTPChatMessage(BaseModel):
     text: str
 
 
-rsp_ok = {"status": "ok"}
-
-chat_engine = get_chat_engine()
-user_id = "realzhao"
-
-account_manager = AccountManager()
-account_manager.add_user(user_id=user_id, password="123456")
+@app.post("/users/{user_id}/user_input")
+async def post_user_input(user_id: str, req: HTTPChatMessage):
+    return HTTPChatMessage(text=f"this is response for user {user_id}")
 
 
-@app.get("/chat_history")
-def get_chat_history():
-    return chat_engine.chat_history
+@app.post("/users/{user_id}/chat_with_file")
+async def post_chat_with_file(
+    user_id: str,
+    file: Annotated[bytes, File()],
+    text: Annotated[str, Form()],
+):
+    return {
+        "user_id": user_id,
+        "file_size": len(file),
+        "text": text,
+    }
 
 
-# @app.post("/reset")
-# def post_reset():
-#     return rsp_ok
+@app.get("/users/{user_id}/files/{filename}")
+async def get_file(user_id: str, filename: str):
+    return {}
 
 
-@app.post("/user_input")
-def poast_user_input(req: HTTPChatMessage):
-    user_query = "User: " + req.text
-    message = pack_user_message(
-        user_id=user_id,
-        chat_group_id=None,
-        message_str=user_query,
-    )
-    response = chat_engine.chat(message=message)
-
-    return HTTPChatMessage(text=str(response))
+@app.post("/users/{user_id}/chat_speech")
+async def post_chat_speed(user_id: str, file: Annotated[bytes, File()]):
+    return {"file_size": len(file)}

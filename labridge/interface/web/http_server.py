@@ -4,6 +4,10 @@ from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+from labridge.agent.chat_agent import ChatAgent
+from labridge.interface.types import ChatTextMessage
+
+
 app = FastAPI()
 
 
@@ -16,13 +20,14 @@ app.add_middleware(
 )
 
 
-class HTTPChatMessage(BaseModel):
+class ChatTextReq(BaseModel):
     text: str
 
 
-@app.post("/users/{user_id}/user_input")
-async def post_user_input(user_id: str, req: HTTPChatMessage):
-    return HTTPChatMessage(text=f"this is response for user {user_id}")
+@app.post("/users/{user_id}/chat_text")
+async def post_chat_text(user_id: str, req: ChatTextReq):
+    user_msg = ChatTextMessage(user_id=user_id, text=req.text)
+    return await ChatAgent.chat(user_message=user_msg)
 
 
 @app.post("/users/{user_id}/chat_with_file")

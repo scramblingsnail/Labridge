@@ -26,7 +26,7 @@ Embedding model:
 Start backend server:
 
 ```sh
-export PYTHONPATH=.
+export PYTHONPATH=. # $Env:PYTHONPATH="." in windows
 fastapi dev labridge/interface/web/http_server.py
 ```
 

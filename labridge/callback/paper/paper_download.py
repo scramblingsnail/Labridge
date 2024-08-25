@@ -13,11 +13,11 @@ from labridge.callback.base.operation_log import OperationOutputLog, OP_DESCRIPT
 from pathlib import Path
 from typing import Tuple, Optional, List
 
-from labridge.paper.download.arxiv import Result
-from labridge.paper.store.temorary_store import TMP_PAPER_WAREHOUSE_DIR
-from labridge.paper.download.async_utils import adownload_file
-from labridge.paper.store.temorary_store import RecentPaperStore
-from labridge.reference.paper import PaperInfo
+from labridge.func_modules.paper.download.arxiv import Result
+from labridge.func_modules.paper.store.temorary_store import TMP_PAPER_WAREHOUSE_DIR
+from labridge.func_modules.paper.download.async_utils import adownload_file
+from labridge.func_modules.paper.store.temorary_store import RecentPaperStore
+from labridge.func_modules.reference.paper import PaperInfo
 
 
 ARXIV_DOWNLOAD_OPERATION_NAME = "ArxivDownloadOperation"
@@ -41,6 +41,14 @@ ARXIV_DOWNLOADING_STR = \
 
 
 class ArxivDownloadOperation(CallBackOperationBase):
+	r"""
+	This operation will download papers from aXiv for the user.
+
+	Args:
+		llm (LLM): The used LLM.
+		embed_model (BaseEmbedding): The used embedding model.
+		verbose (bool): Whether to show the inner progress.
+	"""
 	def __init__(
 		self,
 		llm: LLM = None,
@@ -64,6 +72,17 @@ class ArxivDownloadOperation(CallBackOperationBase):
 		)
 
 	def _get_default_path(self, user_id: str, title: str) -> Tuple[str, str]:
+		r"""
+		The downloaded paper will be stored in the user's recent paper warehouse.
+
+		Args:
+			user_id (str): The user id of a lab member.
+			title (str): The title of the paper, will be used as the filename.
+
+		Returns:
+			Tuple[str, str]:
+				The paper file path and file name.
+		"""
 		file_name = f"{title}.pdf"
 		file_dir = self.root / TMP_PAPER_WAREHOUSE_DIR
 		file_dir = file_dir / user_id
@@ -103,7 +122,20 @@ class ArxivDownloadOperation(CallBackOperationBase):
 		return description
 
 	def download_paper(self, user_id: str, title: str, pdf_url: str) -> Optional[str]:
-		r""" Download a paper from arxiv and save to the user's directory """
+		r"""
+		Download a paper from arxiv and save to the user's recent paper directory.
+
+		Args:
+			user_id (str): The user id of a lab member.
+			title (str): The paper title.
+			pdf_url (str): The paper URL.
+
+		Returns:
+			Optional[str]:
+
+				- If the paper is successfully downloaded, return the file_path.
+				- If the downloading fails, return None.
+		"""
 		if None in [user_id, title, pdf_url]:
 			raise ValueError("should provide valid user_id, title, pdf_url to download paper.")
 		file_dir, file_name = self._get_default_path(user_id=user_id, title=title)
@@ -122,7 +154,9 @@ class ArxivDownloadOperation(CallBackOperationBase):
 			return None
 
 	async def adownload_paper(self, user_id: str, title: str, pdf_url: str) -> Optional[str]:
-		r""" Download a paper from arxiv and save to the user's directory """
+		r"""
+		Asynchronously download a paper from arxiv and save to the user's recent paper directory.
+		"""
 		if None in [user_id, title, pdf_url]:
 			raise ValueError("should provide valid user_id, title, pdf_url to download paper.")
 
@@ -144,6 +178,7 @@ class ArxivDownloadOperation(CallBackOperationBase):
 		succeed_papers: List[Tuple[str, str]],
 		fail_papers: List[str]
 	) -> OperationOutputLog:
+		r""" Get the operation log. """
 		logs = []
 		if succeed_papers:
 			logs.append(f"Successfully download these papers, and restore them in the recent papers of user {user_id}:")
@@ -181,7 +216,7 @@ class ArxivDownloadOperation(CallBackOperationBase):
 
 	def do_operation(self, **kwargs) -> OperationOutputLog:
 		r"""
-		do the downloading operation and return the log string.
+		Execute the downloading operation and return the log string.
 
 		Args:
 			user_id (str): the user id.
@@ -190,7 +225,7 @@ class ArxivDownloadOperation(CallBackOperationBase):
 
 		Returns:
 			OperationLog:
-				The output log.
+				The operation output and log.
 		"""
 		user_id = kwargs.get("user_id", None)
 		paper_infos = kwargs.get("paper_infos", [])
@@ -240,7 +275,7 @@ class ArxivDownloadOperation(CallBackOperationBase):
 
 		Returns:
 			str:
-				The output log.
+				The operation output and log.
 		"""
 		user_id = kwargs.get("user_id", None)
 		paper_infos = kwargs.get("paper_infos", [])

@@ -5,8 +5,8 @@ from llama_index.core.schema import NodeWithScore, MetadataMode
 
 from labridge.tools.base.tool_log import ToolLog, TOOL_OP_DESCRIPTION, TOOL_REFERENCES
 from labridge.tools.base.tool_base import RetrieverBaseTool
-from labridge.reference.paper import PaperInfo
-from labridge.paper.retrieve.paper_retriever import (
+from labridge.func_modules.reference.paper import PaperInfo
+from labridge.func_modules.paper.retrieve.paper_retriever import (
 	PaperRetriever,
 	PAPER_VECTOR_TOP_K,
 	PAPER_SUMMARY_TOP_K,

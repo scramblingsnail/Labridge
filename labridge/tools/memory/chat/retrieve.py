@@ -10,8 +10,8 @@ from typing import (
 	Tuple,
 )
 
-from labridge.memory.chat.retrieve import ChatMemoryRetriever
-from labridge.llm.models import get_models
+from labridge.func_modules.memory.chat.retrieve import ChatMemoryRetriever
+from labridge.models.utils import get_models
 from labridge.tools.base.tool_base import RetrieverBaseTool
 from labridge.tools.base.tool_log import TOOL_OP_DESCRIPTION, TOOL_REFERENCES, ToolLog
 

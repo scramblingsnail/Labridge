@@ -16,12 +16,12 @@ from labridge.callback.base.operation_log import OperationOutputLog, OP_DESCRIPT
 from pathlib import Path
 from typing import Tuple, Optional, List, cast
 
-from labridge.paper.download.arxiv import Result
-from labridge.paper.store.temorary_store import TMP_PAPER_WAREHOUSE_DIR
-from labridge.paper.download.async_utils import adownload_file
-from labridge.paper.store.temorary_store import RecentPaperStore
-from labridge.reference.paper import PaperInfo
-from labridge.paper.synthesizer.summarize import PaperBatchSummarize
+from labridge.func_modules.paper.download.arxiv import Result
+from labridge.func_modules.paper.store.temorary_store import TMP_PAPER_WAREHOUSE_DIR
+from labridge.func_modules.paper.download.async_utils import adownload_file
+from labridge.func_modules.paper.store.temorary_store import RecentPaperStore
+from labridge.func_modules.reference.paper import PaperInfo
+from labridge.func_modules.paper.synthesizer.summarize import PaperBatchSummarize
 
 
 SUMMARIZE_DESCRIPTION_TMPL = (
@@ -31,6 +31,14 @@ SUMMARIZE_DESCRIPTION_TMPL = (
 
 
 class PaperSummarizeOperation(CallBackOperationBase):
+	r"""
+	This operation will summarize a paper.
+
+	Args:
+		llm (LLM): The used LLM.
+		embed_model (BaseEmbedding): The used embedding model.
+		verbose (bool): Whether to show the inner progress.
+	"""
 	def __init__(
 		self,
 		llm: LLM = None,
@@ -63,7 +71,7 @@ class PaperSummarizeOperation(CallBackOperationBase):
 			paper_file_path (str): The file path of the paper.
 
 		Returns:
-			the operation description.
+			str: the operation description.
 		"""
 		user_id = kwargs.get("user_id", None)
 		paper_file_path = kwargs.get("paper_file_path", None)
@@ -80,7 +88,7 @@ class PaperSummarizeOperation(CallBackOperationBase):
 		paper_file_path: str,
 	) -> OperationOutputLog:
 		r"""
-		Summarize a paper.
+		Execute the operation to summarize a paper in a user's recent papers.
 
 		Args:
 			user_id (str): The user id of a lab member.
@@ -88,7 +96,7 @@ class PaperSummarizeOperation(CallBackOperationBase):
 
 		Returns:
 			OperationOutputLog:
-				The output and log.
+				The operation output and log.
 		"""
 		recent_paper_store = RecentPaperStore.from_user_id(
 			user_id=user_id,
@@ -137,7 +145,7 @@ class PaperSummarizeOperation(CallBackOperationBase):
 		paper_file_path: str,
 	) -> OperationOutputLog:
 		r"""
-		Summarize a paper.
+		Asynchronously execute the operation to summarize a paper in a user's recent papers.
 
 		Args:
 			user_id (str): The user id of a lab member.

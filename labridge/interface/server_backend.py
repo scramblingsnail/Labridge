@@ -198,4 +198,5 @@ class WebSocketManager(object):
 			if websocket:
 				await websocket.send_bytes(msg_bytes)
 
+
 SocketManager = WebSocketManager()

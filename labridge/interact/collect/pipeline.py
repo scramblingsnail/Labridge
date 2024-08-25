@@ -5,7 +5,7 @@ from labridge.interact.collect.types.info_base import CollectingInfoBase
 from labridge.interact.collect.collector.common_collector import CommonInfoCollector
 from labridge.interact.collect.collector.select_collector import SelectInfoCollector
 
-from typing import List
+from typing import List, Optional, Dict
 
 
 def collect_info_from_user(
@@ -13,7 +13,25 @@ def collect_info_from_user(
 	required_infos: List[CollectingInfoBase],
 	query_str: str,
 	llm: LLM = None,
-):
+) -> Optional[Dict[str, str]]:
+	r"""
+	This is a pipeline to collect information from the user.
+
+	Args:
+		user_id (str): The user id of a Lab member.
+		required_infos (List[CollectingInfoBase]): The required information.
+		query_str (str): The query string to be sent to the user.
+		llm (LLM): The used LLM.
+
+	Returns:
+		Optional[Dict[str, str]]:
+			The collected information.
+
+			- key: The information name.
+			- value: The collected information.
+
+			If the user aborts the collecting, return None.
+	"""
 	# TODO: Send query_str to User
 	print(f"Assistant: {query_str}")
 	llm = llm or Settings.llm
@@ -63,6 +81,24 @@ async def acollect_info_from_user(
 	query_str: str,
 	llm: LLM = None,
 ):
+	r"""
+	This is an asynchronous pipeline to collect information from the user.
+
+	Args:
+		user_id (str): The user id of a Lab member.
+		required_infos (List[CollectingInfoBase]): The required information.
+		query_str (str): The query string to be sent to the user.
+		llm (LLM): The used LLM.
+
+	Returns:
+		Optional[Dict[str, str]]:
+			The collected information.
+
+			- key: The information name.
+			- value: The collected information.
+
+			If the user aborts the collecting, return None.
+	"""
 	# TODO: Send query_str to User
 	print(f"Assistant: {query_str}")
 	llm = llm or Settings.llm

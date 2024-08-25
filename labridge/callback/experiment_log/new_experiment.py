@@ -4,7 +4,7 @@ from llama_index.core import Settings
 
 from labridge.callback.base.operation_base import CallBackOperationBase
 from labridge.callback.base.operation_log import OperationOutputLog, OP_DESCRIPTION, OP_REFERENCES
-from labridge.memory.experiment.experiment_log import ExperimentLog
+from labridge.func_modules.memory.experiment.experiment_log import ExperimentLog
 
 
 NEW_EXPERIMENT_NAME_KEY = "experiment_name"
@@ -28,6 +28,14 @@ CREATE_NEW_EXPERIMENT_DESCRIPTION = (
 
 
 class CreateNewExperimentLogOperation(CallBackOperationBase):
+	r"""
+	This operation will create a new experiment record for a specific user.
+
+	Args:
+		llm (LLM): The used LLM.
+		embed_model (BaseEmbedding): The used embedding model.
+		verbose (bool): Whether to show the inner progress.
+	"""
 	def __init__(
 		self,
 		llm: LLM = None,
@@ -44,6 +52,17 @@ class CreateNewExperimentLogOperation(CallBackOperationBase):
 		)
 
 	def operation_description(self, **kwargs) -> str:
+		r"""
+		Return the operation description, this description will be sent to the user for authorization.
+
+		Args:
+			user_id (str): The user id of a lab member.
+			experiment_name (str): The name of the new experiment.
+			experiment_description (str): The description of the new experiment.
+
+		Returns:
+			str: The operation description.
+		"""
 		user_id = kwargs["user_id"]
 		expr_name = kwargs[NEW_EXPERIMENT_NAME_KEY]
 		expr_description = kwargs[NEW_EXPERIMENT_DESCRIPTION_KEY]
@@ -56,6 +75,17 @@ class CreateNewExperimentLogOperation(CallBackOperationBase):
 		return op_description
 
 	def do_operation(self, **kwargs) -> OperationOutputLog:
+		r"""
+		Execute the operation to add a new experiment record.
+
+		Args:
+			user_id (str): The user id of a lab member.
+			experiment_name (str): The name of the new experiment.
+			experiment_description (str): The description of the new experiment.
+
+		Returns:
+			OperationOutputLog: The output and log of the operation.
+		"""
 		user_id = kwargs["user_id"]
 		expr_name = kwargs[NEW_EXPERIMENT_NAME_KEY]
 		expr_description = kwargs[NEW_EXPERIMENT_DESCRIPTION_KEY]

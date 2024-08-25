@@ -78,7 +78,7 @@ async def download_pipeline():
 			f_bytes = await websocket.recv()
 
 			# Save the file
-			save_path = str(Path("/root/zhisan/Labridge/docs") / file_name)
+			save_path = str(Path("/root/zhisan/Labridge/documents") / file_name)
 			with open(save_path, "wb") as f:
 				f.write(f_bytes)
 
@@ -99,8 +99,15 @@ async def chat_text_pipeline():
 					msg = input("User: ")
 					try:
 						await websocket.send(msg)
-						server_reply_json = await websocket.recv()
-						server_reply = ServerReply.loads(dumped_str=server_reply_json)
+
+						received = False
+						while not received:
+							server_reply_json = await websocket.recv()
+							server_reply = ServerReply.loads(dumped_str=server_reply_json)
+							print(server_reply.reply_text)
+							if server_reply.reply_text != "Keeping alive" or server_reply.error:
+								break
+
 						if server_reply.error:
 							print(server_reply.error)
 							continue

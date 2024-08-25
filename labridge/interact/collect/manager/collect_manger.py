@@ -22,6 +22,13 @@ from labridge.interact.prompt.collect.manager.do_modify import (
 
 
 class CollectManager:
+	r"""
+	This manager judges whether to abort the collecting process according to the user's response,
+	and whether the collected information need modification.
+
+	Args:
+		llm (LLM): The used LLM.
+	"""
 	def __init__(
 		self,
 		llm: LLM,
@@ -29,6 +36,15 @@ class CollectManager:
 		self._llm = llm
 
 	def analyze_whether_abort(self, user_response: str) -> bool:
+		r"""
+		Whether the user tends to abort.
+
+		Args:
+			user_response (str): The user's response.
+
+		Returns:
+			bool: Whether to abort or not.
+		"""
 		abort = condition_analyze(
 			llm=self._llm,
 			prompt=COLLECT_ABORT_PROMPT,
@@ -40,6 +56,16 @@ class CollectManager:
 		return abort
 
 	async def async_analyze_whether_abort(self, user_response: str) -> bool:
+		r"""
+		Async version.
+		Whether the user tends to abort.
+
+		Args:
+			user_response (str): The user's response.
+
+		Returns:
+			bool: Whether to abort or not.
+		"""
 		abort = await acondition_analyze(
 			llm=self._llm,
 			prompt=COLLECT_ABORT_PROMPT,
@@ -55,6 +81,16 @@ class CollectManager:
 		user_response: str,
 		collected_info_dict: Dict[str, str],
 	) -> bool:
+		r"""
+		Async version.
+		Whether the user thinks the collected information need modification.
+
+		Args:
+			user_response (str): The user's response.
+
+		Returns:
+			bool: Whether to modify or not.
+		"""
 		do_modify = await acondition_analyze(
 			llm=self._llm,
 			prompt=WHETHER_MODIFY_INFO_PROMPT,
@@ -71,6 +107,15 @@ class CollectManager:
 		user_response: str,
 		collected_info_dict: Dict[str, str],
 	) -> bool:
+		r"""
+		Whether the user thinks the collected information need modification.
+
+		Args:
+			user_response (str): The user's response.
+
+		Returns:
+			bool: Whether to modify or not.
+		"""
 		do_modify = condition_analyze(
 			llm=self._llm,
 			prompt=WHETHER_MODIFY_INFO_PROMPT,
@@ -83,6 +128,7 @@ class CollectManager:
 		return do_modify
 
 	def verify_query(self, collected_info_dict: Dict[str, str]) -> str:
+		r""" This query will be sent to the user to verify the correctness of the collected information. """
 		verify_str = f"{VERIFY_COLLECTED_INFO_QUERY}\n"
 		for key in collected_info_dict.keys():
 			verify_str += f"{key}:\n\t{collected_info_dict[key]}\n"

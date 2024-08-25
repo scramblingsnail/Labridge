@@ -8,8 +8,8 @@ import json
 
 from labridge.tools.base.tool_base import QueryEngineBaseTool
 from labridge.tools.base.tool_log import ToolLog, TOOL_OP_DESCRIPTION, TOOL_REFERENCES
-from labridge.reference.paper import PaperInfo
-from labridge.paper.query_engine.paper_query_engine import (
+from labridge.func_modules.reference.paper import PaperInfo
+from labridge.func_modules.paper.query_engine.paper_query_engine import (
 	PaperQueryEngine,
 	PAPER_QUERY_TOOL_NAME,
 	PAPER_QUERY_TOOL_DESCRIPTION,

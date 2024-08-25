@@ -131,11 +131,11 @@ class RecentPaperSummarizeTool(CallBackBaseTool):
 if __name__ == "__main__":
 	import asyncio
 	from labridge.tools.utils import unpack_tool_output
-	from labridge.llm.models import get_models
+	from labridge.models.utils import get_models
 
 	llm, embed_model = get_models()
 
-	paper_path = "/root/zhisan/Labridge/docs/tmp_papers/杨再正/Addressing Function Approximation Error in Actor-Critic Methods.pdf"
+	paper_path = "/root/zhisan/Labridge/documents/tmp_papers/杨再正/Addressing Function Approximation Error in Actor-Critic Methods.pdf"
 
 	ss = RecentPaperSummarizeTool(
 		llm=llm,

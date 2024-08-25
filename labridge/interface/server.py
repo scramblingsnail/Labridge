@@ -41,7 +41,18 @@ async def websocket_chat_with_file(websocket: WebSocket, user_id: str):
 		error_reply = ServerReply(reply_text=f"{e}", error=f"{e}")
 		await websocket.send_text(error_reply.dumps())
 
+	async def keep_alive(ws):
+		keep_replay = ServerReply(reply_text="Keeping alive")
+		while True:
+			try:
+				await ws.send_text(keep_replay.dumps())
+				await asyncio.sleep(5)
+			except:
+				break
+
 	try:
+		asyncio.create_task(keep_alive(websocket))
+
 		while True:
 			# Receive the FileWithTextMessage
 			file_header = await websocket.receive()

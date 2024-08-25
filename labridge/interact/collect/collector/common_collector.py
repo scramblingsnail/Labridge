@@ -38,6 +38,14 @@ def parse_common_collected_info(extract_info: str, info_keys: List[str]) -> dict
 
 
 class CommonInfoCollector:
+	r"""
+	Collect CommonInfo from the user.
+	refer to `..types.common_info.CollectingCommonInfo` for the detail of CommonInfo.
+
+	Args:
+		llm (LLM): The used LLM.
+		required_infos (List[CollectingInfoBase]): The required infos.
+	"""
 	def __init__(
 		self,
 		llm: LLM,
@@ -51,6 +59,16 @@ class CommonInfoCollector:
 		self,
 		required_infos: List[CollectingInfoBase],
 	) -> CollectingCommonInfo:
+		r"""
+		Choose the CollectingCommonInfo from the required_infos.
+
+		Args:
+			required_infos (List[CollectingInfoBase]): The required infos.
+
+		Returns:
+			CollectingCommonInfo: All required CollectingCommonInfo are aggregated in a  CollectingCommonInfo.
+				If no CollectingCommonInfo required, return None.
+		"""
 		common_info = None
 		for info in required_infos:
 			if isinstance(info, CollectingCommonInfo):
@@ -62,6 +80,7 @@ class CommonInfoCollector:
 
 	@property
 	def collecting_keys(self) -> Optional[List[str]]:
+		r""" The information to be collected currently. """
 		if self._common_infos is None:
 			return None
 
@@ -69,6 +88,7 @@ class CommonInfoCollector:
 
 	@property
 	def collected_infos(self) -> Optional[Dict[str, str]]:
+		r""" The Collected Common information. """
 		if self._common_infos is None:
 			return None
 
@@ -76,6 +96,7 @@ class CommonInfoCollector:
 
 	@property
 	def collected(self):
+		r""" Whether all Common information are collected or not. """
 		if self._common_infos is None:
 			return True
 
@@ -83,12 +104,19 @@ class CommonInfoCollector:
 
 	@property
 	def collecting_query(self) -> str:
+		r""" This query will be sent to user to collect rest Common information. """
 		query_to_user = f"{COLLECT_COMMON_INFO_QUERY}\n"
 		for key in self.collecting_keys:
 			query_to_user += f"\t{key}\n"
 		return query_to_user
 
 	def collect(self) -> bool:
+		r"""
+		Collect the Common information.
+
+		Returns:
+			bool: Whether the user aborts the collecting process.
+		"""
 		if self._common_infos is None:
 			return False
 
@@ -117,6 +145,12 @@ class CommonInfoCollector:
 		return abort
 
 	async def acollect(self) -> bool:
+		r"""
+		Asynchronously collect the Common information.
+
+		Returns:
+			bool: Whether the user aborts the collecting process.
+		"""
 		if self._common_infos is None:
 			return False
 
@@ -146,6 +180,14 @@ class CommonInfoCollector:
 		return abort
 
 	def modify(self) -> Tuple[bool, bool]:
+		r"""
+		Modify the collected information according to the user's comment.
+
+		Returns:
+			Tuple[str, str]:
+				- doing_modify: Whether the user thinks the collected information need modification.
+				- abort: Whether the user aborts the collection process.
+		"""
 		if self._common_infos is None:
 			return False, False
 
@@ -169,6 +211,14 @@ class CommonInfoCollector:
 		return doing_modify, abort
 
 	async def amodify(self) -> Tuple[bool, bool]:
+		r"""
+		Asynchronously modify the collected information according to the user's comment.
+
+		Returns:
+			Tuple[str, str]:
+				- doing_modify: Whether the user thinks the collected information need modification.
+				- abort: Whether the user aborts the collection process.
+		"""
 		if self._common_infos is None:
 			return False, False
 
@@ -193,6 +243,15 @@ class CommonInfoCollector:
 
 
 	def single_modify(self, user_response: str):
+		r"""
+		Modify the collected information according to the user's comment.
+
+		Args:
+			user_response (str): The user's comment.
+
+		Returns:
+			None
+		"""
 		for batch_info_dict in self._common_infos.modify_info_content():
 			predict_kwargs = {
 				"prompt": MODIFY_COMMON_INFO_PROMPT,
@@ -208,6 +267,15 @@ class CommonInfoCollector:
 			self._common_infos.update_collected_info(collected_info_dict=new_info_dict)
 
 	async def asingle_modify(self, user_response: str):
+		r"""
+		Asynchronously modify the collected information according to the user's comment.
+
+		Args:
+			user_response (str): The user's comment.
+
+		Returns:
+			None
+		"""
 		for batch_info_dict in self._common_infos.modify_info_content():
 			predict_kwargs = {
 				"prompt": MODIFY_COMMON_INFO_PROMPT,

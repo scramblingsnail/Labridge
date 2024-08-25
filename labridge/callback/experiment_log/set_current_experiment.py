@@ -1,7 +1,7 @@
 from llama_index.core.llms import LLM
 from llama_index.core.embeddings import BaseEmbedding
 from llama_index.core import Settings
-from labridge.memory.experiment.experiment_log import ExperimentLog
+from labridge.func_modules.memory.experiment.experiment_log import ExperimentLog
 
 from labridge.callback.base.operation_log import OperationOutputLog, OP_DESCRIPTION, OP_REFERENCES
 from labridge.callback.base.operation_base import CallBackOperationBase
@@ -31,11 +31,20 @@ SET_CURRENT_EXPERIMENT_REQUIRED_INFOS = {
 
 
 class SetCurrentExperimentOperation(CallBackOperationBase):
+	r"""
+	This operation will set a recorded experiment as the user's experiment in progress.
+
+	Args:
+		llm (LLM): The used LLM.
+		embed_model (BaseEmbedding): The used embedding model.
+		verbose (bool): Whether to show the inner progress.
+	"""
 	def __init__(
 		self,
 		llm: LLM = None,
 		embed_model: BaseEmbedding = None,
-		verbose: bool = False):
+		verbose: bool = False
+	):
 
 		llm = llm or Settings.llm
 		embed_model = embed_model or Settings.embed_model
@@ -47,6 +56,18 @@ class SetCurrentExperimentOperation(CallBackOperationBase):
 		)
 
 	def operation_description(self, **kwargs) -> str:
+		r"""
+		Return the operation description, this description will be sent to the user for authorization.
+
+		Args:
+			user_id (str): The user id of a lab member.
+			experiment_name (str): The name of a recorded experiment.
+			experiment_duration (str): The duration of the experiment, in a format of "%Hh%Mm%Ss",
+				refer to `common.utils.time`.
+
+		Returns:
+			str: The operation description.
+		"""
 		user_id = kwargs["user_id"]
 		experiment_name = kwargs["experiment_name"]
 		experiment_duration = kwargs["experiment_duration"]
@@ -67,6 +88,18 @@ class SetCurrentExperimentOperation(CallBackOperationBase):
 		return op_description
 
 	def do_operation(self, **kwargs) -> OperationOutputLog:
+		r"""
+		Execute the operation set the experiment in progress for a user.
+
+		Args:
+			user_id (str): The user id of a lab member.
+			experiment_name (str): The name of a recorded experiment.
+			experiment_duration (str): The duration of the experiment, in a format of "%Hh%Mm%Ss",
+				refer to `common.utils.time`.
+
+		Returns:
+			OperationOutputLog: The output and log of the operation.
+		"""
 		user_id = kwargs["user_id"]
 		experiment_name = kwargs["experiment_name"]
 		experiment_duration = kwargs["experiment_duration"]

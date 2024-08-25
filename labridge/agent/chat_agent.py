@@ -6,35 +6,42 @@ from llama_index.core.memory.chat_memory_buffer import ChatMemoryBuffer
 from llama_index.core.chat_engine.types import AgentChatResponse
 from llama_index.core.storage.chat_store.simple_chat_store import SimpleChatStore
 
-from labridge.common.chat.chat import MY_REACT_CHAT_SYSTEM_HEADER
-from labridge.llm.models import get_models
-from labridge.common.chat.react import InstructReActAgent
-from labridge.tools.memory.chat.retrieve import ChatMemoryRetrieverTool
+from labridge.tools.paper.temporary_papers.paper_retriever import RecentPaperRetrieveTool
+from labridge.tools.paper.temporary_papers.paper_summarize import RecentPaperSummarizeTool
+from labridge.tools.paper.global_papers.retriever import SharedPaperRetrieverTool
+from labridge.tools.paper.download.arxiv_download import ArXivSearchDownloadTool
 from labridge.tools.memory.experiment.retrieve import ExperimentLogRetrieveTool
+from labridge.tools.paper.temporary_papers.insert import AddNewRecentPaperTool
+from labridge.tools.memory.chat.retrieve import ChatMemoryRetrieverTool
+from labridge.agent.react.prompt import MY_REACT_CHAT_SYSTEM_HEADER
+from labridge.agent.react.react import InstructReActAgent
+from labridge.models.utils import get_models
 from labridge.tools.memory.experiment.insert import (
 	CreateNewExperimentLogTool,
 	SetCurrentExperimentTool,
 	RecordExperimentLogTool,
 )
 
-from labridge.tools.paper.global_papers.retriever import SharedPaperRetrieverTool
-from labridge.tools.paper.download.arxiv_download import ArXivSearchDownloadTool
-from labridge.tools.paper.temporary_papers.insert import AddNewRecentPaperTool
-from labridge.tools.paper.temporary_papers.paper_retriever import RecentPaperRetrieveTool
-from labridge.tools.paper.temporary_papers.paper_summarize import RecentPaperSummarizeTool
-
-
 from labridge.tools.common.date_time import GetCurrentDateTimeTool, GetDateTimeFromNowTool
 from labridge.interface.types import (
-	FileWithTextMessage, ChatTextMessage, ChatSpeechMessage, BaseClientMessage, ServerReply, ServerSpeechReply
+	FileWithTextMessage,
+	ChatTextMessage,
+	ChatSpeechMessage,
+	BaseClientMessage,
+	ServerReply,
+	ServerSpeechReply,
 )
-from labridge.common.chat.utils import pack_user_message
-from labridge.memory.chat.short_memory import ShortMemoryManager
+from labridge.common.utils.chat import pack_user_message
+from labridge.func_modules.memory.chat.short_memory import ShortMemoryManager
 
 from typing import Optional, List, Union
 
 
 class _ChatAgent:
+	r"""
+	This is the Chat agent following the ReAct framework, with access to multiple tools
+	ranging papers, instruments and experiments.
+	"""
 	_chat_engine: Optional[InstructReActAgent] = None
 	_short_memory_manager: Optional[ShortMemoryManager] = ShortMemoryManager()
 
@@ -66,6 +73,7 @@ class _ChatAgent:
 
 
 	async def chat_text(self, user_message: ChatTextMessage) -> ServerReply:
+		r""" Chat in text. """
 		user_id = user_message.user_id
 
 		prompt = pack_user_message(
@@ -84,6 +92,7 @@ class _ChatAgent:
 		return reply
 
 	async def chat_speech(self, user_message: ChatSpeechMessage) -> ServerSpeechReply:
+		r""" Chat in speech. """
 		user_id = user_message.user_id
 		speech_path = user_message.speech_path
 		# TODO: transform speech to text.
@@ -103,6 +112,7 @@ class _ChatAgent:
 		return reply
 
 	async def chat_with_file(self, user_message: FileWithTextMessage) -> ServerReply:
+		r""" Chat in text attached with a file. """
 		user_id = user_message.user_id
 		file_path = user_message.file_path
 
@@ -137,6 +147,7 @@ class _ChatAgent:
 			raise ValueError(f"Invalid message type: {type(user_message)}")
 
 	def get_tools(self) -> List[AsyncBaseTool]:
+		r""" Available tools. """
 		return [
 			ChatMemoryRetrieverTool(),
 			ExperimentLogRetrieveTool(),

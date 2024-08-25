@@ -33,7 +33,7 @@ from typing import (
 )
 
 from labridge.tools.base.tool_log import ToolLog, TOOL_OP_DESCRIPTION, TOOL_REFERENCES
-from labridge.paper.query_engine.paper_query_engine import PAPER_QUERY_TOOL_NAME
+from labridge.func_modules.paper.query_engine.paper_query_engine import PAPER_QUERY_TOOL_NAME
 from labridge.interact.authorize.authorize import operation_authorize, aoperation_authorize
 from labridge.callback.base.operation_base import CallBackOperationBase
 from labridge.tools.utils import (
@@ -104,7 +104,7 @@ class FunctionBaseTool(CheckBaseTool):
 		r""" Return the log json string, describing the tool's operation. """
 
 	def call(self, **kwargs: Any) -> ToolOutput:
-		"""Call, return output and log."""
+		""" Call, return output and log. """
 		checked_kwargs = self._get_input(**kwargs)
 		output_with_log = self._fn(**checked_kwargs)
 		if not isinstance(output_with_log, FuncOutputWithLog):

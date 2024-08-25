@@ -1,4 +1,4 @@
-from labridge.reference import PaperInfo
+from labridge.func_modules.reference import PaperInfo
 from typing import List
 
 

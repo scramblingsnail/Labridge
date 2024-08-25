@@ -10,11 +10,11 @@ from typing import (
 	Tuple,
 )
 
-from labridge.instrument.retrieve.instrument_retriever import InstrumentRetriever
-from labridge.instrument.store.instrument_store import INSTRUMENT_NAME_KEY
-from labridge.instrument.accounts.super_users import InstrumentSuperUserManager
-from labridge.llm.models import get_models
-from labridge.reference.instrument import InstrumentInfo
+from labridge.func_modules.instrument.retrieve.instrument_retriever import InstrumentRetriever
+from labridge.func_modules.instrument.store.instrument_store import INSTRUMENT_NAME_KEY
+from labridge.accounts.super_users import InstrumentSuperUserManager
+from labridge.models.utils import get_models
+from labridge.func_modules.reference.instrument import InstrumentInfo
 from labridge.tools.base.tool_base import RetrieverBaseTool
 from labridge.tools.base.tool_log import ToolLog, TOOL_OP_DESCRIPTION, TOOL_REFERENCES
 

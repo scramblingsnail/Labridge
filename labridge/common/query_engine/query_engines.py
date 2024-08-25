@@ -9,6 +9,13 @@ from typing import Union, Dict, Any
 
 
 class SingleQueryEngine(BaseQueryEngine):
+	r"""
+	A single query engine.
+
+	Args:
+		llm (LLM): The used LLM.
+		prompt_tmpl (str): The prompt template.
+	"""
 	def __init__(self, llm: LLM, prompt_tmpl: str):
 		if llm is not None:
 			self.llm = llm

@@ -8,6 +8,18 @@ def condition_analyze(
 	condition_true_word: str,
 	**kwargs,
 ) -> bool:
+	r"""
+	Choose from two conditions according to the input.
+
+	Args:
+		llm (LLM): The used LLM.
+		prompt (PromptTemplate): The prompt template.
+		condition_true_word (str): The word that the LLM is supposed to output in the True condition.
+		**kwargs:
+
+	Returns:
+		bool: True condition or False.
+	"""
 	llm_response = llm.predict(
 		prompt=prompt,
 		**kwargs,
@@ -23,6 +35,18 @@ async def acondition_analyze(
 	condition_true_word: str,
 	**kwargs,
 ) -> bool:
+	r"""
+	Asynchronously choose from two conditions according to the input.
+
+	Args:
+		llm (LLM): The used LLM.
+		prompt (PromptTemplate): The prompt template.
+		condition_true_word (str): The word that the LLM is supposed to output in the True condition.
+		**kwargs:
+
+	Returns:
+		bool: True condition or False.
+	"""
 	llm_response = await llm.apredict(
 		prompt=prompt,
 		**kwargs,

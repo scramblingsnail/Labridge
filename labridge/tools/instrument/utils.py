@@ -1,4 +1,4 @@
-from labridge.reference.instrument import InstrumentInfo
+from labridge.func_modules.reference.instrument import InstrumentInfo
 
 from typing import List
 

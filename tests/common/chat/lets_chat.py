@@ -5,13 +5,11 @@ from llama_index.core.utils import print_text
 from llama_index.core.agent.react.formatter import ReActChatFormatter
 from llama_index.core.memory.chat_memory_buffer import ChatMemoryBuffer
 
-from labridge.common.chat.chat import MY_REACT_CHAT_SYSTEM_HEADER
-from labridge.paper.query_engine.utils import get_default_paper_query_engines
-from labridge.common.query_engine.query_engines import SingleQueryEngine
-from labridge.llm.models import get_models, get_reranker
+from labridge.agent.react.prompt import MY_REACT_CHAT_SYSTEM_HEADER
+from labridge.models.utils import get_models, get_reranker
 
 from llama_index.core import Settings
-from labridge.common.chat.react import InstructReActAgent
+from labridge.agent.react.react import InstructReActAgent
 from labridge.tools.paper.global_papers.query import PaperQueryTool
 
 from labridge.tools.memory.chat.retrieve import ChatMemoryRetrieverTool
@@ -31,7 +29,7 @@ from labridge.tools.paper.temporary_papers.paper_summarize import RecentPaperSum
 
 from labridge.tools.common.date_time import GetCurrentDateTimeTool, GetDateTimeFromNowTool
 
-from labridge.common.chat.utils import pack_user_message
+from labridge.common.utils.chat import pack_user_message
 from labridge.accounts.users import AccountManager
 
 
@@ -50,10 +48,7 @@ def get_tools():
 		AddNewRecentPaperTool(),
 		RecentPaperRetrieveTool(),
 		RecentPaperSummarizeTool(),
-		GetCurrentDateTimeTool(),
-		GetDateTimeFromNowTool(),
 	]
-
 
 
 def get_chat_engine():

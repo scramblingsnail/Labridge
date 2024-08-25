@@ -7,7 +7,7 @@ from llama_index.core.schema import NodeWithScore, TextNode, MetadataMode
 
 from labridge.tools.base.tool_base import RetrieverBaseTool
 from labridge.tools.base.tool_log import ToolLog, TOOL_OP_DESCRIPTION, TOOL_REFERENCES
-from labridge.paper.retrieve.temporary_paper_retriever import (
+from labridge.func_modules.paper.retrieve.temporary_paper_retriever import (
 	RecentPaperRetriever,
 	RECENT_PAPER_SIMILARITY_TOP_K,
 	RECENT_PAPER_INFO_SIMILARITY_TOP_K,

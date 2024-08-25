@@ -68,6 +68,7 @@ class OperationOutputLog(object):
 		)
 
 	def dumps(self) -> str:
+		r""" Dump to JSON string. """
 		output_logs = {
 			"operation_name": self.operation_name,
 			"operation_output": self.operation_output,
@@ -81,6 +82,7 @@ class OperationOutputLog(object):
 		cls,
 		log_str: str,
 	):
+		r""" Load from JSON string. """
 		try:
 			output_logs = json.loads(log_str)
 			operation_name = output_logs["operation_name"]

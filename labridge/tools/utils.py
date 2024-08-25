@@ -18,10 +18,10 @@ from typing import (
 	Dict,
 )
 
-import labridge.reference as reference
+import labridge.func_modules.reference as reference
 from labridge.tools.base.tool_log import ToolLog, TOOL_REFERENCES, TOOL_OP_DESCRIPTION
-from labridge.reference.base import REF_TYPE, RefInfoBase
-from labridge.reference.paper import PaperInfo
+from labridge.func_modules.reference.base import REF_TYPE, RefInfoBase
+from labridge.func_modules.reference.paper import PaperInfo
 from labridge.tools.paper.global_papers.utils import ref_papers_str_to_user, ref_papers_file_path
 
 

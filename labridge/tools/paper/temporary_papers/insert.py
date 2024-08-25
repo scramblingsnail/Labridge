@@ -142,7 +142,7 @@ if __name__ == "__main__":
 
 	tool_output = tt.call(
 		user_id="杨再正",
-		paper_file_path="/root/zhisan/Labridge/docs/tmp_papers/杨再正/TorchProbe: Fuzzing Dynamic Deep Learning Compilers.pdf"
+		paper_file_path="/root/zhisan/Labridge/documents/tmp_papers/杨再正/TorchProbe: Fuzzing Dynamic Deep Learning Compilers.pdf"
 	)
 
 	tool_output, tool_log = unpack_tool_output(tool_out_json=tool_output.content)

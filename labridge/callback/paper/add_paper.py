@@ -3,8 +3,8 @@ from llama_index.core import Settings
 from llama_index.core.llms import LLM
 from labridge.callback.base.operation_base import CallBackOperationBase
 from labridge.callback.base.operation_log import OperationOutputLog, OP_DESCRIPTION, OP_REFERENCES
-from labridge.paper.store.temorary_store import RecentPaperStore
-from labridge.reference.paper import PaperInfo
+from labridge.func_modules.paper.store.temorary_store import RecentPaperStore
+from labridge.func_modules.reference.paper import PaperInfo
 
 
 
@@ -17,6 +17,14 @@ ADD_NEW_RECENT_PAPER_TMPL = (
 
 
 class AddNewRecentPaperOperation(CallBackOperationBase):
+	r"""
+	This operation will add a new paper into a user's recent papers.
+
+	Args:
+		llm (LLM): The used LLM.
+		embed_model (BaseEmbedding): The used embedding model.
+		verbose (bool): Whether to show the inner progress.
+	"""
 	def __init__(
 		self,
 		llm: LLM = None,
@@ -33,6 +41,16 @@ class AddNewRecentPaperOperation(CallBackOperationBase):
 		)
 
 	def operation_description(self, **kwargs) -> str:
+		r"""
+		Return the operation description, this description will be sent to the user for authorization.
+
+		Args:
+			user_id (str): The user id of a lab member.
+			paper_file_path (str): The file path of the new paper.
+
+		Returns:
+			str: The operation description.
+		"""
 		user_id = kwargs.get("user_id", None)
 		paper_file_path = kwargs.get("paper_file_path", None)
 
@@ -47,7 +65,16 @@ class AddNewRecentPaperOperation(CallBackOperationBase):
 		self,
 		**kwargs
 	) -> OperationOutputLog:
-		r""" This method will execute the operation when authorized. And return the operation log """
+		r"""
+		Execute the operation after authorized to add a new paper to a user's recent papers.
+
+		Args:
+			user_id (str): The user id of a lab member.
+			paper_file_path (str): The file path of the new paper.
+
+		Returns:
+			OperationOutputLog: The output and log of the operation.
+		"""
 		user_id = kwargs.get("user_id", None)
 		paper_file_path = kwargs.get("paper_file_path", None)
 

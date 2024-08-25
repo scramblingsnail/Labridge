@@ -9,6 +9,15 @@ class CollectingInfoType(Enum):
 
 
 class CollectingInfoBase:
+	r"""
+	This is the base class for the CollectingInfo.
+
+	Args:
+		info_name (str): The information name.
+		info_description (str): The information description.
+		info_type (CollectingInfoType): The information type.
+		batch_mode (bool): Whether the information can be collected in a batch mode.
+	"""
 	def __init__(
 		self,
 		info_name: str,
@@ -25,18 +34,19 @@ class CollectingInfoBase:
 
 	@abstractmethod
 	def info_content(self) -> Dict[str, str]:
-		r"""  """
+		r""" Yield the information to the LLM for extraction. """
 
 	@abstractmethod
 	def _required_infos(self) -> Dict[str, str]:
-		r""" required infos """
+		r""" Required infos """
 
 	@abstractmethod
 	def update_collected_info(self, collected_info):
-		r""" update self._collected_infos """
+		r""" Update self._collected_infos """
 
 	@property
 	def required_infos(self) -> Dict[str, str]:
+		r""" Required infos """
 		return self._required_infos()
 
 	@property
@@ -49,6 +59,7 @@ class CollectingInfoBase:
 
 	@property
 	def collected(self) -> bool:
+		r""" Whether all required infos are collected. """
 		return self._collected()
 
 	@property
@@ -62,10 +73,14 @@ class CollectingInfoBase:
 
 	@property
 	def collecting_keys(self) -> List[str]:
+		r""" The collecting information names. """
 		return self._collecting_keys()
 
 
 class CollectingBatchInfoBase(CollectingInfoBase):
+	r"""
+	The CollectingInfo which can be collected in a batch mode.
+	"""
 	def __init__(
 		self,
 		info_name: str,

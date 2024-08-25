@@ -2,7 +2,7 @@ import json
 from llama_index.core.embeddings import BaseEmbedding
 from llama_index.core.schema import NodeWithScore, MetadataMode
 
-from labridge.memory.experiment.retrieve_log import ExperimentLogRetriever
+from labridge.func_modules.memory.experiment.retrieve_log import ExperimentLogRetriever
 from labridge.tools.base.tool_base import RetrieverBaseTool
 from labridge.tools.base.tool_log import ToolLog, TOOL_OP_DESCRIPTION, TOOL_REFERENCES
 

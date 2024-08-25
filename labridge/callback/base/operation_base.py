@@ -6,6 +6,15 @@ from .operation_log import OperationOutputLog
 
 
 class CallBackOperationBase(object):
+	r"""
+	This is base class for callback operation.
+	Here, callback operations indicate those operations requiring the user's permission.
+
+	Args:
+		llm (LLM): The used LLM.
+		embed_model (BaseEmbedding): The used embedding model.
+		verbose (bool): Whether to show the inner progress.
+	"""
 	def __init__(
 		self,
 		llm: LLM,

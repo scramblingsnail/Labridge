@@ -1,0 +1,18 @@
+from abc import abstractmethod
+
+REF_TYPE = "ref_type"
+
+
+class RefInfoBase:
+	r"""
+	This is the base class for reference information.
+	"""
+
+	@abstractmethod
+	def dumps(self):
+		r""" Dump an object of the class to a string in JSON format. """
+
+	@classmethod
+	@abstractmethod
+	def loads(cls, info_str):
+		r""" Load an object of the class from a string in JSON format. """

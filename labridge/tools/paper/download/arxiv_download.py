@@ -11,7 +11,7 @@ from labridge.interact.authorize.authorize import operation_authorize, aoperatio
 from labridge.accounts.users import AccountManager
 from labridge.callback.base.operation_log import OperationOutputLog, OP_DESCRIPTION, OP_REFERENCES
 from labridge.tools.base.tool_log import ToolLog, TOOL_OP_DESCRIPTION, TOOL_REFERENCES
-from labridge.paper.download.arxiv import ArxivSearcher
+from labridge.func_modules.paper.download.arxiv import ArxivSearcher
 from labridge.callback.paper.paper_download import ArxivDownloadOperation
 from labridge.tools.base.function_base_tools import CallBackBaseTool, FuncOutputWithLog
 from labridge.interface.server_backend import SocketManager, ClientSocketType

@@ -7,7 +7,7 @@ from llama_index.core.embeddings import BaseEmbedding
 from labridge.tools.base.function_base_tools import FunctionBaseTool, FuncOutputWithLog
 from labridge.tools.interact.collect_and_authorize import CollectAndAuthorizeTool
 from labridge.tools.base.tool_log import ToolLog, TOOL_OP_DESCRIPTION, TOOL_REFERENCES
-from labridge.memory.experiment.experiment_log import ExperimentLog
+from labridge.func_modules.memory.experiment.experiment_log import ExperimentLog
 from labridge.callback.experiment_log.new_experiment import (
 	CreateNewExperimentLogOperation,
 	NEW_EXPERIMENT_REQUIRED_INFOS,

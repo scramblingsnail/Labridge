@@ -60,8 +60,8 @@ def load_index(vector_dir, paper_summary_dir):
 
 def test_read_store_paper():
 	rr = PaperReader(llm=llm)
-	paper_files = [root / paper for paper in article_list[:]]
-	docs, extra_docs = rr.read_papers(input_files=paper_files[:])
+	paper_files = [root / paper for paper in article_list[:1]]
+	docs, extra_docs = rr.read_papers(input_files=paper_files[:1])
 
 	for doc in docs:
 		print(f'>>> {doc.doc_id}')

@@ -14,9 +14,9 @@ from pathlib import Path
 from typing import Tuple, Optional, List
 
 from labridge.func_modules.paper.download.arxiv import Result
-from labridge.func_modules.paper.store.temorary_store import TMP_PAPER_WAREHOUSE_DIR
+from labridge.func_modules.paper.store.temporary_store import TMP_PAPER_WAREHOUSE_DIR
 from labridge.func_modules.paper.download.async_utils import adownload_file
-from labridge.func_modules.paper.store.temorary_store import RecentPaperStore
+from labridge.func_modules.paper.store.temporary_store import RecentPaperStore
 from labridge.func_modules.reference.paper import PaperInfo
 
 
@@ -241,9 +241,6 @@ class ArxivDownloadOperation(CallBackOperationBase):
 			embed_model=self._embed_model,
 		)
 
-		# TODO: send to the user:
-		print(ARXIV_DOWNLOADING_STR)
-
 		succeed, fail = [], []
 
 		for info in paper_infos:
@@ -291,9 +288,6 @@ class ArxivDownloadOperation(CallBackOperationBase):
 			embed_model=self._embed_model,
 		)
 
-		# TODO: send to the user:
-		print(ARXIV_DOWNLOADING_STR)
-
 		succeed, fail = [], []
 
 		async def single_op(info):
@@ -314,7 +308,6 @@ class ArxivDownloadOperation(CallBackOperationBase):
 		await asyncio.gather(*task_list)
 		tmp_paper_store.persist()
 		output_log = self._get_log(user_id=user_id, succeed_papers=succeed, fail_papers=fail)
-		print(output_log)
 		return output_log
 
 

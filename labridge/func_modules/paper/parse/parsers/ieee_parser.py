@@ -1,10 +1,9 @@
 import pymupdf
 
 from pathlib import Path
-from typing import Union, Tuple, Optional, List, Dict
-from llama_index.core.schema import Document
+from typing import Union, Tuple, List, Dict
 
-from .base import BasePaperParser, CONTENT_TYPE_NAME
+from .base import BasePaperParser
 from .base import (
 	ABSTRACT,
 	MAINTEXT,

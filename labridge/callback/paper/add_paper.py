@@ -3,9 +3,8 @@ from llama_index.core import Settings
 from llama_index.core.llms import LLM
 from labridge.callback.base.operation_base import CallBackOperationBase
 from labridge.callback.base.operation_log import OperationOutputLog, OP_DESCRIPTION, OP_REFERENCES
-from labridge.func_modules.paper.store.temorary_store import RecentPaperStore
+from labridge.func_modules.paper.store.temporary_store import RecentPaperStore
 from labridge.func_modules.reference.paper import PaperInfo
-
 
 
 ADD_NEW_RECENT_PAPER_TMPL = (

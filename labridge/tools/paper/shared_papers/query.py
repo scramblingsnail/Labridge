@@ -4,8 +4,6 @@ All functions in this file need the authorization of the users before execution.
 All Interactions should be returned as tool output.
 """
 
-import json
-
 from labridge.tools.base.tool_base import QueryEngineBaseTool
 from labridge.tools.base.tool_log import ToolLog, TOOL_OP_DESCRIPTION, TOOL_REFERENCES
 from labridge.func_modules.reference.paper import PaperInfo

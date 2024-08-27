@@ -1,5 +1,4 @@
 import datetime
-import json
 
 from labridge.common.utils.time import DATE_FORMAT, TIME_FORMAT
 from labridge.tools.base.function_base_tools import FunctionBaseTool, FuncOutputWithLog

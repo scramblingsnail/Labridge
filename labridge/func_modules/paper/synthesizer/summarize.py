@@ -1,25 +1,20 @@
-import math
 import asyncio
 
-from llama_index.core import Settings
-from llama_index.core.embeddings import BaseEmbedding
+from llama_index.core.prompts.default_prompt_selectors import DEFAULT_TREE_SUMMARIZE_PROMPT_SEL
+from llama_index.core.prompts.mixin import PromptDictType
+from llama_index.core.schema import NodeWithScore
 from llama_index.core.llms import LLM
-from llama_index.core.schema import NodeWithScore, TextNode
-from llama_index.core.base.response.schema import Response
-from llama_index.core.response_synthesizers import get_response_synthesizer, ResponseMode, BaseSynthesizer
-
-from llama_index.core.response_synthesizers.tree_summarize import TreeSummarize
 from llama_index.core.types import RESPONSE_TEXT_TYPE
-from llama_index.core.schema import BaseNode, MetadataMode
-from llama_index.core.base.response.schema import RESPONSE_TYPE
 from llama_index.core.utils import get_tokenizer
 from llama_index.core import global_tokenizer
-from llama_index.core.prompts.mixin import PromptDictType
-from llama_index.core.prompts.default_prompt_selectors import DEFAULT_TREE_SUMMARIZE_PROMPT_SEL
+from llama_index.core.response_synthesizers import (
+	get_response_synthesizer,
+	ResponseMode,
+	BaseSynthesizer,
+)
 
-from typing import List, Tuple, Sequence, Any
+from typing import Tuple, Sequence, Any
 
-from labridge.func_modules.paper.parse.parsers.base import MAINTEXT, METHODS
 from labridge.func_modules.paper.prompt.synthesize.paper_summarize import (
 	PAPER_SUMMARIZE_QUERY,
 	METHODS_SUMMARIZE_QUERY,

@@ -35,13 +35,13 @@ from typing import (
 	Tuple,
 )
 
-from labridge.common.utils.chat import unpack_user_message
 from labridge.accounts.users import AccountManager
 from labridge.tools.utils import (
 	get_all_system_logs,
 	get_extra_str_to_user,
 	get_ref_file_paths,
 )
+from labridge.agent.chat_msg.msg_types import PackedUserMessage
 
 from .react_step import InstructReActAgentWorker
 
@@ -168,14 +168,22 @@ class InstructReActAgent(AgentRunner):
 		if chat_history is not None:
 			self.memory.set(chat_history)
 
-		user_id, chat_group_id, chat_message = unpack_user_message(message_str=message)
-		task = self.create_task(chat_message)
-		task.extra_state["user_id"] = user_id
+		packed_msgs = PackedUserMessage.loads(dumped_str=message)
+		user_id, chat_group_id = packed_msgs.user_id, packed_msgs.chat_group_id
+		user_msg, system_msg = packed_msgs.user_msg, packed_msgs.system_msg
+
+		task = self.create_task(
+			input=user_msg,
+			extra_state={
+				"system_msg": system_msg,
+				"user_id": user_id,
+			}
+		)
 		if chat_group_id is not None:
 			task.extra_state["chat_group_id"] = chat_group_id
 
 		result_output = None
-		dispatcher.event(AgentChatWithStepStartEvent(user_msg=chat_message))
+		dispatcher.event(AgentChatWithStepStartEvent(user_msg=user_msg))
 
 		# 显式获取 initial step
 		step = self.state.get_step_queue(task.task_id).popleft()
@@ -234,9 +242,17 @@ class InstructReActAgent(AgentRunner):
 		if chat_history is not None:
 			self.memory.set(chat_history)
 
-		user_id, chat_group_id, chat_message = unpack_user_message(message_str=message)
-		task = self.create_task(chat_message)
-		task.extra_state["user_id"] = user_id
+		packed_msgs = PackedUserMessage.loads(dumped_str=message)
+		user_id, chat_group_id = packed_msgs.user_id, packed_msgs.chat_group_id
+		user_msg, system_msg = packed_msgs.user_msg, packed_msgs.system_msg
+
+		task = self.create_task(
+			input=user_msg,
+			extra_state={
+				"system_msg": system_msg,
+				"user_id": user_id,
+			}
+		)
 		if chat_group_id is not None:
 			task.extra_state["chat_group_id"] = chat_group_id
 

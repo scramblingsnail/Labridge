@@ -60,8 +60,8 @@ def get_models(
 
 	if use_api:
 		llm = ZhiPuLLM()
-		embed_model = HuggingFaceEmbedding(model_name=embed_model_path)
-		# embed_model = ZhiPuEmbedding()
+		# embed_model = HuggingFaceEmbedding(model_name=embed_model_path)
+		embed_model = ZhiPuEmbedding()
 		return llm, embed_model
 
 	# if use_mindspore:

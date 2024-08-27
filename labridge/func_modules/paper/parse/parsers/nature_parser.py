@@ -1,12 +1,11 @@
 import pymupdf
 
 from pathlib import Path
-from typing import Union, Tuple, Optional, List, Dict
+from typing import Union, Tuple, List, Dict
 
 from .base import BasePaperParser
 
 from .base import (
-	ABSTRACT,
 	MAINTEXT,
 	REFERENCES,
 	METHODS

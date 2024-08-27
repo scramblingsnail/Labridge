@@ -8,7 +8,7 @@ from labridge.interact.collect.types.select_info import CollectingSelectInfo
 from labridge.interact.prompt.collect.collect_info.prompt_keys import CollectPromptKeys
 from labridge.interact.prompt.collect.modify_info.prompt_keys import ModifyPromptKeys
 
-from labridge.interact.collect.manager.collect_manger import CollectManager
+from labridge.interact.collect.manager.collect_manager import CollectManager
 from labridge.interact.prompt.collect.collect_info.select_info import COLLECT_SELECT_INFO_PROMPT
 from labridge.interact.prompt.collect.modify_info.select_info import MODIFY_SELECT_INFO_PROMPT
 from labridge.interact.collect.types.select_info import SELECT_MIN_SCORE

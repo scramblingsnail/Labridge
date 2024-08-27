@@ -16,17 +16,13 @@ from llama_index.core.schema import (
 from llama_index.core import (
 	VectorStoreIndex,
 	load_index_from_storage,
-	QueryBundle,
 )
 from llama_index.core.settings import (
 	Settings,
 	llm_from_settings_or_context,
 	embed_model_from_settings_or_context,
 )
-from llama_index.core.retrievers import (
-	BaseRetriever,
-	VectorIndexRetriever,
-)
+from llama_index.core.retrievers import VectorIndexRetriever
 from llama_index.core.indices.utils import (
     default_format_node_batch_fn,
     default_parse_choice_select_answer_fn,

@@ -2,12 +2,10 @@ import json
 
 from typing import Dict
 
-
 from llama_index.core.llms import LLM
 
 from labridge.interact.prompt.collect.manager.verify import VERIFY_COLLECTED_INFO_QUERY
 from labridge.interact.collect.utils import condition_analyze, acondition_analyze
-
 from labridge.interact.prompt.collect.manager.abort import (
 	COLLECT_ABORT_PROMPT,
 	COLLECT_ABORT_WORD,

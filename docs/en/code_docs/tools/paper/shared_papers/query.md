@@ -1,1 +1,1 @@
-:::labridge.tools.paper.shared_papers.arxiv_download
+:::labridge.tools.paper.shared_papers.query

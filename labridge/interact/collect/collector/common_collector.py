@@ -9,7 +9,7 @@ from labridge.interact.collect.types.common_info import CollectingCommonInfo
 from labridge.interact.prompt.collect.collect_info.prompt_keys import CollectPromptKeys
 from labridge.interact.prompt.collect.modify_info.prompt_keys import ModifyPromptKeys
 
-from labridge.interact.collect.manager.collect_manger import CollectManager
+from labridge.interact.collect.manager.collect_manager import CollectManager
 from labridge.interact.prompt.collect.collect_info.common_info import COLLECT_COMMON_INFO_PROMPT
 from labridge.interact.prompt.collect.modify_info.common_info import MODIFY_COMMON_INFO_PROMPT
 

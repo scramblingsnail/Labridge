@@ -127,7 +127,6 @@ class _TTSWorker(websocket.WebSocketApp):
             audio = message["data"]["audio"]
             audio = base64.b64decode(audio)
             status = message["data"]["status"]
-            print(message)
             if status == 2:
                 print("ws is closed")
                 ws.close()
@@ -169,6 +168,6 @@ websocket.enableTrace(False)
 TTSWorker = _TTSWorker()
 
 # TTSWorker.transform(
-#     text="I love you.",
-#     speech_path="/root/zhisan/Labridge/labridge/interface/tts/demo_1.pcm",
+#     text="你好",
+#     speech_path="/root/zhisan/Labridge/labridge/interface/query_1.pcm",
 # )

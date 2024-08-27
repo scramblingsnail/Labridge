@@ -1,0 +1,278 @@
+site_name: Labridge
+repo_url: https://github.com/scramblingsnail/Labridge
+repo_name: Labridge
+copyright: Copyright &copy; 2024 A-Duiduidui Team.
+
+nav:
+  - Home: index.md
+  - Overview:
+      - Introduction: overview/introduction.md
+  - Function Module:
+      - Papers:
+          - demonstration/papers/index.md
+          - Paper download: demonstration/papers/paper_download.md
+          - Shared papers: demonstration/papers/shared_papers.md
+          - Paper QA: demonstration/papers/papers_qa.md
+      - Experiment logs:
+          - demonstration/experiment_logs/index.md
+          - Record experiment logs: demonstration/experiment_logs/record_log.md
+          - Retrieve experiment logs: demonstration/experiment_logs/retrieve_log.md
+      - Instruments:
+          - demonstration/instruments/index.md
+          - Instrument docs: demonstration/instruments/instruments_doc.md
+          - Instrument operations: demonstration/instruments/instrument_operations.md
+  - User Interface:
+      - interface/index.md
+      - Android APP: interface/android_app.md
+      - Web UI: interface/web_ui.md
+  - Code Docs:
+      - code_docs/index.md
+      - Accounts:
+          - code_docs/accounts/super_users.md
+          - code_docs/accounts/users.md
+      - Agent:
+          - code_docs/agent/chat_agent.md
+          - ReAct:
+              - code_docs/agent/react/prompt.md
+              - code_docs/agent/react/react.md
+              - code_docs/agent/react/react_chat_format.md
+              - code_docs/agent/react/react_step.md
+      - Callback:
+          - Base:
+              - code_docs/callback/base/operation_base.md
+              - code_docs/callback/base/operation_log.md
+          - Experiment_log:
+              - code_docs/callback/experiment_log/new_experiment.md
+              - code_docs/callback/experiment_log/set_current_experiment.md
+          - Paper:
+              - code_docs/callback/paper/add_paper.md
+              - code_docs/callback/paper/paper_download.md
+              - code_docs/callback/paper/paper_summarize.md
+      - Common:
+          - Prompt:
+              - code_docs/common/prompt/llm_doc_choice_select.md
+          - Query_engine:
+              - code_docs/common/query_engine/query_engines.md
+          - Utils:
+              - code_docs/common/utils/chat.md
+              - code_docs/common/utils/time.md
+      - Func_modules:
+          - Instrument:
+              - Prompt:
+                  - code_docs/func_modules/instrument/prompt/llm_instrument_choice_select.md
+              - Retrieve:
+                  - code_docs/func_modules/instrument/retrieve/instrument_retriever.md
+              - Store:
+                  - code_docs/func_modules/instrument/store/instrument_store.md
+          - Memory:
+              - code_docs/func_modules/memory/base.md
+              - Chat:
+                  - code_docs/func_modules/memory/chat/chat_memory.md
+                  - code_docs/func_modules/memory/chat/retrieve.md
+                  - code_docs/func_modules/memory/chat/short_memory.md
+              - Experiment:
+                  - code_docs/func_modules/memory/experiment/experiment_log.md
+                  - code_docs/func_modules/memory/experiment/retrieve_log.md
+          - Paper:
+              - Download:
+                  - code_docs/func_modules/paper/download/arxiv.md
+                  - code_docs/func_modules/paper/download/async_utils.md
+              - Parse:
+                  - code_docs/func_modules/paper/parse/paper_reader.md
+                  - Extractors:
+                      - code_docs/func_modules/paper/parse/extractors/metadata_extract.md
+                      - code_docs/func_modules/paper/parse/extractors/source_analyze.md
+                  - Parsers:
+                      - code_docs/func_modules/paper/parse/parsers/auto.md
+                      - code_docs/func_modules/paper/parse/parsers/base.md
+                      - code_docs/func_modules/paper/parse/parsers/default_parser.md
+                      - code_docs/func_modules/paper/parse/parsers/ieee_parser.md
+                      - code_docs/func_modules/paper/parse/parsers/nature_parser.md
+              - Prompt:
+                  - Store:
+                      - code_docs/func_modules/paper/prompt/store/dir_summary.md
+                  - Synthesize:
+                      - code_docs/func_modules/paper/prompt/synthesize/paper_summarize.md
+                      - code_docs/func_modules/paper/prompt/synthesize/synthesize.md
+              - Retrieve:
+                  - code_docs/func_modules/paper/retrieve/paper_retriever.md
+                  - code_docs/func_modules/paper/retrieve/temporary_paper_retriever.md
+              - Store:
+                  - code_docs/func_modules/paper/store/paper_store.md
+                  - code_docs/func_modules/paper/store/temporary_store.md
+              - Synthesizer:
+                  - code_docs/func_modules/paper/synthesizer/summarize.md
+          - Reference:
+              - code_docs/func_modules/reference/base.md
+              - code_docs/func_modules/reference/instrument.md
+              - code_docs/func_modules/reference/paper.md
+      - Interact:
+          - Authorize:
+              - code_docs/interact/authorize/authorize.md
+          - Collect:
+              - Collector:
+                  - code_docs/interact/collect/collector/common_collector.md
+                  - code_docs/interact/collect/collector/select_collector.md
+              - Manager:
+                  - code_docs/interact/collect/manager/collect_manager.md
+              - Types:
+                  - code_docs/interact/collect/types/common_info.md
+                  - code_docs/interact/collect/types/info_base.md
+                  - code_docs/interact/collect/types/select_info.md
+              - code_docs/interact/collect/pipeline.md
+              - code_docs/interact/collect/utils.md
+      - Interface:
+          - ASR:
+              - code_docs/interface/asr/xunfei.md
+          - TTS:
+              - code_docs/interface/tts/xunfei.md
+      - Models:
+          - Local:
+              - code_docs/models/local/mindspore_models.md
+          - Remote:
+              - code_docs/models/remote/remote_models.md
+              - code_docs/models/remote/remote_server.md
+      - Tools:
+          - Base:
+              - code_docs/tools/base/function_base_tools.md
+              - code_docs/tools/base/tool_base.md
+              - code_docs/tools/base/tool_log.md
+          - Common:
+              - code_docs/tools/common/date_time.md
+          - Instrument:
+              - code_docs/tools/instrument/retrieve.md
+          - Interact:
+              - code_docs/tools/interact/collect_and_authorize.md
+          - Memory:
+              - Chat:
+                  - code_docs/tools/memory/chat/retrieve.md
+              - Experiment:
+                  - code_docs/tools/memory/experiment/insert.md
+                  - code_docs/tools/memory/experiment/retrieve.md
+          - Paper:
+              - Download:
+                  - code_docs/tools/paper/download/arxiv_download.md
+              - Shared_papers:
+                  - code_docs/tools/paper/shared_papers/query.md
+                  - code_docs/tools/paper/shared_papers/retriever.md
+                  - code_docs/tools/paper/shared_papers/utils.md
+              - Temporary_papers:
+                  - code_docs/tools/paper/temporary_papers/insert.md
+                  - code_docs/tools/paper/temporary_papers/paper_retriever.md
+                  - code_docs/tools/paper/temporary_papers/paper_summarize.md
+          - code_docs/tools/utils.md
+
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep-purple
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+  features:
+    # - navigation.instant  # see https://github.com/ultrabug/mkdocs-static-i18n/issues/62
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - navigation.path
+    - toc.follow
+    - search.highlight
+    - search.share
+    - search.suggest
+    - content.action.view
+    - content.action.edit
+    - content.tabs.link
+    - content.code.copy
+    - content.code.select
+    - content.code.annotations
+  favicon: assets/favicon.ico
+  icon:
+    logo: logo
+
+markdown_extensions:
+  # Officially Supported Extensions
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - meta
+  - sane_lists
+  - tables
+  - toc:
+      permalink: true
+  - wikilinks
+  # Third Party Extensions(Bundles, PyMdown Extensions)
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+plugins:
+  - search
+  - include-markdown
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          options:
+            # Headings
+            show_root_heading: true
+            show_root_toc_entry: true
+            show_object_full_path: true
+            # Members
+            show_submodules: false
+            # Docstrings
+            docstring_section_style: spacy
+  - i18n:
+      docs_structure: folder
+      fallback_to_default: true
+      languages:
+        - locale: en
+          default: false
+          name: English
+        - locale: zh
+          default: true
+          name: 中文
+          nav_translations:
+            Home: 主页
+            Overview: 项目概览
+            Function Module: 功能模块
+            User Interface: 用户界面
+            Code Docs: 源码文档
+#            Tutorials: 教程
+#            Supported Models: 模型列表
+#            Notes: 说明
+#            How-To Contribute: 代码贡献
+#            API Reference: API文档
+#            Change Log: 更新日志
+#            Code of Conduct: 行为准则
+#            FAQ: 常见问题

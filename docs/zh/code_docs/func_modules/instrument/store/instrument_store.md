@@ -1,1 +1,1 @@
-:::labridge.func_modules.instrument.retrieve.instrument_store
+:::labridge.func_modules.instrument.store.instrument_store

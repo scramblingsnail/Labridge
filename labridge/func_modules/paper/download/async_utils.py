@@ -1,6 +1,4 @@
 import aiohttp
-import asyncio
-import os
 
 
 async def adownload_file(url: str, save_path: str) -> str:

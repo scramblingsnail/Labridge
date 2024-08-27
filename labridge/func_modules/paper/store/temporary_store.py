@@ -29,9 +29,6 @@ Each index is attributed to a user.
 """
 
 
-# a root node --> paper_node --> child --> paper_docs (including summary node)
-
-
 TMP_PAPER_ROOT_NODE_NAME = "root_node"
 TMP_PAPER_SUMMARY_NODE_PREFIX = "summary_node_"
 TMP_PAPER_VECTOR_INDEX_ID = "temporary_paper_vector_index"
@@ -97,16 +94,15 @@ class RecentPaperStore(object):
 		vector_index: VectorStoreIndex,
 		persist_dir: str
 	):
+		root = Path(__file__)
+		for idx in range(5):
+			root = root.parent
+		self._root = root
 		self.vector_index = vector_index
 		self.vector_index.set_index_id(TMP_PAPER_VECTOR_INDEX_ID)
 		self.persist_dir = persist_dir
 		self._user_id = self.user_id
 		self._fs = fsspec.filesystem("file")
-
-		root = Path(__file__)
-		for idx in range(5):
-			root = root.parent
-		self._root = root
 
 	@classmethod
 	def from_storage(
@@ -252,8 +248,8 @@ class RecentPaperStore(object):
 			bool: Whether the paper exist or not.
 		"""
 		file_name = Path(file_path).name
-		user_dir = self._root / f"{TMP_PAPER_VECTOR_INDEX_PERSIST_DIR}/{self.user_id}"
-		paper_file_path = str(user_dir / file_name)
+		user_papers_dir = self._root / f"{TMP_PAPER_WAREHOUSE_DIR}/{self.user_id}"
+		paper_file_path = str(user_papers_dir / file_name)
 
 		try:
 			self._get_node(node_id=paper_file_path)
@@ -280,24 +276,26 @@ class RecentPaperStore(object):
 			return
 
 		file_name = Path(paper_file_path).name
-		user_dir = self._root / f"{TMP_PAPER_VECTOR_INDEX_PERSIST_DIR}/{self.user_id}"
-		paper_file_path = str(user_dir / file_name)
+		user_papers_dir = self._root / f"{TMP_PAPER_WAREHOUSE_DIR}/{self.user_id}"
+		store_file_path = str(user_papers_dir / file_name)
 
 		try:
-			_ = self._get_node(node_id=paper_file_path)
-			print(f"{paper_file_path} already exists in the temporary papers of user {self._user_id}.")
+			_ = self._get_node(node_id=store_file_path)
+			print(f"{store_file_path} already exists in the temporary papers of user {self._user_id}.")
 			return
 		except ValueError:
 			pass
 
-		self._fs.cp(paper_file_path, str(user_dir))
+		if str(Path(paper_file_path).parent) != str(user_papers_dir):
+			self._fs.cp(paper_file_path, str(user_papers_dir))
+
 		root_node = self._get_node(node_id=TMP_PAPER_ROOT_NODE_NAME)
 		papers = root_node.child_nodes or []
 
 		date, h_m_s = get_time()
 		paper_node = TextNode(
-			id_=paper_file_path,
-			text=f"The paper {paper_file_path}",
+			id_=store_file_path,
+			text=f"The paper {store_file_path}",
 			metadata={
 				TMP_PAPER_DATE: [date,],
 				TMP_PAPER_TIME: [h_m_s,],
@@ -309,7 +307,7 @@ class RecentPaperStore(object):
 
 		# read the paper:
 		reader = SimpleDirectoryReader(
-			input_files=[paper_file_path],
+			input_files=[store_file_path],
 			file_metadata=tmp_paper_get_file_metadata,
 			filename_as_id=True,
 		)
@@ -482,3 +480,11 @@ class RecentPaperStore(object):
 		if not self._fs.exists(persist_dir):
 			self._fs.makedirs(persist_dir)
 		self.vector_index.storage_context.persist(persist_dir=persist_dir)
+
+
+if __name__ == "__main__":
+	from labridge.models.utils import get_models
+
+	llm, embed_model = get_models()
+
+	aa = RecentPaperStore.from_user_id(user_id="杨再正", embed_model=embed_model)

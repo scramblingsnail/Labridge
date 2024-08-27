@@ -8,11 +8,11 @@ from .info_base import (
 	CollectingInfoType,
 )
 
-from ...prompt.collect.collect_info.prompt_keys import (
+from labridge.interact.prompt.collect.collect_info.prompt_keys import (
 	CollectPromptKeys,
 	DEFAULT_EXTRA_INFO,
 )
-from ...prompt.collect.modify_info.prompt_keys import ModifyPromptKeys
+from labridge.interact.prompt.collect.modify_info.prompt_keys import ModifyPromptKeys
 
 
 COMMON_COLLECT_BATCH_SIZE = 5

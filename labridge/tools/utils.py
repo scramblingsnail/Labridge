@@ -22,7 +22,7 @@ import labridge.func_modules.reference as reference
 from labridge.tools.base.tool_log import ToolLog, TOOL_REFERENCES, TOOL_OP_DESCRIPTION
 from labridge.func_modules.reference.base import REF_TYPE, RefInfoBase
 from labridge.func_modules.reference.paper import PaperInfo
-from labridge.tools.paper.global_papers.utils import ref_papers_str_to_user, ref_papers_file_path
+from labridge.tools.paper.shared_papers.utils import ref_papers_str_to_user, ref_papers_file_path
 
 
 REF_INFO_TO_STR_FUNC_DICT = {
@@ -32,7 +32,6 @@ REF_INFO_TO_STR_FUNC_DICT = {
 REF_INFO_TO_FILE_PATH_FUNC_DICT = {
 	PaperInfo.__name__: ref_papers_file_path,
 }
-
 
 
 def pack_tool_output(tool_output: str, tool_log: str = None) -> str:

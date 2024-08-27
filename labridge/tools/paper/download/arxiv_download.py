@@ -1,10 +1,9 @@
 import json
 
 from arxiv import Result
-from typing import List, Dict, Tuple
+from typing import List, Tuple
 from llama_index.core.llms import LLM
 from llama_index.core import Settings
-from llama_index.core.utils import print_text
 from llama_index.core.embeddings import BaseEmbedding
 
 from labridge.interact.authorize.authorize import operation_authorize, aoperation_authorize
@@ -14,7 +13,7 @@ from labridge.tools.base.tool_log import ToolLog, TOOL_OP_DESCRIPTION, TOOL_REFE
 from labridge.func_modules.paper.download.arxiv import ArxivSearcher
 from labridge.callback.paper.paper_download import ArxivDownloadOperation
 from labridge.tools.base.function_base_tools import CallBackBaseTool, FuncOutputWithLog
-from labridge.interface.server_backend import SocketManager, ClientSocketType
+from labridge.agent.chat_msg.msg_types import ChatBuffer
 
 MAX_SEARCH_RESULTS_NUM = 5
 
@@ -86,11 +85,11 @@ class ArXivSearchDownloadTool(CallBackBaseTool):
 		r""" Let the user select among the candidate papers """
 		query_str = self._select_query(results=results)
 		# TODO: Send the query str to the user.
-		to_user_msg = f"Assistant:\nDear{user_id},{query_str}"
-		print(to_user_msg)
-
+		print(query_str)
 		# TODO receive the message from the user.
 		user_response = input("User: ")
+		if user_response is None:
+			raise RuntimeError("The User does not reply.")
 
 		numbers = self._parse_user_select(
 			user_response=user_response,
@@ -103,11 +102,15 @@ class ArXivSearchDownloadTool(CallBackBaseTool):
 		r""" Let the user select among the candidate papers """
 		query_str = self._select_query(results=results)
 		# TODO: Send the query str to the user.
-		to_user_msg = f"Assistant:\nDear{user_id},{query_str}"
-		await SocketManager.send_text_to_client(user_id=user_id, text=to_user_msg)
+		ChatBuffer.put_agent_reply(
+			user_id=user_id,
+			reply_str=query_str,
+			inner_chat=True,
+		)
 
 		# TODO receive the message from the user.
-		user_response = await SocketManager.receive_text_from_client(user_id=user_id)
+		user_msg = await ChatBuffer.get_user_msg(user_id=user_id)
+		user_response = user_msg.user_msg
 
 		numbers = self._parse_user_select(
 			user_response=user_response,
@@ -318,7 +321,7 @@ class ArXivSearchDownloadTool(CallBackBaseTool):
 
 if __name__ == "__main__":
 	import asyncio
-	from labridge.llm.models import get_models
+	from labridge.models.utils import get_models
 	from labridge.tools.utils import unpack_tool_output
 
 	llm, embed_model = get_models()

@@ -10,8 +10,7 @@ from typing import Dict, List, Optional, Union, Tuple
 from pathlib import Path, PurePosixPath
 
 from llama_index.core.settings import llm_from_settings_or_context
-from llama_index.core.schema import TransformComponent, Document
-from llama_index.core.node_parser import SentenceSplitter
+from llama_index.core.schema import Document
 from llama_index.core import ServiceContext, Settings
 from llama_index.core.readers.file.base import is_default_fs
 from llama_index.core.utils import print_text
@@ -28,7 +27,6 @@ from .extractors.metadata_extract import (
 
 
 logger = logging.getLogger(__name__)
-
 
 
 class PaperReader:

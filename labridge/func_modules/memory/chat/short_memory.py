@@ -7,7 +7,7 @@ from llama_index.core.base.llms.types import ChatMessage
 from labridge.common.utils.time import get_time, str_to_date, str_to_time, str_to_datetime
 
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import List, Optional
 
 
 SHORT_MEMORY_PERSIST_DIR = "storage/short_memory"

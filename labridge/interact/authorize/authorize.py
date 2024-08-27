@@ -1,22 +1,26 @@
-import time
 import json
 
-from llama_index.core.prompts.base import PromptTemplate, PromptType
 from llama_index.core.llms import LLM
 from llama_index.core.settings import Settings
 from llama_index.core.embeddings import BaseEmbedding
-from typing import Any
 
 import labridge.callback as callback
-from labridge.callback.base.operation_log import OperationOutputLog, OP_DESCRIPTION, OP_REFERENCES
 
-from labridge.callback import CALL_BACK_OPS, CallBackOperationBase
+from labridge.agent.chat_msg.msg_types import ChatBuffer, PackedUserMessage
 from labridge.interact.prompt.authorize.analyze_agree import (
 	AUTHORIZATION_ANALYZE_PROMPT,
 	ANALYZE_AGREE_WORD,
 	ANALYZE_DISAGREE_WORD,
 )
-from labridge.interface.server_backend import SocketManager, ClientSocketType
+from labridge.callback.base.operation_log import (
+	OperationOutputLog,
+	OP_DESCRIPTION,
+	OP_REFERENCES,
+)
+from labridge.callback import (
+	CALL_BACK_OPS,
+	CallBackOperationBase,
+)
 
 
 STRICT_AGREE_WORDS = [
@@ -104,11 +108,12 @@ def operation_authorize(
 	# TODO: send the operation description to the user.
 	print(query_str)
 
-
 	# TODO: wait for the user response.
-	user_response = input("User: ")
+	user_msg: PackedUserMessage = ChatBuffer.test_get_user_text(user_id=user_id)
+	user_response = user_msg.user_msg
 
 	agree = False
+	print("Here 1 ....")
 	if authorize_strict_mode:
 		if user_response.encode("utf-8").isalpha():
 			user_response = user_response.lower()
@@ -121,10 +126,12 @@ def operation_authorize(
 			user_response=user_response,
 		)
 		agree = analyze_agree(llm_response=judgement)
+		print("Here 2 ....")
 
 	if agree:
 		# TODO: I need an operation buffer to store operations.
 		callback_log = operation.do_operation(**kwargs)
+		print("Here", callback_log.dumps())
 		return callback_log
 	else:
 		callback_log_str = (
@@ -197,19 +204,15 @@ async def aoperation_authorize(
 		query_str = AUTHORIZE_QUERY_TMPL.format(operation_description=op_description)
 
 	# TODO: send the operation description to the user.
-	# print(query_str)
-	await SocketManager.send_text_to_client(
+	ChatBuffer.put_agent_reply(
 		user_id=user_id,
-		text=query_str,
-		socket_type=ClientSocketType.CHAT_TEXT,
+		reply_str=query_str,
+		inner_chat=True,
 	)
 
-	# TODO: wait the user response.
-	# user_response = input("User: ")
-	user_response = await SocketManager.receive_text_from_client(
-		user_id=user_id,
-		socket_type=ClientSocketType.CHAT_TEXT,
-	)
+	# TODO: wait for the user response.
+	user_msg: PackedUserMessage = await ChatBuffer.get_user_msg(user_id=user_id)
+	user_response = user_msg.user_msg
 
 	agree = False
 	if authorize_strict_mode:

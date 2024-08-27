@@ -1,9 +1,5 @@
-import json
-
-from llama_index.core import Settings
 from llama_index.core.embeddings import BaseEmbedding
-from llama_index.core.llms import LLM
-from llama_index.core.schema import NodeWithScore, TextNode, MetadataMode
+from llama_index.core.schema import NodeWithScore, MetadataMode
 
 from labridge.tools.base.tool_base import RetrieverBaseTool
 from labridge.tools.base.tool_log import ToolLog, TOOL_OP_DESCRIPTION, TOOL_REFERENCES
@@ -14,7 +10,7 @@ from labridge.func_modules.paper.retrieve.temporary_paper_retriever import (
 )
 
 
-from typing import Any, cast, List, Tuple
+from typing import List, Tuple
 
 
 class RecentPaperRetrieveTool(RetrieverBaseTool):

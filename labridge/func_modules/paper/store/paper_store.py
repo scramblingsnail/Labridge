@@ -1,7 +1,6 @@
 import os
-import json
 
-from typing import Optional, Tuple, List, Union, cast, Dict, Any
+from typing import Optional, List, Union, cast, Dict, Any
 from pathlib import Path
 
 from llama_index.core.indices.document_summary import DocumentSummaryIndex
@@ -23,7 +22,6 @@ from llama_index.core.schema import (
 	RelatedNodeInfo,
 	TextNode,
 	NodeWithScore,
-	BaseNode,
 )
 from llama_index.core.settings import (
     Settings,
@@ -40,12 +38,10 @@ from llama_index.core.indices.utils import (
     default_parse_choice_select_answer_fn,
 )
 
-from ..download.arxiv import ArxivCategory
 from ..prompt.store.dir_summary import (
 	DIR_SUMMARIZE_QUERY,
 	PAPER_KEYWORDS_EXTRACT_QUERY,
 	DIR_CHOICE_SELECT_PROMPT,
-	CATEGORY_CHOICE_SELECT_PROMPT,
 )
 from ..parse.extractors.metadata_extract import (
 	PAPER_POSSESSOR,

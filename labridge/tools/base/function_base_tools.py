@@ -1,47 +1,23 @@
-import json
-from llama_index.core.llms import LLM
-from llama_index.core import Settings
-from llama_index.core.embeddings import BaseEmbedding
-
-from llama_index.core.tools.utils import create_schema_from_function
-from llama_index.core.base.base_query_engine import BaseQueryEngine
-from llama_index.core.bridge.pydantic import BaseModel
-from llama_index.core.tools.types import AsyncBaseTool
-from llama_index.core.retrievers import BaseRetriever
-from llama_index.core.schema import NodeWithScore
 from llama_index.core.tools.types import (
 	ToolMetadata,
 	ToolOutput,
 )
 from llama_index.core.tools.function_tool import sync_to_async
-from llama_index.core.tools import (
-	FunctionTool,
-	QueryEngineTool,
-)
 
 from inspect import signature
 from abc import abstractmethod
 from typing import (
 	Callable,
-	Any,
 	Optional,
-	List,
-	Type,
-	Union,
-	Tuple,
-	Dict,
 )
 
-from labridge.tools.base.tool_log import ToolLog, TOOL_OP_DESCRIPTION, TOOL_REFERENCES
-from labridge.func_modules.paper.query_engine.paper_query_engine import PAPER_QUERY_TOOL_NAME
-from labridge.interact.authorize.authorize import operation_authorize, aoperation_authorize
+from labridge.tools.base.tool_log import ToolLog
 from labridge.callback.base.operation_base import CallBackOperationBase
 from labridge.tools.utils import (
 	pack_tool_output,
 	create_schema_from_fn_or_method,
 )
 from .tool_base import CheckBaseTool
-
 
 from typing import Dict, Any, Union
 

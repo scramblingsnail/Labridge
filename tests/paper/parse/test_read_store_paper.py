@@ -11,33 +11,32 @@ from llama_index.core.storage import StorageContext
 from llama_index.core.agent.react.base import ReActAgent
 from llama_index.core.indices.document_summary.base import DocumentSummaryRetrieverMode
 
-from labridge.paper.parse.paper_reader import PaperReader
-from labridge.paper.store.paper_store import PaperStorage, PAPER_VECTOR_INDEX_ID, PAPER_SUMMARY_INDEX_ID
-from labridge.llm.models import get_models
+from labridge.func_modules.paper.parse.paper_reader import PaperReader
+from labridge.func_modules.paper.store.paper_store import PaperStorage, PAPER_VECTOR_INDEX_ID, PAPER_SUMMARY_INDEX_ID
+from labridge.models.utils import get_models
 from labridge.common.query_engine.query_engines import SingleQueryEngine
-from labridge.common.chat.chat import MY_REACT_CHAT_SYSTEM_HEADER
 
 
 
 article_list = [
-	"docs/papers/杨再正/存算一体/Effective Random Test Generation for Deep Learning Compilers.pdf",
-	# "docs/papers/杨再正/存算一体/Chaotic memristor.pdf"
-	# "docs/papers/张三/深度学习编译/"
-	# "TorchProbe: Fuzzing Dynamic Deep Learning Compilers.pdf"
-	# "docs/papers/张三/深度学习编译/CIM/"
-	# "A Compilation Tool for Computation Offloading in ReRAM-based CIM Architectures.pdf",
-	# "docs/papers/张三/深度学习编译/The_Deep_Learning_Compiler_A_Comprehensive_Survey.pdf",
-	# "docs/papers/张三/深度学习编译/"
-	# "Towards Efficient Generative Large Language Model Serving-A Survey from Algorithms to Systems.pdf",
-	# "docs/papers/张三/深度学习编译/CIM/"
-	# "A_Compilation_Framework_for_SRAM_Computing-in-Memory_Systems_With_Optimized_Weight_Mapping_and_Error_Correction.pdf",
-	# "docs/papers/张三/深度学习编译/CIM/C4CAM_ACompiler for CAM-based In-memory Accelerators.pdf",
-	# "docs/papers/张三/深度学习编译/CIM/CIM-MLC_AMulti-level Compilation Stack for Computing-in-memory accelerators.pdf",
-	# "docs/papers/张三/强化学习/"
-	# "off-policy_TD3_twin-deplayed-ddpg_Addressing Function Approximation Error in Actor-Critic Methods.pdf",
-	# "docs/papers/张三/强化学习/PPO.pdf",
-	# "docs/papers/张三/强化学习/SAC_second_edition.pdf",
-	# "docs/papers/张三/强化学习/alpha star.pdf",
+	"documents/papers/杨再正/存算一体/Effective Random Test Generation for Deep Learning Compilers.pdf",
+	"documents/papers/杨再正/存算一体/Chaotic memristor.pdf"
+	"documents/papers/张三/深度学习编译/"
+	"TorchProbe: Fuzzing Dynamic Deep Learning Compilers.pdf"
+	"documents/papers/张三/深度学习编译/CIM/"
+	"A Compilation Tool for Computation Offloading in ReRAM-based CIM Architectures.pdf",
+	"documents/papers/张三/深度学习编译/The_Deep_Learning_Compiler_A_Comprehensive_Survey.pdf",
+	"documents/papers/张三/深度学习编译/"
+	"Towards Efficient Generative Large Language Model Serving-A Survey from Algorithms to Systems.pdf",
+	"documents/papers/张三/深度学习编译/CIM/"
+	"A_Compilation_Framework_for_SRAM_Computing-in-Memory_Systems_With_Optimized_Weight_Mapping_and_Error_Correction.pdf",
+	"documents/papers/张三/深度学习编译/CIM/C4CAM_ACompiler for CAM-based In-memory Accelerators.pdf",
+	"documents/papers/张三/深度学习编译/CIM/CIM-MLC_AMulti-level Compilation Stack for Computing-in-memory accelerators.pdf",
+	"documents/papers/张三/强化学习/"
+	"off-policy_TD3_twin-deplayed-ddpg_Addressing Function Approximation Error in Actor-Critic Methods.pdf",
+	"documents/papers/张三/强化学习/PPO.pdf",
+	"documents/papers/张三/强化学习/SAC_second_edition.pdf",
+	"documents/papers/张三/强化学习/alpha star.pdf",
 ]
 
 root = Path(__file__)

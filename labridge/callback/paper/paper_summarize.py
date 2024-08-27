@@ -1,9 +1,5 @@
-import json
-
 import fsspec
-import asyncio
 
-from llama_index.core.utils import print_text
 from llama_index.core.embeddings import BaseEmbedding
 from llama_index.core import Settings
 from llama_index.core.llms import LLM
@@ -14,12 +10,9 @@ from labridge.callback.base.operation_base import CallBackOperationBase
 from labridge.callback.base.operation_log import OperationOutputLog, OP_DESCRIPTION, OP_REFERENCES
 
 from pathlib import Path
-from typing import Tuple, Optional, List, cast
+from typing import cast
 
-from labridge.func_modules.paper.download.arxiv import Result
-from labridge.func_modules.paper.store.temorary_store import TMP_PAPER_WAREHOUSE_DIR
-from labridge.func_modules.paper.download.async_utils import adownload_file
-from labridge.func_modules.paper.store.temorary_store import RecentPaperStore
+from labridge.func_modules.paper.store.temporary_store import RecentPaperStore
 from labridge.func_modules.reference.paper import PaperInfo
 from labridge.func_modules.paper.synthesizer.summarize import PaperBatchSummarize
 

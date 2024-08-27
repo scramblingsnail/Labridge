@@ -2,8 +2,6 @@ from llama_index.core.settings import llm_from_settings_or_context
 from llama_index.core.llms import LLM
 from llama_index.core import ServiceContext, Settings
 
-from llama_index.core.indices.keyword_table import KeywordTableIndex
-
 from enum import Enum
 from pathlib import Path
 from typing import Union

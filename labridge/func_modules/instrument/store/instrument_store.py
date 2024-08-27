@@ -20,20 +20,6 @@ from pathlib import Path
 from typing import List, Dict, Any, Union
 from labridge.accounts.super_users import InstrumentSuperUserManager
 
-# take each instrument as an uint.
-# each instrument has a raw dir, including guidance
-# each instrument should have a description, including usages, ...
-# manage instrument and its superusers
-# each instrument has a node, and child nodes: guidance, description, parameters.
-
-# add an instrument.
-# modify the description,
-
-# retrieve:
-# 1. retrieve among specific instrument;
-# 2. retrieve among the description instrument to find a relevant instrument;
-# 3. retrieve among all the instruments;
-
 
 DEFAULT_INSTRUMENT_VECTOR_PERSIST_DIR = "storage/instruments"
 DEFAULT_INSTRUMENT_WAREHOUSE_DIR = "documents/instruments"

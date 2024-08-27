@@ -82,6 +82,13 @@ def add_user_step_to_reasoning(
 		}
 		memory.put(
 			ChatMessage(
+				content=step.step_state["system_msg"],
+				role=MessageRole.SYSTEM,
+				additional_kwargs=additional_kwargs,
+			)
+		)
+		memory.put(
+			ChatMessage(
 				content=record_str,
 				role=MessageRole.USER,
 				additional_kwargs=additional_kwargs,
@@ -203,7 +210,7 @@ class InstructReActAgentWorker(ReActAgentWorker):
 			task_id=task.task_id,
 			step_id=str(uuid.uuid4()),
 			input=task.input,
-			step_state={"is_first": True},
+			step_state={"is_first": True, "system_msg": task.extra_state["system_msg"]},
 		)
 
 	def _run_step(self, step: TaskStep, task: Task, ) -> TaskStepOutput:

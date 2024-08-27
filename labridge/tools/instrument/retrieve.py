@@ -65,7 +65,7 @@ class InstrumentRetrieverTool(RetrieverBaseTool):
 		nodes = self._retriever.retrieve(**retrieve_kwargs)
 		return nodes
 
-	def _aretrieve(self, retrieve_kwargs: dict) -> List[NodeWithScore]:
+	async def _aretrieve(self, retrieve_kwargs: dict) -> List[NodeWithScore]:
 		nodes = await self._retriever.aretrieve(**retrieve_kwargs)
 		return nodes
 

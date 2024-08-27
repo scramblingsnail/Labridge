@@ -1,12 +1,7 @@
-from pathlib import Path
 from typing import List, Optional, Union, Callable, Tuple
 
 import llama_index.core.instrumentation as instrument
-from llama_index.core.indices.document_summary.retrievers import DocumentSummaryIndexEmbeddingRetriever
-from llama_index.core.indices.document_summary.base import DocumentSummaryRetrieverMode
-from llama_index.core.service_context import ServiceContext
-from llama_index.core.prompts import BasePromptTemplate
-from llama_index.core.storage import StorageContext
+
 from llama_index.core.schema import MetadataMode
 from llama_index.core.llms import LLM
 from llama_index.core.embeddings import BaseEmbedding
@@ -14,27 +9,10 @@ from llama_index.core.schema import (
 	NodeWithScore,
 	BaseNode,
 )
-from llama_index.core import (
-	VectorStoreIndex,
-	load_index_from_storage,
-	QueryBundle,
-)
-from llama_index.core.settings import (
-	Settings,
-	llm_from_settings_or_context,
-)
-from llama_index.core.retrievers import (
-	BaseRetriever,
-	VectorIndexRetriever,
-)
-from llama_index.core.indices.utils import (
-    default_format_node_batch_fn,
-    default_parse_choice_select_answer_fn,
-)
 
+from llama_index.core.settings import Settings
 from llama_index.core.indices.utils import default_parse_choice_select_answer_fn
 
-from labridge.common.prompt.llm_doc_choice_select import DOC_CHOICE_SELECT_PROMPT
 from ..store.instrument_store import InstrumentStorage
 from ..prompt.llm_instrument_choice_select import INSTRUMENT_CHOICE_SELECT_PROMPT
 

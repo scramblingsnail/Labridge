@@ -11,7 +11,7 @@ from llama_index.core.vector_stores.types import (
 )
 
 from labridge.common.utils.time import parse_date_list
-from labridge.func_modules.paper.store.temorary_store import (
+from labridge.func_modules.paper.store.temporary_store import (
 	RecentPaperStore,
 	TMP_PAPER_DATE,
 	TMP_PAPER_NODE_TYPE_KEY,

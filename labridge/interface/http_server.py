@@ -1,9 +1,11 @@
 import asyncio
 
+import fsspec
 import uvicorn
-# from typing import Annotated, Union
+from typing import Dict, Tuple
 
 from fastapi import FastAPI, File, Form, UploadFile
+from fastapi.responses import StreamingResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -27,6 +29,9 @@ app.add_middleware(
 
 class ClientTextReq(BaseModel):
     text: str
+
+class ClientDownloadReq(BaseModel):
+    filepath: str
 
 
 async def single_chat(user_id: str):
@@ -61,7 +66,7 @@ async def post_chat_text(user_id: str, req: ClientTextReq):
         await single_chat(user_id=user_id)
 
 
-@app.post("/users/{user_id}/inner_chat_with_file/web")
+@app.post("/users/{user_id}/inner_chat_with_file")
 async def post_inner_chat_with_file(
     user_id: str,
     file: bytes = File(),
@@ -89,13 +94,13 @@ async def post_inner_chat_with_file(
     ChatBuffer.put_user_msg(user_msg=user_msg)
 
 
-@app.post("/users/{user_id}/chat_with_file/web")
+@app.post("/users/{user_id}/chat_with_file")
 async def post_chat_with_file_web(
     user_id: str,
     file: bytes = File(),
     file_name: str = Form(),
     text: str = Form(),
-    reply_in_speech: bool = False,
+    reply_in_speech: bool = Form(),
 ):
     tmp_path = ChatBuffer.default_tmp_file_path(
         user_id=user_id,
@@ -120,63 +125,63 @@ async def post_chat_with_file_web(
         await single_chat(user_id=user_id)
 
 
-@app.post("/users/{user_id}/inner_chat_with_file/app")
-async def post_inner_chat_with_file_app(
-    user_id: str,
-    file: bytes,
-    file_name: str,
-    text: str,
-    reply_in_speech: bool = False,
-):
-    tmp_path = ChatBuffer.default_tmp_file_path(
-        user_id=user_id,
-        file_name=file_name,
-    )
-    save_temporary_file(
-        tmp_path=tmp_path,
-        file_bytes=file,
-    )
-    user_msg = FileWithTextMessage(
-        user_id=user_id,
-        attached_text=text,
-        file_path=tmp_path,
-        reply_in_speech=reply_in_speech,
-    )
-    ChatBuffer.put_user_msg(user_msg=user_msg)
+# @app.post("/users/{user_id}/inner_chat_with_file/app")
+# async def post_inner_chat_with_file_app(
+#     user_id: str,
+#     file: bytes,
+#     file_name: str,
+#     text: str,
+#     reply_in_speech: bool = False,
+# ):
+#     tmp_path = ChatBuffer.default_tmp_file_path(
+#         user_id=user_id,
+#         file_name=file_name,
+#     )
+#     save_temporary_file(
+#         tmp_path=tmp_path,
+#         file_bytes=file,
+#     )
+#     user_msg = FileWithTextMessage(
+#         user_id=user_id,
+#         attached_text=text,
+#         file_path=tmp_path,
+#         reply_in_speech=reply_in_speech,
+#     )
+#     ChatBuffer.put_user_msg(user_msg=user_msg)
+#
+#
+# @app.post("/users/{user_id}/chat_with_file/app")
+# async def post_chat_with_file_app(
+#     user_id: str,
+#     file: bytes,
+#     file_name: str,
+#     text: str,
+#     reply_in_speech: bool = False,
+# ):
+#     tmp_path = ChatBuffer.default_tmp_file_path(
+#         user_id=user_id,
+#         file_name=file_name,
+#     )
+#
+#     save_temporary_file(
+#         tmp_path=tmp_path,
+#         file_bytes=file,
+#     )
+#
+#     user_msg = FileWithTextMessage(
+#         user_id=user_id,
+#         attached_text=text,
+#         file_path=tmp_path,
+#         reply_in_speech=reply_in_speech,
+#     )
+#
+#     ChatBuffer.put_user_msg(user_msg=user_msg)
+#
+#     if not ChatAgent.is_chatting(user_id=user_id):
+#         await single_chat(user_id=user_id)
 
 
-@app.post("/users/{user_id}/chat_with_file/app")
-async def post_chat_with_file_app(
-    user_id: str,
-    file: bytes,
-    file_name: str,
-    text: str,
-    reply_in_speech: bool = False,
-):
-    tmp_path = ChatBuffer.default_tmp_file_path(
-        user_id=user_id,
-        file_name=file_name,
-    )
-
-    save_temporary_file(
-        tmp_path=tmp_path,
-        file_bytes=file,
-    )
-
-    user_msg = FileWithTextMessage(
-        user_id=user_id,
-        attached_text=text,
-        file_path=tmp_path,
-        reply_in_speech=reply_in_speech,
-    )
-
-    ChatBuffer.put_user_msg(user_msg=user_msg)
-
-    if not ChatAgent.is_chatting(user_id=user_id):
-        await single_chat(user_id=user_id)
-
-
-@app.post("/users/{user_id}/inner_chat_speech/web")
+@app.post("/users/{user_id}/inner_chat_speech")
 async def post_inner_chat_speech_web(user_id: str, file: bytes = File()):
     speech_path = ChatBuffer.default_user_speech_path(user_id=user_id)
     save_temporary_file(
@@ -191,7 +196,7 @@ async def post_inner_chat_speech_web(user_id: str, file: bytes = File()):
     ChatBuffer.put_user_msg(user_msg=user_msg)
 
 
-@app.post("/users/{user_id}/chat_speech/web")
+@app.post("/users/{user_id}/chat_speech")
 async def post_chat_speech_web(user_id: str, file: bytes = File()):
     speech_path = ChatBuffer.default_user_speech_path(user_id=user_id)
     save_temporary_file(
@@ -211,46 +216,58 @@ async def post_chat_speech_web(user_id: str, file: bytes = File()):
         await single_chat(user_id=user_id)
 
 
-@app.post("/users/{user_id}/inner_chat_speech/app")
-async def post_chat_speech_app(user_id: str, file: bytes):
-    speech_path = ChatBuffer.default_user_speech_path(user_id=user_id)
-    save_temporary_file(
-        tmp_path=speech_path,
-        file_bytes=file,
+# @app.post("/users/{user_id}/inner_chat_speech/app")
+# async def post_chat_speech_app(user_id: str, file: bytes = File()):
+#     speech_path = ChatBuffer.default_user_speech_path(user_id=user_id)
+#     save_temporary_file(
+#         tmp_path=speech_path,
+#         file_bytes=file,
+#     )
+#     user_msg = ChatSpeechMessage(
+#         user_id=user_id,
+#         speech_path=speech_path,
+#         reply_in_speech=True,
+#     )
+#     ChatBuffer.put_user_msg(user_msg=user_msg)
+#
+#
+# @app.post("/users/{user_id}/chat_speech/app")
+# async def post_chat_speech_app(user_id: str, file: Tuple[str, bytes]):
+#
+#     print(user_id)
+#     print(type(file))
+#     print(file)
+#     raise ValueError
+#
+#     speech_path = ChatBuffer.default_user_speech_path(user_id=user_id)
+#     save_temporary_file(
+#         tmp_path=speech_path,
+#         file_bytes=file,
+#     )
+#
+#     user_msg = ChatSpeechMessage(
+#         user_id=user_id,
+#         speech_path=speech_path,
+#         reply_in_speech=True,
+#     )
+#
+#     ChatBuffer.put_user_msg(user_msg=user_msg)
+#
+#     if not ChatAgent.is_chatting(user_id=user_id):
+#         await single_chat(user_id=user_id)
+
+@app.post("/users/{user_id}/files/bytes")
+async def get_file(user_id: str, req: ClientDownloadReq):
+    path = req.filepath
+    fs = fsspec.filesystem("file")
+    if fs.exists(path):
+        file_bytes = open(path, "rb")
+    else:
+        file_bytes = "Invalid File".encode("utf-8")
+
+    return StreamingResponse(
+        content=file_bytes
     )
-    user_msg = ChatSpeechMessage(
-        user_id=user_id,
-        speech_path=speech_path,
-        reply_in_speech=True,
-    )
-    ChatBuffer.put_user_msg(user_msg=user_msg)
-
-
-@app.post("/users/{user_id}/chat_speech/app")
-async def post_chat_speech_app(user_id: str, file: bytes):
-    speech_path = ChatBuffer.default_user_speech_path(user_id=user_id)
-    save_temporary_file(
-        tmp_path=speech_path,
-        file_bytes=file,
-    )
-
-    user_msg = ChatSpeechMessage(
-        user_id=user_id,
-        speech_path=speech_path,
-        reply_in_speech=True,
-    )
-
-    ChatBuffer.put_user_msg(user_msg=user_msg)
-
-    if not ChatAgent.is_chatting(user_id=user_id):
-        await single_chat(user_id=user_id)
-
-@app.get("/users/{user_id}/files/bytes/{filepath}")
-async def get_file(user_id: str, filepath: str):
-    file_bytes = read_server_file(file_path=filepath)
-    if file_bytes:
-        return file_bytes
-    return bytes([0x00])
 
 @app.get("/users/{user_id}/response")
 async def get_response(user_id: str):

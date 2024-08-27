@@ -1,0 +1,1 @@
+:::labridge.models.local.mindspore_models

@@ -1,0 +1,1 @@
+:::labridge.tools.interact.collect_and_authorize

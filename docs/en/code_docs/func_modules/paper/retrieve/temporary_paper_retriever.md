@@ -1,0 +1,1 @@
+:::labridge.func_modules.paper.retrieve.temporary_paper_retriever

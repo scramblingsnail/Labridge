@@ -8,12 +8,13 @@ from llama_index.core.storage.chat_store.simple_chat_store import SimpleChatStor
 
 from labridge.tools.paper.temporary_papers.paper_retriever import RecentPaperRetrieveTool
 from labridge.tools.paper.temporary_papers.paper_summarize import RecentPaperSummarizeTool
-from labridge.tools.paper.global_papers.retriever import SharedPaperRetrieverTool
+from labridge.tools.paper.shared_papers.retriever import SharedPaperRetrieverTool
 from labridge.tools.paper.download.arxiv_download import ArXivSearchDownloadTool
 from labridge.tools.memory.experiment.retrieve import ExperimentLogRetrieveTool
 from labridge.tools.paper.temporary_papers.insert import AddNewRecentPaperTool
 from labridge.tools.memory.chat.retrieve import ChatMemoryRetrieverTool
 from labridge.agent.react.prompt import MY_REACT_CHAT_SYSTEM_HEADER
+from labridge.accounts.users import AccountManager
 from labridge.agent.react.react import InstructReActAgent
 from labridge.models.utils import get_models
 from labridge.tools.memory.experiment.insert import (
@@ -22,7 +23,6 @@ from labridge.tools.memory.experiment.insert import (
 	RecordExperimentLogTool,
 )
 
-from labridge.tools.common.date_time import GetCurrentDateTimeTool, GetDateTimeFromNowTool
 from labridge.interface.types import (
 	FileWithTextMessage,
 	ChatTextMessage,
@@ -34,10 +34,10 @@ from labridge.interface.types import (
 from labridge.common.utils.chat import pack_user_message
 from labridge.func_modules.memory.chat.short_memory import ShortMemoryManager
 
-from typing import Optional, List, Union
+from typing import Optional, List, Union, Dict
 
 
-class _ChatAgent:
+class LabChatAgent:
 	r"""
 	This is the Chat agent following the ReAct framework, with access to multiple tools
 	ranging papers, instruments and experiments.
@@ -185,4 +185,154 @@ class _ChatAgent:
 		return chat_engine
 
 
-ChatAgent = _ChatAgent()
+from labridge.agent.chat_agent.msg_types import (
+	BaseClientMessage,
+	FileWithTextMessage,
+	ChatTextMessage,
+	ChatSpeechMessage,
+)
+
+import time
+
+from typing import Tuple
+
+from labridge.common.utils.asr.xunfei import ASRWorker
+from labridge.common.utils.tts.xunfei import TTSWorker
+from labridge.common.utils.time import get_time
+from labridge.agent.chat_agent.msg_types import USER_TMP_DIR
+from common.utils.chat import pack_user_message
+from pathlib import Path
+
+
+class UserMsgFormatter(object):
+	def __init__(self):
+		self.a = 1
+
+	def _speech_to_text(self, msg: ChatSpeechMessage) -> str:
+		text = ASRWorker.transform(speech_path=msg.speech_path)
+		return text
+
+	def _formatted_file_with_text(self, msg: FileWithTextMessage, file_idx: int) -> Tuple[str, str]:
+		system_str = f"Path of File {file_idx}: {msg.file_path}"
+		user_str = f"The user query about the File {file_idx}:\n{msg.attached_text}"
+		return system_str, user_str
+
+	def formatted_msgs(self, msgs: List[BaseClientMessage]) -> str:
+		file_idx = 1
+		user_id = msgs[0].user_id
+		reply_in_speech = msgs[0].reply_in_speech
+
+		date_str, time_str = get_time()
+		user_queries = []
+		system_strings = [
+			f"You are chatting with a user one-to-one\n"
+			f"User id: {user_id}\n"
+			f"Current date: {date_str}\n"
+			f"Current time: {time_str}\n",
+		]
+
+		for msg in msgs:
+			if isinstance(msg, ChatSpeechMessage):
+				user_str = self._speech_to_text(msg=msg)
+				user_queries.append(user_str)
+			elif isinstance(msg, FileWithTextMessage):
+				system_str, user_str = self._formatted_file_with_text(msg=msg, file_idx=file_idx)
+				file_idx += 1
+				user_queries.append(user_str)
+				system_strings.append(system_str)
+			elif isinstance(msg, ChatTextMessage):
+				user_queries.append(msg.text)
+			else:
+				raise ValueError(f"Invalid Msg type: {type(msg)}")
+
+		system_msg = "\n".join(system_strings)
+		user_msg = "\n".join(user_queries)
+		dumped_msgs = pack_user_message(user_id=user_id, system_msg=system_msg, user_msg=user_msg)
+		return dumped_msgs
+
+
+class ChatMsgBuffer(object):
+	def __init__(self):
+		self.account_manager = AccountManager()
+		self.user_msg_buffer: Dict[str, List[BaseClientMessage]] = {}
+		self.agent_reply_buffer: Dict[str, Union[ServerReply, ServerSpeechReply]] = {}
+		root = Path(__file__)
+		for i in range(4):
+			root = root.parent
+		self._root = root
+
+	def reset_buffer(self):
+		users = self.account_manager.get_users()
+		self.user_msg_buffer = {user: [] for user in users}
+		self.agent_reply_buffer = {user: None for user in users}
+
+	def clear_user_msg(self, user_id: str):
+		self.user_msg_buffer[user_id] = []
+
+	def put_user_msg(self, user_msg: BaseClientMessage):
+		if not isinstance(user_msg, (FileWithTextMessage, ChatTextMessage, ChatSpeechMessage)):
+			raise ValueError(f"The Msg type {type(user_msg)} is not supported.")
+
+		user_id = user_msg.user_id
+		self.account_manager.check_valid_user(user_id=user_id)
+		self.user_msg_buffer[user_id].append(user_msg)
+
+	async def get_user_msg(self, user_id: str, timeout: int) -> List[BaseClientMessage]:
+		start_time = time.time()
+
+		while True:
+			await asyncio.sleep(1)
+			msgs = self.user_msg_buffer[user_id]
+			end_time = time.time()
+			if len(msgs) > 0 or end_time > start_time + timeout:
+				break
+
+		# TODO formatted msg.
+
+		return msgs
+
+	def put_agent_reply(
+		self,
+		user_id: str,
+		reply_str: str,
+		references: List[str],
+		reply_in_speech: bool = False,
+	):
+		self.account_manager.check_valid_user(user_id=user_id)
+		if not reply_in_speech:
+			reply = ServerReply(
+				reply_text=reply_str,
+				references=references,
+				end=True,
+			)
+			self.agent_reply_buffer[user_id] = reply
+			return
+
+		speech_path = self._root / f"{USER_TMP_DIR}/{user_id}/agent_reply.pcm"
+		TTSWorker.transform(text=reply_str, speech_path=speech_path)
+		reply = ServerSpeechReply(
+			speech_path = speech_path,
+			references=references,
+			end=True,
+		)
+		self.agent_reply_buffer[user_id] = reply
+
+	async def get_agent_reply(self, user_id: str) -> Union[ServerReply, ServerSpeechReply]:
+		agent_reply = self.agent_reply_buffer[user_id]
+		if agent_reply is None:
+			return ServerReply(
+				reply_text="Please wait.",
+				end=False,
+			)
+		else:
+			return agent_reply
+
+
+
+
+
+
+
+
+
+ChatAgent = LabChatAgent()

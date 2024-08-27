@@ -1,0 +1,1 @@
+:::labridge.interact.collect.types.select_info

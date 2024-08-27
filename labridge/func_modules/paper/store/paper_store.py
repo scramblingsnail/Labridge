@@ -57,6 +57,8 @@ from ..prompt.synthesize.paper_summarize import (
 	METHODS_SUMMARIZE_QUERY,
 )
 
+from ..synthesizer.summarize import PaperBatchSummarize
+
 
 PAPER_VECTOR_INDEX_ID = "vector_index"
 PAPER_SUMMARY_INDEX_ID = "paper_summary_index"
@@ -128,13 +130,14 @@ class PaperStorage(object):
 		self.summary_synthesizer = summary_synthesizer
 		self.paper_summary_query = paper_summary_query
 		if summary_synthesizer is None:
-			self.summary_synthesizer = get_response_synthesizer(llm=self.llm, response_mode=ResponseMode.TREE_SUMMARIZE)
+			self.summary_synthesizer = PaperBatchSummarize(llm=self.llm, max_tokens=7000, overlap_chunk_num=1)
 
 		if (vector_index is None or paper_summary_index is None) and (docs is None or extra_docs is None):
 			raise ValueError("Please provide (docs, extra_docs) or existed (vector_index, summary_index).")
 		if None not in (vector_index, paper_summary_index):
 			assert vector_index.storage_context != paper_summary_index.storage_context
 			self.vector_index, self.paper_summary_index = vector_index, paper_summary_index
+			self.paper_summary_index._response_synthesizer = self.summary_synthesizer
 			self.vector_storage_context = vector_index.storage_context
 			self.paper_summary_storage_context = paper_summary_index.storage_context
 		else:
@@ -193,6 +196,7 @@ class PaperStorage(object):
 			transformations=self.summary_transformations,
 			summary_query = self.paper_summary_query,
 			service_context=self.service_context,
+			response_synthesizer = self.summary_synthesizer,
 		)
 		paper_summary_index.set_index_id(PAPER_SUMMARY_INDEX_ID)
 		return paper_summary_index

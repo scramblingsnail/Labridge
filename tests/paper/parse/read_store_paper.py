@@ -19,10 +19,12 @@ from labridge.common.query_engine.query_engines import SingleQueryEngine
 
 
 article_list = [
-	"documents/papers/杨再正/存算一体/Effective Random Test Generation for Deep Learning Compilers.pdf",
-	"documents/papers/杨再正/存算一体/Chaotic memristor.pdf"
-	"documents/papers/张三/深度学习编译/"
-	"TorchProbe: Fuzzing Dynamic Deep Learning Compilers.pdf"
+	"documents/papers/杨再正/神经网络量化/"
+	"post-training-quantization/ACIQ-ANALYTICAL CLIPPING FOR INTEGER QUANTIZATION OF NEURAL NETWORKS.pdf",
+	"documents/papers/杨再正/神经网络量化/training-aware-quantization/"
+	"Gong_Differentiable_Soft_Quantization_Bridging_Full-Precision_and_Low-Bit_Neural_Networks_ICCV_2019_paper.pdf",
+	"documents/papers/杨再正/神经网络量化/training-aware-quantization/"
+	"Towards Efficient Training for Neural Network Quantization.pdf",
 	"documents/papers/张三/深度学习编译/CIM/"
 	"A Compilation Tool for Computation Offloading in ReRAM-based CIM Architectures.pdf",
 	"documents/papers/张三/深度学习编译/The_Deep_Learning_Compiler_A_Comprehensive_Survey.pdf",
@@ -60,8 +62,8 @@ def load_index(vector_dir, paper_summary_dir):
 
 def test_read_store_paper():
 	rr = PaperReader(llm=llm)
-	paper_files = [root / paper for paper in article_list[:1]]
-	docs, extra_docs = rr.read_papers(input_files=paper_files[:1])
+	paper_files = [root / paper for paper in article_list[1:]]
+	docs, extra_docs = rr.read_papers(input_files=paper_files[1:])
 
 	for doc in docs:
 		print(f'>>> {doc.doc_id}')

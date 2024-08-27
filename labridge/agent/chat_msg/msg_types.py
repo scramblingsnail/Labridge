@@ -42,6 +42,7 @@ class FileWithTextMessage(BaseClientMessage):
 	1. Basic: user_id
 	2. The info of the file to be uploaded.
 	3. The attached user's query.
+	4. Whether to reply in speech or not.
 
 	This message is used in the `websocket_chat_with_file`.
 	"""
@@ -101,6 +102,15 @@ class ChatSpeechMessage(BaseClientMessage):
 
 
 class PackedUserMessage:
+	r"""
+	Pack the user messages.
+
+	user_id (str): The user id of a Lab member.
+	system_msg (str): The corresponding system message.
+	user_msg (str): The packed user messages.
+	reply_in_speech (bool): Whether the agent should reply in speech or not
+	chat_group_id (Optional[str]): The ID of a chat group (If the messages are from a chat group). Defaults to None.
+	"""
 	def __init__(
 		self,
 		user_id: str,
@@ -127,6 +137,15 @@ class PackedUserMessage:
 
 	@classmethod
 	def loads(cls, dumped_str: str):
+		r"""
+		Load from a dumped JSON string.
+
+		Args:
+			dumped_str (str): The dumped JSON string.
+
+		Returns:
+			PackedUserMessage
+		"""
 		msg_dict = json.loads(dumped_str)
 		return cls(
 			user_id=msg_dict["user_id"],
@@ -138,6 +157,13 @@ class PackedUserMessage:
 
 
 class AgentResponse(BaseModel):
+	r"""
+	The response of chat agent.
+
+	response (str): The response string.
+	references (Optional[List[str]]): The paths of reference files.
+	reply_in_speech (bool): Whether the agent reply in speech.
+	"""
 	response: str
 	references: Optional[List[str]]
 	reply_in_speech: bool
@@ -145,6 +171,18 @@ class AgentResponse(BaseModel):
 
 
 class ServerReply(BaseModel):
+	r"""
+	The server's text reply.
+
+	reply_text (str): The reply text.
+	valid (bool): Whether this reply contains valid information.
+	references (Optional[List[str]]): The paths of reference files.
+	error (Optional[str]): The error information. If no error, it is None.
+	inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.
+		- If this reply is the final response of the agent, it is False.
+		- If this reply is an internal response such as collecting information from the user or getting authorization,
+		it is True. When `inner_chat` is True, the client should post the user's answer to corresponding URL with flag `Inner`.
+	"""
 	reply_text: str
 	valid: bool
 	references: Optional[List[str]] = None
@@ -169,24 +207,52 @@ class ServerReply(BaseModel):
 		)
 
 class ServerSpeechReply(BaseModel):
-	valid: bool
+	r"""
+	The server's speech reply.
+
+	reply_speech_path (str): The path of the agent's speech file.
+	valid (bool): Whether the reply contains valid information. When receiving an invalid reply,
+		the client should continue to get the server's reply until get a valid reply.
+	references (Optional[List[str]]): The paths of reference files.
+	inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.
+		- If this reply is the final response of the agent, it is False.
+		- If this reply is an internal response such as collecting information from the user or getting authorization,
+		it is True. When `inner_chat` is True, the client should post the user's answer to corresponding URL with flag `Inner`.
+	"""
 	reply_speech_path: str
+	valid: bool
 	references: Optional[List[str]] = None
+	error: Optional[str] = None
 	inner_chat: Optional[bool] = False
 
 
 class UserMsgFormatter(object):
+	r"""
+	This class transform the user's messages into specific formats and generate corresponding system messages.
+	"""
 
 	def _speech_to_text(self, msg: ChatSpeechMessage) -> str:
+		r""" Speech message to text. """
 		text = ASRWorker.transform(speech_path=msg.speech_path)
 		return text
 
 	def _formatted_file_with_text(self, msg: FileWithTextMessage, file_idx: int) -> Tuple[str, str]:
+		r""" FileWithTextMessage to formatted text. """
 		system_str = f"Path of File {file_idx}: {msg.file_path}"
 		user_str = f"The user query about the File {file_idx}:\n{msg.attached_text}"
 		return system_str, user_str
 
 	def formatted_msgs(self, msgs: List[BaseClientMessage]) -> PackedUserMessage:
+		r"""
+		Turn into formatted text message.
+
+		Args:
+			msgs (List[BaseClientMessage]): The user's messages.
+
+		Returns:
+			PackedUserMessage: The packed user messages, and system message.
+
+		"""
 		file_idx = 1
 		user_id = msgs[0].user_id
 		reply_in_speech = msgs[0].reply_in_speech
@@ -226,6 +292,21 @@ class UserMsgFormatter(object):
 
 
 class ChatMsgBuffer(object):
+	r"""
+	This class includes buffers that manager the messages from users and the agent's corresponding reply.
+
+	Before a chat, the user's messages will put into the `user_msg_buffer`.
+	When the agent get a user's messages, these messages will be packed and used as input to Call `Chat()`.
+
+	Additionally, During the execution of `Chat()`, the agent is able to get new messages from the buffer, such as
+	when collecting information from the user in some tools.
+
+	The response of the agent will be put into the `agent_reply_buffer`, similarly, the user may receive an 'inner'
+	response from the buffer.
+
+	Depending on the user's choice `reply_in_speech`, the agent's response will be sent back to the user directly or
+	transformed to speech before that.
+	"""
 	def __init__(self):
 		self.account_manager = AccountManager()
 		self.user_msg_buffer: Dict[str, List[BaseClientMessage]] = {}
@@ -238,14 +319,32 @@ class ChatMsgBuffer(object):
 		self._root = root
 
 	def reset_buffer(self):
+		r"""
+		Reset the user_msg_buffer and agent_reply_buffer.
+
+		Returns:
+			None
+		"""
 		users = self.account_manager.get_users()
 		self.user_msg_buffer = {user: [] for user in users}
 		self.agent_reply_buffer = {user: None for user in users}
 
 	def clear_user_msg(self, user_id: str):
+		r"""
+		Clear a user's messages in the buffer.
+
+		Args:
+			user_id (str): The user id of a Lab member.
+		"""
 		self.user_msg_buffer[user_id] = []
 
 	def put_user_msg(self, user_msg: BaseClientMessage):
+		r"""
+		Put a new user message into the buffer.
+
+		Args:
+			user_msg (BaseClientMessage): A new message from a user.
+		"""
 		if not isinstance(user_msg, (FileWithTextMessage, ChatTextMessage, ChatSpeechMessage)):
 			raise ValueError(f"The Msg type {type(user_msg)} is not supported.")
 
@@ -254,6 +353,17 @@ class ChatMsgBuffer(object):
 		self.user_msg_buffer[user_id].append(user_msg)
 
 	async def get_user_msg(self, user_id: str, timeout: int = 30) -> Optional[PackedUserMessage]:
+		r"""
+		Wait until a user's messages are put into the buffer, and get them.
+
+		Args:
+			user_id (str): The user id of a Lab member.
+			timeout (int): If timeout, return None.
+
+		Returns:
+			Optional[PackedUserMessage]: The obtained packed user messages.
+				If no user messages if put in until time is out, return None.
+		"""
 		start_time = time.time()
 
 		while True:
@@ -269,6 +379,7 @@ class ChatMsgBuffer(object):
 		return None
 
 	def test_get_user_text(self, user_id: str) -> PackedUserMessage:
+		r""" For debug. """
 		user_msg = input("User: ")
 
 		text_msg = ChatTextMessage(
@@ -280,12 +391,15 @@ class ChatMsgBuffer(object):
 		return packed_msgs
 
 	def default_user_speech_path(self, user_id: str) -> str:
+		r""" Default save path of a user's speech. """
 		return str(self._root / f"{USER_TMP_DIR}/{user_id}/{USER_SPEECH_NAME}")
 
 	def default_agent_speech_path(self, user_id: str) -> str:
+		r""" Default save path of agent's speech. """
 		return str(self._root / f"{USER_TMP_DIR}/{user_id}/{AGENT_SPEECH_NAME}")
 
 	def default_tmp_file_path(self, user_id: str, file_name: str) -> str:
+		r""" Default save path of the user's uploaded file. """
 		date, _ = get_time()
 		tmp_dir = self._root / f"{USER_TMP_DIR}/{user_id}/{date}"
 		tmp_path = str(tmp_dir / file_name)
@@ -299,6 +413,16 @@ class ChatMsgBuffer(object):
 		reply_in_speech: bool = False,
 		inner_chat: bool = False,
 	):
+		r"""
+		Put an agent's reply into the buffer.
+
+		Args:
+			user_id (str): The user id of a Lab member.
+			reply_str (str): The agent's reply string.
+			references (List[str]): The paths of reference files. Defaults to None.
+			reply_in_speech (bool): Whether the agent replies in speech。 Defaults to False.
+			inner_chat (bool): Whether the reply happens inside a chat.
+		"""
 		self.account_manager.check_valid_user(user_id=user_id)
 		if not reply_in_speech:
 			reply = ServerReply(
@@ -320,10 +444,18 @@ class ChatMsgBuffer(object):
 			valid=True,
 		)
 		self.agent_reply_buffer[user_id] = reply
-		with open("/root/zhisan/Labridge/speech_final.txt", "w") as f:
-			f.write("Finish.")
 
 	def get_agent_reply(self, user_id: str) -> Union[ServerReply, ServerSpeechReply]:
+		r"""
+		Get the agent reply to a user from the buffer.
+
+		Args:
+			user_id (str): The user id of a Lab member.
+
+		Returns:
+			Union[ServerReply, ServerSpeechReply]: If an agent's reply exists, return a valid reply,
+				otherwise, return an invalid reply.
+		"""
 		agent_reply = self.agent_reply_buffer[user_id]
 		if agent_reply is None:
 			return ServerReply(

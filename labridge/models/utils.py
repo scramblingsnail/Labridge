@@ -47,7 +47,7 @@ def get_models(
 	context_window: int = None,
 	max_new_tokens: int = None,
 	load_in_8bit: bool = True,
-	use_api: bool = True,
+	use_api: bool = False,
 	use_mindspore: bool = False,
 ):
 	qwen_path = '/root/autodl-tmp/Qwen2-7B-Instruct'
@@ -60,8 +60,8 @@ def get_models(
 
 	if use_api:
 		llm = ZhiPuLLM()
-		# embed_model = HuggingFaceEmbedding(model_name=embed_model_path)
-		embed_model = ZhiPuEmbedding()
+		embed_model = HuggingFaceEmbedding(model_name=embed_model_path)
+		# embed_model = ZhiPuEmbedding()
 		return llm, embed_model
 
 	# if use_mindspore:

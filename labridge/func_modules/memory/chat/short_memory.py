@@ -33,7 +33,7 @@ class ShortMemoryManager(object):
 		r""" Return the project root """
 		if self._root is None:
 			root_dir = Path(__file__)
-			for idx in range(4):
+			for idx in range(5):
 				root_dir = root_dir.parent
 			self._root = str(root_dir)
 		return self._root

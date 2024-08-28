@@ -238,7 +238,9 @@ class PaperRetriever:
 				doc_ids.append(ref_doc_id)
 				title = node_score.node.metadata.get(PAPER_TITLE) or ref_doc_id
 				possessor = node_score.node.metadata.get(PAPER_POSSESSOR)
-				rel_path = node_score.node.metadata.get(PAPER_REL_FILE_PATH) or "default.pdf"
+				rel_path = node_score.node.metadata.get(PAPER_REL_FILE_PATH)
+				if rel_path is None:
+					raise ValueError("Invalid database.")
 				paper_info = PaperInfo(
 					title=title,
 					possessor=possessor,

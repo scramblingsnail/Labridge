@@ -182,5 +182,5 @@ class _ASRWorker(websocket.WebSocketApp):
 websocket.enableTrace(False)
 ASRWorker = _ASRWorker()
 
-text = ASRWorker.transform(speech_path=r"/root/zhisan/Labridge/labridge/interface/query_1.pcm")
-print(text)
+# text = ASRWorker.transform(speech_path=r"/root/zhisan/Labridge/labridge/interface/query_1.pcm")
+# print(text)

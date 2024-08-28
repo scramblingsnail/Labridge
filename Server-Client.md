@@ -36,7 +36,7 @@ Get URL: `/users/{user_id}/response`
 [ServerReply](labridge/agent/chat_msg/msg_types.py):
 - reply_text (str): Agent的回复字符串
 - valid (bool): 本回复是否是有效回复，若没有得到有效回复，客户端应轮询直至获得有效回复
-- references (List[str]): 参考文件在server的存储路径。
+- references (Dict[str, int]): 参考文件在server的存储路径与文件字节数。
 - error (str): 错误信息，如果没有错误，则为`None`.
 - inner_chat (bool): 本回复是否是一个Chat调用内部的回复。如果为`True`, 客户端应该把用户接下来的回复发送到相应的 `Inner` URL.
 

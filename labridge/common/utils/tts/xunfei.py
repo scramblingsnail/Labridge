@@ -47,7 +47,7 @@ class WsParam(object):
         # 公共参数(common)
         self.CommonArgs = {"app_id": self.APPID}
         # 业务参数(business)，更多个性化参数可在官网查看
-        self.BusinessArgs = {"aue": "raw", "auf": "audio/L16;rate=16000", "vcn": "xiaoyan", "tte": "utf8"}
+        self.BusinessArgs = {"aue": "raw", "auf": "audio/L16;rate=16000", "vcn": "aisjiuxu", "tte": "utf8"}
         self.Data = self._formatted_data()
         #使用小语种须使用以下方式，此处的unicode指的是 utf16小端的编码方式，即"UTF-16LE"”
         #self.Data = {"status": 2, "text": str(base64.b64encode(self.Text.encode('utf-16')), "UTF8")}
@@ -167,7 +167,12 @@ class _TTSWorker(websocket.WebSocketApp):
 websocket.enableTrace(False)
 TTSWorker = _TTSWorker()
 
-# TTSWorker.transform(
-#     text="你好",
-#     speech_path="/root/zhisan/Labridge/labridge/interface/query_1.pcm",
-# )
+text = (
+    "你好，我的名字是杨再正，我毕业于南京大学，研究方向为基于存算一体器件的机器学习系统。具备的知识技能包括: 熟悉python、C++编程,"
+    "熟悉各类主流深度学习算法，熟悉AI编译器前后端，熟悉各类存算一体架构。我希望能够加入贵公司，为新时代的到来拉开帷幕。下方是我的简历，"
+    "以及我的个人网站链接，您可以访问我的个人网站获取有关于我的更详细的信息。"
+)
+TTSWorker.transform(
+    text=text,
+    speech_path="/root/zhisan/Labridge/labridge/interface/query_1.pcm",
+)

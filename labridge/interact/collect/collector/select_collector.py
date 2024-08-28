@@ -12,6 +12,7 @@ from labridge.interact.collect.manager.collect_manager import CollectManager
 from labridge.interact.prompt.collect.collect_info.select_info import COLLECT_SELECT_INFO_PROMPT
 from labridge.interact.prompt.collect.modify_info.select_info import MODIFY_SELECT_INFO_PROMPT
 from labridge.interact.collect.types.select_info import SELECT_MIN_SCORE
+from labridge.agent.chat_msg.msg_types import ChatBuffer
 
 
 
@@ -57,12 +58,13 @@ class SelectInfoCollector:
 				select_infos.append(info)
 		return select_infos
 
-	def collect_single_info(self, info: CollectingSelectInfo) -> bool:
+	def collect_single_info(self, info: CollectingSelectInfo, user_id: str) -> bool:
 		r"""
 		Collect a SelectInfo from the user.
 
 		Args:
 			info (CollectingSelectInfo): The info waiting for the user's selection.
+			user_id (str): The user id of a Lab member.
 
 		Returns:
 			bool: Whether the user aborts the collecting process.
@@ -71,7 +73,8 @@ class SelectInfoCollector:
 		print("Assistant: ", self.collecting_query(info=info))
 
 		# TODO: receive from user.
-		user_response = input("User: ")
+		user_msg = ChatBuffer.test_get_user_text(user_id=user_id)
+		user_response = user_msg.user_msg
 
 		abort = self._collect_manager.analyze_whether_abort(user_response=user_response)
 		if abort:
@@ -103,7 +106,7 @@ class SelectInfoCollector:
 			)
 		return abort
 
-	async def acollect_single_info(self, info: CollectingSelectInfo) -> bool:
+	async def acollect_single_info(self, info: CollectingSelectInfo, user_id: str) -> bool:
 		r"""
 		Asynchronously collect a SelectInfo from the user.
 
@@ -114,10 +117,16 @@ class SelectInfoCollector:
 			bool: Whether the user aborts the collecting process.
 		"""
 		# TODO: send to user:
-		print("Assistant: ", self.collecting_query(info=info))
+		query_to_user = self.collecting_query(info=info)
+		ChatBuffer.put_agent_reply(
+			user_id=user_id,
+			reply_str=query_to_user,
+			inner_chat=True,
+		)
 
 		# TODO: receive from user.
-		user_response = input("User: ")
+		user_msg = await ChatBuffer.get_user_msg(user_id=user_id)
+		user_response = user_msg.user_msg
 
 		abort = await self._collect_manager.async_analyze_whether_abort(user_response=user_response)
 		if abort:
@@ -149,7 +158,7 @@ class SelectInfoCollector:
 			)
 		return abort
 
-	def collect(self) -> bool:
+	def collect(self, user_id: str) -> bool:
 		r"""
 		Collect all SelectInfo.
 
@@ -157,12 +166,12 @@ class SelectInfoCollector:
 			bool: Whether the user aborts the collecting process.
 		"""
 		for info in self._select_infos:
-			abort = self.collect_single_info(info=info)
+			abort = self.collect_single_info(info=info, user_id=user_id)
 			if abort:
 				return True
 		return False
 
-	async def acollect(self) -> bool:
+	async def acollect(self, user_id: str) -> bool:
 		r"""
 		Asynchronously collect all SelectInfo.
 
@@ -170,7 +179,7 @@ class SelectInfoCollector:
 			bool: Whether the user aborts the collecting process.
 		"""
 		for info in self._select_infos:
-			abort = await self.acollect_single_info(info=info)
+			abort = await self.acollect_single_info(info=info, user_id=user_id)
 			if abort:
 				return True
 		return False
@@ -267,7 +276,7 @@ class SelectInfoCollector:
 					collected_info_dict={info.info_name: collected_info}
 				)
 
-	def modify(self) -> Tuple[bool, bool]:
+	def modify(self, user_id: str) -> Tuple[bool, bool]:
 		r"""
 		Modify the collected SelectInfo according to the user's comment.
 
@@ -287,7 +296,8 @@ class SelectInfoCollector:
 			print(query_to_user)
 
 			# TODO: receive the message from the user.
-			user_response = input("User: ")
+			user_msg = ChatBuffer.test_get_user_text(user_id=user_id)
+			user_response = user_msg.user_msg
 			abort = self._collect_manager.analyze_whether_abort(user_response=user_response)
 			if abort:
 				break
@@ -299,7 +309,7 @@ class SelectInfoCollector:
 				self.single_modify(user_response=user_response)
 		return doing_modify, abort
 
-	async def amodify(self) -> Tuple[bool, bool]:
+	async def amodify(self, user_id: str) -> Tuple[bool, bool]:
 		r"""
 		Asynchronously modify the collected SelectInfo according to the user's comment.
 
@@ -316,10 +326,15 @@ class SelectInfoCollector:
 		while doing_modify and not abort:
 			query_to_user =self._collect_manager.verify_query(collected_info_dict=self.collected_infos)
 			# TODO: send the message to the user.
-			print(query_to_user)
+			ChatBuffer.put_agent_reply(
+				user_id=user_id,
+				reply_str=query_to_user,
+				inner_chat=True,
+			)
 
 			# TODO: receive the message from the user.
-			user_response = input("User: ")
+			user_msg = await ChatBuffer.get_user_msg(user_id=user_id)
+			user_response = user_msg.user_msg
 			abort = await self._collect_manager.async_analyze_whether_abort(user_response=user_response)
 			if abort:
 				break

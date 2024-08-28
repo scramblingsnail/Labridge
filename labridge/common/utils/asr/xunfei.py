@@ -72,7 +72,7 @@ class _ASRWorker(websocket.WebSocketApp):
     def __init__(self):
         self.ws_param = WsParam(
             APPID='b83de31b',
-            APISecret='NDA4NGRiZWQ5ZDA3ODMyODBmMDhlYzFj',
+            APISecret="NDA4NGRiZWQ5ZDA3ODMyODBmMDhlYzFj",
             APIKey='ae98f39e2ea6bceae351c200e55e6b28',
             AudioFile=None,
         )
@@ -117,7 +117,10 @@ class _ASRWorker(websocket.WebSocketApp):
                 en_num = len([word for word in words if word[0].isalpha()])
 
                 if zh_num > 0 or en_num > 0:
-                    self.result_text = result_text
+                    if self.result_text is None:
+                        self.result_text = result_text
+                    else:
+                        self.result_text += result_text
         except Exception as e:
             print("receive msg, but parse exception:", e)
 
@@ -179,5 +182,5 @@ class _ASRWorker(websocket.WebSocketApp):
 websocket.enableTrace(False)
 ASRWorker = _ASRWorker()
 
-# text = ASRWorker.transform(speech_path=r"/root/zhisan/Labridge/labridge/interface/agent_reply.pcm")
-# print(text)
+text = ASRWorker.transform(speech_path=r"/root/zhisan/Labridge/labridge/interface/query_1.pcm")
+print(text)

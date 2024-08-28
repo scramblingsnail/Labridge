@@ -5,6 +5,7 @@ from labridge.common.utils.time import get_time
 
 import time
 import asyncio
+import fsspec
 
 from typing import Tuple, Dict, Union
 
@@ -12,7 +13,6 @@ from labridge.common.utils.asr.xunfei import ASRWorker
 from labridge.common.utils.tts.xunfei import TTSWorker
 from labridge.common.utils.time import get_time
 from labridge.accounts.users import AccountManager
-from common.utils.chat import pack_user_message
 from pathlib import Path
 
 from typing import List, Optional
@@ -176,7 +176,7 @@ class ServerReply(BaseModel):
 
 	reply_text (str): The reply text.
 	valid (bool): Whether this reply contains valid information.
-	references (Optional[List[str]]): The paths of reference files.
+	references (Optional[Dict[str, int]]): The paths of reference files and file size.
 	error (Optional[str]): The error information. If no error, it is None.
 	inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.
 		- If this reply is the final response of the agent, it is False.
@@ -185,7 +185,7 @@ class ServerReply(BaseModel):
 	"""
 	reply_text: str
 	valid: bool
-	references: Optional[List[str]] = None
+	references: Optional[Dict[str, int]] = None
 	error: Optional[str] = None
 	inner_chat: Optional[bool] = False
 
@@ -308,15 +308,17 @@ class ChatMsgBuffer(object):
 	transformed to speech before that.
 	"""
 	def __init__(self):
+		root = Path(__file__)
+		for i in range(4):
+			root = root.parent
+		self._root = root
 		self.account_manager = AccountManager()
 		self.user_msg_buffer: Dict[str, List[BaseClientMessage]] = {}
 		self.agent_reply_buffer: Dict[str, Optional[Union[ServerReply, ServerSpeechReply]]] = {}
 		self.user_msg_formatter = UserMsgFormatter()
 		self.reset_buffer()
-		root = Path(__file__)
-		for i in range(4):
-			root = root.parent
-		self._root = root
+		self._fs = fsspec.filesystem("file")
+
 
 	def reset_buffer(self):
 		r"""
@@ -424,6 +426,20 @@ class ChatMsgBuffer(object):
 			inner_chat (bool): Whether the reply happens inside a chat.
 		"""
 		self.account_manager.check_valid_user(user_id=user_id)
+
+		if references is not None:
+			ref_dict = {}
+			for ref_path in references:
+				if not self._fs.exists(ref_path):
+					continue
+
+				ref_size = len(open(ref_path).read())
+				ref_dict[ref_path] = ref_size
+			if ref_dict:
+				references = ref_dict
+			else:
+				references = None
+
 		if not reply_in_speech:
 			reply = ServerReply(
 				reply_text=reply_str,

@@ -245,10 +245,6 @@ class SetCurrentExperimentTool(CollectAndAuthorizeTool):
 			user_id=user_id,
 			query_str=query_str,
 		)
-
-		# TODO Send to the user.
-		print(SET_CURRENT_EXPERIMENT_TAIL)
-
 		return output_log
 
 	async def aset_current_experiment(
@@ -280,9 +276,6 @@ class SetCurrentExperimentTool(CollectAndAuthorizeTool):
 			user_id=user_id,
 			query_str=query_str,
 		)
-
-		# TODO Send to the user.
-		print(SET_CURRENT_EXPERIMENT_TAIL)
 		return output_log
 
 
@@ -459,7 +452,7 @@ class RecordExperimentLogTool(FunctionBaseTool):
 
 
 if __name__ == "__main__":
-	from labridge.llm.models import get_models
+	from labridge.models.utils import get_models
 	import asyncio
 
 	llm, embed_model = get_models()

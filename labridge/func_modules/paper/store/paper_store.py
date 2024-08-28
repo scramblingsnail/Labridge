@@ -95,7 +95,7 @@ class PaperStorage(object):
 		paper_summary_persist_dir (Union[str, os.PathLike]): the store directory of the summary index.
 		paper_summary_query (str): the query used in summarizing the papers.
 		summary_transformations (List[TransformComponent]): the transformations used in the construction of the summary index.
-		summary_synthesizer (BaseSynthesizer): the synthesizer used in summarizing the papers.
+		summary_synthesizer (PaperBatchSummarize): the synthesizer used in summarizing the papers.
 		vector_storage_context (StorageContext): the storage context of the vector index.
 		paper_summary_storage_context (StorageContext): the storage context of the summary index.
 		service_context (ServiceContext): the service context.
@@ -111,7 +111,7 @@ class PaperStorage(object):
 		paper_summary_persist_dir: Union[str, os.PathLike] = None,
 		paper_summary_query: str = PAPER_SUMMARIZE_QUERY,
 		summary_transformations: List[TransformComponent] = None,
-		summary_synthesizer: Optional[BaseSynthesizer] = None,
+		summary_synthesizer: Optional[PaperBatchSummarize] = None,
 		vector_storage_context: Optional[StorageContext] = None,
 		paper_summary_storage_context: Optional[StorageContext] = None,
 		service_context: Optional[ServiceContext] = None,
@@ -130,7 +130,7 @@ class PaperStorage(object):
 		self.summary_synthesizer = summary_synthesizer
 		self.paper_summary_query = paper_summary_query
 		if summary_synthesizer is None:
-			self.summary_synthesizer = PaperBatchSummarize(llm=self.llm, max_tokens=7000, overlap_chunk_num=1)
+			self.summary_synthesizer = PaperBatchSummarize(llm=self.llm, max_tokens=8000, overlap_chunk_num=1)
 
 		if (vector_index is None or paper_summary_index is None) and (docs is None or extra_docs is None):
 			raise ValueError("Please provide (docs, extra_docs) or existed (vector_index, summary_index).")
@@ -152,10 +152,10 @@ class PaperStorage(object):
 		return str(self.root / DEFAULT_PAPER_SUMMARY_PERSIST_DIR)
 
 	def _default_vector_transformations(self) -> List[TransformComponent]:
-		return [SentenceSplitter(chunk_size=1024, chunk_overlap=256, include_metadata=True), ]
+		return [SentenceSplitter(chunk_size=1024, chunk_overlap=256, include_metadata=False), ]
 
 	def _default_summary_transformations(self) -> List[TransformComponent]:
-		return [SentenceSplitter(chunk_size=1024, chunk_overlap=256, include_metadata=True), ]
+		return [SentenceSplitter(chunk_size=1024, chunk_overlap=256, include_metadata=False), ]
 
 	def build_vector_index_from_docs(self, docs: List[Document]) -> VectorStoreIndex:
 		r"""
@@ -300,7 +300,7 @@ class PaperStorage(object):
 			if doc_type not in SummarizeQueries.keys():
 				raise ValueError(f'Invalid paper doc type: {doc_type}. Acceptable: {list(SummarizeQueries.keys())}.')
 			sum_query = SummarizeQueries[doc_type]
-			self.paper_summary_index._summary_query = sum_query
+			self.paper_summary_index._response_synthesizer._summary_query = sum_query
 
 			if doc.doc_id not in self.paper_summary_index.docstore.get_all_ref_doc_info().keys():
 				self.paper_summary_index.insert(document=doc)

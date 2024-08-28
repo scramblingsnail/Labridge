@@ -1,0 +1,1 @@
+:::labridge.agent.chat_msg.msg_types

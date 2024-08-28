@@ -32,6 +32,8 @@ nav:
           - code_docs/accounts/users.md
       - Agent:
           - code_docs/agent/chat_agent.md
+          - Chat Msg:
+              - code_docs/agent/chat_msg/msg_types.md
           - ReAct:
               - code_docs/agent/react/prompt.md
               - code_docs/agent/react/react.md
@@ -122,10 +124,8 @@ nav:
               - code_docs/interact/collect/pipeline.md
               - code_docs/interact/collect/utils.md
       - Interface:
-          - ASR:
-              - code_docs/interface/asr/xunfei.md
-          - TTS:
-              - code_docs/interface/tts/xunfei.md
+          - code_docs/interface/http_server.md
+          - code_docs/interface/utils.md
       - Models:
           - Local:
               - code_docs/models/local/mindspore_models.md

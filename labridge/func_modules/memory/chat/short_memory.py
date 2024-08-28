@@ -57,6 +57,12 @@ class ShortMemoryManager(object):
 		last_datetime = str_to_datetime(date_str=date_str, time_str=time_str)
 		return last_datetime
 
+	def clear_memory(self, user_id: str):
+		persist_path = Path(self.root) / f"{SHORT_MEMORY_PERSIST_DIR}/{user_id}.json"
+		fs = fsspec.filesystem("file")
+		if fs.exists(persist_path):
+			fs.rm(persist_path)
+
 	def load_memory(self, user_id: str) -> Optional[List[ChatMessage]]:
 		r"""
 		Only chat messages within the valid time delta will be loaded.

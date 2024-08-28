@@ -215,7 +215,6 @@ class PaperRetriever:
 			root = root.parent
 		self.root = root
 
-
 	def _exclude_all_llm_metadata(self, node: BaseNode):
 		r""" Hidden all metadata of a node to LLM. """
 		node.excluded_llm_metadata_keys.extend(list(node.metadata.keys()))

@@ -35,20 +35,19 @@ class ClientDownloadReq(BaseModel):
 
 
 async def single_chat(user_id: str):
-    if not ChatAgent.is_chatting(user_id=user_id):
+    ChatAgent.set_chatting(user_id=user_id, chatting=True)
+    packed_msgs = await ChatBuffer.get_user_msg(user_id=user_id)
+    if packed_msgs:
         ChatAgent.set_chatting(user_id=user_id, chatting=True)
-        packed_msgs = await ChatBuffer.get_user_msg(user_id=user_id)
-        if packed_msgs:
-            ChatAgent.set_chatting(user_id=user_id, chatting=True)
-            agent_response = await ChatAgent.chat(packed_msgs=packed_msgs)
-            ChatBuffer.put_agent_reply(
-                user_id=user_id,
-                reply_str=agent_response.response,
-                references=agent_response.references,
-                reply_in_speech=agent_response.reply_in_speech,
-                inner_chat=False,
-            )
-            ChatAgent.set_chatting(user_id=user_id, chatting=False)
+        agent_response = await ChatAgent.chat(packed_msgs=packed_msgs)
+        ChatBuffer.put_agent_reply(
+            user_id=user_id,
+            reply_str=agent_response.response,
+            references=agent_response.references,
+            reply_in_speech=agent_response.reply_in_speech,
+            inner_chat=False,
+        )
+        ChatAgent.set_chatting(user_id=user_id, chatting=False)
 
 
 @app.post("/users/{user_id}/inner_chat_text")
@@ -273,8 +272,13 @@ async def get_file(user_id: str, req: ClientDownloadReq):
 async def get_response(user_id: str):
     return ChatBuffer.get_agent_reply(user_id=user_id)
 
+@app.post("/users/{user_id}/clear_history")
+async def clear_history(user_id: str):
+    ChatAgent.short_memory_manager.clear_memory(user_id=user_id)
+
 
 if __name__ == "__main__":
     host = '127.0.0.1'
     port = 6006
+    ChatAgent
     uvicorn.run(app, host=host, port=port, workers=1)

@@ -43,7 +43,7 @@ Get URL: `/users/{user_id}/response`
 [ServerSpeechReply](labridge/agent/chat_msg/msg_types.py):
 - reply_speech_path (str): Agent回复的语音文件在Server的存储路径。
 - valid (bool): 本回复是否是有效回复，若没有得到有效回复，客户端应轮询直至获得有效回复
-- references (List[str]): 参考文件在server的存储路径。
+- references (Dict[str, int]): 参考文件在server的存储路径与文件字节数。
 - inner_chat: Optional[bool] = False
 - error (str): 错误信息，如果没有错误，则为`None`.
 

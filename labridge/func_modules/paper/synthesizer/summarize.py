@@ -2,9 +2,8 @@ import asyncio
 
 from llama_index.core.prompts.default_prompt_selectors import DEFAULT_TREE_SUMMARIZE_PROMPT_SEL
 from llama_index.core.prompts.mixin import PromptDictType
-from llama_index.core.schema import NodeWithScore
+import llama_index.core.instrumentation as instrument
 from llama_index.core.llms import LLM
-from llama_index.core.types import RESPONSE_TEXT_TYPE
 from llama_index.core.utils import get_tokenizer
 from llama_index.core import global_tokenizer
 from llama_index.core.response_synthesizers import (
@@ -12,6 +11,31 @@ from llama_index.core.response_synthesizers import (
 	ResponseMode,
 	BaseSynthesizer,
 )
+
+from typing import Any, Dict, Generator, List, Optional, Sequence, AsyncGenerator
+from llama_index.core.base.response.schema import (
+    RESPONSE_TYPE,
+    Response,
+    StreamingResponse,
+    AsyncStreamingResponse,
+)
+
+from llama_index.core.callbacks.schema import CBEventType, EventPayload
+from llama_index.core.indices.prompt_helper import PromptHelper
+from llama_index.core.prompts.mixin import PromptMixin
+from llama_index.core.schema import (
+    BaseNode,
+    MetadataMode,
+    NodeWithScore,
+    QueryBundle,
+    QueryType,
+)
+from llama_index.core.types import RESPONSE_TEXT_TYPE
+from llama_index.core.instrumentation.events.synthesis import (
+    SynthesizeStartEvent,
+    SynthesizeEndEvent,
+)
+
 
 from typing import Tuple, Sequence, Any
 
@@ -23,8 +47,19 @@ from labridge.func_modules.paper.prompt.synthesize.paper_summarize import (
 )
 
 
+dispatcher = instrument.get_dispatcher(__name__)
+
+
 SUMMARIZE_MAX_TOKENS = 10000
 SUMMARIZE_OVERLAP_CHUNK_NUM = 2
+
+
+def empty_response_generator() -> Generator[str, None, None]:
+	yield "Empty Response"
+
+
+async def empty_response_agenerator() -> AsyncGenerator[str, None]:
+	yield "Empty Response"
 
 
 class PaperBatchSummarize(BaseSynthesizer):
@@ -84,7 +119,7 @@ class PaperBatchSummarize(BaseSynthesizer):
 		return {"summary_template": self._summary_template}
 
 	def _update_prompts(self, prompts: PromptDictType) -> None:
-		"""Update prompts."""
+		""" Update prompts."""
 		if "summary_template" in prompts:
 			self._summary_template = prompts["summary_template"]
 
@@ -187,6 +222,8 @@ class PaperBatchSummarize(BaseSynthesizer):
 		batch_mode, batch_size = self._calculate_batch_size(text_chunks=text_chunks)
 
 		print("summary batch size: ", batch_size)
+		print("Total chunks: ", len(text_chunks))
+		print(text_chunks[0])
 		if not batch_mode:
 			return self.batch_get_response(
 				batch_chunks=text_chunks,
@@ -195,6 +232,8 @@ class PaperBatchSummarize(BaseSynthesizer):
 
 		summary_texts = []
 		for chunks in self.batch_chunks(text_chunks=text_chunks, batch_size=batch_size):
+
+
 			response = self.batch_get_response(
 				batch_chunks=chunks,
 				query_str=self.summary_query
@@ -245,6 +284,71 @@ class PaperBatchSummarize(BaseSynthesizer):
 			query_str=self.secondary_query,
 		)
 		return final_response
+
+	@dispatcher.span
+	def synthesize(self, query: QueryType, nodes: List[NodeWithScore],
+		additional_source_nodes: Optional[Sequence[NodeWithScore]] = None, **response_kwargs: Any, ) -> RESPONSE_TYPE:
+		dispatcher.event(SynthesizeStartEvent(query=query, ))
+
+		if len(nodes) == 0:
+			if self._streaming:
+				empty_response = StreamingResponse(response_gen=empty_response_generator())
+				dispatcher.event(SynthesizeEndEvent(query=query, response=empty_response, ))
+				return empty_response
+			else:
+				empty_response = Response("Empty Response")
+				dispatcher.event(SynthesizeEndEvent(query=query, response=empty_response, ))
+				return empty_response
+
+		if isinstance(query, str):
+			query = QueryBundle(query_str=query)
+
+		with self._callback_manager.event(CBEventType.SYNTHESIZE,
+				payload={EventPayload.QUERY_STR: query.query_str}, ) as event:
+			response_str = self.get_response(query_str=query.query_str,
+				text_chunks=[n.node.get_content(metadata_mode=MetadataMode.NONE) for n in nodes], **response_kwargs, )
+
+			additional_source_nodes = additional_source_nodes or []
+			source_nodes = list(nodes) + list(additional_source_nodes)
+
+			response = self._prepare_response_output(response_str, source_nodes)
+
+			event.on_end(payload={EventPayload.RESPONSE: response})
+
+		dispatcher.event(SynthesizeEndEvent(query=query, response=response, ))
+		return response
+
+	@dispatcher.span
+	async def asynthesize(self, query: QueryType, nodes: List[NodeWithScore],
+		additional_source_nodes: Optional[Sequence[NodeWithScore]] = None, **response_kwargs: Any, ) -> RESPONSE_TYPE:
+		dispatcher.event(SynthesizeStartEvent(query=query, ))
+		if len(nodes) == 0:
+			if self._streaming:
+				empty_response = AsyncStreamingResponse(response_gen=empty_response_agenerator())
+				dispatcher.event(SynthesizeEndEvent(query=query, response=empty_response, ))
+				return empty_response
+			else:
+				empty_response = Response("Empty Response")
+				dispatcher.event(SynthesizeEndEvent(query=query, response=empty_response, ))
+				return empty_response
+
+		if isinstance(query, str):
+			query = QueryBundle(query_str=query)
+
+		with self._callback_manager.event(CBEventType.SYNTHESIZE,
+				payload={EventPayload.QUERY_STR: query.query_str}, ) as event:
+			response_str = await self.aget_response(query_str=query.query_str,
+				text_chunks=[n.node.get_content(metadata_mode=MetadataMode.NONE) for n in nodes], **response_kwargs, )
+
+			additional_source_nodes = additional_source_nodes or []
+			source_nodes = list(nodes) + list(additional_source_nodes)
+
+			response = self._prepare_response_output(response_str, source_nodes)
+
+			event.on_end(payload={EventPayload.RESPONSE: response})
+
+		dispatcher.event(SynthesizeEndEvent(query=query, response=response, ))
+		return response
 
 
 if __name__ == "__main__":

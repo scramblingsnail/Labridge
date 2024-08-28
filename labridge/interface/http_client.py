@@ -200,8 +200,8 @@ async def download_file():
 
 
 if __name__ == "__main__":
-	# asyncio.get_event_loop().run_until_complete(chat_with_text())
+	asyncio.get_event_loop().run_until_complete(chat_with_text())
 
-	asyncio.get_event_loop().run_until_complete(chat_with_speech())
+	# asyncio.get_event_loop().run_until_complete(chat_with_speech())
 
 	# asyncio.get_event_loop().run_until_complete(download_file())

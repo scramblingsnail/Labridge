@@ -12,6 +12,7 @@ from labridge.interact.prompt.collect.modify_info.prompt_keys import ModifyPromp
 from labridge.interact.collect.manager.collect_manager import CollectManager
 from labridge.interact.prompt.collect.collect_info.common_info import COLLECT_COMMON_INFO_PROMPT
 from labridge.interact.prompt.collect.modify_info.common_info import MODIFY_COMMON_INFO_PROMPT
+from labridge.agent.chat_msg.msg_types import ChatBuffer
 
 
 COLLECT_COMMON_INFO_QUERY = (
@@ -110,7 +111,7 @@ class CommonInfoCollector:
 			query_to_user += f"\t{key}\n"
 		return query_to_user
 
-	def collect(self) -> bool:
+	def collect(self, user_id: str) -> bool:
 		r"""
 		Collect the Common information.
 
@@ -125,7 +126,8 @@ class CommonInfoCollector:
 		print(query_to_user)
 
 		# TODO: receive the message from the user.
-		user_response = input("User: ")
+		user_msg = ChatBuffer.test_get_user_text(user_id=user_id)
+		user_response = user_msg.user_msg
 		abort = self._collect_manager.analyze_whether_abort(user_response=user_response)
 		if abort:
 			return abort
@@ -144,7 +146,7 @@ class CommonInfoCollector:
 			self._common_infos.update_collected_info(collected_info_dict=new_info_dict)
 		return abort
 
-	async def acollect(self) -> bool:
+	async def acollect(self, user_id: str) -> bool:
 		r"""
 		Asynchronously collect the Common information.
 
@@ -156,10 +158,15 @@ class CommonInfoCollector:
 
 		query_to_user = self.collecting_query
 		# TODO: send the message to the user.
-		print(query_to_user)
+		ChatBuffer.put_agent_reply(
+			user_id=user_id,
+			reply_str=query_to_user,
+			inner_chat=True,
+		)
 
 		# TODO: receive the message from the user.
-		user_response = input("User: ")
+		user_msg = await ChatBuffer.get_user_msg(user_id=user_id)
+		user_response = user_msg.user_msg
 
 		abort = await self._collect_manager.async_analyze_whether_abort(user_response=user_response)
 		if abort:
@@ -179,7 +186,7 @@ class CommonInfoCollector:
 			self._common_infos.update_collected_info(collected_info_dict=new_info_dict)
 		return abort
 
-	def modify(self) -> Tuple[bool, bool]:
+	def modify(self, user_id: str) -> Tuple[bool, bool]:
 		r"""
 		Modify the collected information according to the user's comment.
 
@@ -198,7 +205,8 @@ class CommonInfoCollector:
 			# TODO: send the message to the user.
 			print(query_to_user)
 			# TODO: receive the message from the user.
-			user_response = input("User: ")
+			user_msg = ChatBuffer.test_get_user_text(user_id=user_id)
+			user_response = user_msg.user_msg
 			abort = self._collect_manager.analyze_whether_abort(user_response=user_response)
 			if abort:
 				break
@@ -210,7 +218,7 @@ class CommonInfoCollector:
 				self.single_modify(user_response=user_response)
 		return doing_modify, abort
 
-	async def amodify(self) -> Tuple[bool, bool]:
+	async def amodify(self, user_id: str) -> Tuple[bool, bool]:
 		r"""
 		Asynchronously modify the collected information according to the user's comment.
 
@@ -227,9 +235,14 @@ class CommonInfoCollector:
 		while doing_modify and not abort:
 			query_to_user = self._collect_manager.verify_query(collected_info_dict=self.collected_infos)
 			# TODO: send the message to the user.
-			print(query_to_user)
+			ChatBuffer.put_agent_reply(
+				user_id=user_id,
+				reply_str=query_to_user,
+				inner_chat=True,
+			)
 			# TODO: receive the message from the user.
-			user_response = input("User: ")
+			user_msg = await ChatBuffer.get_user_msg(user_id=user_id)
+			user_response = user_msg.user_msg
 			abort = await self._collect_manager.async_analyze_whether_abort(user_response=user_response)
 			if abort:
 				break

@@ -93,7 +93,7 @@ class LabChatAgent:
 		return agent_response
 
 	def test_chat(self, packed_msgs: PackedUserMessage) -> AgentResponse:
-		r""" Chat with agent. """
+		r""" Debug. """
 		user_id = packed_msgs.user_id
 		self.set_chatting(user_id=user_id, chatting=True)
 		packed_json = packed_msgs.dumps()

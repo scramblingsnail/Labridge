@@ -14,7 +14,7 @@ from pydantic import BaseModel
 
 
 async def chat_with_speech():
-	base_url = "http://127.0.0.1:6006"
+	base_url = "http://192.168.1.105:80"
 	user_id = "杨再正"
 
 	post_speech_router = f"/users/{user_id}/chat_speech"

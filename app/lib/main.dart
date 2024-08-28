@@ -9,9 +9,11 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:labridge/chat_agent.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // For the testing purposes, you should probably use https://pub.dev/packages/uuid.
 String randomString() {
@@ -41,8 +43,9 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) => const MaterialApp(
-        home: MyHomePage(),
+  Widget build(BuildContext context) => MaterialApp(
+        home: const MyHomePage(),
+        theme: ThemeData(textTheme: GoogleFonts.notoSansScTextTheme()),
       );
 }
 
@@ -55,6 +58,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<types.Message> _messages = [];
+
+  final chatAgent = ChatAgent('杨再正');
+
+  bool _shouldEnterInnerChat = false;
+
+  /// Create Agent
+
   final _user = const types.User(
       id: '82091008-a484-4a89-ae75-a22bf8d6f3ac',
       firstName: 'Yichen',
@@ -66,7 +76,10 @@ class _MyHomePageState extends State<MyHomePage> {
           elevation: 0,
           // backgroundColor: Colors.black,
           centerTitle: true,
-          title: const Text('Labridge', ),
+          title: const Text(
+            'Labridge',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           // titleTextStyle: const TextStyle(color: Colors.white),
         ),
         // extendBodyBehindAppBar: true,
@@ -245,15 +258,25 @@ class _MyHomePageState extends State<MyHomePage> {
 
     _addMessage(textMessage);
 
-    await Future.delayed(const Duration(seconds: 1));
+    // await Future.delayed(const Duration(seconds: 1));
+    Map<String, dynamic> response;
 
-    /// TODO: Replace this code to HTTP API
-    final debugLabridgeTextMessage = types.TextMessage(
+    if (!_shouldEnterInnerChat) {
+      chatAgent.query(message.text);
+      response = await chatAgent.singleGetResponse();
+    } else {
+      response = await chatAgent.queryAndAnswer(message.text);
+    }
+
+    _shouldEnterInnerChat = response['inner_chat'];
+    print(response['references']);
+    /// update message if inner chat
+    final labridgeTextMessage = types.TextMessage(
       author: _labridge,
       createdAt: DateTime.now().millisecondsSinceEpoch,
       id: randomString(),
-      text: message.text,
+      text: response['reply_text'].toString().trim(),
     );
-    _addMessage(debugLabridgeTextMessage);
+    _addMessage(labridgeTextMessage);
   }
 }

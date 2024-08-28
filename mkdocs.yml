@@ -5,28 +5,88 @@ copyright: Copyright &copy; 2024 A-Duiduidui Team.
 
 nav:
   - Home: index.md
-  - Overview:
-      - Introduction: overview/introduction.md
   - Function Module:
       - Papers:
-          - demonstration/papers/index.md
-          - Paper download: demonstration/papers/paper_download.md
-          - Shared papers: demonstration/papers/shared_papers.md
-          - Paper QA: demonstration/papers/papers_qa.md
+          - function_modules/paper/index.md
+          - Shared papers:
+              - function_modules/paper/shared_papers/index.md
+              - function_modules/paper/shared_papers/parse.md
+              - function_modules/paper/shared_papers/store.md
+              - function_modules/paper/shared_papers/retrieve.md
+          - Personal recent papers:
+              - function_modules/paper/temporary_papers/index.md
+              - function_modules/paper/temporary_papers/store.md
+              - function_modules/paper/temporary_papers/retrieve.md
+              - Download:
+                  - function_modules/paper/temporary_papers/download/arXiv.md
+      - Chat history:
+          - function_modules/chat_history/index.md
+          - function_modules/chat_history/short-term_history.md
+          - Long-term history:
+              - function_modules/chat_history/long-term_history/store.md
+              - function_modules/chat_history/long-term_history/retrieve.md
       - Experiment logs:
-          - demonstration/experiment_logs/index.md
-          - Record experiment logs: demonstration/experiment_logs/record_log.md
-          - Retrieve experiment logs: demonstration/experiment_logs/retrieve_log.md
+          - function_modules/experiment_log/index.md
+          - Personal experiment logs:
+              - function_modules/experiment_log/personal_experiment/index.md
+              - function_modules/experiment_log/personal_experiment/store.md
+              - function_modules/experiment_log/personal_experiment/retrieve.md
+          - Shared experiment logs:
+              - function_modules/experiment_log/shared_experiment/index.md
       - Instruments:
-          - demonstration/instruments/index.md
-          - Instrument docs: demonstration/instruments/instruments_doc.md
-          - Instrument operations: demonstration/instruments/instrument_operations.md
+          - function_modules/instrument/index.md
+          - Store: function_modules/instrument/store.md
+          - Retrieve: function_modules/instrument/retrieve.md
+      - References:
+          - function_modules/reference/index.md
+          - function_modules/reference/instrument_reference.md
+          - function_modules/reference/paper_reference.md
+  - Agent & Tools:
+      - agent_tools/prompt_framework.md
+      - Tools:
+          - agent_tools/tools/index.md
+          - Base:
+              - agent_tools/tools/base/tool_base.md
+              - agent_tools/tools/base/tool_log.md
+          - Chat history:
+              - agent_tools/tools/chat_history/chat_memory_retrieve_tool.md
+          - Experiment log:
+              - agent_tools/tools/experiment_log/create_new_experiment_log.md
+              - agent_tools/tools/experiment_log/experiment_log_retrieve_tool.md
+              - agent_tools/tools/experiment_log/record_experiment_log_tool.md
+              - agent_tools/tools/experiment_log/set_current_experiment_tool.md
+          - Interact:
+              - agent_tools/tools/interact/collect_and_authorize_tool.md
+          - Shared papers:
+              - agent_tools/tools/shared_papers/shared_paper_retrieve_tool.md
+          - Temporary papers:
+              - agent_tools/tools/temporary_papers/add_new_recent_paper_tool.md
+              - agent_tools/tools/temporary_papers/arxiv_search_download_tool.md
+              - agent_tools/tools/temporary_papers/recent_paper_retrieve_tool.md
+              - agent_tools/tools/temporary_papers/recent_paper_summarize_tool.md
+  - Deployment:
+      - deployment/index.md
+      - deployment/software.md
+      - deployment/hardware.md
   - User Interface:
       - interface/index.md
+      - Server-Client: interface/server-client.md
       - Android APP: interface/android_app.md
       - Web UI: interface/web_ui.md
+  - Demonstration:
+      - demonstration/index.md
+      - Experiment logs:
+          - demonstration/experiment_log/record_log.md
+          - demonstration/experiment_log/retrieve_log.md
+      - Instrument:
+          - demonstration/instrument/instrument_docs.md
+          - demonstration/instrument/instrument_operations.md
+      - Paper:
+          - demonstration/paper/paper_download.md
+          - demonstration/paper/recent_papers_qa.md
+          - demonstration/paper/shared_papers.md
   - Code Docs:
-      - code_docs/index.md
+#      - code_docs/index.md
       - Accounts:
           - code_docs/accounts/super_users.md
           - code_docs/accounts/users.md
@@ -47,7 +107,7 @@ nav:
               - code_docs/callback/experiment_log/new_experiment.md
               - code_docs/callback/experiment_log/set_current_experiment.md
           - Paper:
-              - code_docs/callback/paper/add_paper.md
+              - code_docs/callback/paper/add_recent_paper.md
               - code_docs/callback/paper/paper_download.md
               - code_docs/callback/paper/paper_summarize.md
       - Common:
@@ -252,6 +312,12 @@ plugins:
             show_submodules: false
             # Docstrings
             docstring_section_style: spacy
+  - with-pdf:
+      verbose: True
+      author: zhisan
+      copyright: A-Duiduiduidui Team
+
+
   - i18n:
       docs_structure: folder
       fallback_to_default: true
@@ -264,15 +330,9 @@ plugins:
           name: 中文
           nav_translations:
             Home: 主页
-            Overview: 项目概览
             Function Module: 功能模块
             User Interface: 用户界面
             Code Docs: 源码文档
-#            Tutorials: 教程
-#            Supported Models: 模型列表
-#            Notes: 说明
-#            How-To Contribute: 代码贡献
-#            API Reference: API文档
-#            Change Log: 更新日志
-#            Code of Conduct: 行为准则
-#            FAQ: 常见问题
+            Agent & Tools: Agent与可用工具
+            Deployment: 项目部署
+            Demonstration: 应用展示

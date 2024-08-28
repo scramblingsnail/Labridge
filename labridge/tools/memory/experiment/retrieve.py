@@ -113,7 +113,7 @@ class ExperimentLogRetrieveTool(RetrieverBaseTool):
 
 if __name__ == "__main__":
 	import asyncio
-	from labridge.llm.models import get_models
+	from labridge.models.utils import get_models
 	from labridge.tools.utils import unpack_tool_output
 
 	llm, embed_model = get_models()

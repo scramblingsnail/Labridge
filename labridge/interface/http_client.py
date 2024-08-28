@@ -14,7 +14,7 @@ from pydantic import BaseModel
 
 
 async def chat_with_speech():
-	base_url = "http://127.0.0.1:6006"
+	base_url = "http://192.168.1.105:80"
 	user_id = "杨再正"
 
 	post_speech_router = f"/users/{user_id}/chat_speech"
@@ -200,8 +200,8 @@ async def download_file():
 
 
 if __name__ == "__main__":
-	# asyncio.get_event_loop().run_until_complete(chat_with_text())
+	asyncio.get_event_loop().run_until_complete(chat_with_text())
 
-	asyncio.get_event_loop().run_until_complete(chat_with_speech())
+	# asyncio.get_event_loop().run_until_complete(chat_with_speech())
 
 	# asyncio.get_event_loop().run_until_complete(download_file())

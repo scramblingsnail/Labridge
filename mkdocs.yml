@@ -312,10 +312,10 @@ plugins:
             show_submodules: false
             # Docstrings
             docstring_section_style: spacy
-  - with-pdf:
-      verbose: True
-      author: zhisan
-      copyright: A-Duiduiduidui Team
+#  - with-pdf:
+#      verbose: True
+#      author: zhisan
+#      copyright: A-Duiduiduidui Team
 
 
   - i18n:

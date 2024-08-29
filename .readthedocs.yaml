@@ -17,3 +17,6 @@ mkdocs:
 python:
    install:
    - requirements: requirements/docs_requirements.txt
+
+formats:
+  - pdf

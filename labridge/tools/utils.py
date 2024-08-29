@@ -1,6 +1,7 @@
 import json
 
 from inspect import signature
+from llama_index.core.tools.types import ToolOutput
 from llama_index.core.bridge.pydantic import (
 	BaseModel,
 	FieldInfo,
@@ -51,6 +52,30 @@ def pack_tool_output(tool_output: str, tool_log: str = None) -> str:
 	}
 	tool_out_str = json.dumps(tool_out_dict)
 	return tool_out_str
+
+
+def whether_abort_tool(tool_output: ToolOutput) -> Optional[bool]:
+	r"""
+	Whether a tool is aborted during execution.
+
+	Args:
+		tool_output (ToolOutput): The tool output of a tool.
+
+	Returns:
+		Optional[bool]:
+
+			- If the tool's execution is aborted, return True.
+			- If the tool's execution is performed normally, return False.
+			- If error raises in this function, return None.
+
+	"""
+	try:
+		_, create_log_str = unpack_tool_output(tool_output.content)
+		create_log = ToolLog.loads(log_str=create_log_str)
+		# if the user abort in the creation pipeline
+		return create_log.tool_abort
+	except ValueError:
+		return None
 
 
 def unpack_tool_output(tool_out_json: str) -> Tuple[str, Optional[str]]:

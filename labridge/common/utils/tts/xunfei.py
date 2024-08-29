@@ -1,19 +1,3 @@
-# -*- coding:utf-8 -*-
-#
-#   author: iflytek
-#
-#  本demo测试时运行的环境为：Windows + Python3.7
-#  本demo测试成功运行时所安装的第三方库及其版本如下：
-#   cffi==1.12.3
-#   gevent==1.4.0
-#   greenlet==0.4.15
-#   pycparser==2.19
-#   six==1.12.0
-#   websocket==0.2.1
-#   websocket-client==0.56.0
-#   合成小语种需要传输小语种文本、使用小语种发音人vcn、tte=unicode以及修改文本编码方式
-#  错误码链接：https://www.xfyun.cn/document/error-code （code返回错误码时必看）
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 import websocket
 import datetime
 import hashlib
@@ -167,12 +151,12 @@ class _TTSWorker(websocket.WebSocketApp):
 websocket.enableTrace(False)
 TTSWorker = _TTSWorker()
 
-text = (
-    "你好，我的名字是杨再正，我毕业于南京大学，研究方向为基于存算一体器件的机器学习系统。具备的知识技能包括: 熟悉python、C++编程,"
-    "熟悉各类主流深度学习算法，熟悉AI编译器前后端，熟悉各类存算一体架构。我希望能够加入贵公司，为新时代的到来拉开帷幕。下方是我的简历，"
-    "以及我的个人网站链接，您可以访问我的个人网站获取有关于我的更详细的信息。"
-)
-TTSWorker.transform(
-    text=text,
-    speech_path="/root/zhisan/Labridge/labridge/interface/query_1.pcm",
-)
+# text = (
+#     "你好，我的名字是杨再正，我毕业于南京大学，研究方向为基于存算一体器件的机器学习系统。具备的知识技能包括: 熟悉python、C++编程,"
+#     "熟悉各类主流深度学习算法，熟悉AI编译器前后端，熟悉各类存算一体架构。我希望能够加入贵公司，为新时代的到来拉开帷幕。下方是我的简历，"
+#     "以及我的个人网站链接，您可以访问我的个人网站获取有关于我的更详细的信息。"
+# )
+# TTSWorker.transform(
+#     text=text,
+#     speech_path="/root/zhisan/Labridge/labridge/interface/query_1.pcm",
+# )

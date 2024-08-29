@@ -53,7 +53,8 @@ class ArxivDownloadOperation(CallBackOperationBase):
 		self,
 		llm: LLM = None,
 		embed_model: BaseEmbedding = None,
-		verbose: bool = False
+		verbose: bool = False,
+		op_name: str = None,
 	):
 		root = Path(__file__)
 
@@ -62,13 +63,13 @@ class ArxivDownloadOperation(CallBackOperationBase):
 
 		self.root = root
 		self._fs = fsspec.filesystem("file")
-		self.op_name = ArxivDownloadOperation.__name__
 		embed_model = embed_model or Settings.embed_model
 		llm = llm or Settings.llm
 		super().__init__(
 			llm=llm,
 			embed_model=embed_model,
 			verbose=verbose,
+			op_name=op_name or ArxivDownloadOperation.__name__,
 		)
 
 	def _get_default_path(self, user_id: str, title: str) -> Tuple[str, str]:

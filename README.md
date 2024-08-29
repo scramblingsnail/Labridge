@@ -7,3 +7,7 @@
 `node=v18.12.0`
 
 [requirements](./requirements.txt)
+
+
+**项目文档**
+https://labridge.readthedocs.io/zh-cn/latest/agent_tools/prompt_framework/

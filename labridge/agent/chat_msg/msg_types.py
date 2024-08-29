@@ -354,7 +354,7 @@ class ChatMsgBuffer(object):
 		self.account_manager.check_valid_user(user_id=user_id)
 		self.user_msg_buffer[user_id].append(user_msg)
 
-	async def get_user_msg(self, user_id: str, timeout: int = 30) -> Optional[PackedUserMessage]:
+	async def get_user_msg(self, user_id: str, timeout: int = 60) -> Optional[PackedUserMessage]:
 		r"""
 		Wait until a user's messages are put into the buffer, and get them.
 
@@ -378,7 +378,8 @@ class ChatMsgBuffer(object):
 		if len(msgs) > 0:
 			packed_msgs = self.user_msg_formatter.formatted_msgs(msgs=msgs)
 			return packed_msgs
-		return None
+
+		raise ValueError(f"The user {user_id} does not reply, end this conversation.")
 
 	def test_get_user_text(self, user_id: str) -> PackedUserMessage:
 		r""" For debug. """

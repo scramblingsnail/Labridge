@@ -1,7 +1,7 @@
 from llama_index.core.llms import LLM
 
 from llama_index.core.indices.utils import default_parse_choice_select_answer_fn
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Optional
 
 from labridge.interact.collect.types.info_base import CollectingInfoBase
 from labridge.interact.collect.types.select_info import CollectingSelectInfo
@@ -58,7 +58,12 @@ class SelectInfoCollector:
 				select_infos.append(info)
 		return select_infos
 
-	def collect_single_info(self, info: CollectingSelectInfo, user_id: str) -> bool:
+	def collect_single_info(
+		self,
+		info: CollectingSelectInfo,
+		user_id: str,
+		query_str: Optional[str] = None,
+	) -> bool:
 		r"""
 		Collect a SelectInfo from the user.
 
@@ -70,7 +75,11 @@ class SelectInfoCollector:
 			bool: Whether the user aborts the collecting process.
 		"""
 		# TODO: send to user:
-		print("Assistant: ", self.collecting_query(info=info))
+		query_to_user = self.collecting_query(info=info)
+		if query_str:
+			query_to_user = "\n".join([query_str, query_to_user])
+
+		print("Assistant: ", query_to_user)
 
 		# TODO: receive from user.
 		user_msg = ChatBuffer.test_get_user_text(user_id=user_id)
@@ -106,18 +115,27 @@ class SelectInfoCollector:
 			)
 		return abort
 
-	async def acollect_single_info(self, info: CollectingSelectInfo, user_id: str) -> bool:
+	async def acollect_single_info(
+		self,
+		info: CollectingSelectInfo,
+		user_id: str,
+		query_str: Optional[str] = None,
+	) -> bool:
 		r"""
 		Asynchronously collect a SelectInfo from the user.
 
 		Args:
 			info (CollectingSelectInfo): The info waiting for the user's selection.
+			user_id (str): The user id of a Lab member.
 
 		Returns:
 			bool: Whether the user aborts the collecting process.
 		"""
 		# TODO: send to user:
 		query_to_user = self.collecting_query(info=info)
+		if query_str:
+			query_to_user = "\n".join([query_str, query_to_user])
+
 		ChatBuffer.put_agent_reply(
 			user_id=user_id,
 			reply_str=query_to_user,
@@ -158,7 +176,11 @@ class SelectInfoCollector:
 			)
 		return abort
 
-	def collect(self, user_id: str) -> bool:
+	def collect(
+		self,
+		user_id: str,
+		query_str: Optional[str] = None,
+	) -> bool:
 		r"""
 		Collect all SelectInfo.
 
@@ -166,12 +188,16 @@ class SelectInfoCollector:
 			bool: Whether the user aborts the collecting process.
 		"""
 		for info in self._select_infos:
-			abort = self.collect_single_info(info=info, user_id=user_id)
+			abort = self.collect_single_info(info=info, user_id=user_id, query_str=query_str)
 			if abort:
 				return True
 		return False
 
-	async def acollect(self, user_id: str) -> bool:
+	async def acollect(
+		self,
+		user_id: str,
+		query_str: Optional[str] = None,
+	) -> bool:
 		r"""
 		Asynchronously collect all SelectInfo.
 
@@ -179,7 +205,7 @@ class SelectInfoCollector:
 			bool: Whether the user aborts the collecting process.
 		"""
 		for info in self._select_infos:
-			abort = await self.acollect_single_info(info=info, user_id=user_id)
+			abort = await self.acollect_single_info(info=info, user_id=user_id, query_str=query_str)
 			if abort:
 				return True
 		return False
@@ -194,6 +220,8 @@ class SelectInfoCollector:
 		Returns:
 			The query.
 		"""
+		if info is None:
+			return ""
 		query_to_user = f"{COLLECT_SELECT_INFO_QUERY}\n"
 		for key in info.collecting_keys:
 			query_to_user += f"\t{key}\n"

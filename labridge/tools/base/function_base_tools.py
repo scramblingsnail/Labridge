@@ -83,6 +83,7 @@ class FunctionBaseTool(CheckBaseTool):
 		""" Call, return output and log. """
 		checked_kwargs = self._get_input(**kwargs)
 		output_with_log = self._fn(**checked_kwargs)
+
 		if not isinstance(output_with_log, FuncOutputWithLog):
 			raise ValueError("The function of a function tool must output 'FuncOutputWithLog'.")
 
@@ -96,6 +97,7 @@ class FunctionBaseTool(CheckBaseTool):
 		checked_kwargs.update(fn_log)
 		tool_log = self.log(**checked_kwargs)
 		tool_output = pack_tool_output(tool_output=fn_output, tool_log=tool_log.dumps())
+
 		return ToolOutput(
 			content=str(tool_output),
 			tool_name=self.metadata.name,

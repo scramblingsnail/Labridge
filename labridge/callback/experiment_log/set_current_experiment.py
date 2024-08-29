@@ -43,16 +43,17 @@ class SetCurrentExperimentOperation(CallBackOperationBase):
 		self,
 		llm: LLM = None,
 		embed_model: BaseEmbedding = None,
-		verbose: bool = False
+		verbose: bool = False,
+		op_name: str = None,
 	):
 
 		llm = llm or Settings.llm
 		embed_model = embed_model or Settings.embed_model
-		self.op_name = SetCurrentExperimentOperation.__name__
 		super().__init__(
 			llm=llm,
 			embed_model=embed_model,
-			verbose=verbose
+			verbose=verbose,
+			op_name=op_name or SetCurrentExperimentOperation.__name__,
 		)
 
 	def operation_description(self, **kwargs) -> str:

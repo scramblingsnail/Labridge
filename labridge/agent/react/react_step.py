@@ -256,6 +256,7 @@ class InstructReActAgentWorker(ReActAgentWorker):
 		reasoning_steps, is_done = self._process_actions(task, tools, output=chat_response)
 		task.extra_state["current_reasoning"].extend(reasoning_steps)
 		agent_response = self._get_response(task.extra_state["current_reasoning"], task.extra_state["sources"])
+
 		if is_done:
 			date, h_m_s = get_time()
 			additional_kwargs = {

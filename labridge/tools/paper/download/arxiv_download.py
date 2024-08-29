@@ -87,7 +87,8 @@ class ArXivSearchDownloadTool(CallBackBaseTool):
 		# TODO: Send the query str to the user.
 		print(query_str)
 		# TODO receive the message from the user.
-		user_response = input("User: ")
+		user_msg = ChatBuffer.test_get_user_text(user_id=user_id)
+		user_response = user_msg.user_msg
 		if user_response is None:
 			raise RuntimeError("The User does not reply.")
 

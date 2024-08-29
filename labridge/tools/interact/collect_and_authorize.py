@@ -109,6 +109,7 @@ class CollectAndAuthorizeTool(CallBackBaseTool):
 			tool_name=self.metadata.name,
 			log_to_user=log_to_user,
 			log_to_system=log_to_system,
+			tool_abort=op_log.operation_abort,
 		)
 		return tool_log
 
@@ -150,12 +151,13 @@ class CollectAndAuthorizeTool(CallBackBaseTool):
 				log_to_system={
 					OP_DESCRIPTION: operation_log_str,
 					OP_REFERENCES: None,
-				}
+				},
+				operation_abort=True,
 			)
 			log_dict = {"operation_log": operation_log}
 
 			return FuncOutputWithLog(
-				fn_output=f"The user {user_id} disagree with the operation {op_name}",
+				fn_output=f"The user {user_id} abort the collecting process in the operation {op_name}",
 				fn_log=log_dict,
 			)
 
@@ -219,11 +221,12 @@ class CollectAndAuthorizeTool(CallBackBaseTool):
 				log_to_system={
 					OP_DESCRIPTION: operation_log_str,
 					OP_REFERENCES: None,
-				}
+				},
+				operation_abort=True,
 			)
 			log_dict = {"operation_log": operation_log}
 			return FuncOutputWithLog(
-				fn_output=f"The user {user_id} disagree with the operation {op_name}",
+				fn_output=f"The user {user_id} abort the collecting process in the operation {op_name}",
 				fn_log=log_dict,
 			)
 
@@ -239,6 +242,7 @@ class CollectAndAuthorizeTool(CallBackBaseTool):
 			embed_model=self._embed_model,
 			verbose=self._verbose,
 		)
+		print("Here: after refuse: ", operation_log)
 		log_dict = {"operation_log": operation_log}
 		fn_output = f"Have done the operation {op_name} with the agreement of the user {user_id}."
 		if operation_log.operation_output is not None:

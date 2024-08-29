@@ -32,12 +32,14 @@ class OperationOutputLog(object):
 		operation_name: str,
 		operation_output: Optional[str],
 		log_to_user: Optional[str],
-		log_to_system: Dict[str, Union[str, Optional[List[str]]]]
+		log_to_system: Dict[str, Union[str, Optional[List[str]]]],
+		operation_abort: Optional[bool] = False,
 
 	):
 		self.operation_name = operation_name
 		self.operation_output = operation_output
 		self.log_to_user = log_to_user
+		self.operation_abort = operation_abort
 
 		for key in LOG_TO_SYSTEM_KEYS:
 			if key not in log_to_system.keys():
@@ -56,6 +58,7 @@ class OperationOutputLog(object):
 		op_description: str,
 		op_references: Optional[List[str]] = None,
 		log_to_user: Optional[str] = None,
+		operation_abort: Optional[bool] = False,
 	):
 		return cls(
 			operation_name=operation_name,
@@ -64,7 +67,8 @@ class OperationOutputLog(object):
 			log_to_system={
 				OP_DESCRIPTION: op_description,
 				OP_REFERENCES: op_references,
-			}
+			},
+			operation_abort = operation_abort,
 		)
 
 	def dumps(self) -> str:
@@ -74,6 +78,7 @@ class OperationOutputLog(object):
 			"operation_output": self.operation_output,
 			"log_to_user": self.log_to_user,
 			"log_to_system": self.log_to_system,
+			"operation_abort": self.operation_abort
 		}
 		return json.dumps(output_logs)
 
@@ -89,11 +94,13 @@ class OperationOutputLog(object):
 			operation_output = output_logs["operation_output"]
 			log_to_user = output_logs["log_to_user"]
 			log_to_system = output_logs["log_to_system"]
+			operation_abort = output_logs["operation_abort"]
 			return cls(
 				operation_name=operation_name,
 				operation_output=operation_output,
 				log_to_user=log_to_user,
 				log_to_system=log_to_system,
+				operation_abort=operation_abort,
 			)
 		except Exception:
 			raise ValueError("Invalid operation log string.")

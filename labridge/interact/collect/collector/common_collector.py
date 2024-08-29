@@ -111,7 +111,11 @@ class CommonInfoCollector:
 			query_to_user += f"\t{key}\n"
 		return query_to_user
 
-	def collect(self, user_id: str) -> bool:
+	def collect(
+		self,
+		user_id: str,
+		query_str: Optional[str] = None,
+	) -> bool:
 		r"""
 		Collect the Common information.
 
@@ -122,6 +126,9 @@ class CommonInfoCollector:
 			return False
 
 		query_to_user = self.collecting_query
+		if query_str:
+			query_to_user = "\n".join([query_str, query_to_user])
+
 		# TODO: send the message to the user.
 		print(query_to_user)
 
@@ -146,7 +153,11 @@ class CommonInfoCollector:
 			self._common_infos.update_collected_info(collected_info_dict=new_info_dict)
 		return abort
 
-	async def acollect(self, user_id: str) -> bool:
+	async def acollect(
+		self,
+		user_id: str,
+		query_str: Optional[str] = None,
+	) -> bool:
 		r"""
 		Asynchronously collect the Common information.
 
@@ -157,6 +168,9 @@ class CommonInfoCollector:
 			return False
 
 		query_to_user = self.collecting_query
+		if query_str:
+			query_to_user = "\n".join([query_str, query_to_user])
+
 		# TODO: send the message to the user.
 		ChatBuffer.put_agent_reply(
 			user_id=user_id,
@@ -166,6 +180,10 @@ class CommonInfoCollector:
 
 		# TODO: receive the message from the user.
 		user_msg = await ChatBuffer.get_user_msg(user_id=user_id)
+
+
+
+
 		user_response = user_msg.user_msg
 
 		abort = await self._collect_manager.async_analyze_whether_abort(user_response=user_response)

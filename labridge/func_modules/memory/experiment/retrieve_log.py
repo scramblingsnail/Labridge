@@ -8,6 +8,7 @@ from llama_index.core.vector_stores.types import MetadataFilters
 
 from typing import List, Any
 
+from labridge.func_modules.memory.experiment.experiment_log import ExperimentLog
 from labridge.func_modules.memory.base import LogBaseRetriever
 
 
@@ -170,7 +171,6 @@ class ExperimentLogRetriever(LogBaseRetriever):
 				embed_model=self.embed_model,
 			)
 			self.memory_vector_retriever = self.get_memory_vector_retriever()
-
 		self.reset_vector_retriever()
 
 		if experiment_name is None or not self.memory.is_expr_exist(experiment_name):
@@ -203,7 +203,6 @@ class ExperimentLogRetriever(LogBaseRetriever):
 if __name__ == "__main__":
 	# TODO: to be validated.
 	import time
-	from labridge.func_modules.memory.experiment.experiment_log import ExperimentLog
 	from labridge.models.utils import get_models
 	from llama_index.core.schema import MetadataMode
 

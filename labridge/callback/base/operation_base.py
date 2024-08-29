@@ -19,8 +19,10 @@ class CallBackOperationBase(object):
 		self,
 		llm: LLM,
 		embed_model: BaseEmbedding,
-		verbose: bool = False
+		op_name: str,
+		verbose: bool = False,
 	):
+		self.op_name = op_name
 		self._llm = llm
 		self._embed_model = embed_model
 		self._verbose = verbose

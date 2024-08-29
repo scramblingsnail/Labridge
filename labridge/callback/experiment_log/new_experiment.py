@@ -41,14 +41,15 @@ class CreateNewExperimentLogOperation(CallBackOperationBase):
 		llm: LLM = None,
 		embed_model: BaseEmbedding = None,
 		verbose: bool = False,
+		op_name: str = None,
 	):
 		embed_model = embed_model or Settings.embed_model
-		self.op_name = CreateNewExperimentLogOperation.__name__
 		llm = llm or Settings.llm
 		super().__init__(
 			llm=llm,
 			embed_model=embed_model,
 			verbose=verbose,
+			op_name=op_name or CreateNewExperimentLogOperation.__name__,
 		)
 
 	def operation_description(self, **kwargs) -> str:

@@ -33,7 +33,7 @@ def collect_info_from_user(
 			If the user aborts the collecting, return None.
 	"""
 	# # TODO: Send query_str to User
-	# print(f"Assistant: {query_str}")
+	print(f"Assistant: {query_str}")
 	llm = llm or Settings.llm
 
 	# for info in required_infos:
@@ -49,15 +49,20 @@ def collect_info_from_user(
 	)
 
 	abort = False
+	header_sent = False
 
 	while not abort and not select_info_collector.collected:
-		abort = select_info_collector.collect(user_id=user_id)
+		query = query_str if not header_sent else None
+		abort = select_info_collector.collect(user_id=user_id, query_str=query)
+		header_sent = True
 	select_modify = True
 	while not abort and select_modify:
 		select_modify, abort = select_info_collector.modify(user_id=user_id)
 
 	while not abort and not common_info_collector.collected:
-		abort = common_info_collector.collect(user_id=user_id)
+		query = query_str if not header_sent else None
+		abort = common_info_collector.collect(user_id=user_id, query_str=query)
+		header_sent = True
 	common_modify = True
 	while not abort and common_modify:
 		common_modify, abort = common_info_collector.modify(user_id=user_id)
@@ -113,15 +118,20 @@ async def acollect_info_from_user(
 	)
 
 	abort = False
+	header_sent = False
 
 	while not abort and not select_info_collector.collected:
-		abort = await select_info_collector.acollect(user_id=user_id)
+		query = query_str if not header_sent else None
+		abort = await select_info_collector.acollect(user_id=user_id, query_str=query)
+		header_sent = True
 	select_modify = True
 	while not abort and select_modify:
 		select_modify, abort = await select_info_collector.amodify(user_id=user_id)
 
 	while not abort and not common_info_collector.collected:
-		abort = await common_info_collector.acollect(user_id=user_id)
+		query = query_str if not header_sent else None
+		abort = await common_info_collector.acollect(user_id=user_id, query_str=query)
+		header_sent = True
 	common_modify = True
 	while not abort and common_modify:
 		common_modify, abort = await common_info_collector.amodify(user_id=user_id)

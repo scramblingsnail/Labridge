@@ -93,6 +93,7 @@ def operation_authorize(
 		llm=llm,
 		embed_model=embed_model,
 		verbose=verbose,
+		op_name=op_name,
 	)
 
 	kwargs = json.loads(kwargs_str)
@@ -148,6 +149,7 @@ def operation_authorize(
 				OP_DESCRIPTION: callback_log_str,
 				OP_REFERENCES: None,
 			},
+			operation_abort=True,
 		)
 
 
@@ -192,6 +194,7 @@ async def aoperation_authorize(
 		llm=llm,
 		embed_model=embed_model,
 		verbose=verbose,
+		op_name=op_name,
 	)
 	kwargs = json.loads(kwargs_str)
 	op_description = operation.operation_description(**kwargs)
@@ -212,6 +215,9 @@ async def aoperation_authorize(
 
 	# TODO: wait for the user response.
 	user_msg: PackedUserMessage = await ChatBuffer.get_user_msg(user_id=user_id)
+	if user_msg is None:
+		raise ValueError("Invalid user msg.")
+
 	user_response = user_msg.user_msg
 
 	agree = False
@@ -245,4 +251,5 @@ async def aoperation_authorize(
 				OP_DESCRIPTION: callback_log_str,
 				OP_REFERENCES: None,
 			},
+			operation_abort=True,
 		)

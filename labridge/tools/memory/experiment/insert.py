@@ -3,6 +3,7 @@ from llama_index.core import Settings
 from llama_index.core.embeddings import BaseEmbedding
 
 from labridge.tools.base.function_base_tools import FunctionBaseTool, FuncOutputWithLog
+from labridge.tools.utils import unpack_tool_output, whether_abort_tool
 from labridge.tools.interact.collect_and_authorize import CollectAndAuthorizeTool
 from labridge.tools.base.tool_log import ToolLog, TOOL_OP_DESCRIPTION, TOOL_REFERENCES
 from labridge.func_modules.memory.experiment.experiment_log import ExperimentLog
@@ -135,10 +136,17 @@ class CreateNewExperimentLogTool(CollectAndAuthorizeTool):
 		Returns:
 			The tool's output and log.
 		"""
-		return await self.acollect_and_authorize(
+		output = await self.acollect_and_authorize(
 			user_id=user_id,
 			query_str=COLLECT_NEW_EXPERIMENT_INFO_QUERY,
 		)
+		print("Here: ", output.fn_output)
+		print("Here: ", output.fn_log)
+		return output
+		# return await self.acollect_and_authorize(
+		# 	user_id=user_id,
+		# 	query_str=COLLECT_NEW_EXPERIMENT_INFO_QUERY,
+		# )
 
 
 class SetCurrentExperimentTool(CollectAndAuthorizeTool):
@@ -238,7 +246,26 @@ class SetCurrentExperimentTool(CollectAndAuthorizeTool):
 				llm=self._llm,
 				embed_model=self._embed_model,
 			)
-			create_tool.call(user_id=user_id)
+			create_output = create_tool.call(user_id=user_id)
+
+			abort = whether_abort_tool(tool_output=create_output)
+			if abort is None or abort:
+				status = (
+					f"The user does not want to continue, and abort the set experiment operation."
+					f"This conversation should be ended."
+				)
+				if abort is None:
+					status = f"The tool output of the CreateNewExperimentLogTool is invalid."
+				fn_log = OperationOutputLog.construct(
+					operation_name=create_tool.metadata.name,
+					operation_output=status,
+					op_description=status,
+					operation_abort=True,
+				)
+				return FuncOutputWithLog(
+					fn_output=status,
+					fn_log={"operation_log": fn_log},
+				)
 
 		query_str = SET_CURRENT_EXPERIMENT_MSG
 		output_log = self.collect_and_authorize(
@@ -269,7 +296,25 @@ class SetCurrentExperimentTool(CollectAndAuthorizeTool):
 				llm=self._llm,
 				embed_model=self._embed_model,
 			)
-			await create_tool.acall(user_id=user_id)
+			create_output = await create_tool.acall(user_id=user_id)
+			abort = whether_abort_tool(tool_output=create_output)
+			if abort is None or abort:
+				status = (
+					f"The user does not want to continue, and abort the set experiment operation."
+					f"This conversation should be ended."
+				)
+				if abort is None:
+					status = f"The tool output of the CreateNewExperimentLogTool is invalid."
+				fn_log = OperationOutputLog.construct(
+					operation_name=create_tool.metadata.name,
+					operation_output=status,
+					op_description=status,
+					operation_abort=True,
+				)
+				return FuncOutputWithLog(
+					fn_output=status,
+					fn_log={"operation_log": fn_log},
+				)
 
 		query_str = SET_CURRENT_EXPERIMENT_MSG
 		output_log = await self.acollect_and_authorize(
@@ -319,11 +364,11 @@ class RecordExperimentLogTool(FunctionBaseTool):
 		Returns:
 
 		"""
-		op_log: str = kwargs["operation_log"]
+		op_log: OperationOutputLog = kwargs["operation_log"]
 
 		return ToolLog.construct(
 			tool_name=self.metadata.name,
-			tool_op_description=op_log,
+			tool_op_description=op_log.log_to_system[OP_DESCRIPTION],
 		)
 
 	def record_log(
@@ -356,7 +401,25 @@ class RecordExperimentLogTool(FunctionBaseTool):
 				llm=self._llm,
 				embed_model=self._embed_model,
 			)
-			create_tool.call(user_id=user_id)
+			create_output = create_tool.call(user_id=user_id)
+			abort = whether_abort_tool(tool_output=create_output)
+			if abort is None or abort:
+				status = (
+					f"The user does not want to continue, and abort the create experiment operation."
+					f"This conversation should be ended."
+				)
+				if abort is None:
+					status = f"The tool output of the CreateNewExperimentLogTool is invalid."
+
+				op_log = OperationOutputLog.construct(
+					operation_name=create_tool.metadata.name,
+					op_description=status,
+					operation_output=status,
+				)
+				return FuncOutputWithLog(
+					fn_output=status,
+					fn_log={"operation_log": op_log}
+				)
 
 		# If current experiment in progress is not valid.
 		recent_expr = expr_log_store.get_recent_experiment()
@@ -365,7 +428,26 @@ class RecordExperimentLogTool(FunctionBaseTool):
 				llm=self._llm,
 				embed_model=self._embed_model,
 			)
-			set_tool.call(user_id=user_id)
+
+			set_output = set_tool.call(user_id=user_id)
+			abort = whether_abort_tool(tool_output=set_output)
+			if abort is None or abort:
+				status = (
+					f"The user does not want to continue, and abort the set experiment operation."
+					f"This conversation should be ended."
+				)
+				if abort is None:
+					status = f"The tool output of the SetCurrentExperimentTool is invalid."
+
+				op_log = OperationOutputLog.construct(
+					operation_name=set_tool.metadata.name,
+					op_description=status,
+					operation_output=status,
+				)
+				return FuncOutputWithLog(
+					fn_output=status,
+					fn_log={"operation_log": op_log},
+				)
 
 			# reload
 			expr_log_store = ExperimentLog.from_user_id(
@@ -379,13 +461,20 @@ class RecordExperimentLogTool(FunctionBaseTool):
 			log_str=log_str,
 		)
 		expr_log_store.persist()
+
+
 		op_log_str = (
 			f"Have put a new experiment log into the experiment log store of the user: {user_id}.\n" 
 			f"Experiment name: {recent_expr}\n"
 		)
+		op_log = OperationOutputLog.construct(
+			operation_name=self.metadata.name,
+			op_description=op_log_str,
+			operation_output=op_log_str,
+		)
 		return FuncOutputWithLog(
 			fn_output=f"Have record the log {log_str}",
-			fn_log={"operation_log": op_log_str}
+			fn_log={"operation_log": op_log}
 		)
 
 	async def arecord_log(
@@ -418,7 +507,24 @@ class RecordExperimentLogTool(FunctionBaseTool):
 				llm=self._llm,
 				embed_model=self._embed_model,
 			)
-			await create_tool.acall(user_id=user_id)
+			create_output = await create_tool.acall(user_id=user_id)
+
+			abort = whether_abort_tool(tool_output=create_output)
+			if abort is None or abort:
+				status = f"The user does not want to continue, and abort the create experiment operation."
+				if abort is None:
+					status = f"The tool output of the CreateNewExperimentLogTool is invalid."
+
+				op_log = OperationOutputLog.construct(
+					operation_name=create_tool.metadata.name,
+					op_description=status,
+					operation_output=status,
+				)
+				return FuncOutputWithLog(
+					fn_output=status,
+					fn_log={"operation_log": op_log}
+				)
+
 
 		# If current experiment in progress is not valid.
 		recent_expr = expr_log_store.get_recent_experiment()
@@ -427,7 +533,23 @@ class RecordExperimentLogTool(FunctionBaseTool):
 				llm=self._llm,
 				embed_model=self._embed_model,
 			)
-			await set_tool.acall(user_id=user_id)
+			set_output = await set_tool.acall(user_id=user_id)
+
+			abort = whether_abort_tool(tool_output=set_output)
+			if abort is None or abort:
+				status = f"The user does not want to continue, and abort the set experiment operation."
+				if abort is None:
+					status = f"The tool output of the SetCurrentExperimentTool is invalid."
+
+				op_log = OperationOutputLog.construct(
+					operation_name=set_tool.metadata.name,
+					op_description=status,
+					operation_output=status,
+				)
+				return FuncOutputWithLog(
+					fn_output=status,
+					fn_log={"operation_log": op_log},
+				)
 
 			# reload
 			expr_log_store = ExperimentLog.from_user_id(
@@ -441,13 +563,19 @@ class RecordExperimentLogTool(FunctionBaseTool):
 			log_str=log_str,
 		)
 		expr_log_store.persist()
+
 		op_log_str = (
-			f"Have put a new experiment log into the experiment log store of the user: {user_id}.\n" 
+			f"Have put a new experiment log into the experiment log store of the user: {user_id}.\n"
 			f"Experiment name: {recent_expr}\n"
+		)
+		op_log = OperationOutputLog.construct(
+			operation_name=self.metadata.name,
+			op_description=op_log_str,
+			operation_output=op_log_str,
 		)
 		return FuncOutputWithLog(
 			fn_output=f"Have record the log {log_str}",
-			fn_log={"operation_log": op_log_str}
+			fn_log={"operation_log": op_log}
 		)
 
 

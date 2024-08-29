@@ -28,15 +28,16 @@ class AddNewRecentPaperOperation(CallBackOperationBase):
 		self,
 		llm: LLM = None,
 		embed_model: BaseEmbedding = None,
-		verbose: bool = False
+		verbose: bool = False,
+		op_name: str = None,
 	):
 		embed_model = embed_model or Settings.embed_model
 		llm = llm or Settings.llm
-		self.op_name = AddNewRecentPaperOperation.__name__
 		super().__init__(
 			embed_model=embed_model,
 			llm=llm,
 			verbose=verbose,
+			op_name=op_name or AddNewRecentPaperOperation.__name__,
 		)
 
 	def operation_description(self, **kwargs) -> str:

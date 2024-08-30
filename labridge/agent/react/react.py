@@ -172,15 +172,14 @@ class InstructReActAgent(AgentRunner):
 		packed_msgs = PackedUserMessage.loads(dumped_str=message)
 		user_id, chat_group_id = packed_msgs.user_id, packed_msgs.chat_group_id
 		user_msg, system_msg = packed_msgs.user_msg, packed_msgs.system_msg
-		enable_instruct, enable_comment = packed_msgs.enable_instruct, packed_msgs.enable_comment
 
 		task = self.create_task(
 			input=user_msg,
 			extra_state={
 				"system_msg": system_msg,
 				"user_id": user_id,
-				"enable_instruct": enable_instruct,
-				"enable_comment": enable_comment,
+				"enable_instruct": ChatBuffer.config_buffer[user_id].enable_instruct,
+				"enable_comment": ChatBuffer.config_buffer[user_id].enable_comment,
 			}
 		)
 		if chat_group_id is not None:
@@ -223,8 +222,9 @@ class InstructReActAgent(AgentRunner):
 				system_msg = packed_msgs.system_msg
 				update_intervene_status(
 					task=task,
-					enable_instruct=user_msg.enable_instruct,
-					enable_comment=user_msg.enable_comment,
+					enable_instruct=ChatBuffer.config_buffer[user_id].enable_instruct,
+					enable_comment=ChatBuffer.config_buffer[user_id].enable_comment,
+					reply_in_speech=ChatBuffer.config_buffer[user_id].reply_in_speech,
 				)
 				# Add as the step's input
 				step.input = user_comment
@@ -267,8 +267,9 @@ class InstructReActAgent(AgentRunner):
 			extra_state={
 				"system_msg": system_msg,
 				"user_id": user_id,
-				"enable_instruct": packed_msgs.enable_instruct,
-				"enable_comment": packed_msgs.enable_comment,
+				"enable_instruct": ChatBuffer.config_buffer[user_id].enable_instruct,
+				"enable_comment": ChatBuffer.config_buffer[user_id].enable_comment,
+				"reply_in_speech": ChatBuffer.config_buffer[user_id].reply_in_speech,
 			}
 		)
 		if chat_group_id is not None:
@@ -311,6 +312,7 @@ class InstructReActAgent(AgentRunner):
 					task=task,
 					enable_instruct=packed_msgs.enable_instruct,
 					enable_comment=packed_msgs.enable_comment,
+					reply_in_speech=packed_msgs.reply_in_speech,
 				)
 				# add to the step's input
 				step.input = user_comment

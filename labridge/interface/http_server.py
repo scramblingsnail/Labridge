@@ -5,14 +5,14 @@ import uvicorn
 from typing import Dict, Tuple
 
 from fastapi import FastAPI, File, Form, UploadFile
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from labridge.agent.chat_msg.msg_types import ChatBuffer
 from labridge.agent.chat_agent import ChatAgent
 from labridge.agent.chat_msg.msg_types import ChatTextMessage, FileWithTextMessage, ChatSpeechMessage
-from labridge.interface.utils import save_temporary_file, read_server_file
+from labridge.interface.utils import save_temporary_file, read_server_file, error_file
 
 
 app = FastAPI()
@@ -47,7 +47,6 @@ async def single_chat(user_id: str):
             user_id=user_id,
             reply_str=agent_response.response,
             references=agent_response.references,
-            reply_in_speech=agent_response.reply_in_speech,
             inner_chat=False,
         )
         ChatAgent.set_chatting(user_id=user_id, chatting=False)
@@ -297,13 +296,13 @@ async def get_file(user_id: str, req: ClientDownloadReq):
     path = req.filepath
     fs = fsspec.filesystem("file")
     if fs.exists(path):
-        file_bytes = open(path, "rb")
+       return FileResponse(path=path)
     else:
-        file_bytes = "Invalid File".encode("utf-8")
-
-    return StreamingResponse(
-        content=file_bytes
-    )
+        error_path, error_f_name = error_file(
+            error_str=f"File path {path} does not exist!",
+            user_id=user_id,
+        )
+        return FileResponse(path=error_path, filename=error_f_name)
 
 @app.get("/users/{user_id}/response")
 async def get_response(user_id: str):

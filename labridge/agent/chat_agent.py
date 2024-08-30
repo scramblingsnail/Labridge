@@ -89,7 +89,6 @@ class LabChatAgent:
 		agent_response = AgentResponse(
 			response=response.response,
 			references=ref_paths,
-			reply_in_speech=packed_msgs.reply_in_speech,
 		)
 		return agent_response
 
@@ -114,7 +113,6 @@ class LabChatAgent:
 		agent_response = AgentResponse(
 			response=response.response,
 			references=ref_paths,
-			reply_in_speech=packed_msgs.reply_in_speech,
 		)
 		return agent_response
 

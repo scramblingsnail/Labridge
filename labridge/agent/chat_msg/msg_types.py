@@ -124,28 +124,19 @@ class PackedUserMessage:
 		user_id: str,
 		system_msg: str,
 		user_msg: str,
-		reply_in_speech: bool,
 		chat_group_id: Optional[str] = None,
-		enable_instruct: bool = False,
-		enable_comment: bool = False,
 	):
 		self.user_id = user_id
 		self.system_msg = system_msg
 		self.user_msg = user_msg
-		self.reply_in_speech = reply_in_speech
 		self.chat_group_id = chat_group_id
-		self.enable_instruct = enable_instruct
-		self.enable_comment = enable_comment
 
 	def dumps(self) -> str:
 		msg_dict = {
 			"user_id": self.user_id,
 			"system_msg": self.system_msg,
 			"user_msg": self.user_msg,
-			"reply_in_speech": self.reply_in_speech,
 			"chat_group_id": self.chat_group_id,
-			"enable_instruct": self.enable_instruct,
-			"enable_comment": self.enable_comment,
 		}
 		return json.dumps(msg_dict)
 
@@ -165,10 +156,7 @@ class PackedUserMessage:
 			user_id=msg_dict["user_id"],
 			system_msg=msg_dict["system_msg"],
 			user_msg=msg_dict["user_msg"],
-			reply_in_speech=msg_dict["reply_in_speech"],
 			chat_group_id=msg_dict["chat_group_id"],
-			enable_instruct=msg_dict["enable_instruct"],
-			enable_comment=msg_dict["enable_comment"],
 		)
 
 
@@ -178,12 +166,9 @@ class AgentResponse(BaseModel):
 
 	response (str): The response string.
 	references (Optional[List[str]]): The paths of reference files.
-	reply_in_speech (bool): Whether the agent reply in speech.
 	"""
 	response: str
 	references: Optional[List[str]]
-	reply_in_speech: bool
-
 
 
 class ServerReply(BaseModel):
@@ -226,7 +211,7 @@ class ServerSpeechReply(BaseModel):
 	r"""
 	The server's speech reply.
 
-	reply_speech_path (str): The path of the agent's speech file.
+	reply_speech (Dict[str, int]): The path of the agent's speech file.
 	valid (bool): Whether the reply contains valid information. When receiving an invalid reply,
 		the client should continue to get the server's reply until get a valid reply.
 	references (Optional[List[str]]): The paths of reference files.
@@ -301,14 +286,36 @@ class UserMsgFormatter(object):
 		system_msg = "\n".join(system_strings)
 		user_msg = "\n".join(user_queries)
 		packed_msg = PackedUserMessage(
-			reply_in_speech=reply_in_speech,
 			system_msg=system_msg,
 			user_id=user_id,
 			user_msg=user_msg,
-			enable_instruct=enable_instruct,
-			enable_comment=enable_comment,
 		)
 		return packed_msg
+
+
+class ChatConfig:
+	def __init__(
+		self,
+		enable_instruct: bool = False,
+		enable_comment: bool = False,
+		reply_in_speech: bool = False,
+	):
+		self.enable_instruct = enable_instruct
+		self.enable_comment = enable_comment
+		self.reply_in_speech = reply_in_speech
+
+	def update(
+		self,
+		enable_instruct: bool = None,
+		enable_comment: bool = None,
+		reply_in_speech: bool = None,
+	):
+		if enable_instruct is not None:
+			self.enable_instruct = enable_instruct
+		if enable_comment is not None:
+			self.enable_comment = enable_comment
+		if reply_in_speech is not None:
+			self.reply_in_speech = reply_in_speech
 
 
 class ChatMsgBuffer(object):
@@ -335,10 +342,10 @@ class ChatMsgBuffer(object):
 		self.account_manager = AccountManager()
 		self.user_msg_buffer: Dict[str, List[BaseClientMessage]] = {}
 		self.agent_reply_buffer: Dict[str, Optional[Union[ServerReply, ServerSpeechReply]]] = {}
+		self.config_buffer: Dict[str, ChatConfig] = {}
 		self.user_msg_formatter = UserMsgFormatter()
 		self.reset_buffer()
 		self._fs = fsspec.filesystem("file")
-
 
 	def reset_buffer(self):
 		r"""
@@ -350,6 +357,7 @@ class ChatMsgBuffer(object):
 		users = self.account_manager.get_users()
 		self.user_msg_buffer = {user: [] for user in users}
 		self.agent_reply_buffer = {user: None for user in users}
+		self.config_buffer = {user: ChatConfig() for user in users}
 
 	def clear_user_msg(self, user_id: str):
 		r"""
@@ -373,6 +381,11 @@ class ChatMsgBuffer(object):
 		user_id = user_msg.user_id
 		self.account_manager.check_valid_user(user_id=user_id)
 		self.user_msg_buffer[user_id].append(user_msg)
+		self.config_buffer[user_id].update(
+			enable_instruct=user_msg.enable_instruct,
+			enable_comment=user_msg.enable_comment,
+			reply_in_speech=user_msg.reply_in_speech,
+		)
 
 	async def get_user_msg(self, user_id: str, timeout: int = 240) -> Optional[PackedUserMessage]:
 		r"""
@@ -403,7 +416,6 @@ class ChatMsgBuffer(object):
 			user_id=user_id,
 			user_msg="",
 			system_msg=f"The user {user_id} does not reply, end this conversation.",
-			reply_in_speech=False,
 		)
 		return no_reply_msg
 
@@ -446,7 +458,6 @@ class ChatMsgBuffer(object):
 		user_id: str,
 		reply_str: str,
 		references: List[str] = None,
-		reply_in_speech: bool = False,
 		inner_chat: bool = False,
 	):
 		r"""
@@ -473,8 +484,6 @@ class ChatMsgBuffer(object):
 				references = ref_dict
 			else:
 				references = None
-
-		if not reply_in_speech:
 			reply = ServerReply(
 				reply_text=reply_str,
 				references=references,

@@ -138,7 +138,10 @@ async def chat_with_text():
 					valid = reply_dict["valid"]
 					if valid:
 						# 展示 Agent 回复
-						print(reply_dict["reply_text"])
+						if "reply_text" in reply_dict.keys():
+							print(reply_dict["reply_text"])
+						if "reply_speech" in reply_dict.keys():
+							print(reply_dict["reply_speech"])
 						break
 				await asyncio.sleep(1)
 			return reply_dict
@@ -166,7 +169,7 @@ async def chat_with_text():
 						url=post_tool_info_url,
 						json={
 							"text": info,
-							"reply_in_speech": False,
+							"reply_in_speech": True,
 							"enable_instruct": enable_instruct,
 							"enable_comment": enable_comment,
 						},
@@ -184,7 +187,7 @@ async def chat_with_text():
 
 		msg = {
 			"text": user_query,
-			"reply_in_speech": False,
+			"reply_in_speech": True,
 			"enable_instruct": False,
 			"enable_comment": False,
 		}

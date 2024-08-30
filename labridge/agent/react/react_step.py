@@ -68,7 +68,8 @@ dispatcher = instrument.get_dispatcher(__name__)
 def update_intervene_status(
 	task: Task,
 	enable_instruct: bool,
-	enable_comment: bool
+	enable_comment: bool,
+	reply_in_speech: bool
 ):
 	r"""
 	Update the `enable_instruct` and `enable_comment` in the Reasoning & Acting.
@@ -76,13 +77,15 @@ def update_intervene_status(
 	Args:
 		task (Task): The processing task.
 		enable_instruct (bool): If True, enable the user to instruct the agent's Reasoning.
-		enable_comment: If True, enable the user to comment on the agent's Acting.
+		enable_comment (bool): If True, enable the user to comment on the agent's Acting.
+		reply_in_speech (bool): If True, the agent will reply in speech.
 
 	Returns:
 		None
 	"""
 	task.extra_state["enable_instruct"] = enable_instruct
 	task.extra_state["enable_comment"] = enable_comment
+	task.extra_state["reply_in_speech"] = reply_in_speech
 
 
 def add_user_step_to_reasoning(
@@ -235,8 +238,9 @@ class InstructReActAgentWorker(ReActAgentWorker):
 
 	def _run_step(self, step: TaskStep, task: Task, ) -> TaskStepOutput:
 		"""Run step."""
+		user_id = task.extra_state["user_id"]
 		if step.input is not None:
-			step.step_state["user_id"] = task.extra_state["user_id"]
+			step.step_state["user_id"] = user_id
 			add_user_step_to_reasoning(
 				step,
 				task.extra_state["new_memory"],
@@ -258,7 +262,7 @@ class InstructReActAgentWorker(ReActAgentWorker):
 			print_text(f">>> Initial reasoning: \n{chat_response.message.content}", color="pink", end="\n")
 			# TODO: interface: Get the user's suggestion
 			packed_msgs = ChatBuffer.test_get_user_text(
-				user_id=task.extra_state["user_id"],
+				user_id=user_id,
 				enable_instruct=False,
 				enable_comment=False,
 			)
@@ -267,8 +271,9 @@ class InstructReActAgentWorker(ReActAgentWorker):
 			# update enable_instruct and enable_comment
 			update_intervene_status(
 				task=task,
-				enable_instruct=packed_msgs.enable_instruct,
-				enable_comment=packed_msgs.enable_comment,
+				enable_instruct=ChatBuffer.config_buffer[user_id].enable_instruct,
+				enable_comment=ChatBuffer.config_buffer[user_id].enable_comment,
+				reply_in_speech=ChatBuffer.config_buffer[user_id].reply_in_speech,
 			)
 			print_text(f">>> User's suggestion: \n{user_advice}", color="blue", end="\n")
 			reasoning_step = ObservationReasoningStep(observation=f"User's suggestion: {user_advice}")
@@ -307,8 +312,9 @@ class InstructReActAgentWorker(ReActAgentWorker):
 
 	async def _arun_step(self, step: TaskStep, task: Task, ) -> TaskStepOutput:
 		"""Run step."""
+		user_id = task.extra_state["user_id"]
 		if step.input is not None:
-			step.step_state["user_id"] = task.extra_state["user_id"]
+			step.step_state["user_id"] = user_id
 			add_user_step_to_reasoning(
 				step,
 				task.extra_state["new_memory"],
@@ -336,13 +342,13 @@ class InstructReActAgentWorker(ReActAgentWorker):
 			)
 
 			ChatBuffer.put_agent_reply(
-				user_id=step.step_state["user_id"],
+				user_id=user_id,
 				reply_str=init_reasoning,
 				inner_chat=True,
 			)
 			# TODO: interface: Get the user's suggestion
 			packed_msgs = await ChatBuffer.get_user_msg(
-				user_id=step.step_state["user_id"]
+				user_id=user_id,
 			)
 
 			user_advice = packed_msgs.user_msg
@@ -350,8 +356,9 @@ class InstructReActAgentWorker(ReActAgentWorker):
 			# Update the enable_instruct and enable_comment
 			update_intervene_status(
 				task=task,
-				enable_instruct=packed_msgs.enable_instruct,
-				enable_comment=packed_msgs.enable_comment,
+				enable_instruct=ChatBuffer.config_buffer[user_id].enable_instruct,
+				enable_comment=ChatBuffer.config_buffer[user_id].enable_comment,
+				reply_in_speech=ChatBuffer.config_buffer[user_id].reply_in_speech,
 			)
 
 			# Put the user's instruction into reasoning.

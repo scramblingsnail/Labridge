@@ -90,7 +90,7 @@ async def chat_with_speech():
 
 async def chat_with_text():
 	base_url = "http://127.0.0.1:6006"
-	user_id="杨再正"
+	user_id="realzhao"
 
 	post_text_router = f"/users/{user_id}/chat_text"
 	get_response_router = f"/users/{user_id}/response"

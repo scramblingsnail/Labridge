@@ -426,11 +426,19 @@ class ChatMsgBuffer(object):
 
 	def default_user_speech_path(self, user_id: str) -> str:
 		r""" Default save path of a user's speech. """
-		return str(self._root / f"{USER_TMP_DIR}/{user_id}/{USER_SPEECH_NAME}")
+		user_speech_path = self._root / f"{USER_TMP_DIR}/{user_id}/{USER_SPEECH_NAME}"
+		dir_pth = str(user_speech_path.parent)
+		if not self._fs.exists(dir_pth):
+			self._fs.mkdirs(dir_pth)
+		return str(user_speech_path)
 
 	def default_agent_speech_path(self, user_id: str) -> str:
 		r""" Default save path of agent's speech. """
-		return str(self._root / f"{USER_TMP_DIR}/{user_id}/{AGENT_SPEECH_NAME}")
+		agent_speech_path = self._root / f"{USER_TMP_DIR}/{user_id}/{AGENT_SPEECH_NAME}"
+		dir_pth = str(agent_speech_path.parent)
+		if not self._fs.exists(dir_pth):
+			self._fs.mkdirs(dir_pth)
+		return str(agent_speech_path)
 
 	def default_tmp_file_path(self, user_id: str, file_name: str) -> str:
 		r""" Default save path of the user's uploaded file. """
@@ -483,6 +491,9 @@ class ChatMsgBuffer(object):
 
 		speech_path = self.default_agent_speech_path(user_id=user_id)
 		TTSWorker.transform(text=reply_str, speech_path=speech_path)
+
+		import asyncio
+		asyncio.sleep(20)
 
 		speech_size = os.path.getsize(speech_path)
 		reply = ServerSpeechReply(

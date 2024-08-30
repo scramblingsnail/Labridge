@@ -479,6 +479,8 @@ class ChatMsgBuffer(object):
 				references = ref_dict
 			else:
 				references = None
+
+		if not self.config_buffer[user_id].reply_in_speech:
 			reply = ServerReply(
 				reply_text=reply_str,
 				references=references,
@@ -491,9 +493,6 @@ class ChatMsgBuffer(object):
 
 		speech_path = self.default_agent_speech_path(user_id=user_id)
 		TTSWorker.transform(text=reply_str, speech_path=speech_path)
-
-		import asyncio
-		asyncio.sleep(20)
 
 		speech_size = os.path.getsize(speech_path)
 		reply = ServerSpeechReply(

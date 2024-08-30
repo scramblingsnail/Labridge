@@ -172,7 +172,7 @@ async def chat_with_text():
 						url=post_tool_info_url,
 						json={
 							"text": info,
-							"reply_in_speech": True,
+							"reply_in_speech": False,
 							"enable_instruct": enable_instruct,
 							"enable_comment": enable_comment,
 						},
@@ -190,7 +190,7 @@ async def chat_with_text():
 
 		msg = {
 			"text": user_query,
-			"reply_in_speech": True,
+			"reply_in_speech": False,
 			"enable_instruct": False,
 			"enable_comment": False,
 		}

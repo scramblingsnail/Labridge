@@ -1,19 +1,17 @@
-import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
-import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:labridge/chat_agent.dart';
 import 'package:open_filex/open_filex.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:path/path.dart' as p;
 
 // For the testing purposes, you should probably use https://pub.dev/packages/uuid.
 String randomString() {
@@ -46,6 +44,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
         home: const MyHomePage(),
         theme: ThemeData(textTheme: GoogleFonts.notoSansScTextTheme()),
+        debugShowCheckedModeBanner: false,
       );
 }
 
@@ -63,6 +62,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   bool _shouldEnterInnerChat = false;
 
+  // bool _clearButtonVisible = false;
+  double _clearButtonWidth = 0.0;
+  Color _textColor = Colors.transparent;
+
+  int _waitForUploadingContentsCount = 0;
+  PlatformFile? waitForUploadingFile;
+  Uint8List? waitForUploadingFileBytes;
+  types.FileMessage? fileMessage;
+
   /// Create Agent
 
   final _user = const types.User(
@@ -74,12 +82,54 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           elevation: 0,
-          // backgroundColor: Colors.black,
+          backgroundColor: Colors.grey[100],
           centerTitle: true,
           title: const Text(
             'Labridge',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          actions: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              width: _clearButtonWidth,
+              height: 30,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 14),
+                child: TextButton(
+                  onPressed: _clearButtonWidth != 0.0
+                      ? () {
+                          setState(() {
+                            _messages.clear();
+                            _textColor = Colors.transparent;
+                            _clearButtonWidth = 0.0;
+                          });
+                          chatAgent.clearHistory();
+                        }
+                      : null,
+                  style: TextButton.styleFrom(
+                      backgroundColor: Colors.blueAccent,
+                      side: BorderSide.none,
+                      padding: const EdgeInsets.all(0)),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      '清空',
+                      style: TextStyle(
+                          color: _textColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ),
+              onEnd: () {
+                setState(() {
+                  _textColor = Colors.white;
+                });
+              },
+            ),
+          ],
           // titleTextStyle: const TextStyle(color: Colors.white),
         ),
         // extendBodyBehindAppBar: true,
@@ -92,6 +142,20 @@ class _MyHomePageState extends State<MyHomePage> {
           usePreviewData: false,
           showUserNames: true,
           user: _user,
+          theme: DefaultChatTheme(
+              attachmentButtonIcon: _waitForUploadingContentsCount == 0
+                  ? const Icon(
+                      Icons.attach_file_rounded,
+                      color: Colors.white,
+                    )
+                  : Badge.count(
+                      count: 1,
+                      backgroundColor: Colors.blue,
+                      child: const Icon(
+                        Icons.attach_file_rounded,
+                        color: Colors.white,
+                      ),
+                    )),
         ),
       );
 
@@ -104,6 +168,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void _handleAttachmentPressed() {
     showModalBottomSheet<void>(
       context: context,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(16))),
       builder: (BuildContext context) => SafeArea(
         child: SizedBox(
           height: 144,
@@ -111,6 +177,9 @@ class _MyHomePageState extends State<MyHomePage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               TextButton(
+                style: TextButton.styleFrom(
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(16)))),
                 onPressed: () {
                   Navigator.pop(context);
                   _handleImageSelection();
@@ -150,7 +219,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     if (result != null && result.files.single.path != null) {
-      final message = types.FileMessage(
+      fileMessage = types.FileMessage(
         author: _user,
         createdAt: DateTime.now().millisecondsSinceEpoch,
         id: randomString(),
@@ -158,8 +227,16 @@ class _MyHomePageState extends State<MyHomePage> {
         size: result.files.single.size,
         uri: result.files.single.path!,
       );
+      // result.files.single.bytes
+      waitForUploadingFileBytes =
+          await File(result.files.single.path!).readAsBytes();
 
-      _addMessage(message);
+      waitForUploadingFile = result.files.single;
+      setState(() {
+        _waitForUploadingContentsCount = 1;
+      });
+
+      // _addMessage(message);
     }
   }
 
@@ -192,7 +269,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _handleMessageTap(BuildContext _, types.Message message) async {
     if (message is types.FileMessage) {
       var localPath = message.uri;
-      if (message.uri.startsWith('http')) {
+      if (message.uri.startsWith('remote:')) {
         try {
           final index =
               _messages.indexWhere((element) => element.id == message.id);
@@ -205,16 +282,8 @@ class _MyHomePageState extends State<MyHomePage> {
             _messages[index] = updatedMessage;
           });
 
-          final client = http.Client();
-          final request = await client.get(Uri.parse(message.uri));
-          final bytes = request.bodyBytes;
-          final documentsDir = (await getApplicationDocumentsDirectory()).path;
-          localPath = '$documentsDir/${message.name}';
-
-          if (!File(localPath).existsSync()) {
-            final file = File(localPath);
-            await file.writeAsBytes(bytes);
-          }
+          /// remove tag
+          localPath = await chatAgent.downloadFile(localPath.substring(7));
         } finally {
           final index =
               _messages.indexWhere((element) => element.id == message.id);
@@ -230,6 +299,9 @@ class _MyHomePageState extends State<MyHomePage> {
       }
 
       await OpenFilex.open(localPath);
+    } else if (message is types.AudioMessage) {
+      final player = AudioPlayer();
+      await player.play(DeviceFileSource(message.uri));
     }
   }
 
@@ -249,6 +321,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _handleSendPressed(types.PartialText message) async {
+    /// TODO: performance
+    setState(() {
+      _clearButtonWidth = 90.0;
+    });
+
     final textMessage = types.TextMessage(
       author: _user,
       createdAt: DateTime.now().millisecondsSinceEpoch,
@@ -257,26 +334,72 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     _addMessage(textMessage);
-
-    // await Future.delayed(const Duration(seconds: 1));
     Map<String, dynamic> response;
 
+    /// 发送消息并等待响应
     if (!_shouldEnterInnerChat) {
-      chatAgent.query(message.text);
-      response = await chatAgent.singleGetResponse();
+      if (_waitForUploadingContentsCount == 0) {
+        chatAgent.query(message.text, replyInSpeech: true);
+        response = await chatAgent.singleGetResponse();
+      } else {
+        _addMessage(fileMessage!);
+        setState(() {
+          _waitForUploadingContentsCount = 0;
+        });
+        chatAgent.queryInFile(waitForUploadingFileBytes!,
+            waitForUploadingFile!.name, message.text, false);
+        response = await chatAgent.singleGetResponse();
+      }
     } else {
       response = await chatAgent.queryAndAnswer(message.text);
     }
 
     _shouldEnterInnerChat = response['inner_chat'];
-    print(response['references']);
-    /// update message if inner chat
-    final labridgeTextMessage = types.TextMessage(
-      author: _labridge,
-      createdAt: DateTime.now().millisecondsSinceEpoch,
-      id: randomString(),
-      text: response['reply_text'].toString().trim(),
-    );
-    _addMessage(labridgeTextMessage);
+
+    /// update message
+    if (response.containsKey('reply_text')) {
+      final labridgeTextMessage = types.TextMessage(
+        author: _labridge,
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        id: randomString(),
+        text: response['reply_text'].toString().trim(),
+      );
+      _addMessage(labridgeTextMessage);
+    } else {
+      final replySpeechPaths =
+          Map<String, int>.from(response['reply_speech_path']);
+
+      for (final speechPathEntry in replySpeechPaths.entries) {
+        var localPath = await chatAgent.downloadFile(speechPathEntry.key);
+        final labridgeAudioMessage = types.AudioMessage(
+          author: _labridge,
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          id: randomString(),
+          name: p.basename(speechPathEntry.key),
+          size: speechPathEntry.value,
+          uri: localPath,
+          duration: const Duration(seconds: 4),
+        );
+        _addMessage(labridgeAudioMessage);
+      }
+    }
+
+    if (response['references'] != null) {
+      // print('object');
+
+      final references = Map<String, int>.from(response['references']);
+      // print(references.keys);
+      for (final referEntry in references.entries) {
+        final fileMessage = types.FileMessage(
+          author: _labridge,
+          id: randomString(),
+          name: p.basename(referEntry.key),
+          size: referEntry.value,
+          uri: 'remote:${referEntry.key}',
+        );
+
+        _addMessage(fileMessage);
+      }
+    }
   }
 }

@@ -20,7 +20,7 @@ def ref_papers_str_to_user(ref_infos: List[PaperInfo]) -> str:
 			ref_titles.append(paper_info.title)
 			valid_refs.append(paper_info)
 
-	ref_str = f"**REFERENCE:**:\n"
+	ref_str = f"**REFERENCE:**\n"
 	for paper_info in valid_refs:
 		paper_str = f"\t**Title:** {paper_info.title}\n"
 		paper_str += f"\t这篇文章由{paper_info.possessor}持有，可以与ta多多交流哦。"

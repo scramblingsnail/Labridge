@@ -5,7 +5,7 @@ import uvicorn
 from typing import Dict, Tuple
 
 from fastapi import FastAPI, File, Form, UploadFile
-from fastapi.responses import StreamingResponse, FileResponse
+from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 

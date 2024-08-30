@@ -61,7 +61,7 @@ class InstrumentRetriever:
 		self,
 		llm: LLM = None,
 		embed_model: BaseEmbedding = None,
-		similarity_top_k: int = 4,
+		similarity_top_k: int = 3,
 		instrument_top_k: int = 2,
 		final_top_k: int = 3,
 		choice_batch_size: int = 8,
@@ -112,9 +112,6 @@ class InstrumentRetriever:
 				if len(answer_line) > 4:
 					valid_lines.append(answer_line.strip())
 			valid_response = "\n".join(valid_lines)
-
-			print("llm_response: \n", valid_response)
-			print("len nodes: ", len(nodes))
 
 			choices, relevances = self._parse_choice_select_answer_fn(valid_response, len(nodes), raise_error=True)
 			choice_indices = [c - 1 for c in choices]
@@ -230,8 +227,12 @@ class InstrumentRetriever:
 		item_to_be_retrieved: str,
 	) -> List[NodeWithScore]:
 		r"""
-		This tool is used to retrieve in the documents of the lab's scientific instruments.
-		These documents include the instruction manuals, operation specifications of scientific instruments.
+		This tool is used to help the laboratory member to solve their encountered difficulties in their experiment,
+		by retrieving in the documents of the lab's scientific instruments.
+
+		you could use this tool to suggest proper instruments to help him/her to overcome the difficulties,
+		and provide comprehensive information about these instruments from the instrument documents
+		including instruction manuals, operation specifications of scientific instruments.
 
 		Args:
 			item_to_be_retrieved (str): The string to be retrieved relevant to the scientific instruments
@@ -242,9 +243,12 @@ class InstrumentRetriever:
 		"""
 		# This docstring will be used as the tool description.
 		dsc_instruments = self._retrieve_proper_instrument(retrieve_items=item_to_be_retrieved)
-		content_instruments = self._retrieve_instrument_content_based(retrieve_items=item_to_be_retrieved)
 
-		instrument_ids = list(set(dsc_instruments + content_instruments))
+		# content_instruments = self._retrieve_instrument_content_based(retrieve_items=item_to_be_retrieved)
+		# instrument_ids = list(set(dsc_instruments + content_instruments))
+
+		instrument_ids = dsc_instruments
+
 		instruments = self.instrument_store.get_nodes(node_ids=instrument_ids)
 		retrieve_range = []
 

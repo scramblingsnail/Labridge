@@ -22,12 +22,14 @@ from typing import (
 import labridge.func_modules.reference as reference
 from labridge.tools.base.tool_log import ToolLog, TOOL_REFERENCES, TOOL_OP_DESCRIPTION
 from labridge.func_modules.reference.base import REF_TYPE, RefInfoBase
-from labridge.func_modules.reference.paper import PaperInfo
+from labridge.func_modules.reference import PaperInfo, InstrumentInfo
 from labridge.tools.paper.shared_papers.utils import ref_papers_str_to_user, ref_papers_file_path
+from labridge.tools.instrument.utils import ref_instruments_str_to_user
 
 
 REF_INFO_TO_STR_FUNC_DICT = {
 	PaperInfo.__name__: ref_papers_str_to_user,
+	InstrumentInfo.__name__: ref_instruments_str_to_user,
 }
 
 REF_INFO_TO_FILE_PATH_FUNC_DICT = {
@@ -124,9 +126,10 @@ def get_ref_file_paths(tool_logs: List[ToolLog]) -> List[str]:
 
 	file_paths = []
 	for ref_type in extra_refs_dict.keys():
-		fn = REF_INFO_TO_FILE_PATH_FUNC_DICT[ref_type]
-		paths = fn(extra_refs_dict[ref_type])
-		file_paths.extend(paths)
+		if ref_type in REF_INFO_TO_FILE_PATH_FUNC_DICT.keys():
+			fn = REF_INFO_TO_FILE_PATH_FUNC_DICT[ref_type]
+			paths = fn(extra_refs_dict[ref_type])
+			file_paths.extend(paths)
 	return file_paths
 
 def get_extra_str_to_user(tool_logs: List[ToolLog]) -> str:
@@ -145,7 +148,6 @@ def get_extra_str_to_user(tool_logs: List[ToolLog]) -> str:
 		fn = REF_INFO_TO_STR_FUNC_DICT[ref_type]
 		ref_str = fn(extra_refs_dict[ref_type])
 		str_list.append(ref_str.strip())
-
 	return "\n".join(str_list)
 
 def get_all_system_logs(tool_logs: List[ToolLog]) -> str:

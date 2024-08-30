@@ -21,7 +21,6 @@ from labridge.tools.base.tool_base import RetrieverBaseTool
 from labridge.tools.base.tool_log import ToolLog, TOOL_OP_DESCRIPTION, TOOL_REFERENCES
 
 
-INSTRUMENT_RETRIEVER_TOOL_NAME = "chat_memory_retriever_tool"
 INSTRUMENT_LOG_KEY = "relevant_instruments"
 
 
@@ -40,7 +39,7 @@ class InstrumentRetrieverTool(RetrieverBaseTool):
 		self.super_user_manager = InstrumentSuperUserManager()
 		super().__init__(
 			retriever=instrument_retriever,
-			name=INSTRUMENT_RETRIEVER_TOOL_NAME,
+			name=InstrumentRetrieverTool.__name__,
 			retrieve_fn=InstrumentRetriever.retrieve
 		)
 

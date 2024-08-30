@@ -10,7 +10,7 @@ def chat_one_to_one():
 	user_id = "杨再正"
 
 	while True:
-		ChatAgent.chat_engine.set_enable_instruct(enable=True)
+		ChatAgent.chat_engine.set_enable_instruct(enable=False)
 
 		print("Enable instruct: ", ChatAgent.chat_engine.enable_instruct)
 		print("Enable comment: ", ChatAgent.chat_engine.enable_comment)

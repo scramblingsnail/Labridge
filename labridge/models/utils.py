@@ -10,7 +10,7 @@ from .api.zhipu import ZhiPuLLM, ZhiPuEmbedding
 
 
 def completion_to_prompt(completion):
-	print(completion)
+	# print(completion)
 	return f"<|system|>\n</s>\n<|user|>\n{completion}</s>\n<|assistant|>\n"
 
 
@@ -30,7 +30,7 @@ def messages_to_prompt(messages):
 
 	# add final assistant prompt
 	prompt = prompt + "<|assistant|>\n"
-	print(prompt)
+	# print(prompt)
 	# print(messages)
 	return prompt
 

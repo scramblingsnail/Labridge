@@ -13,6 +13,7 @@ from labridge.tools.paper.download.arxiv_download import ArXivSearchDownloadTool
 from labridge.tools.memory.experiment.retrieve import ExperimentLogRetrieveTool
 from labridge.tools.paper.temporary_papers.insert import AddNewRecentPaperTool
 from labridge.tools.memory.chat.retrieve import ChatMemoryRetrieverTool
+from labridge.tools.instrument.retrieve import InstrumentRetrieverTool
 from labridge.agent.react.prompt import LABRIDGE_CHAT_SYSTEM_HEADER
 from labridge.accounts.users import AccountManager
 from labridge.agent.react.react import InstructReActAgent
@@ -131,6 +132,7 @@ class LabChatAgent:
 			AddNewRecentPaperTool(),
 			RecentPaperRetrieveTool(),
 			RecentPaperSummarizeTool(),
+			InstrumentRetrieverTool(),
 		]
 
 	def get_chat_engine(self) -> InstructReActAgent:
@@ -144,7 +146,7 @@ class LabChatAgent:
 		chat_engine = InstructReActAgent.from_tools(
 			tools=tools,
 			react_chat_formatter=react_chat_formatter,
-			verbose=True,
+			verbose=False,
 			llm=llm,
 			memory=ChatMemoryBuffer.from_defaults(token_limit=3000),
 			enable_instruct=False,

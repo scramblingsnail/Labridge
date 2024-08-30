@@ -492,7 +492,7 @@ class ChatMsgBuffer(object):
 			return
 
 		speech_name = self.default_agent_speech_path(user_id=user_id)
-		speech_path = TTSWorker.transform(text=reply_str, speech_path=speech_name)
+		speech_path = TTSWorker.transform(text=reply_str, speech_name=speech_name)
 
 		speech_size = os.path.getsize(speech_path)
 		reply = ServerSpeechReply(

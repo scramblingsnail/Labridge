@@ -9,5 +9,8 @@
 [requirements](./requirements.txt)
 
 
-**项目文档**
-https://labridge.readthedocs.io/zh-cn/latest/
+**中文文档**
+https://scramblingsnail.github.io/Labridge/
+
+**英文文档**
+https://scramblingsnail.github.io/Labridge/en/

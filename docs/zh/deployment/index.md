@@ -6,7 +6,7 @@
 [//]: # ()
 [//]: # (<figure class="figure-image">)
 
-[//]: # (  <img src="\assets\images\deployment\deployment.jpg" alt="Example" />)
+[//]: # (  <img src=".images\deployment.jpg" alt="Example" />)
 
 [//]: # (  <figcaption>基于昇腾软硬件生态的Labridge部署</figcaption>)
 

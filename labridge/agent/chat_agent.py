@@ -13,7 +13,7 @@ from labridge.tools.paper.download.arxiv_download import ArXivSearchDownloadTool
 from labridge.tools.memory.experiment.retrieve import ExperimentLogRetrieveTool
 from labridge.tools.paper.temporary_papers.insert import AddNewRecentPaperTool
 from labridge.tools.memory.chat.retrieve import ChatMemoryRetrieverTool
-from labridge.agent.react.prompt import MY_REACT_CHAT_SYSTEM_HEADER
+from labridge.agent.react.prompt import LABRIDGE_CHAT_SYSTEM_HEADER
 from labridge.accounts.users import AccountManager
 from labridge.agent.react.react import InstructReActAgent
 from labridge.agent.chat_msg.msg_types import PackedUserMessage, AgentResponse
@@ -139,7 +139,7 @@ class LabChatAgent:
 		Settings.llm = llm
 		tools = self.get_tools()
 
-		react_chat_formatter = ReActChatFormatter.from_defaults(system_header=MY_REACT_CHAT_SYSTEM_HEADER)
+		react_chat_formatter = ReActChatFormatter.from_defaults(system_header=LABRIDGE_CHAT_SYSTEM_HEADER)
 
 		chat_engine = InstructReActAgent.from_tools(
 			tools=tools,

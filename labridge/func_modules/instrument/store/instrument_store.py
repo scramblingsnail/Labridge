@@ -79,6 +79,7 @@ class InstrumentStorage(object):
 			root = root.parent
 		self.root = root
 		self.vector_index = vector_index
+		self.vector_index.set_index_id(INSTRUMENT_VECTOR_INDEX_ID)
 		self.embed_model = embed_model
 		self.persist_dir = persist_dir or self._default_persist_dir()
 		self.instrument_ware_house_dir = self._default_warehouse_dir()
@@ -153,6 +154,7 @@ class InstrumentStorage(object):
 			nodes=nodes,
 			embed_model=embed_model,
 		)
+
 		return cls(
 			vector_index=vector_index,
 			persist_dir=persist_dir,
@@ -234,7 +236,7 @@ class InstrumentStorage(object):
 			List[str]: All instrument ids.
 		"""
 		root_node = self._get_node(node_id=INSTRUMENT_ROOT_NODE_NAME)
-		instrument_list = root_node.relationships[NodeRelationship.CHILD] or []
+		instrument_list = root_node.child_nodes or []
 		instrument_ids = [ins.node_id for ins in instrument_list]
 		return instrument_ids
 
@@ -265,7 +267,8 @@ class InstrumentStorage(object):
 		)
 		# add instrument node to root node.
 		root_node = self._get_node(node_id=INSTRUMENT_ROOT_NODE_NAME)
-		instrument_list = root_node.relationships[NodeRelationship.CHILD] or []
+		print("root_node childs: ", root_node.child_nodes)
+		instrument_list = root_node.child_nodes or []
 
 		instrument_node = TextNode(
 			text=instrument_description,
@@ -300,6 +303,9 @@ class InstrumentStorage(object):
 		if not isinstance(doc_path, list):
 			doc_path = [doc_path]
 
+		if len(doc_path) < 1:
+			return
+
 		path_list = self._add_instrument_docs_to_warehouse(
 			instrument_id=instrument_id,
 			instrument_doc_paths=doc_path,
@@ -320,7 +326,7 @@ class InstrumentStorage(object):
 		# chunk to nodes.
 		doc_nodes = run_transformations(nodes=documents, transformations=self._default_vector_transformations(), )
 
-		child_nodes = instrument_node.relationships[NodeRelationship.CHILD] or []
+		child_nodes = instrument_node.child_nodes or []
 		for doc_node in doc_nodes:
 			child_nodes.append(RelatedNodeInfo(node_id=doc_node.node_id))
 			doc_node.relationships[NodeRelationship.PARENT] = RelatedNodeInfo(node_id=instrument_id)
@@ -403,12 +409,26 @@ class InstrumentStorage(object):
 if __name__ == "__main__":
 	fs = fsspec.filesystem("file")
 
-	root = Path(__file__)
-	for i in range(5):
-		root = root.parent
-	raw_path = root / "storage/test.txt"
-	new_path = root / "test.txt"
+	# root = Path(__file__)
+	# for i in range(5):
+	# 	root = root.parent
+	# raw_path = root / "storage/test.txt"
+	# new_path = root / "test.txt"
+	#
+	# # fs.cp(str(raw_path), str(root))
+	# fs.rm(str(new_path))
 
-	# fs.cp(str(raw_path), str(root))
-	fs.rm(str(new_path))
+	from labridge.models.utils import get_models
+
+	llm, embedding_model = get_models()
+
+	instruments = InstrumentStorage.from_default(embed_model=embedding_model)
+	ids = instruments.get_all_instruments()
+
+	ins_nodes = instruments.get_nodes(ids)
+
+	for node in ins_nodes:
+		print(node.text)
+		print(node.child_nodes)
+	print(ids)
 

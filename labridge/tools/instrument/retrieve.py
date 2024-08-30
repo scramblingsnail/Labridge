@@ -1,5 +1,7 @@
 import json
 
+from llama_index.core.llms import LLM
+from llama_index.core.embeddings import BaseEmbedding
 from llama_index.core.schema import (
 	NodeWithScore,
 	MetadataMode,
@@ -11,7 +13,7 @@ from typing import (
 )
 
 from labridge.func_modules.instrument.retrieve.instrument_retriever import InstrumentRetriever
-from labridge.func_modules.instrument.store.instrument_store import INSTRUMENT_NAME_KEY
+from labridge.func_modules.instrument.store.instrument_store import INSTRUMENT_NAME_KEY, INSTRUMENT_ROOT_NODE_NAME
 from labridge.accounts.super_users import InstrumentSuperUserManager
 from labridge.models.utils import get_models
 from labridge.func_modules.reference.instrument import InstrumentInfo
@@ -26,10 +28,14 @@ INSTRUMENT_LOG_KEY = "relevant_instruments"
 class InstrumentRetrieverTool(RetrieverBaseTool):
 	def __init__(
 		self,
-		instrument_retriever: InstrumentRetriever = None,
+		llm: LLM = None,
+		embed_model: BaseEmbedding = None,
 		metadata_mode: MetadataMode = MetadataMode.NONE,
 	):
-		instrument_retriever = instrument_retriever or InstrumentRetriever()
+		instrument_retriever = InstrumentRetriever(
+			llm=llm,
+			embed_model=embed_model,
+		)
 		self.metadata_mode = metadata_mode
 		self.super_user_manager = InstrumentSuperUserManager()
 		super().__init__(
@@ -81,7 +87,10 @@ class InstrumentRetrieverTool(RetrieverBaseTool):
 		instrument_docs = dict()
 		output_log_dict = {INSTRUMENT_LOG_KEY: dict()}
 		for node in nodes:
-			instrument_id = node.metadata[INSTRUMENT_NAME_KEY]
+			instrument_id = node.metadata.get(INSTRUMENT_NAME_KEY, node.node_id)
+			# TODO: Add node type and filter.
+			if instrument_id == INSTRUMENT_ROOT_NODE_NAME:
+				continue
 			if instrument_id not in instrument_docs:
 				instrument_docs[instrument_id] = []
 				output_log_dict[INSTRUMENT_LOG_KEY][instrument_id] = self.super_user_manager.get_super_users(
@@ -101,5 +110,15 @@ class InstrumentRetrieverTool(RetrieverBaseTool):
 
 
 if __name__ == "__main__":
-	# TODO:
-	a = 1
+	from labridge.models.utils import get_models
+
+	llm, embed_model = get_models()
+
+	retrieve_tool = InstrumentRetrieverTool(
+		llm=llm,
+		embed_model=embed_model,
+	)
+	tool_output = retrieve_tool.call(
+		item_to_be_retrieved="如何检查电路板短路",
+	)
+	print(tool_output.content)

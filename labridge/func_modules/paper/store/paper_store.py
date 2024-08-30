@@ -152,10 +152,10 @@ class PaperStorage(object):
 		return str(self.root / DEFAULT_PAPER_SUMMARY_PERSIST_DIR)
 
 	def _default_vector_transformations(self) -> List[TransformComponent]:
-		return [SentenceSplitter(chunk_size=1024, chunk_overlap=256, include_metadata=False), ]
+		return [SentenceSplitter(chunk_size=1024, chunk_overlap=256, include_metadata=True), ]
 
 	def _default_summary_transformations(self) -> List[TransformComponent]:
-		return [SentenceSplitter(chunk_size=1024, chunk_overlap=256, include_metadata=False), ]
+		return [SentenceSplitter(chunk_size=1024, chunk_overlap=256, include_metadata=True), ]
 
 	def build_vector_index_from_docs(self, docs: List[Document]) -> VectorStoreIndex:
 		r"""

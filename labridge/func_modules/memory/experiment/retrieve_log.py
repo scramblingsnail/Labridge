@@ -5,6 +5,7 @@ from llama_index.core.indices.vector_store import VectorStoreIndex
 from llama_index.core.base.embeddings.base import BaseEmbedding
 from llama_index.core.schema import NodeWithScore
 from llama_index.core.vector_stores.types import MetadataFilters
+from llama_index.core.schema import MetadataMode
 
 from typing import List, Any
 
@@ -204,7 +205,6 @@ if __name__ == "__main__":
 	# TODO: to be validated.
 	import time
 	from labridge.models.utils import get_models
-	from llama_index.core.schema import MetadataMode
 
 	llm, embed_model = get_models()
 

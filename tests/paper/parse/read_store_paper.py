@@ -21,12 +21,21 @@ from labridge.common.query_engine.query_engines import SingleQueryEngine
 article_list = [
 	# "documents/papers/杨再正/神经网络量化/"
 	# "post-training-quantization/ACIQ-ANALYTICAL CLIPPING FOR INTEGER QUANTIZATION OF NEURAL NETWORKS.pdf",
-	# "documents/papers/杨再正/神经网络量化/training-aware-quantization/"
-	# "Gong_Differentiable_Soft_Quantization_Bridging_Full-Precision_and_Low-Bit_Neural_Networks_ICCV_2019_paper.pdf",
-	# "documents/papers/杨再正/神经网络量化/training-aware-quantization/"
-	# "Towards Efficient Training for Neural Network Quantization.pdf",
-	# "documents/papers/张三/深度学习编译/CIM/"
-	# "A Compilation Tool for Computation Offloading in ReRAM-based CIM Architectures.pdf",
+	"documents/papers/杨再正/存算一体/Fully hardware-implemented memristor CNN.pdf",
+	"documents/papers/杨再正/存算一体/2020 lin peng Three-dimensional memristor circuits as complex networks.pdf",
+	"documents/papers/杨再正/存算一体/Memristive crossbar arrays for brain-inspired computing.pdf",
+	"documents/papers/杨再正/存算一体/2018 NC Efficient and self-adaptive in-situ learning in multilayer memristor neural networks.pdf",
+	"documents/papers/杨再正/神经网络量化/training-aware-quantization/"
+	"Gong_Differentiable_Soft_Quantization_Bridging_Full-Precision_and_Low-Bit_Neural_Networks_ICCV_2019_paper.pdf",
+	"documents/papers/杨再正/神经网络量化/training-aware-quantization/"
+	"Towards Efficient Training for Neural Network Quantization.pdf",
+	"documents/papers/杨再正/神经网络量化/post-training-quantization/ACIQ-ANALYTICAL CLIPPING FOR INTEGER QUANTIZATION OF NEURAL NETWORKS.pdf",
+	"documents/papers/杨再正/神经网络量化/post-training-quantization/"
+	"a whitepaper-Quantizing deep convolutional networks for efficient inference.pdf",
+	"documents/papers/杨再正/神经网络量化/post-training-quantization/"
+	"Quantization_quantizatoin and_Training_of_Neural_Networks_for_Efficient_Integer-Arithmetic-Only_Inference.pdf",
+	"documents/papers/张三/深度学习编译/CIM/"
+	"A Compilation Tool for Computation Offloading in ReRAM-based CIM Architectures.pdf",
 	"documents/papers/张三/深度学习编译/The_Deep_Learning_Compiler_A_Comprehensive_Survey.pdf",
 	"documents/papers/张三/深度学习编译/"
 	"Towards Efficient Generative Large Language Model Serving-A Survey from Algorithms to Systems.pdf",
@@ -84,5 +93,17 @@ def test_read_store_paper():
 
 if __name__ == "__main__":
 	test_read_store_paper()
-	# load_index()
+
+	# my_store = load_index(vector_persist_dir, paper_summary_persist_dir)
+	# ref_doc_dict = my_store.vector_index.docstore.get_all_ref_doc_info()
+	#
+	# for doc_id in ref_doc_dict.keys():
+	# 	ref_doc_infos = ref_doc_dict[doc_id]
+	#
+	# 	for node_id in ref_doc_infos.node_ids:
+	# 		node =  my_store.vector_index.docstore.get_node(node_id=node_id)
+	#
+	# 		print(node.metadata)
+	# 		print(node.get_content())
+	# 	break
 

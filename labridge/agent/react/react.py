@@ -42,8 +42,9 @@ from labridge.tools.utils import (
 	get_ref_file_paths,
 )
 from labridge.agent.chat_msg.msg_types import PackedUserMessage
+from labridge.agent.chat_msg.msg_types import ChatBuffer
 
-from .react_step import InstructReActAgentWorker
+from .react_step import InstructReActAgentWorker, update_intervene_status
 
 
 dispatcher = instrument.get_dispatcher(__name__)
@@ -171,12 +172,15 @@ class InstructReActAgent(AgentRunner):
 		packed_msgs = PackedUserMessage.loads(dumped_str=message)
 		user_id, chat_group_id = packed_msgs.user_id, packed_msgs.chat_group_id
 		user_msg, system_msg = packed_msgs.user_msg, packed_msgs.system_msg
+		enable_instruct, enable_comment = packed_msgs.enable_instruct, packed_msgs.enable_comment
 
 		task = self.create_task(
 			input=user_msg,
 			extra_state={
 				"system_msg": system_msg,
 				"user_id": user_id,
+				"enable_instruct": enable_instruct,
+				"enable_comment": enable_comment,
 			}
 		)
 		if chat_group_id is not None:
@@ -204,13 +208,28 @@ class InstructReActAgent(AgentRunner):
 			step_queue = self.state.get_step_queue(task.task_id)
 			step = step_queue.popleft()
 
-			# Send the reasoning to the user.
-			if self.enable_instruct:
+			# Send the observation to the user.
+			if task.extra_state["enable_comment"]:
 				# TODO: 将 cur_step_output.output.response 输出给 User, 获取 User 的 Instruction。
 				print_text(text=cur_step_output.output.response, color="llama_turquoise", end="\n")
 				# TODO: 获取下一步 step, 并将Instruction作为 step.input。
-				comment = input("User Comment: ")
-				print_text(f">>> User's comment: \n {comment}", color="blue", end="\n")
+				packed_msgs = ChatBuffer.test_get_user_text(
+					user_id=user_id,
+					enable_instruct=False,
+					enable_comment=False,
+				)
+
+				user_comment = packed_msgs.user_msg
+				system_msg = packed_msgs.system_msg
+				update_intervene_status(
+					task=task,
+					enable_instruct=user_msg.enable_instruct,
+					enable_comment=user_msg.enable_comment,
+				)
+				# Add as the step's input
+				step.input = user_comment
+				step.step_state["system_msg"] = system_msg
+				print_text(f">>> User's comment: \n {user_comment}", color="blue", end="\n")
 
 			# ensure tool_choice does not cause endless loops
 			tool_choice = "auto"
@@ -220,9 +239,6 @@ class InstructReActAgent(AgentRunner):
 		# add the tool log if necessary.
 		result.response += f"\n\n{to_user_logs}"
 		dispatcher.event(AgentChatWithStepEndEvent(response=result))
-
-		print(">>> chat history:")
-		print(self.memory.get())
 
 		if result.metadata is None:
 			result.metadata = {"references": ref_file_paths}
@@ -251,15 +267,17 @@ class InstructReActAgent(AgentRunner):
 			extra_state={
 				"system_msg": system_msg,
 				"user_id": user_id,
+				"enable_instruct": packed_msgs.enable_instruct,
+				"enable_comment": packed_msgs.enable_comment,
 			}
 		)
 		if chat_group_id is not None:
 			task.extra_state["chat_group_id"] = chat_group_id
 
 		result_output = None
-		dispatcher.event(AgentChatWithStepStartEvent(user_msg=message))
+		dispatcher.event(AgentChatWithStepStartEvent(user_msg=user_msg))
 
-		# 显式获取 initial step
+		# explicitly get initial step
 		step = self.state.get_step_queue(task.task_id).popleft()
 		while True:
 			# pass step queue in as argument, assume step executor is stateless
@@ -276,6 +294,33 @@ class InstructReActAgent(AgentRunner):
 
 			step_queue = self.state.get_step_queue(task.task_id)
 			step = step_queue.popleft()
+
+			# Send the observation to the user.
+			if task.extra_state["enable_comment"]:
+				# TODO: 将 cur_step_output.output.response 输出给 User, 获取 User 的 Instruction。
+				ChatBuffer.put_agent_reply(
+					user_id=user_id,
+					reply_str=cur_step_output.output.response,
+					inner_chat=True,
+				)
+				# TODO: 将Instruction作为 step.input, 以及将 system_msg 记入 step.extra_state。
+				packed_msgs = await ChatBuffer.get_user_msg(user_id=user_id)
+				user_comment, system_msg = packed_msgs.user_msg, packed_msgs.system_msg
+				# update
+				update_intervene_status(
+					task=task,
+					enable_instruct=packed_msgs.enable_instruct,
+					enable_comment=packed_msgs.enable_comment,
+				)
+				# add to the step's input
+				step.input = user_comment
+				step.step_state["system_msg"] = system_msg
+				print_text(
+					f"System: {system_msg}"
+					f">>> User's comment: \n {user_comment}",
+					color="blue",
+					end="\n",
+				)
 
 			# ensure tool_choice does not cause endless loops
 			tool_choice = "auto"

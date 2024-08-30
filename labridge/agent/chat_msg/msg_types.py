@@ -1,12 +1,10 @@
 import json
-from pydantic import BaseModel
-from pathlib import Path
-from labridge.common.utils.time import get_time
-
+import os
 import time
 import asyncio
 import fsspec
 
+from pydantic import BaseModel
 from typing import Tuple, Dict, Union
 
 from labridge.common.utils.asr.xunfei import ASRWorker
@@ -31,8 +29,18 @@ AGENT_SPEECH_NAME = "agent_reply.pcm"
 
 
 class BaseClientMessage(BaseModel):
+	r"""
+	This is the base class for client's messages.
+
+	user_id (str): The user id of a Lab member.
+	reply_in_speech (bool): If True, the agent will reply in speech.
+	enable_instruct (bool): If True, enable the user to intervene into the agent's reasoning phase.
+	enable_comment (bool): If True: enable the user to intervene into the agent's acting phase.
+	"""
 	user_id: str
 	reply_in_speech: bool
+	enable_instruct: bool
+	enable_comment: bool
 
 
 class FileWithTextMessage(BaseClientMessage):
@@ -118,12 +126,16 @@ class PackedUserMessage:
 		user_msg: str,
 		reply_in_speech: bool,
 		chat_group_id: Optional[str] = None,
+		enable_instruct: bool = False,
+		enable_comment: bool = False,
 	):
 		self.user_id = user_id
 		self.system_msg = system_msg
 		self.user_msg = user_msg
 		self.reply_in_speech = reply_in_speech
 		self.chat_group_id = chat_group_id
+		self.enable_instruct = enable_instruct
+		self.enable_comment = enable_comment
 
 	def dumps(self) -> str:
 		msg_dict = {
@@ -132,6 +144,8 @@ class PackedUserMessage:
 			"user_msg": self.user_msg,
 			"reply_in_speech": self.reply_in_speech,
 			"chat_group_id": self.chat_group_id,
+			"enable_instruct": self.enable_instruct,
+			"enable_comment": self.enable_comment,
 		}
 		return json.dumps(msg_dict)
 
@@ -153,6 +167,8 @@ class PackedUserMessage:
 			user_msg=msg_dict["user_msg"],
 			reply_in_speech=msg_dict["reply_in_speech"],
 			chat_group_id=msg_dict["chat_group_id"],
+			enable_instruct=msg_dict["enable_instruct"],
+			enable_comment=msg_dict["enable_comment"],
 		)
 
 
@@ -219,7 +235,7 @@ class ServerSpeechReply(BaseModel):
 		- If this reply is an internal response such as collecting information from the user or getting authorization,
 		it is True. When `inner_chat` is True, the client should post the user's answer to corresponding URL with flag `Inner`.
 	"""
-	reply_speech_path: str
+	reply_speech: Dict[str, int]
 	valid: bool
 	references: Optional[List[str]] = None
 	error: Optional[str] = None
@@ -256,6 +272,8 @@ class UserMsgFormatter(object):
 		file_idx = 1
 		user_id = msgs[0].user_id
 		reply_in_speech = msgs[0].reply_in_speech
+		enable_instruct = msgs[0].enable_instruct
+		enable_comment = msgs[0].enable_comment
 
 		date_str, time_str = get_time()
 		user_queries = []
@@ -287,6 +305,8 @@ class UserMsgFormatter(object):
 			system_msg=system_msg,
 			user_id=user_id,
 			user_msg=user_msg,
+			enable_instruct=enable_instruct,
+			enable_comment=enable_comment,
 		)
 		return packed_msg
 
@@ -354,7 +374,7 @@ class ChatMsgBuffer(object):
 		self.account_manager.check_valid_user(user_id=user_id)
 		self.user_msg_buffer[user_id].append(user_msg)
 
-	async def get_user_msg(self, user_id: str, timeout: int = 60) -> Optional[PackedUserMessage]:
+	async def get_user_msg(self, user_id: str, timeout: int = 240) -> Optional[PackedUserMessage]:
 		r"""
 		Wait until a user's messages are put into the buffer, and get them.
 
@@ -379,9 +399,20 @@ class ChatMsgBuffer(object):
 			packed_msgs = self.user_msg_formatter.formatted_msgs(msgs=msgs)
 			return packed_msgs
 
-		raise ValueError(f"The user {user_id} does not reply, end this conversation.")
+		no_reply_msg = PackedUserMessage(
+			user_id=user_id,
+			user_msg="",
+			system_msg=f"The user {user_id} does not reply, end this conversation.",
+			reply_in_speech=False,
+		)
+		return no_reply_msg
 
-	def test_get_user_text(self, user_id: str) -> PackedUserMessage:
+	def test_get_user_text(
+		self,
+		user_id: str,
+		enable_instruct: bool = False,
+		enable_comment: bool = False,
+	) -> PackedUserMessage:
 		r""" For debug. """
 		user_msg = input("User: ")
 
@@ -389,6 +420,8 @@ class ChatMsgBuffer(object):
 			user_id=user_id,
 			text=user_msg,
 			reply_in_speech=False,
+			enable_instruct=enable_instruct,
+			enable_comment=enable_comment,
 		)
 		packed_msgs = self.user_msg_formatter.formatted_msgs(msgs=[text_msg])
 		return packed_msgs
@@ -434,7 +467,7 @@ class ChatMsgBuffer(object):
 				if not self._fs.exists(ref_path):
 					continue
 
-				ref_size = len(open(ref_path).read())
+				ref_size = os.path.getsize(ref_path)
 				ref_dict[ref_path] = ref_size
 			if ref_dict:
 				references = ref_dict
@@ -452,10 +485,13 @@ class ChatMsgBuffer(object):
 			return
 
 		speech_path = self.default_agent_speech_path(user_id=user_id)
-
 		TTSWorker.transform(text=reply_str, speech_path=speech_path)
+
+		speech_size = os.path.getsize(speech_path)
 		reply = ServerSpeechReply(
-			reply_speech_path=speech_path,
+			reply_speech={
+				speech_path: speech_size,
+			},
 			inner_chat=inner_chat,
 			references=references,
 			valid=True,

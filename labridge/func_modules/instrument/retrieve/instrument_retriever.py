@@ -13,8 +13,8 @@ from llama_index.core.schema import (
 from llama_index.core.settings import Settings
 from llama_index.core.indices.utils import default_parse_choice_select_answer_fn
 
-from ..store.instrument_store import InstrumentStorage
-from ..prompt.llm_instrument_choice_select import INSTRUMENT_CHOICE_SELECT_PROMPT
+from labridge.func_modules.instrument.store.instrument_store import InstrumentStorage
+from labridge.func_modules.instrument.prompt.llm_instrument_choice_select import INSTRUMENT_CHOICE_SELECT_PROMPT
 
 
 dispatcher = instrument.get_dispatcher(__name__)
@@ -105,7 +105,18 @@ class InstrumentRetriever:
 				context_str=fmt_batch_str,
 				query_str=retrieve_items,
 			)
-			choices, relevances = self._parse_choice_select_answer_fn(llm_response, len(nodes))
+
+			answer_lines = llm_response.split("\n")
+			valid_lines = []
+			for answer_line in answer_lines:
+				if len(answer_line) > 4:
+					valid_lines.append(answer_line.strip())
+			valid_response = "\n".join(valid_lines)
+
+			print("llm_response: \n", valid_response)
+			print("len nodes: ", len(nodes))
+
+			choices, relevances = self._parse_choice_select_answer_fn(valid_response, len(nodes), raise_error=True)
 			choice_indices = [c - 1 for c in choices]
 
 			choice_instruments = [nodes[ci] for ci in choice_indices]
@@ -183,10 +194,13 @@ class InstrumentRetriever:
 		content_nodes = self.vector_index_retriever.retrieve(retrieve_items)
 
 		instrument_ids = set()
+		# TODO: To be modified
 		for node in content_nodes:
-			instrument_id = node.node.parent_node.node_id
-			if instrument_id is not None:
-				instrument_ids.add(instrument_id)
+			instrument_node = node.node.parent_node
+			if instrument_node is not None:
+				instrument_ids.add(instrument_node.node_id)
+			else:
+				instrument_ids.add(node.node_id)
 		return list(instrument_ids)
 
 	async def _aretrieve_instrument_content_based(self, retrieve_items: str) -> List[str]:
@@ -278,3 +292,19 @@ class InstrumentRetriever:
 		self.set_retriever_node_ids(node_ids=retrieve_range)
 		final_nodes = await self.vector_index_retriever.aretrieve(item_to_be_retrieved)
 		return final_nodes
+
+
+if __name__ == "__main__":
+	from labridge.models.utils import get_models
+
+	llm, embed_model = get_models()
+
+	ins_retriever = InstrumentRetriever(
+		llm=llm,
+		embed_model=embed_model,
+	)
+
+	nodes = ins_retriever.retrieve(item_to_be_retrieved="如何检查电路板短路")
+	for node_s in nodes:
+		print(node_s.node.get_content())
+		print("============")

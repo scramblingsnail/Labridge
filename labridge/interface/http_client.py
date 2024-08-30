@@ -131,7 +131,6 @@ async def chat_with_text():
 		async def single_get():
 			while True:
 				reply = await client.get(url=get_response_url, )
-				print(reply.text)
 
 				# 等待标识为 'valid' 的 agent回复。
 				if reply.text:
@@ -154,16 +153,25 @@ async def chat_with_text():
 		while inner_chat:
 			# 在一次Chat的内部，如Agent调用工具过程中需要收集用户信息，于是返回了收集信息的回复。
 			# 在 inner_chat 的情况下，将用户的回复 post 到 相应的 Inner URL。
+			b_instruct = input("enable_instruct: ")
+			b_comment = input("enable_comment: ")
 			info = input("User Info: ")
-			await client.send(
-				request=Request(
-					method="post",
-					url=post_tool_info_url,
-					json={
-						"text": info,
-					},
+			enable_instruct = b_instruct == "1"
+			enable_comment = b_comment == "1"
+
+			if info != "None":
+				await client.send(
+					request=Request(
+						method="post",
+						url=post_tool_info_url,
+						json={
+							"text": info,
+							"reply_in_speech": False,
+							"enable_instruct": enable_instruct,
+							"enable_comment": enable_comment,
+						},
+					)
 				)
-			)
 			re_dict = await single_get()
 			inner_chat = re_dict["inner_chat"]
 			# 展示 Agent回复。
@@ -171,11 +179,14 @@ async def chat_with_text():
 		# agent 回复的不是 inner_chat 标识， 这一轮QA结束。
 		print("This QA finishes.")
 
-
 	while True:
 		user_query = input("User: ")
+
 		msg = {
 			"text": user_query,
+			"reply_in_speech": False,
+			"enable_instruct": False,
+			"enable_comment": False,
 		}
 		await asyncio.gather(query(msg), get_response())
 

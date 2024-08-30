@@ -51,7 +51,7 @@ from typing import (
 from labridge.func_modules.memory.chat.chat_memory import update_chat_memory
 from labridge.tools.utils import unpack_tool_output
 from labridge.accounts.users import AccountManager
-from labridge.tools.base.tool_base import OUTPUT_LOG_TOOLS
+from labridge.agent.chat_msg.msg_types import ChatBuffer
 from labridge.tools.base.tool_log import ToolLog
 from labridge.func_modules.memory.base import (
 	LOG_DATE_NAME,
@@ -63,6 +63,26 @@ from labridge.common.utils.time import get_time
 
 
 dispatcher = instrument.get_dispatcher(__name__)
+
+
+def update_intervene_status(
+	task: Task,
+	enable_instruct: bool,
+	enable_comment: bool
+):
+	r"""
+	Update the `enable_instruct` and `enable_comment` in the Reasoning & Acting.
+
+	Args:
+		task (Task): The processing task.
+		enable_instruct (bool): If True, enable the user to instruct the agent's Reasoning.
+		enable_comment: If True, enable the user to comment on the agent's Acting.
+
+	Returns:
+		None
+	"""
+	task.extra_state["enable_instruct"] = enable_instruct
+	task.extra_state["enable_comment"] = enable_comment
 
 
 def add_user_step_to_reasoning(
@@ -233,11 +253,23 @@ class InstructReActAgentWorker(ReActAgentWorker):
 		# send prompt
 		chat_response = self._llm.chat(input_chat)
 
-		if self._enable_instruct:
+		if task.extra_state["enable_instruct"]:
 			# TODO: interface: Send the action to the user
 			print_text(f">>> Initial reasoning: \n{chat_response.message.content}", color="pink", end="\n")
 			# TODO: interface: Get the user's suggestion
-			user_advice = input("User suggest: ")
+			packed_msgs = ChatBuffer.test_get_user_text(
+				user_id=task.extra_state["user_id"],
+				enable_instruct=False,
+				enable_comment=False,
+			)
+
+			user_advice = packed_msgs.user_msg
+			# update enable_instruct and enable_comment
+			update_intervene_status(
+				task=task,
+				enable_instruct=packed_msgs.enable_instruct,
+				enable_comment=packed_msgs.enable_comment,
+			)
 			print_text(f">>> User's suggestion: \n{user_advice}", color="blue", end="\n")
 			reasoning_step = ObservationReasoningStep(observation=f"User's suggestion: {user_advice}")
 			task.extra_state["current_reasoning"].append(reasoning_step)
@@ -277,9 +309,13 @@ class InstructReActAgentWorker(ReActAgentWorker):
 		"""Run step."""
 		if step.input is not None:
 			step.step_state["user_id"] = task.extra_state["user_id"]
-			add_user_step_to_reasoning(step, task.extra_state["new_memory"], task.extra_state["current_reasoning"],
-				verbose=self._verbose, )
-		# TODO: see if we want to do step-based inputs
+			add_user_step_to_reasoning(
+				step,
+				task.extra_state["new_memory"],
+				task.extra_state["current_reasoning"],
+				verbose=self._verbose,
+			)
+
 		tools = self.get_tools(task.input)
 
 		input_chat = self._react_chat_formatter.format(
@@ -291,14 +327,37 @@ class InstructReActAgentWorker(ReActAgentWorker):
 		# send prompt
 		chat_response = await self._llm.achat(input_chat)
 
-		if self._enable_instruct:
+		if task.extra_state["enable_instruct"]:
 			# TODO: interface: Send the action to the user
-			print_text(f">>> Initial reasoning: \n{chat_response.message.content}", color="pink", end="\n")
+			init_reasoning = (
+				f"**当前Thought**:\n"
+				f"{chat_response.message.content}\n"
+				f"请您参与到我的Reasoning过程中，给予指导。我将参考您的建议对我的决策做出调整："
+			)
+
+			ChatBuffer.put_agent_reply(
+				user_id=step.step_state["user_id"],
+				reply_str=init_reasoning,
+				inner_chat=True,
+			)
 			# TODO: interface: Get the user's suggestion
-			user_advice = input("User suggest: ")
-			print_text(f">>> User's suggestion: \n{user_advice}", color="blue", end="\n")
+			packed_msgs = await ChatBuffer.get_user_msg(
+				user_id=step.step_state["user_id"]
+			)
+
+			user_advice = packed_msgs.user_msg
+			system_msg = packed_msgs.system_msg
+			# Update the enable_instruct and enable_comment
+			update_intervene_status(
+				task=task,
+				enable_instruct=packed_msgs.enable_instruct,
+				enable_comment=packed_msgs.enable_comment,
+			)
+
+			# Put the user's instruction into reasoning.
+			system_step = ObservationReasoningStep(observation=f"<system>:{system_msg}")
 			reasoning_step = ObservationReasoningStep(observation=f"User's suggestion: {user_advice}")
-			task.extra_state["current_reasoning"].append(reasoning_step)
+			task.extra_state["current_reasoning"].extend([system_step, reasoning_step])
 
 			instruct_chat = self._instruct_chat_formatter.format(
 				tools,
@@ -308,7 +367,18 @@ class InstructReActAgentWorker(ReActAgentWorker):
 				suggestion=f"User's suggestion: {user_advice}",
 			)
 			chat_response = await self._llm.achat(instruct_chat)
-			print_text(f">>> Modified reasoning: \n{chat_response.message.content}", color="green", end="\n")
+
+			# modified_reasoning = (
+			# 	f"**参考您建议后的Thought**:\n"
+			# 	f"{chat_response.message.content}\n\n"
+			# 	f"我将根据这个Thought行动。"
+			# )
+			#
+			# ChatBuffer.put_agent_reply(
+			# 	user_id=step.step_state["user_id"],
+			# 	reply_str=modified_reasoning,
+			# 	inner_chat=True,
+			# )
 
 		# given react prompt outputs, call tools or return response
 		reasoning_steps, is_done = await self._aprocess_actions(task, tools, output=chat_response)

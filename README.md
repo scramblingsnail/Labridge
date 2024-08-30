@@ -10,4 +10,4 @@
 
 
 **项目文档**
-https://labridge.readthedocs.io/zh-cn/latest/agent_tools/prompt_framework/
+https://labridge.readthedocs.io/zh-cn/latest/

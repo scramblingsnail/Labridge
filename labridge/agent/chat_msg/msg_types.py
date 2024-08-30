@@ -187,25 +187,10 @@ class ServerReply(BaseModel):
 	reply_text: str
 	valid: bool
 	references: Optional[Dict[str, int]] = None
+	extra_info: Optional[str] = None
 	error: Optional[str] = None
 	inner_chat: Optional[bool] = False
 
-	def dumps(self) -> str:
-		msg_dict = {
-			"reply_text": self.reply_text,
-			"references": self.references,
-			"error": self.error,
-		}
-		return json.dumps(msg_dict)
-
-	@classmethod
-	def loads(cls, dumped_str: str):
-		msg_dict = json.loads(dumped_str)
-		return cls(
-			reply_text=msg_dict["reply_text"],
-			references=msg_dict["references"],
-			error=msg_dict["error"]
-		)
 
 class ServerSpeechReply(BaseModel):
 	r"""
@@ -223,6 +208,7 @@ class ServerSpeechReply(BaseModel):
 	reply_speech: Dict[str, int]
 	valid: bool
 	references: Optional[List[str]] = None
+	extra_info: Optional[str] = None
 	error: Optional[str] = None
 	inner_chat: Optional[bool] = False
 
@@ -459,6 +445,7 @@ class ChatMsgBuffer(object):
 		reply_str: str,
 		references: List[str] = None,
 		inner_chat: bool = False,
+		extra_info: str = None,
 	):
 		r"""
 		Put an agent's reply into the buffer.
@@ -467,8 +454,8 @@ class ChatMsgBuffer(object):
 			user_id (str): The user id of a Lab member.
 			reply_str (str): The agent's reply string.
 			references (List[str]): The paths of reference files. Defaults to None.
-			reply_in_speech (bool): Whether the agent replies in speech。 Defaults to False.
 			inner_chat (bool): Whether the reply happens inside a chat.
+			extra_info (str): extra information generally with long texts.
 		"""
 		self.account_manager.check_valid_user(user_id=user_id)
 
@@ -489,6 +476,7 @@ class ChatMsgBuffer(object):
 				references=references,
 				valid=True,
 				inner_chat=inner_chat,
+				extra_info=extra_info,
 			)
 			self.agent_reply_buffer[user_id] = reply
 			return
@@ -504,6 +492,7 @@ class ChatMsgBuffer(object):
 			inner_chat=inner_chat,
 			references=references,
 			valid=True,
+			extra_info=extra_info,
 		)
 		self.agent_reply_buffer[user_id] = reply
 

@@ -46,6 +46,7 @@ Get URL: `/users/{user_id}/response`
 - references (Dict[str, int]): 参考文件在server的存储路径与文件字节数。
 - error (str): 错误信息，如果没有错误，则为`None`.
 - inner_chat (bool): 本回复是否是一个Chat调用内部的回复。如果为`True`, 客户端应该把用户接下来的回复发送到相应的 `Inner` URL.
+- extra_info (str): 额外信息。其它过长的信息会放在这里，如果没有，则为 `None`
 
 [ServerSpeechReply](labridge/agent/chat_msg/msg_types.py):
 - reply_speech_path (Dict[str, int]): Key: Agent回复的语音文件在Server的存储路径, Value: 语音文件字节数。
@@ -53,6 +54,7 @@ Get URL: `/users/{user_id}/response`
 - references (Dict[str, int]): 参考文件在server的存储路径与文件字节数。
 - inner_chat: Optional[bool] = False
 - error (str): 错误信息，如果没有错误，则为`None`.
+- extra_info (str): 额外信息。其它过长的信息会放在这里，如果没有，则为 `None`
 
 ## 相应的 Inner URL:
 

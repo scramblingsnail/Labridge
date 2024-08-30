@@ -296,7 +296,7 @@ async def get_file(user_id: str, req: ClientDownloadReq):
     path = req.filepath
     fs = fsspec.filesystem("file")
     if fs.exists(path):
-       return FileResponse(path=path)
+        return FileResponse(path=path)
     else:
         error_path, error_f_name = error_file(
             error_str=f"File path {path} does not exist!",

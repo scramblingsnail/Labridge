@@ -66,12 +66,10 @@ nav:
               - agent_tools/tools/temporary_papers/recent_paper_summarize_tool.md
   - Deployment:
       - deployment/index.md
-      - deployment/software.md
-      - deployment/hardware.md
   - User Interface:
       - interface/index.md
       - Server-Client: interface/server-client.md
-      - Android APP: interface/android_app.md
+      - Android APP: interface/app.md
       - Web UI: interface/web_ui.md
   - Demonstration:
       - demonstration/index.md

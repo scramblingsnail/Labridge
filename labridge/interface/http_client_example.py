@@ -142,6 +142,9 @@ async def chat_with_text():
 							print(reply_dict["reply_text"])
 						if "reply_speech" in reply_dict.keys():
 							print(reply_dict["reply_speech"])
+						extra_info = reply_dict.get("extra_info")
+						if extra_info is not None:
+							print(extra_info)
 						break
 				await asyncio.sleep(1)
 			return reply_dict

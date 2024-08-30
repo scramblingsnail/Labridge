@@ -13,13 +13,13 @@ from llama_index.core.agent.react.types import (
     ObservationReasoningStep,
 )
 
-from labridge.agent.react.prompt import LABRIDGE_CHAT_SYSTEM_HEADER
+from labridge.agent.react.prompt import INSTRUCT_CHAT_SYSTEM_HEADER
 
 
 class InstructChatFormatter(object):
     """Instruct chat formatter."""
 
-    system_header: str = LABRIDGE_CHAT_SYSTEM_HEADER  # default
+    system_header: str = INSTRUCT_CHAT_SYSTEM_HEADER  # default
     context: str = ""  # not needed w/ default
 
     def format(

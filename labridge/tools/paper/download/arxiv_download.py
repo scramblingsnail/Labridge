@@ -83,9 +83,10 @@ class ArXivSearchDownloadTool(CallBackBaseTool):
 
 	def _user_select_results(self, user_id: str, results: List[Result]) -> Tuple[List[int], str]:
 		r""" Let the user select among the candidate papers """
-		query_str = self._select_query(results=results)
+		select_info = self._select_query(results=results)
 		# TODO: Send the query str to the user.
-		print(query_str)
+		print(USER_SELECT_ARXIV_PAPERS_QUERY)
+		print(select_info)
 		# TODO receive the message from the user.
 		user_msg = ChatBuffer.test_get_user_text(user_id=user_id)
 		user_response = user_msg.user_msg
@@ -101,12 +102,13 @@ class ArXivSearchDownloadTool(CallBackBaseTool):
 
 	async def _auser_select_results(self, user_id: str, results: List[Result]) -> Tuple[List[int], str]:
 		r""" Let the user select among the candidate papers """
-		query_str = self._select_query(results=results)
+		select_info = self._select_query(results=results)
 		# TODO: Send the query str to the user.
 		ChatBuffer.put_agent_reply(
 			user_id=user_id,
-			reply_str=query_str,
+			reply_str=USER_SELECT_ARXIV_PAPERS_QUERY,
 			inner_chat=True,
+			extra_info=select_info,
 		)
 
 		# TODO receive the message from the user.
@@ -144,7 +146,6 @@ class ArXivSearchDownloadTool(CallBackBaseTool):
 	@staticmethod
 	def _select_query(results: List[Result]) -> str:
 		r""" The message including the searched paper infos. """
-		query_str = USER_SELECT_ARXIV_PAPERS_QUERY
 		papers = []
 		for idx, result in enumerate(results):
 			paper_info = ARXIV_PAPER_INFO_TMPL.format(
@@ -153,7 +154,7 @@ class ArXivSearchDownloadTool(CallBackBaseTool):
 				abstract=result.summary,
 			)
 			papers.append(paper_info)
-		query_str += "\n\n".join(papers)
+		query_str = "\n\n".join(papers)
 		return query_str
 
 	def log(self, *args, **kwargs) -> ToolLog:

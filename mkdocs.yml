@@ -256,7 +256,7 @@ theme:
     - content.code.copy
     - content.code.select
     - content.code.annotations
-  favicon: assets/favicon.ico
+  favicon: assets/icon.ico
   icon:
     logo: logo
 
@@ -314,7 +314,6 @@ plugins:
 #      verbose: True
 #      author: zhisan
 #      copyright: A-Duiduiduidui Team
-
 
   - i18n:
       docs_structure: folder

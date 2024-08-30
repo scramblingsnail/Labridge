@@ -1,1 +1,0 @@
-:::labridge.func_modules.paper.synthesizer.summarize

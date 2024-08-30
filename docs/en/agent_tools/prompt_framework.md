@@ -10,7 +10,8 @@ Example: user's intervention during the Reasoning phase and Acting phase
 [image]()
 
 
-ReAct Prompt:
+## ReAct Prompt
+
 ```text
 Your role is that of a research assistant in the laboratory. 
 You will assist the researchers in various aspects to enhance their research, 
@@ -68,7 +69,7 @@ Below is the current conversation consisting of interleaving human and assistant
 ```
 
 
-Instruct prompt:
+## Instruct prompt
 
 ```text
 Your role is that of a research assistant in the laboratory. 

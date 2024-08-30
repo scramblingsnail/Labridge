@@ -215,10 +215,13 @@ class InstrumentRetriever:
 		content_nodes = await self.vector_index_retriever.aretrieve(retrieve_items)
 
 		instrument_ids = set()
+		# TODO: To be modified
 		for node in content_nodes:
-			instrument_id = node.node.parent_node.node_id
-			if instrument_id is not None:
-				instrument_ids.add(instrument_id)
+			instrument_node = node.node.parent_node
+			if instrument_node is not None:
+				instrument_ids.add(instrument_node.node_id)
+			else:
+				instrument_ids.add(node.node_id)
 		return list(instrument_ids)
 
 	@dispatcher.span
@@ -280,9 +283,11 @@ class InstrumentRetriever:
 		"""
 		# This docstring will be used as the tool description.
 		dsc_instruments = await self._aretrieve_proper_instrument(retrieve_items=item_to_be_retrieved)
-		content_instruments = await self._aretrieve_instrument_content_based(retrieve_items=item_to_be_retrieved)
+		# content_instruments = await self._aretrieve_instrument_content_based(retrieve_items=item_to_be_retrieved)
+		# instrument_ids = list(set(dsc_instruments + content_instruments))
 
-		instrument_ids = list(set(dsc_instruments + content_instruments))
+		instrument_ids = dsc_instruments
+
 		instruments = self.instrument_store.get_nodes(node_ids=instrument_ids)
 		retrieve_range = []
 

@@ -23,7 +23,7 @@ CLIENT_READY_FOR_DOWNLOAD = "ReadyForDownload"
 USER_TMP_DIR = "tmp"
 
 USER_SPEECH_NAME = "user_speech.pcm"
-AGENT_SPEECH_NAME = "agent_reply.pcm"
+AGENT_SPEECH_NAME = "agent_reply"
 
 
 
@@ -491,8 +491,8 @@ class ChatMsgBuffer(object):
 			self.agent_reply_buffer[user_id] = reply
 			return
 
-		speech_path = self.default_agent_speech_path(user_id=user_id)
-		TTSWorker.transform(text=reply_str, speech_path=speech_path)
+		speech_name = self.default_agent_speech_path(user_id=user_id)
+		speech_path = TTSWorker.transform(text=reply_str, speech_path=speech_name)
 
 		speech_size = os.path.getsize(speech_path)
 		reply = ServerSpeechReply(

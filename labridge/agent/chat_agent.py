@@ -144,7 +144,7 @@ class LabChatAgent:
 		chat_engine = InstructReActAgent.from_tools(
 			tools=tools,
 			react_chat_formatter=react_chat_formatter,
-			verbose=False,
+			verbose=True,
 			llm=llm,
 			memory=ChatMemoryBuffer.from_defaults(token_limit=3000),
 			enable_instruct=False,

@@ -9,7 +9,7 @@
 [image]()
 
 
-ReAct提示词：
+## ReAct提示词
 
 ```text
 Your role is that of a research assistant in the laboratory. 
@@ -63,7 +63,7 @@ Below is the current conversation consisting of interleaving human and assistant
 ```
 
 
-Instruct提示词:
+## Instruct提示词
 
 ```text
 Your role is that of a research assistant in the laboratory. 

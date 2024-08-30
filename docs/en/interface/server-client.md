@@ -42,7 +42,7 @@ Get URL: `/users/{user_id}/response`
 the corresponding `Inner` URL.
 
 **ServerSpeechReply**:
-- reply_speech_path (str): The file path of the agent's speech reply
+- reply_speech (str): The file path of the agent's speech reply
 - valid (bool):  Whether this reply is valid. If it is invalid, the client should keep requesting until receiving a valid response.
 - references (Dict[str, int]): Key -- the path of the reference file, Value -- the file size of the ref file
 - inner_chat: Optional[bool]: Whether this reply is an `inner` reply. If `True`, the client should send the user's next message to

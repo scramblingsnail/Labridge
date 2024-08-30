@@ -13,11 +13,27 @@ from datetime import datetime
 from time import mktime
 import _thread as thread
 import os
+import wave
 
 
 STATUS_FIRST_FRAME = 0  # 第一帧的标识
 STATUS_CONTINUE_FRAME = 1  # 中间帧标识
 STATUS_LAST_FRAME = 2  # 最后一帧的标识
+
+
+def pcm2wav(pcm_path, wav_path, channels=1, bits=16, sample_rate=16000):
+    pcmf = open(pcm_path, 'rb')
+    pcmdata = pcmf.read()
+    pcmf.close()
+
+    if bits % 8 != 0:
+        raise ValueError("bits % 8 must == 0. now bits:" + str(bits))
+
+    wavfile = wave.open(wav_path, 'wb')
+    wavfile.setnchannels(channels)
+    wavfile.setsampwidth(bits // 8)
+    wavfile.setframerate(sample_rate)
+    wavfile.writeframes(pcmdata)
 
 
 class WsParam(object):
@@ -98,10 +114,24 @@ class _TTSWorker(websocket.WebSocketApp):
             on_open=self.on_open,
         )
 
-    def transform(self, text: str, speech_path: str):
-        self.speech_path = speech_path
+    def transform(self, text: str, speech_name: str):
+        self.speech_name = speech_name
         self.ws_param.set_data(text=text)
         self.run_forever(sslopt={"cert_reqs": ssl.CERT_NONE})
+        pcm2wav(
+            pcm_path=self.pcm_path,
+            wav_path=self.wav_path,
+        )
+        return self.wav_path
+
+
+    @property
+    def pcm_path(self):
+        return f"{self.speech_name}.pcm"
+
+    @property
+    def wav_path(self):
+        return f"{self.speech_name}.wav"
 
     def on_message(self, ws, message):
         try:
@@ -118,8 +148,7 @@ class _TTSWorker(websocket.WebSocketApp):
                 errMsg = message["message"]
                 print("sid:%s call error:%s code is:%s" % (sid, errMsg, code))
             else:
-
-                with open(self.speech_path, 'ab') as f:
+                with open(self.pcm_path, 'ab') as f:
                     f.write(audio)
         except Exception as e:
             print("receive msg,but parse exception:", e)
@@ -158,5 +187,5 @@ TTSWorker = _TTSWorker()
 # )
 # TTSWorker.transform(
 #     text=text,
-#     speech_path="/root/zhisan/Labridge/labridge/interface/query_1.pcm",
+#     speech_name="/root/zhisan/Labridge/labridge/interface/query_wav",
 # )

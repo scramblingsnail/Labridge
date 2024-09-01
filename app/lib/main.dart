@@ -2,16 +2,20 @@ import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:labridge/chat_agent.dart';
+import 'package:labridge/settings.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:uuid/uuid.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart' as p;
+import 'package:labridge/message/audio_message.dart';
+import 'package:labridge/settings_route.dart';
 
 // For the testing purposes, you should probably use https://pub.dev/packages/uuid.
 String randomString() {
@@ -23,6 +27,8 @@ const String labridgeName = 'Labridge';
 const uuid = Uuid();
 final _labridgeId = uuid.v5(Uuid.NAMESPACE_URL, 'Labridge');
 final _labridge = types.User(id: _labridgeId, firstName: 'Labridge');
+
+final settings = Settings();
 
 void main() {
   runApp(const MyApp());
@@ -58,9 +64,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final List<types.Message> _messages = [];
 
-  final chatAgent = ChatAgent('杨再正');
+  final chatAgent = ChatAgent('realzhao');
+  final player = AudioPlayer();
 
-  bool _shouldEnterInnerChat = false;
+  bool _isInnerChat = false;
 
   // bool _clearButtonVisible = false;
   double _clearButtonWidth = 0.0;
@@ -83,6 +90,8 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.grey[100],
+          // 防止滚动时变色
+          scrolledUnderElevation: 0.0,
           centerTitle: true,
           title: const Text(
             'Labridge',
@@ -132,9 +141,46 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
           // titleTextStyle: const TextStyle(color: Colors.white),
         ),
+        drawer: Drawer(
+          // width: 200,
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const SizedBox(
+                height: 100,
+                child: DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Color(0xff1d1c21),
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Labridge',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              ListTile(
+                title: const Text('设置'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SettingsRoute()),
+                  );
+                },
+              )
+            ],
+          ),
+        ),
         // extendBodyBehindAppBar: true,
         body: Chat(
           messages: _messages,
+          audioMessageBuilder: _audioMessageBuilder,
           onAttachmentPressed: _handleAttachmentPressed,
           onMessageTap: _handleMessageTap,
           onPreviewDataFetched: _handlePreviewDataFetched,
@@ -213,23 +259,33 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Widget _audioMessageBuilder(types.AudioMessage message,
+      {required messageWidth}) {
+    return AudioMessageBlock(message: message, messageWidth: messageWidth);
+  }
+
   void _handleFileSelection() async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.any,
+      allowMultiple: false,
     );
 
-    if (result != null && result.files.single.path != null) {
+    if (result != null && result.files.isNotEmpty) {
       fileMessage = types.FileMessage(
         author: _user,
         createdAt: DateTime.now().millisecondsSinceEpoch,
         id: randomString(),
         name: result.files.single.name,
         size: result.files.single.size,
-        uri: result.files.single.path!,
+        uri: !kIsWeb ? result.files.single.path! : result.files.single.name,
       );
       // result.files.single.bytes
-      waitForUploadingFileBytes =
-          await File(result.files.single.path!).readAsBytes();
+      // if (!kIsWeb) {
+      //   waitForUploadingFileBytes =
+      //   await File(result.files.single.path!).readAsBytes();
+      // } else {
+      waitForUploadingFileBytes = result.files.first.bytes;
+      // }
 
       waitForUploadingFile = result.files.single;
       setState(() {
@@ -300,7 +356,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
       await OpenFilex.open(localPath);
     } else if (message is types.AudioMessage) {
-      final player = AudioPlayer();
       await player.play(DeviceFileSource(message.uri));
     }
   }
@@ -337,24 +392,33 @@ class _MyHomePageState extends State<MyHomePage> {
     Map<String, dynamic> response;
 
     /// 发送消息并等待响应
-    if (!_shouldEnterInnerChat) {
-      if (_waitForUploadingContentsCount == 0) {
-        chatAgent.query(message.text, replyInSpeech: true);
-        response = await chatAgent.singleGetResponse();
-      } else {
-        _addMessage(fileMessage!);
-        setState(() {
-          _waitForUploadingContentsCount = 0;
-        });
-        chatAgent.queryInFile(waitForUploadingFileBytes!,
-            waitForUploadingFile!.name, message.text, false);
-        response = await chatAgent.singleGetResponse();
-      }
+    if (_waitForUploadingContentsCount == 0) {
+      chatAgent.query(
+        message.text,
+        isInnerChat: _isInnerChat,
+        replyInSpeech: settings.replyInSpeech,
+        enableComment: settings.enableComment,
+        enableInstruct: settings.enableInstruct,
+      );
+      response = await chatAgent.singleGetResponse();
     } else {
-      response = await chatAgent.queryAndAnswer(message.text);
+      _addMessage(fileMessage!);
+      setState(() {
+        _waitForUploadingContentsCount = 0;
+      });
+      chatAgent.queryInFile(
+        waitForUploadingFileBytes!,
+        waitForUploadingFile!.name,
+        message.text,
+        isInnerChat: _isInnerChat,
+        replyInSpeech: settings.replyInSpeech,
+        enableComment: settings.enableComment,
+        enableInstruct: settings.enableInstruct,
+      );
+      response = await chatAgent.singleGetResponse();
     }
 
-    _shouldEnterInnerChat = response['inner_chat'];
+    _isInnerChat = response['inner_chat'];
 
     /// update message
     if (response.containsKey('reply_text')) {
@@ -366,16 +430,16 @@ class _MyHomePageState extends State<MyHomePage> {
       );
       _addMessage(labridgeTextMessage);
     } else {
-      final replySpeechPaths =
-          Map<String, int>.from(response['reply_speech_path']);
+      final replySpeechPaths = Map<String, int>.from(response['reply_speech']);
 
       for (final speechPathEntry in replySpeechPaths.entries) {
         var localPath = await chatAgent.downloadFile(speechPathEntry.key);
+        // print(localPath);
         final labridgeAudioMessage = types.AudioMessage(
           author: _labridge,
           createdAt: DateTime.now().millisecondsSinceEpoch,
           id: randomString(),
-          name: p.basename(speechPathEntry.key),
+          name: p.basename(localPath),
           size: speechPathEntry.value,
           uri: localPath,
           duration: const Duration(seconds: 4),
@@ -384,16 +448,29 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     }
 
+    /// process extra_info
+    if (response['extra_info'] != null) {
+      final labridgeTextMessage = types.TextMessage(
+        author: _labridge,
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        id: randomString(),
+        text: response['extra_info'].toString().trim(),
+      );
+      _addMessage(labridgeTextMessage);
+    }
+
     if (response['references'] != null) {
       // print('object');
 
       final references = Map<String, int>.from(response['references']);
       // print(references.keys);
       for (final referEntry in references.entries) {
+        var fileName = referEntry.key.replaceAll('\\', '/');
+        fileName = p.basename(fileName);
         final fileMessage = types.FileMessage(
           author: _labridge,
           id: randomString(),
-          name: p.basename(referEntry.key),
+          name: fileName,
           size: referEntry.value,
           uri: 'remote:${referEntry.key}',
         );

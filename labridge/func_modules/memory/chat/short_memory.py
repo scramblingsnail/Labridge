@@ -79,7 +79,7 @@ class ShortMemoryManager(object):
 		if not fs.exists(persist_path):
 			return None
 
-		chat_store = SimpleChatStore.from_persist_path()
+		chat_store = SimpleChatStore.from_persist_path(persist_path=str(persist_path))
 		keys = chat_store.get_keys()
 		if len(keys) < 1:
 			fs.rm(persist_path)

@@ -6,8 +6,10 @@ allowing users to participate in the agent’s thinking and decision-making proc
 thereby offering fine-grained control over the agent’s actions.
 We call it as `InstructReAct`
 
-Example: user's intervention during the Reasoning phase and Acting phase
-[image]()
+Example: Intervene agent's Reasoning & Acting
+
+- [Instruct mode](../demonstration/developer_mode/instruct_mode.md)
+- [Instruct mode & Comment mode](../demonstration/developer_mode/comment_mode.md)
 
 
 ## ReAct Prompt

@@ -1,1 +1,3 @@
-# This is the demonstration of shared papers.
+# Shared papers.
+
+![Shared papers QA](../images/shared_papers.png)

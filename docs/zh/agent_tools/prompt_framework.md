@@ -6,7 +6,9 @@
 
 
 示例：介入Agent的Reasoning & Acting
-[image]()
+
+- [指令模式](../demonstration/developer_mode/instruct_mode.md)
+- [指令模式 & 评论模式](../demonstration/developer_mode/comment_mode.md)
 
 
 ## ReAct提示词

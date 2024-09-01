@@ -73,16 +73,19 @@ nav:
       - Web UI: interface/web_ui.md
   - Demonstration:
       - demonstration/index.md
-      - Experiment logs:
+      - Paper:
+          - demonstration/paper/paper_download.md
+          - demonstration/paper/recent_papers_qa.md
+          - demonstration/paper/shared_papers.md
+      - Experiment log:
           - demonstration/experiment_log/record_log.md
           - demonstration/experiment_log/retrieve_log.md
       - Instrument:
           - demonstration/instrument/instrument_docs.md
           - demonstration/instrument/instrument_operations.md
-      - Paper:
-          - demonstration/paper/paper_download.md
-          - demonstration/paper/recent_papers_qa.md
-          - demonstration/paper/shared_papers.md
+      - Developer mode:
+          - demonstration/developer_mode/comment_mode.md
+          - demonstration/developer_mode/instruct_mode.md
   - Code Docs:
 #      - code_docs/index.md
       - Accounts:

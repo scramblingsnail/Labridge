@@ -100,7 +100,7 @@ class ExperimentLogRetriever(LogBaseRetriever):
 		Returns:
 			Retrieved experiment logs.
 		"""
-		if self.memory is None or self.memory.memory_id != memory_id:
+		if self.memory is None or self.memory.user_id != memory_id:
 			self.memory = ExperimentLog.from_user_id(
 				user_id=memory_id,
 				embed_model=self.embed_model,
@@ -166,7 +166,7 @@ class ExperimentLogRetriever(LogBaseRetriever):
 		Returns:
 			Retrieved experiment logs.
 		"""
-		if self.memory is None or self.memory.memory_id.user_id != memory_id:
+		if self.memory is None or self.memory.user_id != memory_id:
 			self.memory = ExperimentLog.from_user_id(
 				user_id=memory_id,
 				embed_model=self.embed_model,

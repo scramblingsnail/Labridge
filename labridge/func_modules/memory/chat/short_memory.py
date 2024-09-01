@@ -24,9 +24,9 @@ class ShortMemoryManager(object):
 		_valid_delta_minutes (Optional[int]): Same as above.
 	"""
 	_root: Optional[str] = None
-	_valid_delta_days: Optional[int] = 0,
-	_valid_delta_hours: Optional[int] = 2,
-	_valid_delta_minutes: Optional[int] = 30,
+	_valid_delta_days: Optional[int] = 0
+	_valid_delta_hours: Optional[int] = 2
+	_valid_delta_minutes: Optional[int] = 30
 
 	@property
 	def root(self) -> str:

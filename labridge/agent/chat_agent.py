@@ -51,12 +51,14 @@ class LabChatAgent:
 		users = self._account_manager.get_users()
 		self._chatting_status = {user: False for user in users}
 
+	def update_users(self):
+		self._account_manager = AccountManager()
+
 	@property
 	def chat_engine(self) -> InstructReActAgent:
 		if self._chat_engine is None:
 			self._chat_engine = self.get_chat_engine()
 		return self._chat_engine
-
 
 	def is_chatting(self, user_id: str) -> bool:
 		return self._chatting_status[user_id]
@@ -81,6 +83,7 @@ class LabChatAgent:
 		)
 		chat_history = self.chat_engine.memory.get()
 		self.short_memory_manager.save_memory(user_id=user_id, chat_history=chat_history)
+		self.chat_engine.reset()
 
 		ref_paths = response.metadata["references"]
 		if len(ref_paths) < 1:

@@ -4,6 +4,11 @@
 
 ## Client上传的数据：
 
+### User log up, log in:
+[ClientLogInUpReq](labridge/interface/http_server):
+- user_id: 用户名
+- password: 用户密码
+
 ### Chat with text:
 [ClientTextReq](labridge/interface/http_server):
 - text (str): 用户的消息字符串
@@ -40,6 +45,9 @@ Post URL: `/users/{user_id}/chat_speech`
 Get URL: `/users/{user_id}/response`
 
 ### 返回的数据结构
+[AccountResponse](labridge/interface/http_server.py)
+- user_id: 登录成功或注册后的用户名
+
 [ServerReply](labridge/agent/chat_msg/msg_types.py):
 - reply_text (str): Agent的回复字符串
 - valid (bool): 本回复是否是有效回复，若没有得到有效回复，客户端应轮询直至获得有效回复

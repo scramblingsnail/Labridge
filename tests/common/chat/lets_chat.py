@@ -7,7 +7,7 @@ from labridge.agent.chat_msg.msg_types import ChatBuffer
 dispatcher = instrument.get_dispatcher(__name__)
 
 def chat_one_to_one():
-	user_id = "杨再正"
+	user_id = "zhisan"
 
 	while True:
 		ChatAgent.chat_engine.set_enable_instruct(enable=False)
@@ -28,7 +28,7 @@ def chat_one_to_one():
 			# ChatAgent.set_chatting(user_id=user_id, chatting=False)
 
 async def achat_one_to_one():
-	user_id = "杨再正"
+	user_id = "zhisan"
 
 	while True:
 		packed_msgs = ChatBuffer.test_get_user_text(user_id=user_id)

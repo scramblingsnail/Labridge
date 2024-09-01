@@ -12,5 +12,9 @@
 **中文文档**
 https://scramblingsnail.github.io/Labridge/
 
+https://labridge.readthedocs.io/zh-cn/latest/
+
 **英文文档**
 https://scramblingsnail.github.io/Labridge/en/
+
+https://labridge.readthedocs.io/zh-cn/latest/en/

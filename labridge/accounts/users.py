@@ -56,6 +56,15 @@ class AccountManager(object):
 		r""" Get the registered chat groups """
 		return list(self._get_chat_group_ids_dict().keys())
 
+	def user_log_in(self, user_id: str, password: str) -> bool:
+		r""" User log in """
+		try:
+			self.check_valid_user(user_id)
+			user_ids = self._get_user_ids_dict()
+			return password == user_ids[user_id]
+		except ValueError:
+			return False
+
 	def check_valid_user(self, user_id: str):
 		r""" Check whether the given user is registered. """
 		user_list = self.get_users()

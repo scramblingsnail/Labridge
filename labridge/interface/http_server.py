@@ -2,7 +2,7 @@ import asyncio
 
 import fsspec
 import uvicorn
-from typing import Dict, Tuple
+from typing import Dict, Tuple, Optional
 
 from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.responses import StreamingResponse, FileResponse
@@ -13,6 +13,7 @@ from labridge.agent.chat_msg.msg_types import ChatBuffer
 from labridge.agent.chat_agent import ChatAgent
 from labridge.agent.chat_msg.msg_types import ChatTextMessage, FileWithTextMessage, ChatSpeechMessage
 from labridge.interface.utils import save_temporary_file, read_server_file, error_file
+from labridge.accounts.users import AccountManager
 
 
 app = FastAPI()
@@ -33,8 +34,18 @@ class ClientTextReq(BaseModel):
     enable_instruct: bool
     enable_comment: bool
 
+
 class ClientDownloadReq(BaseModel):
     filepath: str
+
+
+class ClientLogInUpReq(BaseModel):
+    user_id: str
+    password: str
+
+
+class AccountResponse(BaseModel):
+    user_id: Optional[str]
 
 
 async def single_chat(user_id: str):
@@ -50,6 +61,24 @@ async def single_chat(user_id: str):
             inner_chat=False,
         )
         ChatAgent.set_chatting(user_id=user_id, chatting=False)
+
+
+@app.post("/accounts/log-in")
+async def user_login(req: ClientLogInUpReq):
+    account_manager = AccountManager()
+    log_in = account_manager.user_log_in(user_id=req.user_id, password=req.password)
+    if log_in:
+        return AccountResponse(user_id=req.user_id)
+    else:
+        return AccountResponse()
+
+
+@app.post("/accounts/log-up")
+async def user_log_up(req: ClientLogInUpReq):
+    account_manager = AccountManager()
+    account_manager.add_user(user_id=req.user_id, password=req.password)
+    ChatAgent.update_users()
+    return AccountResponse(user_id=req.user_id)
 
 
 @app.post("/users/{user_id}/inner_chat_text")
@@ -314,6 +343,6 @@ async def clear_history(user_id: str):
 
 
 if __name__ == "__main__":
-    host = '127.0.0.1'
+    host = "localhost" # '127.0.0.1'
     port = 6006
     uvicorn.run(app, host=host, port=port, workers=1)

@@ -310,9 +310,9 @@ class InstructReActAgent(AgentRunner):
 				# update
 				update_intervene_status(
 					task=task,
-					enable_instruct=packed_msgs.enable_instruct,
-					enable_comment=packed_msgs.enable_comment,
-					reply_in_speech=packed_msgs.reply_in_speech,
+					enable_instruct=ChatBuffer.config_buffer[user_id].enable_instruct,
+					enable_comment=ChatBuffer.config_buffer[user_id].enable_comment,
+					reply_in_speech=ChatBuffer.config_buffer[user_id].reply_in_speech,
 				)
 				# add to the step's input
 				step.input = user_comment

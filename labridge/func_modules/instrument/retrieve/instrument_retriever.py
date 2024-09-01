@@ -313,7 +313,16 @@ if __name__ == "__main__":
 		embed_model=embed_model,
 	)
 
-	nodes = ins_retriever.retrieve(item_to_be_retrieved="如何检查电路板短路")
-	for node_s in nodes:
-		print(node_s.node.get_content())
-		print("============")
+	# nodes = ins_retriever.retrieve(item_to_be_retrieved="如何检查电路板短路")
+	# for node_s in nodes:
+	# 	print(node_s.node.get_content())
+	# 	print("============")
+
+	async def main():
+		nodes = await ins_retriever.aretrieve(item_to_be_retrieved="如何检查电路板短路")
+		for node_s in nodes:
+			print(node_s.node.get_content())
+			print("============")
+
+	import asyncio
+	asyncio.run(main())

@@ -152,7 +152,6 @@ class PaperSummaryLLMPostSelector:
 		return doc_ids
 
 
-
 class PaperRetriever:
 	r"""
 	We use hybrid, multi-level retrieving methods.

@@ -122,7 +122,7 @@ class RecentPaperRetrieveTool(RetrieverBaseTool):
 
 if __name__ == "__main__":
 	import asyncio
-	from labridge.llm.models import get_models
+	from labridge.models.utils import get_models
 	from labridge.tools.base.tool_log import ToolLog
 	from labridge.tools.utils import unpack_tool_output
 

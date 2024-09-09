@@ -266,6 +266,9 @@ class RecentPaperRetriever:
 				user_id=user_id,
 				embed_model=self._embed_model,
 			)
+			if self.fs.exists(paper_info):
+				print(f"Putting {paper_info} into storage.")
+				self.paper_store.put(paper_file_path=paper_info)
 			self.paper_retriever = self.get_paper_retriever()
 
 		self.reset_retriever()
@@ -335,6 +338,8 @@ class RecentPaperRetriever:
 				user_id=user_id,
 				embed_model=self._embed_model,
 			)
+			if self.fs.exists(paper_info):
+				self.paper_store.put(paper_file_path=paper_info)
 			self.paper_retriever = self.get_paper_retriever()
 
 		self.reset_retriever()
@@ -361,3 +366,19 @@ class RecentPaperRetriever:
 		if self._final_use_context:
 			relevant_nodes = self._add_context(content_nodes=relevant_nodes)
 		return relevant_nodes
+
+
+if __name__ == "__main__":
+	from labridge.models.utils import get_models
+
+	llm, embed_model = get_models()
+	rr = RecentPaperRetriever(embed_model=embed_model)
+	retrieved_nodes = rr.retrieve(
+		paper_info="D:\python_works\Labridge\documents\papers\杨再正\神经网络量化\Parameter Quantizing\Qu_Adaptive_Loss-Aware_Quantization_for_Multi-Bit_Networks_CVPR_2020_paper.pdf",
+		item_to_be_retrieved="quantization",
+		user_id="杨再正",
+	)
+	for node_score in retrieved_nodes:
+		print(node_score.node.metadata)
+
+

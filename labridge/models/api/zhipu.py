@@ -14,7 +14,7 @@ from typing import Any
 from zhipuai import ZhipuAI
 
 
-client = ZhipuAI(api_key="71eff193fe38f344074931101d510511.EYE7gbcTFUFQdfe4")
+client = ZhipuAI(api_key="3f8ead622221ded795ca8271184be756.9Zkgansv8cUgIRNO")
 
 
 class ZhiPuLLM(CustomLLM):

@@ -23,6 +23,7 @@ from typing import (
 )
 
 from labridge.tools.base.tool_log import ToolLog
+from labridge.func_modules.reference.base import RefInfoBase
 from labridge.func_modules.paper.query_engine.paper_query_engine import PAPER_QUERY_TOOL_NAME
 
 from labridge.tools.utils import (
@@ -42,6 +43,8 @@ OUTPUT_LOG_TOOLS = [
 ]
 
 TOOL_LOG_TYPE = Union[str, List[str]]
+
+TOOL_LOG_REF_INFO_KEY = "ref_info"
 
 
 class CheckBaseTool(AsyncBaseTool):
@@ -131,6 +134,7 @@ class QueryEngineBaseTool(QueryEngineTool):
 			raw_output=response,
 		)
 
+
 class RetrieverBaseTool(CheckBaseTool):
 	r"""
 	This is the base of retrieving tools.
@@ -186,6 +190,10 @@ class RetrieverBaseTool(CheckBaseTool):
 	@abstractmethod
 	def _nodes_to_tool_output(self, nodes: List[NodeWithScore]) -> Tuple[str, dict]:
 		r""" output the retrieved contents in a specific format, and the output log. """
+
+	@abstractmethod
+	def get_ref_info(self, nodes: List[NodeWithScore]) -> List[RefInfoBase]:
+		r""" Get the reference infos from the retrieved nodes. """
 
 	@property
 	def retriever(self) -> BaseRetriever:

@@ -7,21 +7,24 @@ from llama_index.core import ServiceContext, Settings
 from llama_index.core.utils import print_text
 from llama_index.core.llms import LLM
 
-from typing import Dict, List, Union, Tuple
+from typing import Dict, List, Union, Tuple, Optional
 from pathlib import Path
 
 from labridge.common.query_engine.query_engines import SingleQueryEngine
+from .doi import CrossRefWorker
 
 
 r""" a dictionary of {'metadata': 'description'} """
 PAPER_REL_FILE_PATH = "File path"
 PAPER_LEVEL_KEYWORDS = "Paper keywords"
 PAPER_TITLE = "Title"
+PAPER_ABSTRACT = "Abstract"
 PAPER_POSSESSOR = "Possessor"
+PAPER_DOI = "DOI"
 
 DEFAULT_NECESSARY_METADATA = {
 	PAPER_TITLE: "The title often appears as a single concise sentence at the head of a paper.",
-	"Abstract": "abstract often appears as the first paragraph in the text of a paper. "
+	PAPER_ABSTRACT: "abstract often appears as the first paragraph in the text of a paper. "
 				"It generally includes 100 to 300 words. Use the original text",
 	"Authors": "The authors name often appears at the header of a paper, following the title."
 			   "And the name of authors are separated by separators such as commas.",
@@ -73,6 +76,7 @@ class PaperMetadataExtractor:
 			self.llm = llm
 
 		self.prompt_tmpl = self.get_prompt_tmpl()
+		self.crossref_worker = CrossRefWorker()
 		self.query_engine = SingleQueryEngine(llm=llm, prompt_tmpl=self.prompt_tmpl)
 		self.max_retry_times = max_retry_times
 
@@ -228,15 +232,19 @@ class PaperMetadataExtractor:
 		pdf_path: Union[Path, str] = None,
 		pdf_docs: List[Document] = None,
 		show_progress: bool = True,
-	) -> Dict[str, str]:
+		extra_metadata: dict = None,
+	) -> Optional[Dict[str, str]]:
 		r"""
 		Extract required metadata from a paper.
+		Title and DOI is necessary, we will use the CrossRef API to get the DOI of a paper according to its title.
+		If any of them misses, this method will return None.
 
 		Args:
 			pdf_path (Union[Path, str]): The file path of the paper.
 			pdf_docs (List[Document]): If the pdf_path is not provided, the provided pdf_docs will be used.
 				pdf_docs and pdf_path can not all be None.
 			show_progress (bool): Whether to show the inner progress.
+			extra_metadata (dict): Existing metadata obtained by approaches such as arXiv API.
 
 		Returns:
 			Dict[str, str]: The extracted metadata.
@@ -246,16 +254,32 @@ class PaperMetadataExtractor:
 		elif pdf_docs is None:
 			raise ValueError("pdf_path and pdf_docs can not both be None.")
 
-		paper_metadata = dict()
-		lack_necessary_metadata, _ = self.necessary_metadata, self.optional_metadata
+		paper_metadata = extra_metadata or dict()
+		lack_necessary_metadata, _ = self._lacked_metadata(paper_metadata)
 		retry_count = 0
 		while len(lack_necessary_metadata.keys()) > 0 and retry_count <= self.max_retry_times:
-			new_metadata = self._extract_metadata(pdf_docs=pdf_docs,
-												  necessary_metadata=lack_necessary_metadata,
-												  optional_metadata=self.optional_metadata)
+			new_metadata = self._extract_metadata(
+				pdf_docs=pdf_docs,
+				necessary_metadata=lack_necessary_metadata,
+				optional_metadata=self.optional_metadata,
+			)
 			retry_count += 1
 			if show_progress:
 				print_text(f">>>\tExtract try idx {retry_count}: {list(new_metadata.keys())}", color="cyan", end="\n")
 			paper_metadata.update(new_metadata)
 			lack_necessary_metadata, _ = self._lacked_metadata(paper_metadata)
+
+		title = paper_metadata.get(PAPER_TITLE, None)
+		if title is None:
+			return None
+
+		# find doi according to title
+		doi = paper_metadata.get(PAPER_DOI, None)
+		if doi is None:
+			doi = self.crossref_worker.find_doi_by_title(title=title)
+		if doi is None:
+			print("DOI find fails.")
+			return None
+
+		paper_metadata[PAPER_DOI] = doi
 		return paper_metadata

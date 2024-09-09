@@ -163,8 +163,12 @@ class RecentPaperStore(object):
 		for idx in range(5):
 			root = root.parent
 
-		persist_dir = str(root / f"{TMP_PAPER_VECTOR_INDEX_PERSIST_DIR}/{user_id}")
 		fs = fsspec.filesystem("file")
+		paper_dir = str(root / f"{TMP_PAPER_WAREHOUSE_DIR}/{user_id}")
+		if not fs.exists(paper_dir):
+			fs.mkdirs(paper_dir)
+
+		persist_dir = str(root / f"{TMP_PAPER_VECTOR_INDEX_PERSIST_DIR}/{user_id}")
 		if fs.exists(persist_dir):
 			return cls.from_storage(
 				persist_dir=persist_dir,
@@ -466,8 +470,11 @@ class RecentPaperStore(object):
 				papers.remove(paper)
 		root_node.relationships[NodeRelationship.CHILD] = papers
 		self._update_node(node_id=TMP_PAPER_ROOT_NODE_NAME, node=root_node)
-		if Path(paper_file_path).is_relative_to(TMP_PAPER_WAREHOUSE_DIR):
+		try:
+			Path(paper_file_path).relative_to(TMP_PAPER_WAREHOUSE_DIR)
 			self._fs.rm(paper_file_path)
+		except ValueError:
+			pass
 
 	def persist(self, persist_dir: str = None):
 		r"""

@@ -375,6 +375,8 @@ class RecordExperimentLogTool(FunctionBaseTool):
 		self,
 		user_id: str,
 		log_str: str,
+		attached_file_path: str = None,
+		**kwargs,
 	) -> FuncOutputWithLog:
 		r"""
 		This tool is used to record the experiment log of the experiment in progress for a user.
@@ -385,6 +387,8 @@ class RecordExperimentLogTool(FunctionBaseTool):
 		Args:
 			user_id (str): The user_id of a lab member.
 			log_str (str): The experiment log to be recorded.
+			attached_file_path (str): The path of the attached file, If the user attaches a file along with the experiment log.
+				Defaults to None.
 
 		Returns:
 			The tool output and log.
@@ -459,9 +463,9 @@ class RecordExperimentLogTool(FunctionBaseTool):
 		expr_log_store.put(
 			experiment_name=recent_expr,
 			log_str=log_str,
+			attached_file_path=attached_file_path,
 		)
 		expr_log_store.persist()
-
 
 		op_log_str = (
 			f"Have put a new experiment log into the experiment log store of the user: {user_id}.\n" 
@@ -481,6 +485,8 @@ class RecordExperimentLogTool(FunctionBaseTool):
 		self,
 		user_id: str,
 		log_str: str,
+		attached_file_path: str = None,
+		**kwargs,
 	) -> FuncOutputWithLog:
 		r"""
 		This tool is used to record the experiment log of the experiment in progress for a user.
@@ -491,6 +497,8 @@ class RecordExperimentLogTool(FunctionBaseTool):
 		Args:
 			user_id (str): The user_id of a lab member.
 			log_str (str): The experiment log to be recorded.
+			attached_file_path (str): The path of the attached file, If the user attaches a file along with the experiment log.
+				Defaults to None.
 
 		Returns:
 			The tool output and log.
@@ -524,7 +532,6 @@ class RecordExperimentLogTool(FunctionBaseTool):
 					fn_output=status,
 					fn_log={"operation_log": op_log}
 				)
-
 
 		# If current experiment in progress is not valid.
 		recent_expr = expr_log_store.get_recent_experiment()
@@ -561,6 +568,7 @@ class RecordExperimentLogTool(FunctionBaseTool):
 		expr_log_store.put(
 			experiment_name=recent_expr,
 			log_str=log_str,
+			attached_file_path=attached_file_path,
 		)
 		expr_log_store.persist()
 

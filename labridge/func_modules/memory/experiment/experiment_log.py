@@ -17,7 +17,6 @@ from typing import List, Optional, Dict
 
 from labridge.accounts.users import AccountManager
 from labridge.common.utils.time import get_time, str_to_datetime
-from labridge.models.utils import get_models
 from labridge.func_modules.memory.base import (
 	LOG_DATE_NAME,
 	LOG_TIME_NAME,
@@ -26,6 +25,8 @@ from labridge.func_modules.memory.base import (
 	NOT_LOG_NODE_TYPE,
 )
 
+
+EXPERIMENT_LOG_ATTACHMENT_DIR = "documents/experiment_files"
 
 EXPERIMENT_LOG_PERSIST_DIR = "storage/experiment_log"
 EXPERIMENT_LOG_VECTOR_INDEX_ID = "experiment_log"
@@ -39,7 +40,7 @@ EXPERIMENT_LAST_NODE_ID_PREFIX = "last_log"
 RECENT_EXPERIMENT_NAME_KEY = "experiment_name"
 RECENT_EXPERIMENT_START_TIME_KEY = "start_time"
 RECENT_EXPERIMENT_END_TIME_KEY = "end_time"
-
+EXPERIMENT_LOG_ATTACHMENT_KEY = "attachment"
 
 
 class ExperimentLog(object):
@@ -73,6 +74,11 @@ class ExperimentLog(object):
 		self.vector_index = vector_index
 		self.vector_index.set_index_id(EXPERIMENT_LOG_VECTOR_INDEX_ID)
 		self.persist_dir = persist_dir
+		self._fs = fsspec.filesystem("file")
+		root = Path(__file__)
+		for idx in range(5):
+			root = root.parent
+		self._root = root
 
 	@classmethod
 	def from_storage(
@@ -332,6 +338,8 @@ class ExperimentLog(object):
 			node_id=f"{experiment_name}_header",
 			node_type=LOG_NODE_TYPE
 		)
+		new_expr_node.relationships[NodeRelationship.CHILD] = [RelatedNodeInfo(node_id=expr_header_node.node_id)]
+		expr_header_node.relationships[NodeRelationship.PARENT] = RelatedNodeInfo(node_id=new_expr_node.node_id)
 
 		last_info_node = self._new_node(
 			text=expr_header_node.node_id,
@@ -358,23 +366,49 @@ class ExperimentLog(object):
 		text: str,
 		node_type: str,
 		node_id: str = None,
+		extra_metadata: dict = None,
 	) -> TextNode:
 		r""" A new node with `node_type` """
 		date, h_m_s = get_time()
-		node = TextNode(
-			id_=node_id or str(uuid.uuid4()),
-			text=text,
-			metadata={
-				LOG_DATE_NAME: [date,],
-				LOG_TIME_NAME: [h_m_s,],
+		metadata = extra_metadata or dict()
+		metadata.update(
+			{
+				LOG_DATE_NAME: [date, ],
+				LOG_TIME_NAME: [h_m_s, ],
 				MEMORY_NODE_TYPE_NAME: node_type,
 			}
 		)
-		node.excluded_embed_metadata_keys = [MEMORY_NODE_TYPE_NAME,]
+
+		node = TextNode(
+			id_=node_id or str(uuid.uuid4()),
+			text=text,
+			metadata=metadata,
+		)
+		node.excluded_embed_metadata_keys = [MEMORY_NODE_TYPE_NAME, ]
 		node.excluded_llm_metadata_keys = [MEMORY_NODE_TYPE_NAME, ]
 		return node
 
-	def put(self, experiment_name: str, log_str: str):
+	def record_attachment(self, file_path: str) -> str:
+		if not self._fs.exists(file_path):
+			raise ValueError(f"The path of the attachment file is not valid: {file_path}")
+
+		date, h_m_s = get_time()
+		record_dir = str(self._root / f"{EXPERIMENT_LOG_ATTACHMENT_DIR}/{self.user_id}/{date}")
+		if not self._fs.exists(record_dir):
+			self._fs.mkdirs(record_dir)
+
+		self._fs.cp(file_path, record_dir)
+
+		file_name = Path(file_path).name
+		record_path = f"{record_dir}/{file_name}"
+		return record_path
+
+	def put(
+		self,
+		experiment_name: str,
+		log_str: str,
+		attached_file_path: str = None,
+	):
 		r"""
 		Put in an experiment log into a specific experiment store.
 
@@ -388,15 +422,25 @@ class ExperimentLog(object):
 		Args:
 			experiment_name (str): An existing experiment name.
 			log_str (str): The experiment log string to be put in.
+			attached_file_path (str): The path of the attached file. Defaults to None.
 		"""
+		# TODO: Support files.
 		root_node = self._get_node(node_id=INIT_NODE_NAME)
 		experiments = root_node.child_nodes
 		if experiments is None or experiment_name not in [expr.node_id for expr in experiments]:
 			raise ValueError(f"The experiment {experiment_name} of user {self.user_id} does not exist.")
 
+		extra_metadata = None
+		if attached_file_path is not None:
+			record_path = self.record_attachment(file_path=attached_file_path)
+			extra_metadata = {
+				EXPERIMENT_LOG_ATTACHMENT_KEY: record_path,
+			}
+
 		new_log_node = self._new_node(
 			text=log_str,
 			node_type=LOG_NODE_TYPE,
+			extra_metadata=extra_metadata,
 		)
 		expr_node = self._get_node(node_id=experiment_name)
 		last_store_name = f"{experiment_name}_{EXPERIMENT_LAST_NODE_ID_PREFIX}"
@@ -422,6 +466,7 @@ class ExperimentLog(object):
 		)
 		expr_node.relationships[NodeRelationship.CHILD] = log_node_list
 		self._update_node(node_id=experiment_name, node=expr_node)
+		print("Parent: ", new_log_node.parent_node.node_id)
 		self.vector_index.insert_nodes([new_log_node])
 
 	def persist(self, persist_dir: str = None):
@@ -439,17 +484,32 @@ class ExperimentLog(object):
 
 
 if __name__ == "__main__":
-	# TODO: to be validated.
+	from labridge.models.utils import get_models
+
 	llm, embed_model = get_models()
 	expr_log = ExperimentLog.from_user_id(user_id="杨再正", embed_model=embed_model)
-	print(expr_log.get_all_experiments())
-	print(expr_log.is_expr_exist(experiment_name="强化学习优化忆阻器写入策略"))
-	print(expr_log.get_expr_log_node_ids(experiment_name="强化学习优化忆阻器写入策略"))
-	expr_log.set_recent_experiment(
-		experiment_name="强化学习优化忆阻器写入策略",
-		start_date="2024-08-15",
-		start_time="09:13:00",
-		end_date="2024-08-17",
-		end_time="08:00:00"
+
+	expr_log.create_experiment(
+		experiment_name="忆阻器制备",
+		description="制备高均一性的忆阻器阵列",
 	)
-	print(expr_log.get_recent_experiment())
+
+	expr_log.put(
+		experiment_name="忆阻器制备",
+		log_str="光刻参数为：曝光时间1.5s，显影时间20s。本次实验的阵列光学照片如下：",
+		attached_file_path="D:\python_works\Labridge\Server-Client.md",
+	)
+	expr_log.persist()
+
+	# print(expr_log.get_all_experiments())
+	# print(expr_log.get_expr_log_node_ids(experiment_name="忆阻器制备"))
+	# print(expr_log.is_expr_exist(experiment_name="强化学习优化忆阻器写入策略"))
+	# print(expr_log.get_expr_log_node_ids(experiment_name="强化学习优化忆阻器写入策略"))
+	# expr_log.set_recent_experiment(
+	# 	experiment_name="强化学习优化忆阻器写入策略",
+	# 	start_date="2024-08-15",
+	# 	start_time="09:13:00",
+	# 	end_date="2024-08-17",
+	# 	end_time="08:00:00"
+	# )
+	# print(expr_log.get_recent_experiment())

@@ -16,6 +16,7 @@ from llama_index.core.readers.file.base import is_default_fs
 from llama_index.core.utils import print_text
 from llama_index.core.llms import LLM
 
+from .extractors.doi import CrossRefWorker
 from .parsers.base import MetadataContents, ChunkContents, CONTENT_TYPE_NAME
 from .parsers.auto import auto_parse_paper
 from .extractors.source_analyze import PaperSourceAnalyzer
@@ -23,10 +24,14 @@ from .extractors.metadata_extract import (
 	PaperMetadataExtractor,
 	PAPER_POSSESSOR,
 	PAPER_REL_FILE_PATH,
+	PAPER_TITLE,
 )
 
 
 logger = logging.getLogger(__name__)
+
+
+SHARED_PAPER_WAREHOUSE_DIR = "documents/shared_papers"
 
 
 class PaperReader:
@@ -86,11 +91,13 @@ class PaperReader:
 		self.metadata_extractor = None
 		self.extract_metadata = extract_metadata
 		if extract_metadata:
-			self.metadata_extractor = PaperMetadataExtractor(llm=llm,
-															 necessary_metadata=necessary_metadata,
-															 optional_metadata=optional_metadata,
-															 max_retry_times=extract_retry_times,
-															 service_context=service_context)
+			self.metadata_extractor = PaperMetadataExtractor(
+				llm=llm,
+				necessary_metadata=necessary_metadata,
+				optional_metadata=optional_metadata,
+				max_retry_times=extract_retry_times,
+				service_context=service_context,
+			)
 		if llm is None:
 			self.llm = llm_from_settings_or_context(Settings, service_context)
 		else:
@@ -123,22 +130,27 @@ class PaperReader:
 		"""
 		if isinstance(paper_path, str):
 			paper_path = Path(paper_path)
-		paper_warehouse = self.root / "documents/papers"
-		rel = paper_path.relative_to(paper_warehouse)
-		possessor = str(rel).split('/')[0]
-		return possessor
+		try:
+			paper_warehouse = self.root / SHARED_PAPER_WAREHOUSE_DIR
+			rel = paper_path.relative_to(paper_warehouse)
+			possessor = rel.parts[0]
+			return possessor
+		except ValueError:
+			raise ValueError("The path of the paper is not valid, a valid path should be under the PaperWarehouse directory.")
 
 	def read_single_paper(
 		self,
 		file_path: Union[Path, str],
-		show_progress: bool = True
-	) -> Tuple[List[Document], List[Document]]:
+		show_progress: bool = True,
+		extra_metadata: dict = None,
+	) -> Optional[Tuple[List[Document], List[Document]]]:
 		r"""
 		Read a single pdf paper.
 		
 		Args:
-		 	file_path (Union[Path, str]): the path of pdf paper.
-		 	show_progress (bool): show parsing progress.
+			file_path (Union[Path, str]): the path of pdf paper.
+			show_progress (bool): show parsing progress.
+			extra_metadata (dict): Existing metadata obtained by approaches such as arXiv API.
 
 		Returns:
 			Tuple[List[Document], List[Document]]:
@@ -174,7 +186,13 @@ class PaperReader:
 		paper_metadata = dict()
 
 		if self.extract_metadata:
-			paper_metadata = self.metadata_extractor.extract_paper_metadata(pdf_path=file_path)
+			paper_metadata = self.metadata_extractor.extract_paper_metadata(
+				pdf_path=file_path,
+				extra_metadata=extra_metadata,
+			)
+			if paper_metadata is None:
+				return None
+
 			for meta_doc in metadata_docs:
 				metadata_name = meta_doc.metadata[CONTENT_TYPE_NAME]
 				if metadata_name not in paper_metadata.keys():

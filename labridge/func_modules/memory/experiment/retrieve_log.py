@@ -114,7 +114,7 @@ class ExperimentLogRetriever(LogBaseRetriever):
 		else:
 			retrieve_node_ids = self.memory.get_expr_log_node_ids(experiment_name)
 
-		filters = [self._log_node_filter(),]
+		filters = [self._log_node_filter(), ]
 		if None not in [start_date, end_date]:
 			# get the candidate date list.
 			date_list = self._parse_date(start_date_str=start_date, end_date_str=end_date)
@@ -192,9 +192,6 @@ class ExperimentLogRetriever(LogBaseRetriever):
 		self.memory_vector_retriever._filters = metadata_filters
 		self.memory_vector_retriever._node_ids = retrieve_node_ids
 		log_nodes = await self.memory_vector_retriever.aretrieve(item_to_be_retrieved)
-
-		for log_node in log_nodes:
-			print(log_node.get_content(metadata_mode=MetadataMode.LLM), log_node.node.metadata)
 
 		if self.final_use_context:
 			log_nodes = self._add_context(content_nodes=log_nodes)

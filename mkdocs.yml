@@ -69,7 +69,7 @@ nav:
   - User Interface:
       - interface/index.md
       - Server-Client: interface/server-client.md
-      - Android APP: interface/app.md
+      - APP: interface/app.md
       - Web UI: interface/web_ui.md
   - Demonstration:
       - demonstration/index.md

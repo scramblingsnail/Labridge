@@ -4,7 +4,7 @@ from llama_index.core.llms import LLM
 from llama_index.core.schema import NodeWithScore, MetadataMode
 
 from labridge.tools.base.tool_log import ToolLog, TOOL_OP_DESCRIPTION, TOOL_REFERENCES
-from labridge.tools.base.tool_base import RetrieverBaseTool
+from labridge.tools.base.tool_base import RetrieverBaseTool, TOOL_LOG_REF_INFO_KEY
 from labridge.func_modules.reference.paper import PaperInfo
 from labridge.func_modules.paper.retrieve.paper_retriever import (
 	PaperRetriever,
@@ -13,9 +13,15 @@ from labridge.func_modules.paper.retrieve.paper_retriever import (
 	PAPER_TOP_K,
 	PAPER_RETRIEVE_TOP_K,
 )
+from labridge.func_modules.paper.parse.extractors.metadata_extract import (
+	PAPER_POSSESSOR,
+	PAPER_TITLE,
+	PAPER_REL_FILE_PATH,
+)
 
 
 from typing import Tuple, List
+from pathlib import Path
 
 
 class SharedPaperRetrieverTool(RetrieverBaseTool):
@@ -66,12 +72,16 @@ class SharedPaperRetrieverTool(RetrieverBaseTool):
 			retriever=paper_retriever,
 			retrieve_fn=paper_retriever.retrieve,
 		)
+		root = Path(__file__)
+		for i in range(5):
+			root = root.parent
+		self.root = root
 
 	def log(self, log_dict: dict) -> ToolLog:
 		r""" Return the ToolLog with log string in a specific format. """
 		item_to_be_retrieved = log_dict["item_to_be_retrieved"]
 
-		ref_infos: List[PaperInfo] = self._retriever.get_ref_info()
+		ref_infos: List[PaperInfo] = log_dict.get(TOOL_LOG_REF_INFO_KEY)
 
 		op_log = (
 			f"Retrieve in the shared papers.\n"
@@ -98,8 +108,42 @@ class SharedPaperRetrieverTool(RetrieverBaseTool):
 		nodes = await self._retriever.aretrieve(**retrieve_kwargs)
 		return nodes
 
+	def get_ref_info(self, nodes: List[NodeWithScore]) -> List[PaperInfo]:
+		r"""
+		Get the reference paper infos
+
+		Returns:
+			List[PaperInfo]: The reference paper infos in answering.
+		"""
+		doc_ids, doc_titles, doc_possessors = [], [], []
+		ref_infos = []
+		for node_score in nodes:
+			ref_doc_id = node_score.node.ref_doc_id
+			if ref_doc_id not in doc_ids:
+				doc_ids.append(ref_doc_id)
+				title = node_score.node.metadata.get(PAPER_TITLE) or ref_doc_id
+				possessor = node_score.node.metadata.get(PAPER_POSSESSOR)
+				rel_path = node_score.node.metadata.get(PAPER_REL_FILE_PATH)
+				if rel_path is None:
+					raise ValueError("Invalid database.")
+				paper_info = PaperInfo(
+					title=title,
+					possessor=possessor,
+					file_path=str(self.root / rel_path),
+				)
+				ref_infos.append(paper_info)
+
+				doc_titles.append(title)
+				doc_possessors.append(possessor)
+		return ref_infos
+
 	def _nodes_to_tool_output(self, nodes: List[NodeWithScore]) -> Tuple[str, dict]:
 		r""" output the retrieved contents in a specific format, and the output log. """
+		ref_infos = self.get_ref_info(nodes=nodes)
+		log_dict = {
+			TOOL_LOG_REF_INFO_KEY: ref_infos,
+		}
+
 		paper_contents = {}
 		for node in nodes:
 			doc_name = node.node.ref_doc_id
@@ -118,7 +162,7 @@ class SharedPaperRetrieverTool(RetrieverBaseTool):
 			content_str += "\n\n".join(contents)
 		else:
 			content_str = "Have retrieved nothing.\n"
-		return content_str, dict()
+		return content_str, log_dict
 
 
 if __name__ == "__main__":

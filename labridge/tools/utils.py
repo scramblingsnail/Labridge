@@ -22,18 +22,21 @@ from typing import (
 import labridge.func_modules.reference as reference
 from labridge.tools.base.tool_log import ToolLog, TOOL_REFERENCES, TOOL_OP_DESCRIPTION
 from labridge.func_modules.reference.base import REF_TYPE, RefInfoBase
-from labridge.func_modules.reference import PaperInfo, InstrumentInfo
+from labridge.func_modules.reference import PaperInfo, InstrumentInfo, ExperimentLogRefInfo
 from labridge.tools.paper.shared_papers.utils import ref_papers_str_to_user, ref_papers_file_path
 from labridge.tools.instrument.utils import ref_instruments_str_to_user
+from labridge.tools.memory.experiment.utils import ref_experiment_log_str_to_user, ref_attachments_file_path
 
 
 REF_INFO_TO_STR_FUNC_DICT = {
 	PaperInfo.__name__: ref_papers_str_to_user,
 	InstrumentInfo.__name__: ref_instruments_str_to_user,
+	ExperimentLogRefInfo.__name__: ref_experiment_log_str_to_user,
 }
 
 REF_INFO_TO_FILE_PATH_FUNC_DICT = {
 	PaperInfo.__name__: ref_papers_file_path,
+	ExperimentLogRefInfo.__name__: ref_attachments_file_path,
 }
 
 

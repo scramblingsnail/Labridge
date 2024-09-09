@@ -27,7 +27,6 @@ class DefaultPaperParser:
 
 		extra_info = {
 			"total_pages": len(doc),
-			"file_path": str(file_path),
 			CONTENT_TYPE_NAME: "MainText"
 		}
 		doc = Document(text=paper_text, extra_info=extra_info)

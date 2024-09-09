@@ -1,7 +1,7 @@
 from llama_index.core.embeddings import BaseEmbedding
 from llama_index.core.schema import NodeWithScore, MetadataMode
 
-from labridge.tools.base.tool_base import RetrieverBaseTool
+from labridge.tools.base.tool_base import RetrieverBaseTool, RefInfoBase
 from labridge.tools.base.tool_log import ToolLog, TOOL_OP_DESCRIPTION, TOOL_REFERENCES
 from labridge.func_modules.paper.retrieve.temporary_paper_retriever import (
 	RecentPaperRetriever,
@@ -85,6 +85,10 @@ class RecentPaperRetrieveTool(RetrieverBaseTool):
 			log_to_user=log_to_user,
 			log_to_system=log_to_system,
 		)
+
+	def get_ref_info(self, nodes: List[NodeWithScore]) -> List[RefInfoBase]:
+		r""" Get the reference infos from the retrieved nodes. """
+		return []
 
 	def _retrieve(self, retrieve_kwargs: dict) -> List[NodeWithScore]:
 		r""" Use the retriever to retrieve relevant nodes. """

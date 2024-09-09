@@ -8,6 +8,7 @@ from typing import (
 )
 
 from labridge.func_modules.memory.chat.retrieve import ChatMemoryRetriever
+from labridge.func_modules.reference.base import RefInfoBase
 from labridge.models.utils import get_models
 from labridge.tools.base.tool_base import RetrieverBaseTool
 from labridge.tools.base.tool_log import TOOL_OP_DESCRIPTION, TOOL_REFERENCES, ToolLog
@@ -37,6 +38,10 @@ class ChatMemoryRetrieverTool(RetrieverBaseTool):
 			name=ChatMemoryRetrieverTool.__name__,
 			retrieve_fn=ChatMemoryRetriever.retrieve,
 		)
+
+	def get_ref_info(self, nodes: List[NodeWithScore]) -> List[RefInfoBase]:
+		r""" Get the reference infos from the retrieved nodes. """
+		return []
 
 	def log(self, log_dict) -> ToolLog:
 		r""" tool log """

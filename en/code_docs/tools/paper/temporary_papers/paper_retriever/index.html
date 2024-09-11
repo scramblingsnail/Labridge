@@ -2423,7 +2423,7 @@
         
   
   <span class="md-ellipsis">
-    Android APP
+    APP
   </span>
   
 
@@ -5330,6 +5330,8 @@
       
         
       
+        
+      
     
     
       
@@ -5389,6 +5391,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../../../../code_docs/func_modules/paper/store/shared_paper_retrieve.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../../func_modules/paper/retrieve/temporary_paper_retriever/" class="md-nav__link">
         
   
@@ -5419,6 +5442,8 @@
   
     
     
+      
+        
       
         
       
@@ -5467,6 +5492,27 @@
   
   <span class="md-ellipsis">
     Paper store
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../func_modules/paper/store/shared_paper_store/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shared paper store
   </span>
   
 
@@ -7502,6 +7548,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#labridge.tools.paper.temporary_papers.paper_retriever.RecentPaperRetrieveTool.get_ref_info" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_ref_info
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#labridge.tools.paper.temporary_papers.paper_retriever.RecentPaperRetrieveTool.log" class="md-nav__link">
     <span class="md-ellipsis">
       log
@@ -7645,6 +7700,15 @@
   
     <nav class="md-nav" aria-label="RecentPaperRetrieveTool">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#labridge.tools.paper.temporary_papers.paper_retriever.RecentPaperRetrieveTool.get_ref_info" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_ref_info
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#labridge.tools.paper.temporary_papers.paper_retriever.RecentPaperRetrieveTool.log" class="md-nav__link">
@@ -7915,7 +7979,11 @@ Defaults to <code>RECENT_PAPER_SIMILARITY_TOP_K</code>.</p>
 <span class="normal">117</span>
 <span class="normal">118</span>
 <span class="normal">119</span>
-<span class="normal">120</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">RecentPaperRetrieveTool</span><span class="p">(</span><span class="n">RetrieverBaseTool</span><span class="p">):</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">RecentPaperRetrieveTool</span><span class="p">(</span><span class="n">RetrieverBaseTool</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	This tool is used to retrieve in the recent papers store of a specific user.</span>
 <span class="sd">	A multilevel retrieving strategy is used. For details, refer to the `RecentPaperRetriever`.</span>
@@ -7988,6 +8056,10 @@ Defaults to <code>RECENT_PAPER_SIMILARITY_TOP_K</code>.</p>
 			<span class="n">log_to_system</span><span class="o">=</span><span class="n">log_to_system</span><span class="p">,</span>
 		<span class="p">)</span>
 
+	<span class="k">def</span> <span class="nf">get_ref_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">RefInfoBase</span><span class="p">]:</span>
+<span class="w">		</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Get the reference infos from the retrieved nodes. &quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="p">[]</span>
+
 	<span class="k">def</span> <span class="nf">_retrieve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">retrieve_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">]:</span>
 <span class="w">		</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Use the retriever to retrieve relevant nodes. &quot;&quot;&quot;</span>
 		<span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_retriever</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="o">**</span><span class="n">retrieve_kwargs</span><span class="p">)</span>
@@ -8034,6 +8106,32 @@ Defaults to <code>RECENT_PAPER_SIMILARITY_TOP_K</code>.</p>
 
 
 
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="labridge.tools.paper.temporary_papers.paper_retriever.RecentPaperRetrieveTool.get_ref_info" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">labridge</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">paper</span><span class="o">.</span><span class="n">temporary_papers</span><span class="o">.</span><span class="n">paper_retriever</span><span class="o">.</span><span class="n">RecentPaperRetrieveTool</span><span class="o">.</span><span class="n">get_ref_info</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span></code>
+
+<a href="#labridge.tools.paper.temporary_papers.paper_retriever.RecentPaperRetrieveTool.get_ref_info" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Get the reference infos from the retrieved nodes.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>labridge\tools\paper\temporary_papers\paper_retriever.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_ref_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">RefInfoBase</span><span class="p">]:</span>
+<span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Get the reference infos from the retrieved nodes. &quot;&quot;&quot;</span>
+	<span class="k">return</span> <span class="p">[]</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
 
 <div class="doc doc-object doc-function">
 

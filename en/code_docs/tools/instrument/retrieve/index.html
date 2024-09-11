@@ -2423,7 +2423,7 @@
         
   
   <span class="md-ellipsis">
-    Android APP
+    APP
   </span>
   
 
@@ -5330,6 +5330,8 @@
       
         
       
+        
+      
     
     
       
@@ -5389,6 +5391,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../../../code_docs/func_modules/paper/store/shared_paper_retrieve.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../func_modules/paper/retrieve/temporary_paper_retriever/" class="md-nav__link">
         
   
@@ -5419,6 +5442,8 @@
   
     
     
+      
+        
       
         
       
@@ -5467,6 +5492,27 @@
   
   <span class="md-ellipsis">
     Paper store
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../func_modules/paper/store/shared_paper_store/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shared paper store
   </span>
   
 
@@ -6878,6 +6924,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="InstrumentRetrieverTool">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#labridge.tools.instrument.retrieve.InstrumentRetrieverTool.get_ref_info" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_ref_info
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -7626,6 +7687,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="InstrumentRetrieverTool">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#labridge.tools.instrument.retrieve.InstrumentRetrieverTool.get_ref_info" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_ref_info
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -7788,7 +7864,21 @@
 <span class="normal">105</span>
 <span class="normal">106</span>
 <span class="normal">107</span>
-<span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">InstrumentRetrieverTool</span><span class="p">(</span><span class="n">RetrieverBaseTool</span><span class="p">):</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">InstrumentRetrieverTool</span><span class="p">(</span><span class="n">RetrieverBaseTool</span><span class="p">):</span>
 	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
 		<span class="bp">self</span><span class="p">,</span>
 		<span class="n">llm</span><span class="p">:</span> <span class="n">LLM</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -7808,15 +7898,8 @@
 		<span class="p">)</span>
 
 	<span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ToolLog</span><span class="p">:</span>
-		<span class="n">instruments</span> <span class="o">=</span> <span class="n">log_dict</span><span class="p">[</span><span class="n">INSTRUMENT_LOG_KEY</span><span class="p">]</span>
-		<span class="n">instrument_infos</span> <span class="o">=</span> <span class="p">[]</span>
-		<span class="k">for</span> <span class="n">instrument_id</span> <span class="ow">in</span> <span class="n">instruments</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-			<span class="n">super_users</span> <span class="o">=</span> <span class="n">instruments</span><span class="p">[</span><span class="n">instrument_id</span><span class="p">]</span>
-			<span class="n">info</span> <span class="o">=</span> <span class="n">InstrumentInfo</span><span class="p">(</span>
-				<span class="n">instrument_id</span><span class="o">=</span><span class="n">instrument_id</span><span class="p">,</span>
-				<span class="n">super_users</span><span class="o">=</span><span class="n">super_users</span><span class="p">,</span>
-			<span class="p">)</span>
-			<span class="n">instrument_infos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">dumps</span><span class="p">())</span>
+		<span class="n">ref_infos</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">InstrumentInfo</span><span class="p">]</span> <span class="o">=</span> <span class="n">log_dict</span><span class="p">[</span><span class="n">TOOL_LOG_REF_INFO_KEY</span><span class="p">]</span>
+		<span class="n">instrument_infos</span> <span class="o">=</span> <span class="p">[</span><span class="n">info</span><span class="o">.</span><span class="n">dumps</span><span class="p">()</span> <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">ref_infos</span><span class="p">]</span>
 
 		<span class="n">log_to_user</span> <span class="o">=</span> <span class="kc">None</span>
 		<span class="n">log_to_system</span> <span class="o">=</span> <span class="p">{</span>
@@ -7838,6 +7921,26 @@
 		<span class="n">nodes</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_retriever</span><span class="o">.</span><span class="n">aretrieve</span><span class="p">(</span><span class="o">**</span><span class="n">retrieve_kwargs</span><span class="p">)</span>
 		<span class="k">return</span> <span class="n">nodes</span>
 
+	<span class="k">def</span> <span class="nf">get_ref_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">RefInfoBase</span><span class="p">]:</span>
+<span class="w">		</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Get the reference infos from the retrieved nodes. &quot;&quot;&quot;</span>
+		<span class="n">instrument_infos</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="n">instrument_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+		<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+			<span class="n">instrument_id</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">INSTRUMENT_NAME_KEY</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">node_id</span><span class="p">)</span>
+			<span class="c1"># TODO: Add node type and filter.</span>
+			<span class="k">if</span> <span class="n">instrument_id</span> <span class="o">==</span> <span class="n">INSTRUMENT_ROOT_NODE_NAME</span> <span class="ow">or</span> <span class="n">instrument_id</span> <span class="ow">in</span> <span class="n">instrument_set</span><span class="p">:</span>
+				<span class="k">continue</span>
+			<span class="n">instrument_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">instrument_id</span><span class="p">)</span>
+			<span class="n">super_users</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">super_user_manager</span><span class="o">.</span><span class="n">get_super_users</span><span class="p">(</span>
+				<span class="n">instrument_id</span><span class="o">=</span><span class="n">instrument_id</span><span class="p">,</span>
+			<span class="p">)</span>
+			<span class="n">info</span> <span class="o">=</span> <span class="n">InstrumentInfo</span><span class="p">(</span>
+				<span class="n">instrument_id</span><span class="o">=</span><span class="n">instrument_id</span><span class="p">,</span>
+				<span class="n">super_users</span><span class="o">=</span><span class="n">super_users</span><span class="p">,</span>
+			<span class="p">)</span>
+			<span class="n">instrument_infos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">instrument_infos</span>
+
 	<span class="k">def</span> <span class="nf">_nodes_to_tool_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
 <span class="w">		</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; output the retrieved contents in a specific format. &quot;&quot;&quot;</span>
 		<span class="n">output</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -7847,8 +7950,12 @@
 		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
 			<span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;No relevant instrument contents found.&quot;</span>
 
+		<span class="n">ref_infos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ref_info</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="n">nodes</span><span class="p">)</span>
+		<span class="n">log_dict</span> <span class="o">=</span> <span class="p">{</span>
+			<span class="n">TOOL_LOG_REF_INFO_KEY</span><span class="p">:</span> <span class="n">ref_infos</span><span class="p">,</span>
+		<span class="p">}</span>
+
 		<span class="n">instrument_docs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-		<span class="n">output_log_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">INSTRUMENT_LOG_KEY</span><span class="p">:</span> <span class="nb">dict</span><span class="p">()}</span>
 		<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
 			<span class="n">instrument_id</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">INSTRUMENT_NAME_KEY</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">node_id</span><span class="p">)</span>
 			<span class="c1"># TODO: Add node type and filter.</span>
@@ -7856,9 +7963,6 @@
 				<span class="k">continue</span>
 			<span class="k">if</span> <span class="n">instrument_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">instrument_docs</span><span class="p">:</span>
 				<span class="n">instrument_docs</span><span class="p">[</span><span class="n">instrument_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-				<span class="n">output_log_dict</span><span class="p">[</span><span class="n">INSTRUMENT_LOG_KEY</span><span class="p">][</span><span class="n">instrument_id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">super_user_manager</span><span class="o">.</span><span class="n">get_super_users</span><span class="p">(</span>
-					<span class="n">instrument_id</span><span class="o">=</span><span class="n">instrument_id</span><span class="p">,</span>
-				<span class="p">)</span>
 			<span class="n">instrument_docs</span><span class="p">[</span><span class="n">instrument_id</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
 
 		<span class="k">for</span> <span class="n">instrument_id</span> <span class="ow">in</span> <span class="n">instrument_docs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -7869,7 +7973,7 @@
 					<span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">get_content</span><span class="p">(</span><span class="n">metadata_mode</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata_mode</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
 			<span class="p">)</span>
 			<span class="n">output</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">instrument_content</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-		<span class="k">return</span> <span class="n">output</span><span class="p">,</span> <span class="n">output_log_dict</span>
+		<span class="k">return</span> <span class="n">output</span><span class="p">,</span> <span class="n">log_dict</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -7884,6 +7988,64 @@
 
 
 
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="labridge.tools.instrument.retrieve.InstrumentRetrieverTool.get_ref_info" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">labridge</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">retrieve</span><span class="o">.</span><span class="n">InstrumentRetrieverTool</span><span class="o">.</span><span class="n">get_ref_info</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span></code>
+
+<a href="#labridge.tools.instrument.retrieve.InstrumentRetrieverTool.get_ref_info" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Get the reference infos from the retrieved nodes.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>labridge\tools\instrument\retrieve.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_ref_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">RefInfoBase</span><span class="p">]:</span>
+<span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Get the reference infos from the retrieved nodes. &quot;&quot;&quot;</span>
+	<span class="n">instrument_infos</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">instrument_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+	<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+		<span class="n">instrument_id</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">INSTRUMENT_NAME_KEY</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">node_id</span><span class="p">)</span>
+		<span class="c1"># TODO: Add node type and filter.</span>
+		<span class="k">if</span> <span class="n">instrument_id</span> <span class="o">==</span> <span class="n">INSTRUMENT_ROOT_NODE_NAME</span> <span class="ow">or</span> <span class="n">instrument_id</span> <span class="ow">in</span> <span class="n">instrument_set</span><span class="p">:</span>
+			<span class="k">continue</span>
+		<span class="n">instrument_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">instrument_id</span><span class="p">)</span>
+		<span class="n">super_users</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">super_user_manager</span><span class="o">.</span><span class="n">get_super_users</span><span class="p">(</span>
+			<span class="n">instrument_id</span><span class="o">=</span><span class="n">instrument_id</span><span class="p">,</span>
+		<span class="p">)</span>
+		<span class="n">info</span> <span class="o">=</span> <span class="n">InstrumentInfo</span><span class="p">(</span>
+			<span class="n">instrument_id</span><span class="o">=</span><span class="n">instrument_id</span><span class="p">,</span>
+			<span class="n">super_users</span><span class="o">=</span><span class="n">super_users</span><span class="p">,</span>
+		<span class="p">)</span>
+		<span class="n">instrument_infos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">instrument_infos</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
 
 
 

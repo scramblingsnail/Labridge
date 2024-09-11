@@ -2510,7 +2510,7 @@
         
   
   <span class="md-ellipsis">
-    Android APP
+    APP
   </span>
   
 
@@ -5412,6 +5412,8 @@
       
         
       
+        
+      
     
     
       
@@ -5471,6 +5473,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../../code_docs/func_modules/paper/store/shared_paper_retrieve.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../../code_docs/func_modules/paper/retrieve/temporary_paper_retriever/" class="md-nav__link">
         
   
@@ -5501,6 +5524,8 @@
   
     
     
+      
+        
       
         
       
@@ -5549,6 +5574,27 @@
   
   <span class="md-ellipsis">
     Paper store
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../code_docs/func_modules/paper/store/shared_paper_store/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shared paper store
   </span>
   
 
@@ -7699,6 +7745,7 @@
 <h1 id="_1">个人临时文献库检索<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>对于个人临时文献库的检索，我们同样采用了多级混合检索。个人临时文献库的使用场景更多地是针对某一篇特定文献进行询问，
 且对于时效性有较高要求。因此我们采用了 模糊检索定位文献范围 + 进一步相似性检索 的策略。</p>
+<p><img alt="个人临时文献库检索" src="../../images/personal_papers_retrieve.png" /></p>
 <h2 id="_2">模糊检索确定文献范围<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>首先，Labridge会从工具调用日志以及聊天记录中确定所需文献的大致信息(<strong>PaperInfo</strong>)（如标题、文件路径等）。
 根据该PaperInfo，Labridge在个人临时文献库中进行相似性检索获得相关nodes，这些nodes所属的文献即为Labridge在

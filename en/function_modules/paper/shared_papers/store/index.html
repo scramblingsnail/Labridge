@@ -730,6 +730,16 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#paper-content-vector-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      Paper content vector database
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Paper content vector database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#summarize" class="md-nav__link">
     <span class="md-ellipsis">
       Summarize
@@ -737,20 +747,25 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#content-vector-database" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#summarize-the-paper-directories" class="md-nav__link">
     <span class="md-ellipsis">
-      Content vector database
+      Summarize the paper directories
     </span>
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#summarize-the-paper-directories" class="md-nav__link">
+  <a href="#shared-paper-note-vector-database" class="md-nav__link">
     <span class="md-ellipsis">
-      Summarize the paper directories
+      Shared paper note vector database
     </span>
   </a>
   
@@ -2499,7 +2514,7 @@
         
   
   <span class="md-ellipsis">
-    Android APP
+    APP
   </span>
   
 
@@ -5401,6 +5416,8 @@
       
         
       
+        
+      
     
     
       
@@ -5460,6 +5477,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../../../code_docs/func_modules/paper/store/shared_paper_retrieve.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../../code_docs/func_modules/paper/retrieve/temporary_paper_retriever/" class="md-nav__link">
         
   
@@ -5490,6 +5528,8 @@
   
     
     
+      
+        
       
         
       
@@ -5538,6 +5578,27 @@
   
   <span class="md-ellipsis">
     Paper store
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../code_docs/func_modules/paper/store/shared_paper_store/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shared paper store
   </span>
   
 
@@ -7619,6 +7680,16 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#paper-content-vector-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      Paper content vector database
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Paper content vector database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#summarize" class="md-nav__link">
     <span class="md-ellipsis">
       Summarize
@@ -7626,20 +7697,25 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#content-vector-database" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#summarize-the-paper-directories" class="md-nav__link">
     <span class="md-ellipsis">
-      Content vector database
+      Summarize the paper directories
     </span>
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#summarize-the-paper-directories" class="md-nav__link">
+  <a href="#shared-paper-note-vector-database" class="md-nav__link">
     <span class="md-ellipsis">
-      Summarize the paper directories
+      Shared paper note vector database
     </span>
   </a>
   
@@ -7681,7 +7757,12 @@
 The first-level subdirectories of this paper repository are the <code>user_id</code> of the lab members.</p>
 <p>Labridge utilizes the <a href="../parse/">Parsed</a> content and information to construct 
 a comprehensive and detailed shared literature database, supporting various retrieval methods.</p>
-<h2 id="summarize"><strong>Summarize</strong><a class="headerlink" href="#summarize" title="Permanent link">&para;</a></h2>
+<h2 id="paper-content-vector-database"><strong>Paper content vector database</strong><a class="headerlink" href="#paper-content-vector-database" title="Permanent link">&para;</a></h2>
+<p>Labridge constructs a vector database (VectorIndex) for all shared papers and records the metadata of each paper, 
+as well as the owner of the paper.</p>
+<p>Refer to <strong>Code docs</strong> <code>Func_modules.paper.store.shared_paper_store</code> for details of the construction of the content vector database.</p>
+<p><img alt="Paper content vector database" src="../../images/shared_papers_structure.png" /></p>
+<h3 id="summarize"><strong>Summarize</strong><a class="headerlink" href="#summarize" title="Permanent link">&para;</a></h3>
 <p>Labridge uses <strong>LLM</strong> to summarize the <code>MainText</code> and <code>Methods</code> sections of each paper added to the 
 shared literature database and constructs a corresponding SummaryVectorIndex.
 The summary of the <code>MainText</code> focuses on the overall content of the article, main innovations, etc., 
@@ -7692,16 +7773,17 @@ while the summary of the <code>Methods</code> focuses on the technical approache
 <li>The prompts for summarizing <code>MainText</code> and <code>Methods</code> is shown in 
 <strong>Code</strong> <code>func_modules.paper.prompt.synthesize.paper_summarize</code></li>
 </ul>
-<h2 id="content-vector-database"><strong>Content vector database</strong><a class="headerlink" href="#content-vector-database" title="Permanent link">&para;</a></h2>
-<p>Labridge constructs a vector database (VectorIndex) for all shared papers and records the metadata of each paper, 
-as well as the owner of the paper.</p>
-<p>Refer to <strong>Code docs</strong> <code>Func_modules.paper.store.paper_store</code> for details of the construction of the content vector database.</p>
-<h2 id="summarize-the-paper-directories"><strong>Summarize the paper directories</strong><a class="headerlink" href="#summarize-the-paper-directories" title="Permanent link">&para;</a></h2>
+<h3 id="summarize-the-paper-directories"><strong>Summarize the paper directories</strong><a class="headerlink" href="#summarize-the-paper-directories" title="Permanent link">&para;</a></h3>
 <p>Labridge uses <strong>LLM</strong> to recursively generate summaries for each level of the paper repository’s directory, 
 such as the research fields involved in the papers under each directory. 
 This information serves as an important reference for Labridge to recommend papers to lab members 
 and to insert new papers into the shared paper repository.</p>
 <p>For details about summarizing the paper directories, refer to <strong>Code docs</strong> <code>Func_modules.paper.store.paper_store</code></p>
+<h2 id="shared-paper-note-vector-database"><strong>Shared paper note vector database</strong><a class="headerlink" href="#shared-paper-note-vector-database" title="Permanent link">&para;</a></h2>
+<p>The shared paper note vector database is structured as follows. It is structured as a flatten tree, nodes in the first
+layer record the paper DOI. Each DOI node represents a unique paper. The child nodes of a DOI node record non-overlapped paper content
+chunks with short length, for the sake of a fine-grained retrieval. The bottom nodes record the notes of users.</p>
+<p><img alt="Shared paper note vector database structure" src="../../images/shared_papers_note.png" /></p>
 
 
 

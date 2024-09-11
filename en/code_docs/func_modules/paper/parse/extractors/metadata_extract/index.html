@@ -2423,7 +2423,7 @@
         
   
   <span class="md-ellipsis">
-    Android APP
+    APP
   </span>
   
 
@@ -5431,6 +5431,8 @@
       
         
       
+        
+      
     
     
       
@@ -5490,6 +5492,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../../../../../code_docs/func_modules/paper/store/shared_paper_retrieve.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../retrieve/temporary_paper_retriever/" class="md-nav__link">
         
   
@@ -5520,6 +5543,8 @@
   
     
     
+      
+        
       
         
       
@@ -5568,6 +5593,27 @@
   
   <span class="md-ellipsis">
     Paper store
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../store/shared_paper_store/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shared paper store
   </span>
   
 
@@ -7883,10 +7929,7 @@ Defaults to <code>DEFAULT_OPTIONAL_METADATA</code>.</p>
 
               <details class="quote">
                 <summary>Source code in <code>labridge\func_modules\paper\parse\extractors\metadata_extract.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 43</span>
-<span class="normal"> 44</span>
-<span class="normal"> 45</span>
-<span class="normal"> 46</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 46</span>
 <span class="normal"> 47</span>
 <span class="normal"> 48</span>
 <span class="normal"> 49</span>
@@ -8101,7 +8144,31 @@ Defaults to <code>DEFAULT_OPTIONAL_METADATA</code>.</p>
 <span class="normal">258</span>
 <span class="normal">259</span>
 <span class="normal">260</span>
-<span class="normal">261</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">PaperMetadataExtractor</span><span class="p">:</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">PaperMetadataExtractor</span><span class="p">:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	This class uses LLM to extracts metadata from a paper.</span>
 
@@ -8134,6 +8201,7 @@ Defaults to <code>DEFAULT_OPTIONAL_METADATA</code>.</p>
 			<span class="bp">self</span><span class="o">.</span><span class="n">llm</span> <span class="o">=</span> <span class="n">llm</span>
 
 		<span class="bp">self</span><span class="o">.</span><span class="n">prompt_tmpl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_prompt_tmpl</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">crossref_worker</span> <span class="o">=</span> <span class="n">CrossRefWorker</span><span class="p">()</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">query_engine</span> <span class="o">=</span> <span class="n">SingleQueryEngine</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">prompt_tmpl</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prompt_tmpl</span><span class="p">)</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">max_retry_times</span> <span class="o">=</span> <span class="n">max_retry_times</span>
 
@@ -8289,15 +8357,19 @@ Defaults to <code>DEFAULT_OPTIONAL_METADATA</code>.</p>
 		<span class="n">pdf_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 		<span class="n">pdf_docs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 		<span class="n">show_progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-	<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+		<span class="n">extra_metadata</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+	<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
 <span class="w">		</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		Extract required metadata from a paper.</span>
+<span class="sd">		Title and DOI is necessary, we will use the CrossRef API to get the DOI of a paper according to its title.</span>
+<span class="sd">		If any of them misses, this method will return None.</span>
 
 <span class="sd">		Args:</span>
 <span class="sd">			pdf_path (Union[Path, str]): The file path of the paper.</span>
 <span class="sd">			pdf_docs (List[Document]): If the pdf_path is not provided, the provided pdf_docs will be used.</span>
 <span class="sd">				pdf_docs and pdf_path can not all be None.</span>
 <span class="sd">			show_progress (bool): Whether to show the inner progress.</span>
+<span class="sd">			extra_metadata (dict): Existing metadata obtained by approaches such as arXiv API.</span>
 
 <span class="sd">		Returns:</span>
 <span class="sd">			Dict[str, str]: The extracted metadata.</span>
@@ -8307,18 +8379,34 @@ Defaults to <code>DEFAULT_OPTIONAL_METADATA</code>.</p>
 		<span class="k">elif</span> <span class="n">pdf_docs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 			<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;pdf_path and pdf_docs can not both be None.&quot;</span><span class="p">)</span>
 
-		<span class="n">paper_metadata</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-		<span class="n">lack_necessary_metadata</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">necessary_metadata</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">optional_metadata</span>
+		<span class="n">paper_metadata</span> <span class="o">=</span> <span class="n">extra_metadata</span> <span class="ow">or</span> <span class="nb">dict</span><span class="p">()</span>
+		<span class="n">lack_necessary_metadata</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lacked_metadata</span><span class="p">(</span><span class="n">paper_metadata</span><span class="p">)</span>
 		<span class="n">retry_count</span> <span class="o">=</span> <span class="mi">0</span>
 		<span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">lack_necessary_metadata</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">retry_count</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_retry_times</span><span class="p">:</span>
-			<span class="n">new_metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_metadata</span><span class="p">(</span><span class="n">pdf_docs</span><span class="o">=</span><span class="n">pdf_docs</span><span class="p">,</span>
-												  <span class="n">necessary_metadata</span><span class="o">=</span><span class="n">lack_necessary_metadata</span><span class="p">,</span>
-												  <span class="n">optional_metadata</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">optional_metadata</span><span class="p">)</span>
+			<span class="n">new_metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_metadata</span><span class="p">(</span>
+				<span class="n">pdf_docs</span><span class="o">=</span><span class="n">pdf_docs</span><span class="p">,</span>
+				<span class="n">necessary_metadata</span><span class="o">=</span><span class="n">lack_necessary_metadata</span><span class="p">,</span>
+				<span class="n">optional_metadata</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">optional_metadata</span><span class="p">,</span>
+			<span class="p">)</span>
 			<span class="n">retry_count</span> <span class="o">+=</span> <span class="mi">1</span>
 			<span class="k">if</span> <span class="n">show_progress</span><span class="p">:</span>
 				<span class="n">print_text</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt;</span><span class="se">\t</span><span class="s2">Extract try idx </span><span class="si">{</span><span class="n">retry_count</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">new_metadata</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;cyan&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 			<span class="n">paper_metadata</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_metadata</span><span class="p">)</span>
 			<span class="n">lack_necessary_metadata</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lacked_metadata</span><span class="p">(</span><span class="n">paper_metadata</span><span class="p">)</span>
+
+		<span class="n">title</span> <span class="o">=</span> <span class="n">paper_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">PAPER_TITLE</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="k">return</span> <span class="kc">None</span>
+
+		<span class="c1"># find doi according to title</span>
+		<span class="n">doi</span> <span class="o">=</span> <span class="n">paper_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">PAPER_DOI</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">doi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="n">doi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crossref_worker</span><span class="o">.</span><span class="n">find_doi_by_title</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">doi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;DOI find fails.&quot;</span><span class="p">)</span>
+			<span class="k">return</span> <span class="kc">None</span>
+
+		<span class="n">paper_metadata</span><span class="p">[</span><span class="n">PAPER_DOI</span><span class="p">]</span> <span class="o">=</span> <span class="n">doi</span>
 		<span class="k">return</span> <span class="n">paper_metadata</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -8339,14 +8427,16 @@ Defaults to <code>DEFAULT_OPTIONAL_METADATA</code>.</p>
 
 
 <h4 id="labridge.func_modules.paper.parse.extractors.metadata_extract.PaperMetadataExtractor.extract_paper_metadata" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">labridge</span><span class="o">.</span><span class="n">func_modules</span><span class="o">.</span><span class="n">paper</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">extractors</span><span class="o">.</span><span class="n">metadata_extract</span><span class="o">.</span><span class="n">PaperMetadataExtractor</span><span class="o">.</span><span class="n">extract_paper_metadata</span><span class="p">(</span><span class="n">pdf_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pdf_docs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">labridge</span><span class="o">.</span><span class="n">func_modules</span><span class="o">.</span><span class="n">paper</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">extractors</span><span class="o">.</span><span class="n">metadata_extract</span><span class="o">.</span><span class="n">PaperMetadataExtractor</span><span class="o">.</span><span class="n">extract_paper_metadata</span><span class="p">(</span><span class="n">pdf_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pdf_docs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">extra_metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 <a href="#labridge.func_modules.paper.parse.extractors.metadata_extract.PaperMetadataExtractor.extract_paper_metadata" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
     <div class="doc doc-contents ">
 
-      <p>Extract required metadata from a paper.</p>
+      <p>Extract required metadata from a paper.
+Title and DOI is necessary, we will use the CrossRef API to get the DOI of a paper according to its title.
+If any of them misses, this method will return None.</p>
 
 
 <table>
@@ -8412,6 +8502,24 @@ pdf_docs and pdf_path can not all be None.</p>
               </p>
             </td>
           </tr>
+          <tr class="doc-section-item">
+            <td><code>extra_metadata</code></td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>Existing metadata obtained by approaches such as arXiv API.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code>dict</code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>None</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
       </tbody>
     </table>
 
@@ -8427,7 +8535,7 @@ pdf_docs and pdf_path can not all be None.</p>
           <tr class="doc-section-item">
             <td>
                 <span class="doc-returns-annotation">
-                    <code><span title="typing.Dict">Dict</span>[str, str]</code>
+                    <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, str]]</code>
                 </span>
             </td>
             <td class="doc-returns-details">
@@ -8441,11 +8549,7 @@ pdf_docs and pdf_path can not all be None.</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\paper\parse\extractors\metadata_extract.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">230</span>
 <span class="normal">231</span>
 <span class="normal">232</span>
 <span class="normal">233</span>
@@ -8476,20 +8580,48 @@ pdf_docs and pdf_path can not all be None.</p>
 <span class="normal">258</span>
 <span class="normal">259</span>
 <span class="normal">260</span>
-<span class="normal">261</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">extract_paper_metadata</span><span class="p">(</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">extract_paper_metadata</span><span class="p">(</span>
 	<span class="bp">self</span><span class="p">,</span>
 	<span class="n">pdf_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 	<span class="n">pdf_docs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 	<span class="n">show_progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+	<span class="n">extra_metadata</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Extract required metadata from a paper.</span>
+<span class="sd">	Title and DOI is necessary, we will use the CrossRef API to get the DOI of a paper according to its title.</span>
+<span class="sd">	If any of them misses, this method will return None.</span>
 
 <span class="sd">	Args:</span>
 <span class="sd">		pdf_path (Union[Path, str]): The file path of the paper.</span>
 <span class="sd">		pdf_docs (List[Document]): If the pdf_path is not provided, the provided pdf_docs will be used.</span>
 <span class="sd">			pdf_docs and pdf_path can not all be None.</span>
 <span class="sd">		show_progress (bool): Whether to show the inner progress.</span>
+<span class="sd">		extra_metadata (dict): Existing metadata obtained by approaches such as arXiv API.</span>
 
 <span class="sd">	Returns:</span>
 <span class="sd">		Dict[str, str]: The extracted metadata.</span>
@@ -8499,18 +8631,34 @@ pdf_docs and pdf_path can not all be None.</p>
 	<span class="k">elif</span> <span class="n">pdf_docs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 		<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;pdf_path and pdf_docs can not both be None.&quot;</span><span class="p">)</span>
 
-	<span class="n">paper_metadata</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-	<span class="n">lack_necessary_metadata</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">necessary_metadata</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">optional_metadata</span>
+	<span class="n">paper_metadata</span> <span class="o">=</span> <span class="n">extra_metadata</span> <span class="ow">or</span> <span class="nb">dict</span><span class="p">()</span>
+	<span class="n">lack_necessary_metadata</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lacked_metadata</span><span class="p">(</span><span class="n">paper_metadata</span><span class="p">)</span>
 	<span class="n">retry_count</span> <span class="o">=</span> <span class="mi">0</span>
 	<span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">lack_necessary_metadata</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">retry_count</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_retry_times</span><span class="p">:</span>
-		<span class="n">new_metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_metadata</span><span class="p">(</span><span class="n">pdf_docs</span><span class="o">=</span><span class="n">pdf_docs</span><span class="p">,</span>
-											  <span class="n">necessary_metadata</span><span class="o">=</span><span class="n">lack_necessary_metadata</span><span class="p">,</span>
-											  <span class="n">optional_metadata</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">optional_metadata</span><span class="p">)</span>
+		<span class="n">new_metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_metadata</span><span class="p">(</span>
+			<span class="n">pdf_docs</span><span class="o">=</span><span class="n">pdf_docs</span><span class="p">,</span>
+			<span class="n">necessary_metadata</span><span class="o">=</span><span class="n">lack_necessary_metadata</span><span class="p">,</span>
+			<span class="n">optional_metadata</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">optional_metadata</span><span class="p">,</span>
+		<span class="p">)</span>
 		<span class="n">retry_count</span> <span class="o">+=</span> <span class="mi">1</span>
 		<span class="k">if</span> <span class="n">show_progress</span><span class="p">:</span>
 			<span class="n">print_text</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt;</span><span class="se">\t</span><span class="s2">Extract try idx </span><span class="si">{</span><span class="n">retry_count</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">new_metadata</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;cyan&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 		<span class="n">paper_metadata</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_metadata</span><span class="p">)</span>
 		<span class="n">lack_necessary_metadata</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lacked_metadata</span><span class="p">(</span><span class="n">paper_metadata</span><span class="p">)</span>
+
+	<span class="n">title</span> <span class="o">=</span> <span class="n">paper_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">PAPER_TITLE</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+		<span class="k">return</span> <span class="kc">None</span>
+
+	<span class="c1"># find doi according to title</span>
+	<span class="n">doi</span> <span class="o">=</span> <span class="n">paper_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">PAPER_DOI</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">doi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+		<span class="n">doi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crossref_worker</span><span class="o">.</span><span class="n">find_doi_by_title</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">doi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;DOI find fails.&quot;</span><span class="p">)</span>
+		<span class="k">return</span> <span class="kc">None</span>
+
+	<span class="n">paper_metadata</span><span class="p">[</span><span class="n">PAPER_DOI</span><span class="p">]</span> <span class="o">=</span> <span class="n">doi</span>
 	<span class="k">return</span> <span class="n">paper_metadata</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -8582,11 +8730,7 @@ pdf_docs and pdf_path can not all be None.</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\paper\parse\extractors\metadata_extract.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 89</span>
 <span class="normal"> 90</span>
 <span class="normal"> 91</span>
 <span class="normal"> 92</span>
@@ -8629,7 +8773,11 @@ pdf_docs and pdf_path can not all be None.</p>
 <span class="normal">129</span>
 <span class="normal">130</span>
 <span class="normal">131</span>
-<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_prompt_tmpl</span><span class="p">(</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_prompt_tmpl</span><span class="p">(</span>
 	<span class="bp">self</span><span class="p">,</span>
 	<span class="n">necessary_metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 	<span class="n">optional_metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -8729,11 +8877,7 @@ pdf_docs and pdf_path can not all be None.</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\paper\parse\extractors\metadata_extract.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">146</span>
 <span class="normal">147</span>
 <span class="normal">148</span>
 <span class="normal">149</span>
@@ -8754,7 +8898,11 @@ pdf_docs and pdf_path can not all be None.</p>
 <span class="normal">164</span>
 <span class="normal">165</span>
 <span class="normal">166</span>
-<span class="normal">167</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">metadata_output_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">llm_answer</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">metadata_output_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">llm_answer</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	The LLM is supposed to answer like this:</span>
 

@@ -2444,7 +2444,7 @@
         
   
   <span class="md-ellipsis">
-    Android APP
+    APP
   </span>
   
 
@@ -5346,6 +5346,8 @@
       
         
       
+        
+      
     
     
       
@@ -5405,6 +5407,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../../code_docs/func_modules/paper/store/shared_paper_retrieve.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../../code_docs/func_modules/paper/retrieve/temporary_paper_retriever/" class="md-nav__link">
         
   
@@ -5435,6 +5458,8 @@
   
     
     
+      
+        
       
         
       
@@ -5483,6 +5508,27 @@
   
   <span class="md-ellipsis">
     Paper store
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../code_docs/func_modules/paper/store/shared_paper_store/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shared paper store
   </span>
   
 
@@ -7587,7 +7633,8 @@
 
 
 <h1 id="_1">个人近期文献库结构<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>每个临时文献库都是一个向量数据库。</p>
+<p>每个临时文献库都是一个向量数据库，存储每个用户各自近期的文献。其结构如下图所示：</p>
+<p><img alt="个人近期文献库结构" src="../../images/personal_papers_structure.png" /></p>
 <ul>
 <li>临时文献文件存放在项目路径 <code>documents\tmp_papers\{user_id}</code>, 临时文献库是 <strong>user-specific</strong> 的。</li>
 <li>每个文献库存在一个根节点(root node), 所有的文献节点(paper node)都是根节点的子节点。</li>

@@ -2501,7 +2501,7 @@
         
   
   <span class="md-ellipsis">
-    Android APP
+    APP
   </span>
   
 
@@ -5403,6 +5403,8 @@
       
         
       
+        
+      
     
     
       
@@ -5462,6 +5464,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../../code_docs/func_modules/paper/store/shared_paper_retrieve.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../../code_docs/func_modules/paper/retrieve/temporary_paper_retriever/" class="md-nav__link">
         
   
@@ -5492,6 +5515,8 @@
   
     
     
+      
+        
       
         
       
@@ -5540,6 +5565,27 @@
   
   <span class="md-ellipsis">
     Paper store
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../code_docs/func_modules/paper/store/shared_paper_store/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shared paper store
   </span>
   
 
@@ -7680,6 +7726,7 @@
 
 <h1 id="_1">个人实验日志检索<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>实验日志与时间有关，因此Labridge根据实验日志的<a href="../store/">存储结构</a>采用多级检索 + 时间戳过滤的检索方式</p>
+<p><img alt="个人实验日志检索" src="../images/experiment_log_retrieve.png" /></p>
 <h2 id="_2">第一步检索<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>在第一步检索中，Labridge根据Query向量与所有实验节点的实验描述之间的相似性，检索出最有可能的 <code>experiment_top_k</code> 个实验。
 同时，Labridge在所有的日志类型的节点中，根据相似性检索出最相似的 <code>first_top_k</code> 日志节点，并获取它们对应的实验节点。</p>

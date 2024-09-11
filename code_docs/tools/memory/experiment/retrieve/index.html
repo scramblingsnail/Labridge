@@ -2425,7 +2425,7 @@
         
   
   <span class="md-ellipsis">
-    Android APP
+    APP
   </span>
   
 
@@ -5332,6 +5332,8 @@
       
         
       
+        
+      
     
     
       
@@ -5391,6 +5393,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../../func_modules/paper/store/shared_paper_retrieve.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../../func_modules/paper/retrieve/temporary_paper_retriever/" class="md-nav__link">
         
   
@@ -5421,6 +5444,8 @@
   
     
     
+      
+        
       
         
       
@@ -5469,6 +5494,27 @@
   
   <span class="md-ellipsis">
     Paper store
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../func_modules/paper/store/shared_paper_store/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shared paper store
   </span>
   
 
@@ -7166,6 +7212,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#labridge.tools.memory.experiment.retrieve.ExperimentLogRetrieveTool.get_ref_info" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_ref_info
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#labridge.tools.memory.experiment.retrieve.ExperimentLogRetrieveTool.log" class="md-nav__link">
     <span class="md-ellipsis">
       log
@@ -7649,6 +7704,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#labridge.tools.memory.experiment.retrieve.ExperimentLogRetrieveTool.get_ref_info" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_ref_info
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#labridge.tools.memory.experiment.retrieve.ExperimentLogRetrieveTool.log" class="md-nav__link">
     <span class="md-ellipsis">
       log
@@ -7810,12 +7874,7 @@ The tool description is set as the docstring of the method <code>retrieve</code>
 
               <details class="quote">
                 <summary>Source code in <code>labridge\tools\memory\experiment\retrieve.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 11</span>
-<span class="normal"> 12</span>
-<span class="normal"> 13</span>
-<span class="normal"> 14</span>
-<span class="normal"> 15</span>
-<span class="normal"> 16</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 16</span>
 <span class="normal"> 17</span>
 <span class="normal"> 18</span>
 <span class="normal"> 19</span>
@@ -7910,7 +7969,43 @@ The tool description is set as the docstring of the method <code>retrieve</code>
 <span class="normal">108</span>
 <span class="normal">109</span>
 <span class="normal">110</span>
-<span class="normal">111</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ExperimentLogRetrieveTool</span><span class="p">(</span><span class="n">RetrieverBaseTool</span><span class="p">):</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ExperimentLogRetrieveTool</span><span class="p">(</span><span class="n">RetrieverBaseTool</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	This tool is used to retrieve the relevant experiment log in the user&#39;s experiment log storage.</span>
 <span class="sd">	The tool description is set as the docstring of the method `retrieve` of the `retriever`.</span>
@@ -7952,6 +8047,8 @@ The tool description is set as the docstring of the method <code>retrieve</code>
 		<span class="n">start_date</span> <span class="o">=</span> <span class="n">log_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;start_date&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 		<span class="n">end_date</span> <span class="o">=</span> <span class="n">log_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;end_date&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
+		<span class="n">ref_infos</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ExperimentLogRefInfo</span><span class="p">]</span> <span class="o">=</span> <span class="n">log_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">TOOL_LOG_REF_INFO_KEY</span><span class="p">)</span>
+
 		<span class="n">log_string</span> <span class="o">=</span> <span class="p">(</span>
 			<span class="sa">f</span><span class="s2">&quot;Retrieve in the experiment log memory of the user: </span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
 			<span class="sa">f</span><span class="s2">&quot;retrieve string: </span><span class="si">{</span><span class="n">item_to_be_retrieved</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -7965,13 +8062,37 @@ The tool description is set as the docstring of the method <code>retrieve</code>
 		<span class="n">log_to_user</span> <span class="o">=</span> <span class="kc">None</span>
 		<span class="n">log_to_system</span> <span class="o">=</span> <span class="p">{</span>
 			<span class="n">TOOL_OP_DESCRIPTION</span><span class="p">:</span> <span class="n">log_string</span><span class="p">,</span>
-			<span class="n">TOOL_REFERENCES</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+			<span class="n">TOOL_REFERENCES</span><span class="p">:</span> <span class="p">[</span><span class="n">ref_info</span><span class="o">.</span><span class="n">dumps</span><span class="p">()</span> <span class="k">for</span> <span class="n">ref_info</span> <span class="ow">in</span> <span class="n">ref_infos</span><span class="p">],</span>
 		<span class="p">}</span>
 		<span class="k">return</span> <span class="n">ToolLog</span><span class="p">(</span>
 			<span class="n">log_to_user</span><span class="o">=</span><span class="n">log_to_user</span><span class="p">,</span>
 			<span class="n">log_to_system</span><span class="o">=</span><span class="n">log_to_system</span><span class="p">,</span>
 			<span class="n">tool_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
 		<span class="p">)</span>
+
+	<span class="k">def</span> <span class="nf">get_ref_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ExperimentLogRefInfo</span><span class="p">]:</span>
+<span class="w">		</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the reference paper infos</span>
+
+<span class="sd">		Returns:</span>
+<span class="sd">			List[PaperInfo]: The reference paper infos in answering.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">ref_infos</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">for</span> <span class="n">node_score</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+			<span class="n">metadata</span> <span class="o">=</span> <span class="n">node_score</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">metadata</span>
+			<span class="n">log_str</span> <span class="o">=</span> <span class="n">node_score</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">text</span>
+			<span class="n">experiment_name</span> <span class="o">=</span> <span class="n">node_score</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">parent_node</span><span class="o">.</span><span class="n">node_id</span>
+			<span class="n">attachment_path</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">EXPERIMENT_LOG_ATTACHMENT_KEY</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+			<span class="n">date</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">LOG_DATE_NAME</span><span class="p">)</span>
+			<span class="n">h_m_s</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">LOG_TIME_NAME</span><span class="p">)</span>
+			<span class="n">log_ref_info</span> <span class="o">=</span> <span class="n">ExperimentLogRefInfo</span><span class="p">(</span>
+				<span class="n">date_time</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">date</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">h_m_s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+				<span class="n">log_str</span><span class="o">=</span><span class="n">log_str</span><span class="p">,</span>
+				<span class="n">attachment_path</span><span class="o">=</span><span class="n">attachment_path</span><span class="p">,</span>
+				<span class="n">experiment_name</span><span class="o">=</span><span class="n">experiment_name</span><span class="p">,</span>
+			<span class="p">)</span>
+			<span class="n">ref_infos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">log_ref_info</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">ref_infos</span>
 
 	<span class="k">def</span> <span class="nf">_retrieve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">retrieve_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">]:</span>
 <span class="w">		</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Use the retriever to retrieve relevant nodes. &quot;&quot;&quot;</span>
@@ -7986,6 +8107,11 @@ The tool description is set as the docstring of the method <code>retrieve</code>
 	<span class="k">def</span> <span class="nf">_nodes_to_tool_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
 <span class="w">		</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; output the retrieved contents in a specific format, and the output log. &quot;&quot;&quot;</span>
 		<span class="n">expr_nodes_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+		<span class="n">ref_infos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ref_info</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="n">nodes</span><span class="p">)</span>
+		<span class="n">log_dict</span> <span class="o">=</span> <span class="p">{</span>
+			<span class="n">TOOL_LOG_REF_INFO_KEY</span><span class="p">:</span> <span class="n">ref_infos</span><span class="p">,</span>
+		<span class="p">}</span>
 
 		<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
 			<span class="n">expr_node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">parent_node</span>
@@ -8010,7 +8136,7 @@ The tool description is set as the docstring of the method <code>retrieve</code>
 			<span class="n">output_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
 		<span class="k">else</span><span class="p">:</span>
 			<span class="n">output_str</span> <span class="o">=</span> <span class="s2">&quot;Have retrieved nothing relevant.&quot;</span>
-		<span class="k">return</span> <span class="n">output_str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">()</span>
+		<span class="k">return</span> <span class="n">output_str</span><span class="p">,</span> <span class="n">log_dict</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -8025,6 +8151,96 @@ The tool description is set as the docstring of the method <code>retrieve</code>
 
 
 
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="labridge.tools.memory.experiment.retrieve.ExperimentLogRetrieveTool.get_ref_info" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">labridge</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">retrieve</span><span class="o">.</span><span class="n">ExperimentLogRetrieveTool</span><span class="o">.</span><span class="n">get_ref_info</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span></code>
+
+<a href="#labridge.tools.memory.experiment.retrieve.ExperimentLogRetrieveTool.get_ref_info" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Get the reference paper infos</p>
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">RETURNS</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <span class="doc-returns-annotation">
+                    <code><span title="typing.List">List</span>[<span title="labridge.func_modules.reference.experiment_log.ExperimentLogRefInfo">ExperimentLogRefInfo</span>]</code>
+                </span>
+            </td>
+            <td class="doc-returns-details">
+              <div class="doc-md-description">
+                <p>List[PaperInfo]: The reference paper infos in answering.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+            <details class="quote">
+              <summary>Source code in <code>labridge\tools\memory\experiment\retrieve.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_ref_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ExperimentLogRefInfo</span><span class="p">]:</span>
+<span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Get the reference paper infos</span>
+
+<span class="sd">	Returns:</span>
+<span class="sd">		List[PaperInfo]: The reference paper infos in answering.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">ref_infos</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">for</span> <span class="n">node_score</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+		<span class="n">metadata</span> <span class="o">=</span> <span class="n">node_score</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">metadata</span>
+		<span class="n">log_str</span> <span class="o">=</span> <span class="n">node_score</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">text</span>
+		<span class="n">experiment_name</span> <span class="o">=</span> <span class="n">node_score</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">parent_node</span><span class="o">.</span><span class="n">node_id</span>
+		<span class="n">attachment_path</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">EXPERIMENT_LOG_ATTACHMENT_KEY</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+		<span class="n">date</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">LOG_DATE_NAME</span><span class="p">)</span>
+		<span class="n">h_m_s</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">LOG_TIME_NAME</span><span class="p">)</span>
+		<span class="n">log_ref_info</span> <span class="o">=</span> <span class="n">ExperimentLogRefInfo</span><span class="p">(</span>
+			<span class="n">date_time</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">date</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">h_m_s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+			<span class="n">log_str</span><span class="o">=</span><span class="n">log_str</span><span class="p">,</span>
+			<span class="n">attachment_path</span><span class="o">=</span><span class="n">attachment_path</span><span class="p">,</span>
+			<span class="n">experiment_name</span><span class="o">=</span><span class="n">experiment_name</span><span class="p">,</span>
+		<span class="p">)</span>
+		<span class="n">ref_infos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">log_ref_info</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">ref_infos</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
 
 <div class="doc doc-object doc-function">
 
@@ -8091,12 +8307,7 @@ The tool description is set as the docstring of the method <code>retrieve</code>
 
             <details class="quote">
               <summary>Source code in <code>labridge\tools\memory\experiment\retrieve.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">43</span>
 <span class="normal">44</span>
 <span class="normal">45</span>
 <span class="normal">46</span>
@@ -8125,7 +8336,14 @@ The tool description is set as the docstring of the method <code>retrieve</code>
 <span class="normal">69</span>
 <span class="normal">70</span>
 <span class="normal">71</span>
-<span class="normal">72</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ToolLog</span><span class="p">:</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ToolLog</span><span class="p">:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Record the tool log.</span>
 
@@ -8140,6 +8358,8 @@ The tool description is set as the docstring of the method <code>retrieve</code>
 	<span class="n">start_date</span> <span class="o">=</span> <span class="n">log_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;start_date&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 	<span class="n">end_date</span> <span class="o">=</span> <span class="n">log_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;end_date&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
+	<span class="n">ref_infos</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ExperimentLogRefInfo</span><span class="p">]</span> <span class="o">=</span> <span class="n">log_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">TOOL_LOG_REF_INFO_KEY</span><span class="p">)</span>
+
 	<span class="n">log_string</span> <span class="o">=</span> <span class="p">(</span>
 		<span class="sa">f</span><span class="s2">&quot;Retrieve in the experiment log memory of the user: </span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
 		<span class="sa">f</span><span class="s2">&quot;retrieve string: </span><span class="si">{</span><span class="n">item_to_be_retrieved</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -8153,7 +8373,7 @@ The tool description is set as the docstring of the method <code>retrieve</code>
 	<span class="n">log_to_user</span> <span class="o">=</span> <span class="kc">None</span>
 	<span class="n">log_to_system</span> <span class="o">=</span> <span class="p">{</span>
 		<span class="n">TOOL_OP_DESCRIPTION</span><span class="p">:</span> <span class="n">log_string</span><span class="p">,</span>
-		<span class="n">TOOL_REFERENCES</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+		<span class="n">TOOL_REFERENCES</span><span class="p">:</span> <span class="p">[</span><span class="n">ref_info</span><span class="o">.</span><span class="n">dumps</span><span class="p">()</span> <span class="k">for</span> <span class="n">ref_info</span> <span class="ow">in</span> <span class="n">ref_infos</span><span class="p">],</span>
 	<span class="p">}</span>
 	<span class="k">return</span> <span class="n">ToolLog</span><span class="p">(</span>
 		<span class="n">log_to_user</span><span class="o">=</span><span class="n">log_to_user</span><span class="p">,</span>

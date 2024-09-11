@@ -2423,7 +2423,7 @@
         
   
   <span class="md-ellipsis">
-    Android APP
+    APP
   </span>
   
 
@@ -5447,6 +5447,8 @@
       
         
       
+        
+      
     
     
       
@@ -5506,6 +5508,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../../../../code_docs/func_modules/paper/store/shared_paper_retrieve.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../paper/retrieve/temporary_paper_retriever/" class="md-nav__link">
         
   
@@ -5536,6 +5559,8 @@
   
     
     
+      
+        
       
         
       
@@ -5584,6 +5609,27 @@
   
   <span class="md-ellipsis">
     Paper store
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../paper/store/shared_paper_store/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shared paper store
   </span>
   
 
@@ -8060,10 +8106,7 @@ Defaults to <code>EXPERIMENT_LOG_RELEVANT_TOP_K</code>.</p>
 <span class="normal">195</span>
 <span class="normal">196</span>
 <span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ExperimentLogRetriever</span><span class="p">(</span><span class="n">LogBaseRetriever</span><span class="p">):</span>
+<span class="normal">198</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ExperimentLogRetriever</span><span class="p">(</span><span class="n">LogBaseRetriever</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	This class retrieve in a specific user&#39;s experiment logs.</span>
 
@@ -8158,7 +8201,7 @@ Defaults to <code>EXPERIMENT_LOG_RELEVANT_TOP_K</code>.</p>
 		<span class="k">else</span><span class="p">:</span>
 			<span class="n">retrieve_node_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">get_expr_log_node_ids</span><span class="p">(</span><span class="n">experiment_name</span><span class="p">)</span>
 
-		<span class="n">filters</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_log_node_filter</span><span class="p">(),]</span>
+		<span class="n">filters</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_log_node_filter</span><span class="p">(),</span> <span class="p">]</span>
 		<span class="k">if</span> <span class="kc">None</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">]:</span>
 			<span class="c1"># get the candidate date list.</span>
 			<span class="n">date_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_date</span><span class="p">(</span><span class="n">start_date_str</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date_str</span><span class="o">=</span><span class="n">end_date</span><span class="p">)</span>
@@ -8236,9 +8279,6 @@ Defaults to <code>EXPERIMENT_LOG_RELEVANT_TOP_K</code>.</p>
 		<span class="bp">self</span><span class="o">.</span><span class="n">memory_vector_retriever</span><span class="o">.</span><span class="n">_filters</span> <span class="o">=</span> <span class="n">metadata_filters</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">memory_vector_retriever</span><span class="o">.</span><span class="n">_node_ids</span> <span class="o">=</span> <span class="n">retrieve_node_ids</span>
 		<span class="n">log_nodes</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory_vector_retriever</span><span class="o">.</span><span class="n">aretrieve</span><span class="p">(</span><span class="n">item_to_be_retrieved</span><span class="p">)</span>
-
-		<span class="k">for</span> <span class="n">log_node</span> <span class="ow">in</span> <span class="n">log_nodes</span><span class="p">:</span>
-			<span class="nb">print</span><span class="p">(</span><span class="n">log_node</span><span class="o">.</span><span class="n">get_content</span><span class="p">(</span><span class="n">metadata_mode</span><span class="o">=</span><span class="n">MetadataMode</span><span class="o">.</span><span class="n">LLM</span><span class="p">),</span> <span class="n">log_node</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
 
 		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_use_context</span><span class="p">:</span>
 			<span class="n">log_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_context</span><span class="p">(</span><span class="n">content_nodes</span><span class="o">=</span><span class="n">log_nodes</span><span class="p">)</span>
@@ -8482,10 +8522,7 @@ If it is specified and is valid, only logs of this experiment will be retrieved.
 <span class="normal">195</span>
 <span class="normal">196</span>
 <span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dispatcher</span><span class="o">.</span><span class="n">span</span>
+<span class="normal">198</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dispatcher</span><span class="o">.</span><span class="n">span</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">aretrieve</span><span class="p">(</span>
 	<span class="bp">self</span><span class="p">,</span>
 	<span class="n">item_to_be_retrieved</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -8543,9 +8580,6 @@ If it is specified and is valid, only logs of this experiment will be retrieved.
 	<span class="bp">self</span><span class="o">.</span><span class="n">memory_vector_retriever</span><span class="o">.</span><span class="n">_filters</span> <span class="o">=</span> <span class="n">metadata_filters</span>
 	<span class="bp">self</span><span class="o">.</span><span class="n">memory_vector_retriever</span><span class="o">.</span><span class="n">_node_ids</span> <span class="o">=</span> <span class="n">retrieve_node_ids</span>
 	<span class="n">log_nodes</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory_vector_retriever</span><span class="o">.</span><span class="n">aretrieve</span><span class="p">(</span><span class="n">item_to_be_retrieved</span><span class="p">)</span>
-
-	<span class="k">for</span> <span class="n">log_node</span> <span class="ow">in</span> <span class="n">log_nodes</span><span class="p">:</span>
-		<span class="nb">print</span><span class="p">(</span><span class="n">log_node</span><span class="o">.</span><span class="n">get_content</span><span class="p">(</span><span class="n">metadata_mode</span><span class="o">=</span><span class="n">MetadataMode</span><span class="o">.</span><span class="n">LLM</span><span class="p">),</span> <span class="n">log_node</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
 
 	<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_use_context</span><span class="p">:</span>
 		<span class="n">log_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_context</span><span class="p">(</span><span class="n">content_nodes</span><span class="o">=</span><span class="n">log_nodes</span><span class="p">)</span>
@@ -8923,7 +8957,7 @@ If it is specified and is valid, only logs of this experiment will be retrieved.
 	<span class="k">else</span><span class="p">:</span>
 		<span class="n">retrieve_node_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">get_expr_log_node_ids</span><span class="p">(</span><span class="n">experiment_name</span><span class="p">)</span>
 
-	<span class="n">filters</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_log_node_filter</span><span class="p">(),]</span>
+	<span class="n">filters</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_log_node_filter</span><span class="p">(),</span> <span class="p">]</span>
 	<span class="k">if</span> <span class="kc">None</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">]:</span>
 		<span class="c1"># get the candidate date list.</span>
 		<span class="n">date_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_date</span><span class="p">(</span><span class="n">start_date_str</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date_str</span><span class="o">=</span><span class="n">end_date</span><span class="p">)</span>

@@ -2444,7 +2444,7 @@
         
   
   <span class="md-ellipsis">
-    Android APP
+    APP
   </span>
   
 
@@ -5346,6 +5346,8 @@
       
         
       
+        
+      
     
     
       
@@ -5405,6 +5407,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../../code_docs/func_modules/paper/store/shared_paper_retrieve.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../../code_docs/func_modules/paper/retrieve/temporary_paper_retriever/" class="md-nav__link">
         
   
@@ -5435,6 +5458,8 @@
   
     
     
+      
+        
       
         
       
@@ -5483,6 +5508,27 @@
   
   <span class="md-ellipsis">
     Paper store
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../code_docs/func_modules/paper/store/shared_paper_store/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shared paper store
   </span>
   
 
@@ -7589,6 +7635,7 @@
 <h1 id="_1">交互日志存储结构<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>交互日志以单轮 <strong>QA</strong> 为基本单元，内容包含聊天记录与期间的工具日志。为每位成员或成员小组存储独立的向量数据库。</p>
 <p>每个向量数据库的结构类似于一个双向链表的结构。</p>
+<p><img alt="交互日志存储结构" src="../images/chatlog_structure.png" /></p>
 <ul>
 <li>最开始的节点为初始节点(first node)，初始节点中存储了该数据库的所属对象，与该数据库的描述。额外信息包括该数据库的创建时间。</li>
 <li>新加入的 <strong>QA</strong> 日志单元将作为最后一个节点加入该链表结构，该节点中存储了 <strong>QA</strong> 的日志，额外信息包括该 <strong>QA</strong> 的发生时间(<code>date</code> <code>time</code>)。</li>

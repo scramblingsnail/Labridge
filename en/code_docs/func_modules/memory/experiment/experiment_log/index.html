@@ -2423,7 +2423,7 @@
         
   
   <span class="md-ellipsis">
-    Android APP
+    APP
   </span>
   
 
@@ -5519,6 +5519,8 @@
       
         
       
+        
+      
     
     
       
@@ -5578,6 +5580,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../../../../code_docs/func_modules/paper/store/shared_paper_retrieve.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../paper/retrieve/temporary_paper_retriever/" class="md-nav__link">
         
   
@@ -5608,6 +5631,8 @@
   
     
     
+      
+        
       
         
       
@@ -5656,6 +5681,27 @@
   
   <span class="md-ellipsis">
     Paper store
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../paper/store/shared_paper_store/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shared paper store
   </span>
   
 
@@ -8015,8 +8061,7 @@ For example: ['2024-08-10'], ['09:05:03'].</p>
 </details>
               <details class="quote">
                 <summary>Source code in <code>labridge\func_modules\memory\experiment\experiment_log.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 45</span>
-<span class="normal"> 46</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 46</span>
 <span class="normal"> 47</span>
 <span class="normal"> 48</span>
 <span class="normal"> 49</span>
@@ -8408,7 +8453,52 @@ For example: ['2024-08-10'], ['09:05:03'].</p>
 <span class="normal">435</span>
 <span class="normal">436</span>
 <span class="normal">437</span>
-<span class="normal">438</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ExperimentLog</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ExperimentLog</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	This class stores the experiment logs for a specific user.</span>
 <span class="sd">	It is constructed as a tree, with a root node. Different experiments are inserted as child nodes of the tree node.</span>
@@ -8439,6 +8529,11 @@ For example: ['2024-08-10'], ['09:05:03'].</p>
 		<span class="bp">self</span><span class="o">.</span><span class="n">vector_index</span> <span class="o">=</span> <span class="n">vector_index</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">vector_index</span><span class="o">.</span><span class="n">set_index_id</span><span class="p">(</span><span class="n">EXPERIMENT_LOG_VECTOR_INDEX_ID</span><span class="p">)</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">persist_dir</span> <span class="o">=</span> <span class="n">persist_dir</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_fs</span> <span class="o">=</span> <span class="n">fsspec</span><span class="o">.</span><span class="n">filesystem</span><span class="p">(</span><span class="s2">&quot;file&quot;</span><span class="p">)</span>
+		<span class="n">root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+			<span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">parent</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_root</span> <span class="o">=</span> <span class="n">root</span>
 
 	<span class="nd">@classmethod</span>
 	<span class="k">def</span> <span class="nf">from_storage</span><span class="p">(</span>
@@ -8698,6 +8793,8 @@ For example: ['2024-08-10'], ['09:05:03'].</p>
 			<span class="n">node_id</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">experiment_name</span><span class="si">}</span><span class="s2">_header&quot;</span><span class="p">,</span>
 			<span class="n">node_type</span><span class="o">=</span><span class="n">LOG_NODE_TYPE</span>
 		<span class="p">)</span>
+		<span class="n">new_expr_node</span><span class="o">.</span><span class="n">relationships</span><span class="p">[</span><span class="n">NodeRelationship</span><span class="o">.</span><span class="n">CHILD</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">RelatedNodeInfo</span><span class="p">(</span><span class="n">node_id</span><span class="o">=</span><span class="n">expr_header_node</span><span class="o">.</span><span class="n">node_id</span><span class="p">)]</span>
+		<span class="n">expr_header_node</span><span class="o">.</span><span class="n">relationships</span><span class="p">[</span><span class="n">NodeRelationship</span><span class="o">.</span><span class="n">PARENT</span><span class="p">]</span> <span class="o">=</span> <span class="n">RelatedNodeInfo</span><span class="p">(</span><span class="n">node_id</span><span class="o">=</span><span class="n">new_expr_node</span><span class="o">.</span><span class="n">node_id</span><span class="p">)</span>
 
 		<span class="n">last_info_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_node</span><span class="p">(</span>
 			<span class="n">text</span><span class="o">=</span><span class="n">expr_header_node</span><span class="o">.</span><span class="n">node_id</span><span class="p">,</span>
@@ -8724,23 +8821,49 @@ For example: ['2024-08-10'], ['09:05:03'].</p>
 		<span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 		<span class="n">node_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 		<span class="n">node_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+		<span class="n">extra_metadata</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 	<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TextNode</span><span class="p">:</span>
 <span class="w">		</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; A new node with `node_type` &quot;&quot;&quot;</span>
 		<span class="n">date</span><span class="p">,</span> <span class="n">h_m_s</span> <span class="o">=</span> <span class="n">get_time</span><span class="p">()</span>
-		<span class="n">node</span> <span class="o">=</span> <span class="n">TextNode</span><span class="p">(</span>
-			<span class="n">id_</span><span class="o">=</span><span class="n">node_id</span> <span class="ow">or</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()),</span>
-			<span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span>
-			<span class="n">metadata</span><span class="o">=</span><span class="p">{</span>
-				<span class="n">LOG_DATE_NAME</span><span class="p">:</span> <span class="p">[</span><span class="n">date</span><span class="p">,],</span>
-				<span class="n">LOG_TIME_NAME</span><span class="p">:</span> <span class="p">[</span><span class="n">h_m_s</span><span class="p">,],</span>
+		<span class="n">metadata</span> <span class="o">=</span> <span class="n">extra_metadata</span> <span class="ow">or</span> <span class="nb">dict</span><span class="p">()</span>
+		<span class="n">metadata</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+			<span class="p">{</span>
+				<span class="n">LOG_DATE_NAME</span><span class="p">:</span> <span class="p">[</span><span class="n">date</span><span class="p">,</span> <span class="p">],</span>
+				<span class="n">LOG_TIME_NAME</span><span class="p">:</span> <span class="p">[</span><span class="n">h_m_s</span><span class="p">,</span> <span class="p">],</span>
 				<span class="n">MEMORY_NODE_TYPE_NAME</span><span class="p">:</span> <span class="n">node_type</span><span class="p">,</span>
 			<span class="p">}</span>
 		<span class="p">)</span>
-		<span class="n">node</span><span class="o">.</span><span class="n">excluded_embed_metadata_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">MEMORY_NODE_TYPE_NAME</span><span class="p">,]</span>
+
+		<span class="n">node</span> <span class="o">=</span> <span class="n">TextNode</span><span class="p">(</span>
+			<span class="n">id_</span><span class="o">=</span><span class="n">node_id</span> <span class="ow">or</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()),</span>
+			<span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span>
+			<span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
+		<span class="p">)</span>
+		<span class="n">node</span><span class="o">.</span><span class="n">excluded_embed_metadata_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">MEMORY_NODE_TYPE_NAME</span><span class="p">,</span> <span class="p">]</span>
 		<span class="n">node</span><span class="o">.</span><span class="n">excluded_llm_metadata_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">MEMORY_NODE_TYPE_NAME</span><span class="p">,</span> <span class="p">]</span>
 		<span class="k">return</span> <span class="n">node</span>
 
-	<span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">experiment_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">log_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">record_attachment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fs</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+			<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The path of the attachment file is not valid: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+		<span class="n">date</span><span class="p">,</span> <span class="n">h_m_s</span> <span class="o">=</span> <span class="n">get_time</span><span class="p">()</span>
+		<span class="n">record_dir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_root</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">EXPERIMENT_LOG_ATTACHMENT_DIR</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user_id</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">date</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fs</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">record_dir</span><span class="p">):</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_fs</span><span class="o">.</span><span class="n">mkdirs</span><span class="p">(</span><span class="n">record_dir</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">_fs</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">record_dir</span><span class="p">)</span>
+
+		<span class="n">file_name</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span><span class="o">.</span><span class="n">name</span>
+		<span class="n">record_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">record_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span>
+		<span class="k">return</span> <span class="n">record_path</span>
+
+	<span class="k">def</span> <span class="nf">put</span><span class="p">(</span>
+		<span class="bp">self</span><span class="p">,</span>
+		<span class="n">experiment_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+		<span class="n">log_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+		<span class="n">attached_file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+	<span class="p">):</span>
 <span class="w">		</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		Put in an experiment log into a specific experiment store.</span>
 
@@ -8754,15 +8877,25 @@ For example: ['2024-08-10'], ['09:05:03'].</p>
 <span class="sd">		Args:</span>
 <span class="sd">			experiment_name (str): An existing experiment name.</span>
 <span class="sd">			log_str (str): The experiment log string to be put in.</span>
+<span class="sd">			attached_file_path (str): The path of the attached file. Defaults to None.</span>
 <span class="sd">		&quot;&quot;&quot;</span>
+		<span class="c1"># TODO: Support files.</span>
 		<span class="n">root_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_node</span><span class="p">(</span><span class="n">node_id</span><span class="o">=</span><span class="n">INIT_NODE_NAME</span><span class="p">)</span>
 		<span class="n">experiments</span> <span class="o">=</span> <span class="n">root_node</span><span class="o">.</span><span class="n">child_nodes</span>
 		<span class="k">if</span> <span class="n">experiments</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">experiment_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">expr</span><span class="o">.</span><span class="n">node_id</span> <span class="k">for</span> <span class="n">expr</span> <span class="ow">in</span> <span class="n">experiments</span><span class="p">]:</span>
 			<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The experiment </span><span class="si">{</span><span class="n">experiment_name</span><span class="si">}</span><span class="s2"> of user </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user_id</span><span class="si">}</span><span class="s2"> does not exist.&quot;</span><span class="p">)</span>
 
+		<span class="n">extra_metadata</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="k">if</span> <span class="n">attached_file_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="n">record_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">record_attachment</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="n">attached_file_path</span><span class="p">)</span>
+			<span class="n">extra_metadata</span> <span class="o">=</span> <span class="p">{</span>
+				<span class="n">EXPERIMENT_LOG_ATTACHMENT_KEY</span><span class="p">:</span> <span class="n">record_path</span><span class="p">,</span>
+			<span class="p">}</span>
+
 		<span class="n">new_log_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_node</span><span class="p">(</span>
 			<span class="n">text</span><span class="o">=</span><span class="n">log_str</span><span class="p">,</span>
 			<span class="n">node_type</span><span class="o">=</span><span class="n">LOG_NODE_TYPE</span><span class="p">,</span>
+			<span class="n">extra_metadata</span><span class="o">=</span><span class="n">extra_metadata</span><span class="p">,</span>
 		<span class="p">)</span>
 		<span class="n">expr_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_node</span><span class="p">(</span><span class="n">node_id</span><span class="o">=</span><span class="n">experiment_name</span><span class="p">)</span>
 		<span class="n">last_store_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">experiment_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">EXPERIMENT_LAST_NODE_ID_PREFIX</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -8788,6 +8921,7 @@ For example: ['2024-08-10'], ['09:05:03'].</p>
 		<span class="p">)</span>
 		<span class="n">expr_node</span><span class="o">.</span><span class="n">relationships</span><span class="p">[</span><span class="n">NodeRelationship</span><span class="o">.</span><span class="n">CHILD</span><span class="p">]</span> <span class="o">=</span> <span class="n">log_node_list</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">_update_node</span><span class="p">(</span><span class="n">node_id</span><span class="o">=</span><span class="n">experiment_name</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="n">expr_node</span><span class="p">)</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Parent: &quot;</span><span class="p">,</span> <span class="n">new_log_node</span><span class="o">.</span><span class="n">parent_node</span><span class="o">.</span><span class="n">node_id</span><span class="p">)</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">vector_index</span><span class="o">.</span><span class="n">insert_nodes</span><span class="p">([</span><span class="n">new_log_node</span><span class="p">])</span>
 
 	<span class="k">def</span> <span class="nf">persist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">persist_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
@@ -8893,13 +9027,7 @@ For example: ['2024-08-10'], ['09:05:03'].</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\memory\experiment\experiment_log.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">311</span>
-<span class="normal">312</span>
-<span class="normal">313</span>
-<span class="normal">314</span>
-<span class="normal">315</span>
-<span class="normal">316</span>
-<span class="normal">317</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">317</span>
 <span class="normal">318</span>
 <span class="normal">319</span>
 <span class="normal">320</span>
@@ -8936,7 +9064,15 @@ For example: ['2024-08-10'], ['09:05:03'].</p>
 <span class="normal">351</span>
 <span class="normal">352</span>
 <span class="normal">353</span>
-<span class="normal">354</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">create_experiment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">experiment_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">create_experiment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">experiment_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Add a new experiment.</span>
 
@@ -8960,6 +9096,8 @@ For example: ['2024-08-10'], ['09:05:03'].</p>
 		<span class="n">node_id</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">experiment_name</span><span class="si">}</span><span class="s2">_header&quot;</span><span class="p">,</span>
 		<span class="n">node_type</span><span class="o">=</span><span class="n">LOG_NODE_TYPE</span>
 	<span class="p">)</span>
+	<span class="n">new_expr_node</span><span class="o">.</span><span class="n">relationships</span><span class="p">[</span><span class="n">NodeRelationship</span><span class="o">.</span><span class="n">CHILD</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">RelatedNodeInfo</span><span class="p">(</span><span class="n">node_id</span><span class="o">=</span><span class="n">expr_header_node</span><span class="o">.</span><span class="n">node_id</span><span class="p">)]</span>
+	<span class="n">expr_header_node</span><span class="o">.</span><span class="n">relationships</span><span class="p">[</span><span class="n">NodeRelationship</span><span class="o">.</span><span class="n">PARENT</span><span class="p">]</span> <span class="o">=</span> <span class="n">RelatedNodeInfo</span><span class="p">(</span><span class="n">node_id</span><span class="o">=</span><span class="n">new_expr_node</span><span class="o">.</span><span class="n">node_id</span><span class="p">)</span>
 
 	<span class="n">last_info_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_node</span><span class="p">(</span>
 		<span class="n">text</span><span class="o">=</span><span class="n">expr_header_node</span><span class="o">.</span><span class="n">node_id</span><span class="p">,</span>
@@ -9066,13 +9204,7 @@ For example: ['2024-08-10'], ['09:05:03'].</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\memory\experiment\experiment_log.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 83</span>
 <span class="normal"> 84</span>
 <span class="normal"> 85</span>
 <span class="normal"> 86</span>
@@ -9091,7 +9223,13 @@ For example: ['2024-08-10'], ['09:05:03'].</p>
 <span class="normal"> 99</span>
 <span class="normal">100</span>
 <span class="normal">101</span>
-<span class="normal">102</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">from_storage</span><span class="p">(</span>
 	<span class="bp">cls</span><span class="p">,</span>
 	<span class="n">persist_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -9204,13 +9342,7 @@ If the persist directory of the user_id does not exist, a new ExperimentLog will
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\memory\experiment\experiment_log.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">127</span>
 <span class="normal">128</span>
 <span class="normal">129</span>
 <span class="normal">130</span>
@@ -9268,7 +9400,13 @@ If the persist directory of the user_id does not exist, a new ExperimentLog will
 <span class="normal">182</span>
 <span class="normal">183</span>
 <span class="normal">184</span>
-<span class="normal">185</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">from_user_id</span><span class="p">(</span>
 	<span class="bp">cls</span><span class="p">,</span>
 	<span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -9354,13 +9492,13 @@ If the persist directory of the user_id does not exist, a new ExperimentLog will
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\memory\experiment\experiment_log.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_all_experiments</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_all_experiments</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Get all experiment names. &quot;&quot;&quot;</span>
 	<span class="n">root_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_node</span><span class="p">(</span><span class="n">node_id</span><span class="o">=</span><span class="n">INIT_NODE_NAME</span><span class="p">)</span>
 	<span class="n">expr_list</span> <span class="o">=</span> <span class="n">root_node</span><span class="o">.</span><span class="n">child_nodes</span>
@@ -9388,19 +9526,19 @@ If the persist directory of the user_id does not exist, a new ExperimentLog will
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\memory\experiment\experiment_log.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">225</span>
 <span class="normal">226</span>
 <span class="normal">227</span>
 <span class="normal">228</span>
 <span class="normal">229</span>
 <span class="normal">230</span>
-<span class="normal">231</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_all_experiments_with_description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_all_experiments_with_description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Get all experiment names and their descriptions. &quot;&quot;&quot;</span>
 	<span class="n">root_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_node</span><span class="p">(</span><span class="n">node_id</span><span class="o">=</span><span class="n">INIT_NODE_NAME</span><span class="p">)</span>
 	<span class="n">expr_list</span> <span class="o">=</span> <span class="n">root_node</span><span class="o">.</span><span class="n">child_nodes</span>
@@ -9484,18 +9622,18 @@ If the persist directory of the user_id does not exist, a new ExperimentLog will
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\memory\experiment\experiment_log.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">298</span>
-<span class="normal">299</span>
-<span class="normal">300</span>
-<span class="normal">301</span>
-<span class="normal">302</span>
-<span class="normal">303</span>
-<span class="normal">304</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">304</span>
 <span class="normal">305</span>
 <span class="normal">306</span>
 <span class="normal">307</span>
 <span class="normal">308</span>
-<span class="normal">309</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_expr_log_node_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">experiment_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_expr_log_node_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">experiment_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Get the log node ids of a specific experiment.</span>
 
@@ -9528,13 +9666,7 @@ If the persist directory of the user_id does not exist, a new ExperimentLog will
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\memory\experiment\experiment_log.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">193</span>
 <span class="normal">194</span>
 <span class="normal">195</span>
 <span class="normal">196</span>
@@ -9550,7 +9682,13 @@ If the persist directory of the user_id does not exist, a new ExperimentLog will
 <span class="normal">206</span>
 <span class="normal">207</span>
 <span class="normal">208</span>
-<span class="normal">209</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_recent_experiment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_recent_experiment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Get the most recent experiment name. &quot;&quot;&quot;</span>
 	<span class="n">recent_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_node</span><span class="p">(</span><span class="n">node_id</span><span class="o">=</span><span class="n">RECENT_EXPERIMENT_NODE_NAME</span><span class="p">)</span>
 	<span class="n">metadata</span> <span class="o">=</span> <span class="n">recent_node</span><span class="o">.</span><span class="n">metadata</span>
@@ -9648,19 +9786,19 @@ If the persist directory of the user_id does not exist, a new ExperimentLog will
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\memory\experiment\experiment_log.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">284</span>
-<span class="normal">285</span>
-<span class="normal">286</span>
-<span class="normal">287</span>
-<span class="normal">288</span>
-<span class="normal">289</span>
-<span class="normal">290</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">290</span>
 <span class="normal">291</span>
 <span class="normal">292</span>
 <span class="normal">293</span>
 <span class="normal">294</span>
 <span class="normal">295</span>
-<span class="normal">296</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_expr_exist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">experiment_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_expr_exist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">experiment_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Whether an experiment exists in the storage.</span>
 
@@ -9724,18 +9862,18 @@ If the persist directory of the user_id does not exist, a new ExperimentLog will
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\memory\experiment\experiment_log.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">427</span>
-<span class="normal">428</span>
-<span class="normal">429</span>
-<span class="normal">430</span>
-<span class="normal">431</span>
-<span class="normal">432</span>
-<span class="normal">433</span>
-<span class="normal">434</span>
-<span class="normal">435</span>
-<span class="normal">436</span>
-<span class="normal">437</span>
-<span class="normal">438</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">persist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">persist_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">persist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">persist_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Persist to disk.</span>
 
@@ -9757,7 +9895,7 @@ If the persist directory of the user_id does not exist, a new ExperimentLog will
 
 
 <h4 id="labridge.func_modules.memory.experiment.experiment_log.ExperimentLog.put" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">labridge</span><span class="o">.</span><span class="n">func_modules</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">experiment_log</span><span class="o">.</span><span class="n">ExperimentLog</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">experiment_name</span><span class="p">,</span> <span class="n">log_str</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">labridge</span><span class="o">.</span><span class="n">func_modules</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">experiment_log</span><span class="o">.</span><span class="n">ExperimentLog</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">experiment_name</span><span class="p">,</span> <span class="n">log_str</span><span class="p">,</span> <span class="n">attached_file_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 <a href="#labridge.func_modules.memory.experiment.experiment_log.ExperimentLog.put" class="headerlink" title="Permanent link">&para;</a></h4>
 
@@ -9810,41 +9948,30 @@ If the persist directory of the user_id does not exist, a new ExperimentLog will
               </p>
             </td>
           </tr>
+          <tr class="doc-section-item">
+            <td><code>attached_file_path</code></td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The path of the attached file. Defaults to None.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code>str</code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>None</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
       </tbody>
     </table>
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\memory\experiment\experiment_log.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">377</span>
-<span class="normal">378</span>
-<span class="normal">379</span>
-<span class="normal">380</span>
-<span class="normal">381</span>
-<span class="normal">382</span>
-<span class="normal">383</span>
-<span class="normal">384</span>
-<span class="normal">385</span>
-<span class="normal">386</span>
-<span class="normal">387</span>
-<span class="normal">388</span>
-<span class="normal">389</span>
-<span class="normal">390</span>
-<span class="normal">391</span>
-<span class="normal">392</span>
-<span class="normal">393</span>
-<span class="normal">394</span>
-<span class="normal">395</span>
-<span class="normal">396</span>
-<span class="normal">397</span>
-<span class="normal">398</span>
-<span class="normal">399</span>
-<span class="normal">400</span>
-<span class="normal">401</span>
-<span class="normal">402</span>
-<span class="normal">403</span>
-<span class="normal">404</span>
-<span class="normal">405</span>
-<span class="normal">406</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">406</span>
 <span class="normal">407</span>
 <span class="normal">408</span>
 <span class="normal">409</span>
@@ -9863,7 +9990,57 @@ If the persist directory of the user_id does not exist, a new ExperimentLog will
 <span class="normal">422</span>
 <span class="normal">423</span>
 <span class="normal">424</span>
-<span class="normal">425</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">experiment_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">log_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">put</span><span class="p">(</span>
+	<span class="bp">self</span><span class="p">,</span>
+	<span class="n">experiment_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+	<span class="n">log_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+	<span class="n">attached_file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Put in an experiment log into a specific experiment store.</span>
 
@@ -9877,15 +10054,25 @@ If the persist directory of the user_id does not exist, a new ExperimentLog will
 <span class="sd">	Args:</span>
 <span class="sd">		experiment_name (str): An existing experiment name.</span>
 <span class="sd">		log_str (str): The experiment log string to be put in.</span>
+<span class="sd">		attached_file_path (str): The path of the attached file. Defaults to None.</span>
 <span class="sd">	&quot;&quot;&quot;</span>
+	<span class="c1"># TODO: Support files.</span>
 	<span class="n">root_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_node</span><span class="p">(</span><span class="n">node_id</span><span class="o">=</span><span class="n">INIT_NODE_NAME</span><span class="p">)</span>
 	<span class="n">experiments</span> <span class="o">=</span> <span class="n">root_node</span><span class="o">.</span><span class="n">child_nodes</span>
 	<span class="k">if</span> <span class="n">experiments</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">experiment_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">expr</span><span class="o">.</span><span class="n">node_id</span> <span class="k">for</span> <span class="n">expr</span> <span class="ow">in</span> <span class="n">experiments</span><span class="p">]:</span>
 		<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The experiment </span><span class="si">{</span><span class="n">experiment_name</span><span class="si">}</span><span class="s2"> of user </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user_id</span><span class="si">}</span><span class="s2"> does not exist.&quot;</span><span class="p">)</span>
 
+	<span class="n">extra_metadata</span> <span class="o">=</span> <span class="kc">None</span>
+	<span class="k">if</span> <span class="n">attached_file_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+		<span class="n">record_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">record_attachment</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="n">attached_file_path</span><span class="p">)</span>
+		<span class="n">extra_metadata</span> <span class="o">=</span> <span class="p">{</span>
+			<span class="n">EXPERIMENT_LOG_ATTACHMENT_KEY</span><span class="p">:</span> <span class="n">record_path</span><span class="p">,</span>
+		<span class="p">}</span>
+
 	<span class="n">new_log_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_node</span><span class="p">(</span>
 		<span class="n">text</span><span class="o">=</span><span class="n">log_str</span><span class="p">,</span>
 		<span class="n">node_type</span><span class="o">=</span><span class="n">LOG_NODE_TYPE</span><span class="p">,</span>
+		<span class="n">extra_metadata</span><span class="o">=</span><span class="n">extra_metadata</span><span class="p">,</span>
 	<span class="p">)</span>
 	<span class="n">expr_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_node</span><span class="p">(</span><span class="n">node_id</span><span class="o">=</span><span class="n">experiment_name</span><span class="p">)</span>
 	<span class="n">last_store_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">experiment_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">EXPERIMENT_LAST_NODE_ID_PREFIX</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -9911,6 +10098,7 @@ If the persist directory of the user_id does not exist, a new ExperimentLog will
 	<span class="p">)</span>
 	<span class="n">expr_node</span><span class="o">.</span><span class="n">relationships</span><span class="p">[</span><span class="n">NodeRelationship</span><span class="o">.</span><span class="n">CHILD</span><span class="p">]</span> <span class="o">=</span> <span class="n">log_node_list</span>
 	<span class="bp">self</span><span class="o">.</span><span class="n">_update_node</span><span class="p">(</span><span class="n">node_id</span><span class="o">=</span><span class="n">experiment_name</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="n">expr_node</span><span class="p">)</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Parent: &quot;</span><span class="p">,</span> <span class="n">new_log_node</span><span class="o">.</span><span class="n">parent_node</span><span class="o">.</span><span class="n">node_id</span><span class="p">)</span>
 	<span class="bp">self</span><span class="o">.</span><span class="n">vector_index</span><span class="o">.</span><span class="n">insert_nodes</span><span class="p">([</span><span class="n">new_log_node</span><span class="p">])</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -10015,13 +10203,7 @@ If the persist directory of the user_id does not exist, a new ExperimentLog will
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\memory\experiment\experiment_log.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">239</span>
 <span class="normal">240</span>
 <span class="normal">241</span>
 <span class="normal">242</span>
@@ -10051,7 +10233,13 @@ If the persist directory of the user_id does not exist, a new ExperimentLog will
 <span class="normal">266</span>
 <span class="normal">267</span>
 <span class="normal">268</span>
-<span class="normal">269</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set_recent_experiment</span><span class="p">(</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set_recent_experiment</span><span class="p">(</span>
 	<span class="bp">self</span><span class="p">,</span>
 	<span class="n">experiment_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 	<span class="n">start_date</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -10109,12 +10297,12 @@ If the persist directory of the user_id does not exist, a new ExperimentLog will
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\memory\experiment\experiment_log.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Reload from the disk. &quot;&quot;&quot;</span>
 	<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_user_id</span><span class="p">(</span>
 		<span class="n">user_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user_id</span><span class="p">,</span>

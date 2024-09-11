@@ -2425,7 +2425,7 @@
         
   
   <span class="md-ellipsis">
-    Android APP
+    APP
   </span>
   
 
@@ -5332,6 +5332,8 @@
       
         
       
+        
+      
     
     
       
@@ -5391,6 +5393,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../../func_modules/paper/store/shared_paper_retrieve.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../../func_modules/paper/retrieve/temporary_paper_retriever/" class="md-nav__link">
         
   
@@ -5421,6 +5444,8 @@
   
     
     
+      
+        
       
         
       
@@ -5469,6 +5494,27 @@
   
   <span class="md-ellipsis">
     Paper store
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../func_modules/paper/store/shared_paper_store/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shared paper store
   </span>
   
 
@@ -7072,6 +7118,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#labridge.tools.memory.chat.retrieve.ChatMemoryRetrieverTool.get_ref_info" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_ref_info
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#labridge.tools.memory.chat.retrieve.ChatMemoryRetrieverTool.log" class="md-nav__link">
     <span class="md-ellipsis">
       log
@@ -7649,6 +7704,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#labridge.tools.memory.chat.retrieve.ChatMemoryRetrieverTool.get_ref_info" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_ref_info
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#labridge.tools.memory.chat.retrieve.ChatMemoryRetrieverTool.log" class="md-nav__link">
     <span class="md-ellipsis">
       log
@@ -7791,8 +7855,7 @@
 
               <details class="quote">
                 <summary>Source code in <code>labridge\tools\memory\chat\retrieve.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">19</span>
-<span class="normal">20</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">20</span>
 <span class="normal">21</span>
 <span class="normal">22</span>
 <span class="normal">23</span>
@@ -7861,7 +7924,12 @@
 <span class="normal">86</span>
 <span class="normal">87</span>
 <span class="normal">88</span>
-<span class="normal">89</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ChatMemoryRetrieverTool</span><span class="p">(</span><span class="n">RetrieverBaseTool</span><span class="p">):</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ChatMemoryRetrieverTool</span><span class="p">(</span><span class="n">RetrieverBaseTool</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	This tool is used to retrieve in the permanent chat memory of a user or a chat group.</span>
 
@@ -7882,6 +7950,10 @@
 			<span class="n">name</span><span class="o">=</span><span class="n">ChatMemoryRetrieverTool</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
 			<span class="n">retrieve_fn</span><span class="o">=</span><span class="n">ChatMemoryRetriever</span><span class="o">.</span><span class="n">retrieve</span><span class="p">,</span>
 		<span class="p">)</span>
+
+	<span class="k">def</span> <span class="nf">get_ref_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">RefInfoBase</span><span class="p">]:</span>
+<span class="w">		</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Get the reference infos from the retrieved nodes. &quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="p">[]</span>
 
 	<span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ToolLog</span><span class="p">:</span>
 <span class="w">		</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; tool log &quot;&quot;&quot;</span>
@@ -7950,6 +8022,32 @@
 <div class="doc doc-object doc-function">
 
 
+<h4 id="labridge.tools.memory.chat.retrieve.ChatMemoryRetrieverTool.get_ref_info" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">labridge</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">retrieve</span><span class="o">.</span><span class="n">ChatMemoryRetrieverTool</span><span class="o">.</span><span class="n">get_ref_info</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span></code>
+
+<a href="#labridge.tools.memory.chat.retrieve.ChatMemoryRetrieverTool.get_ref_info" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Get the reference infos from the retrieved nodes.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>labridge\tools\memory\chat\retrieve.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_ref_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">RefInfoBase</span><span class="p">]:</span>
+<span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Get the reference infos from the retrieved nodes. &quot;&quot;&quot;</span>
+	<span class="k">return</span> <span class="p">[]</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
 <h4 id="labridge.tools.memory.chat.retrieve.ChatMemoryRetrieverTool.log" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">labridge</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">retrieve</span><span class="o">.</span><span class="n">ChatMemoryRetrieverTool</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">log_dict</span><span class="p">)</span></code>
 
@@ -7962,12 +8060,7 @@
 
             <details class="quote">
               <summary>Source code in <code>labridge\tools\memory\chat\retrieve.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">46</span>
 <span class="normal">47</span>
 <span class="normal">48</span>
 <span class="normal">49</span>
@@ -7982,7 +8075,12 @@
 <span class="normal">58</span>
 <span class="normal">59</span>
 <span class="normal">60</span>
-<span class="normal">61</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ToolLog</span><span class="p">:</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ToolLog</span><span class="p">:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; tool log &quot;&quot;&quot;</span>
 	<span class="n">item</span> <span class="o">=</span> <span class="n">log_dict</span><span class="p">[</span><span class="s2">&quot;item_to_be_retrieved&quot;</span><span class="p">]</span>
 	<span class="n">memory_id</span> <span class="o">=</span> <span class="n">log_dict</span><span class="p">[</span><span class="s2">&quot;memory_id&quot;</span><span class="p">]</span>

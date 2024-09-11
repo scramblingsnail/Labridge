@@ -2499,7 +2499,7 @@
         
   
   <span class="md-ellipsis">
-    Android APP
+    APP
   </span>
   
 
@@ -5401,6 +5401,8 @@
       
         
       
+        
+      
     
     
       
@@ -5460,6 +5462,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../../../code_docs/func_modules/paper/store/shared_paper_retrieve.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../../code_docs/func_modules/paper/retrieve/temporary_paper_retriever/" class="md-nav__link">
         
   
@@ -5490,6 +5513,8 @@
   
     
     
+      
+        
       
         
       
@@ -5538,6 +5563,27 @@
   
   <span class="md-ellipsis">
     Paper store
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../code_docs/func_modules/paper/store/shared_paper_store/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shared paper store
   </span>
   
 
@@ -7679,6 +7725,7 @@
 <h1 id="personal-experiment-log-retrieval">Personal experiment log retrieval<a class="headerlink" href="#personal-experiment-log-retrieval" title="Permanent link">&para;</a></h1>
 <p>The experiment log is related to time, therefore, Labridge adopts a multi-level retrieval + timestamp filtering method 
 based on the <a href="../store/">storage structure</a> of the experiment log.</p>
+<p><img alt="Personal experiment log retrieval" src="../images/experiment_log_retrieve.png" /></p>
 <h2 id="the-first-retrieval-step">The first retrieval step<a class="headerlink" href="#the-first-retrieval-step" title="Permanent link">&para;</a></h2>
 <p>In the first retrieval step, Labridge retrieves the most likely <code>experiment_top_k</code> experiments 
 based on the similarity between the Query vector and the descriptions of all experiment nodes. 

@@ -2508,7 +2508,7 @@
         
   
   <span class="md-ellipsis">
-    Android APP
+    APP
   </span>
   
 
@@ -5410,6 +5410,8 @@
       
         
       
+        
+      
     
     
       
@@ -5469,6 +5471,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../../../code_docs/func_modules/paper/store/shared_paper_retrieve.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../../code_docs/func_modules/paper/retrieve/temporary_paper_retriever/" class="md-nav__link">
         
   
@@ -5499,6 +5522,8 @@
   
     
     
+      
+        
       
         
       
@@ -5547,6 +5572,27 @@
   
   <span class="md-ellipsis">
     Paper store
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../code_docs/func_modules/paper/store/shared_paper_store/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shared paper store
   </span>
   
 
@@ -7698,17 +7744,14 @@
 <p>Labridge will retrieve in the <a href="../store/">Constructed</a> shared paper database for the relevant information.</p>
 <p>We have employed a multi-level, hybrid search approach to enhance the accuracy of the retrieval results.
 Refer to <strong>Code docs</strong> <code>Fun_modules.paper.retrieve.paper_retrieve</code> for details.</p>
+<p><img alt="Shared paper database retrieval" src="../../images/shared_papers_retrieve.png" /></p>
 <h3 id="the-first-retrieval-step">The first retrieval step<a class="headerlink" href="#the-first-retrieval-step" title="Permanent link">&para;</a></h3>
 <p>In the first step of the retrieval process, we retrieve the <code>vector_similarity_top_k</code> text blocks most similar to 
-the question vector in the content vector database of the shared literature library. 
-Simultaneously, we also retrieve the <code>summary_similarity_top_k</code> paper summaries most similar to the 
-question vector in the Summary vector database. 
-Next, we combine the retrieval results from both retrievals, 
-and use the papers associated with these results as the search scope for the second step of the retrieval process.</p>
+the question vector in the content vector database of the shared literature library, and then get the paper nodes that they belongs to.
+If specific <code>user_id</code> is given, the retrieval range is confined to this user's papers.</p>
 <h3 id="the-second-relevance-analysis-step">The second relevance analysis step<a class="headerlink" href="#the-second-relevance-analysis-step" title="Permanent link">&para;</a></h3>
-<p>Within the scope of the papers identified in the first step of retrieval, we get the summaries of these documents 
-from the Summary vector database. 
-We then use <strong>LLM</strong> to score the relevance of these summaries to the question text. 
+<p>Within the scope of the papers identified in the first step of retrieval, 
+We then use <strong>LLM</strong> to score the relevance of their summaries to the question text. 
 From this scoring, we obtain the <code>docs_top_k</code> documents with the highest relevance scores.</p>
 <h3 id="final-retrieval-step">Final retrieval step<a class="headerlink" href="#final-retrieval-step" title="Permanent link">&para;</a></h3>
 <p>Within the scope of the papers that has been filtered in the second step, 

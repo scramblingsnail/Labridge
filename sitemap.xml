@@ -1450,6 +1450,13 @@
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/retrieve/paper_retriever/"/>
     </url>
     <url>
+        <loc>Noneen/code_docs/func_modules/paper/retrieve/shared_paper_retrieve/</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/retrieve/shared_paper_retrieve/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/retrieve/shared_paper_retrieve/"/>
+    </url>
+    <url>
         <loc>Noneen/code_docs/func_modules/paper/retrieve/temporary_paper_retriever/</loc>
         <lastmod>2024-09-11</lastmod>
         <changefreq>daily</changefreq>
@@ -1462,6 +1469,13 @@
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/store/paper_store/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/store/paper_store/"/>
+    </url>
+    <url>
+        <loc>Noneen/code_docs/func_modules/paper/store/shared_paper_store/</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/store/shared_paper_store/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/store/shared_paper_store/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/paper/store/temporary_store/</loc>
@@ -2071,19 +2085,5 @@
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/introduction/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneoverview/introduction/"/>
-    </url>
-    <url>
-        <loc>Noneen/code_docs/func_modules/paper/retrieve/shared_paper_retrieve/</loc>
-        <lastmod>2024-09-11</lastmod>
-        <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/retrieve/shared_paper_retrieve/"/>
-        <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/retrieve/shared_paper_retrieve/"/>
-    </url>
-    <url>
-        <loc>Noneen/code_docs/func_modules/paper/store/shared_paper_store/</loc>
-        <lastmod>2024-09-11</lastmod>
-        <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/store/shared_paper_store/"/>
-        <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/store/shared_paper_store/"/>
     </url>
 </urlset>

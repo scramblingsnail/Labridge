@@ -119,7 +119,6 @@ class LabChatAgent:
 		)
 		return agent_response
 
-
 	def get_tools(self) -> List[AsyncBaseTool]:
 		r""" Available tools. """
 		return [
@@ -158,3 +157,4 @@ class LabChatAgent:
 
 
 ChatAgent = LabChatAgent()
+get_models()

@@ -1,0 +1,9 @@
+# Backend Framework
+backend: "mindspore" # "pytorch"
+
+# LLM path or name
+llm_name: "ZhipuAI/glm-4-9b-chat"
+embedding_name: "BAAI/bge-large-zh-v1.5"
+
+context_window: 16000
+max_new_tokens: 1024

@@ -1,5 +1,7 @@
 # Tools callable by the agent.
 
+![Callable tools](./images/react_tools.png)
+
 Labridge can currently call the following tools:
 
 - [SharedPaperRetrieverTool](./shared_papers/shared_paper_retrieve_tool.md)

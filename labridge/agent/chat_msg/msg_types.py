@@ -26,8 +26,6 @@ USER_SPEECH_NAME = "user_speech.pcm"
 AGENT_SPEECH_NAME = "agent_reply"
 
 
-
-
 class BaseClientMessage(BaseModel):
 	r"""
 	This is the base class for client's messages.

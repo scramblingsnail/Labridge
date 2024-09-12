@@ -2,6 +2,8 @@
 
 we conduct detailed parsing and content extraction of the collected papers to ensure precise retrieval.
 
+![Parsing and medata extraction](../images/paper_parse.png)
+
 ## **Source analysis**:
 We analyze the source of a PDF document through various methods including
 structured PDF parsing, keyword frequency analysis, LLM-assisted analysis.

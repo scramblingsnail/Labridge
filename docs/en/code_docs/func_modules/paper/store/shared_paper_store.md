@@ -1,0 +1,1 @@
+:::labridge.func_modules.paper.store.shared_paper_store

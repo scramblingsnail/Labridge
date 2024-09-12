@@ -5,6 +5,8 @@ An independent vector database is stored for each member or member group
 
 The structure of each vector database is similar to that of a doubly linked list.
 
+![Interaction log storage structure](./images/chatlog_structure.png)
+
 - The initial node (first node) stores the object to which the database belongs and the description of the database. 
 Additional information includes the creation time of the database.
 - The newly added QA log unit will be added as the last node in the linked list structure. 

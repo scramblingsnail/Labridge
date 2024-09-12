@@ -2,6 +2,8 @@
 
 Labridge使用多级检索的方式检索相关仪器信息
 
+![仪器信息检索](./images/instrument_retrieve.png)
+
 ## 第一步检索
 在第一步检索中，Labridge使用 **LLM** 对Query文本与各实验仪器之间的相关性（依据仪器描述）进行打分，筛选出最相关的 `instrument_top_k` 个仪器。
 

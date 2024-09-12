@@ -4,6 +4,8 @@ The usage scenario for personal recent paper database is more focused on inquiri
 with high requirements for timeliness. Therefore, we adopt a strategy of fuzzy search to locate the paper range, 
 followed by further similarity search.
 
+![Retrieval of personal recent papers](../images/personal_papers_retrieve.png)
+
 ## Fuzzy search to determine the document range
 Firstly, Labridge will determine the general information (PaperInfo) of 
 the required paper (such as title, file path, etc.) from the tool invocation logs and chat records. 

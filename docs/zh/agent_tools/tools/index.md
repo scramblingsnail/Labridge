@@ -1,5 +1,7 @@
 # Agent可调用工具
 
+![可调用工具](./images/react_tools.png)
+
 Labridge目前可调用如下工具：
 
 - [SharedPaperRetrieverTool](./shared_papers/shared_paper_retrieve_tool.md)

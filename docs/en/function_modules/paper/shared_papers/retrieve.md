@@ -5,18 +5,16 @@ Labridge will retrieve in the [Constructed](store.md) shared paper database for 
 We have employed a multi-level, hybrid search approach to enhance the accuracy of the retrieval results.
 Refer to **Code docs** `Fun_modules.paper.retrieve.paper_retrieve` for details.
 
+![Shared paper database retrieval](../images/shared_papers_retrieve.png)
+
 ### The first retrieval step
 In the first step of the retrieval process, we retrieve the `vector_similarity_top_k` text blocks most similar to 
-the question vector in the content vector database of the shared literature library. 
-Simultaneously, we also retrieve the `summary_similarity_top_k` paper summaries most similar to the 
-question vector in the Summary vector database. 
-Next, we combine the retrieval results from both retrievals, 
-and use the papers associated with these results as the search scope for the second step of the retrieval process.
+the question vector in the content vector database of the shared literature library, and then get the paper nodes that they belongs to.
+If specific `user_id` is given, the retrieval range is confined to this user's papers.
 
 ### The second relevance analysis step
-Within the scope of the papers identified in the first step of retrieval, we get the summaries of these documents 
-from the Summary vector database. 
-We then use **LLM** to score the relevance of these summaries to the question text. 
+Within the scope of the papers identified in the first step of retrieval, 
+We then use **LLM** to score the relevance of their summaries to the question text. 
 From this scoring, we obtain the `docs_top_k` documents with the highest relevance scores.
 
 ### Final retrieval step

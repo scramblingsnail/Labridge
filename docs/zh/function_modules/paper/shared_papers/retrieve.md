@@ -2,15 +2,16 @@
 
 Labridge将在[构建](store.md)好的共享文献库中进行检索，以获得解决问题所需要的信息。
 
-我们使用了多层级、混合式的检索方式来提高检索结果的准确性。具体的细节参见 **源码文档** `Fun_modules.paper.retrieve.paper_retrieve`
+我们使用了多层级、混合式的检索方式来提高检索结果的准确性。具体的细节参见 **源码文档** `Fun_modules.paper.retrieve.shared_paper_retrieve`
+
+![共享文献库检索](../images/shared_papers_retrieve.png)
 
 ### 第一步检索：
-在第一步检索中，我们在共享文献库中的内容向量数据库中搜索与问题向量最相似的`vector_similarity_top_k`个文本块，
-同时也在Summary向量数据库中搜索与问题向量最相似的`summary_similarity_top_k`份文献总结。
-接下来，我们集合这二者的检索结果，并将这些检索结果所属的文献作为第二步检索的检索范围。
+在第一步检索中，我们在共享文献库中的内容向量数据库中搜索与问题向量最相似的`vector_similarity_top_k`个文本块，并获取它们所属的文献节点。
+如果制定了特定的 `user_id`, 将仅在该用户的文献中进行检索。
 
 ### 第二步相关性分析：
-在第一步检索出的相关文献的范围内，我们从Summary向量数据库获取这些文献的Summary, 并使用 **LLM** 对这些Summary和问题文本的相关性进行打分，
+在第一步检索出的相关文献的范围内，我们将使用 **LLM** 对这些文献的Abstract & Summary和问题文本的相关性进行打分，
 获取相关性分数最高的 `docs_top_k` 份文献。
 
 ### 最后的相似性检索：

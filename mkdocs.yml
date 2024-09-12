@@ -159,9 +159,11 @@ nav:
                       - code_docs/func_modules/paper/prompt/synthesize/synthesize.md
               - Retrieve:
                   - code_docs/func_modules/paper/retrieve/paper_retriever.md
+                  - code_docs/func_modules/paper/retrieve/shared_paper_retrieve.md
                   - code_docs/func_modules/paper/retrieve/temporary_paper_retriever.md
               - Store:
                   - code_docs/func_modules/paper/store/paper_store.md
+                  - code_docs/func_modules/paper/store/shared_paper_store.md
                   - code_docs/func_modules/paper/store/temporary_store.md
               - Synthesizer:
                   - code_docs/func_modules/paper/synthesizer/summarize.md

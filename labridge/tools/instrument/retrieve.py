@@ -70,11 +70,13 @@ class InstrumentRetrieverTool(RetrieverBaseTool):
 	def get_ref_info(self, nodes: List[NodeWithScore]) -> List[RefInfoBase]:
 		r""" Get the reference infos from the retrieved nodes. """
 		instrument_infos = []
+		instrument_set = set()
 		for node in nodes:
 			instrument_id = node.metadata.get(INSTRUMENT_NAME_KEY, node.node_id)
 			# TODO: Add node type and filter.
-			if instrument_id == INSTRUMENT_ROOT_NODE_NAME:
+			if instrument_id == INSTRUMENT_ROOT_NODE_NAME or instrument_id in instrument_set:
 				continue
+			instrument_set.add(instrument_id)
 			super_users = self.super_user_manager.get_super_users(
 				instrument_id=instrument_id,
 			)

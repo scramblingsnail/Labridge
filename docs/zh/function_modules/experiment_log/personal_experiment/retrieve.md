@@ -2,6 +2,8 @@
 
 实验日志与时间有关，因此Labridge根据实验日志的[存储结构](store.md)采用多级检索 + 时间戳过滤的检索方式
 
+![个人实验日志检索](./images/experiment_log_retrieve.png)
+
 ## 第一步检索
 在第一步检索中，Labridge根据Query向量与所有实验节点的实验描述之间的相似性，检索出最有可能的 `experiment_top_k` 个实验。
 同时，Labridge在所有的日志类型的节点中，根据相似性检索出最相似的 `first_top_k` 日志节点，并获取它们对应的实验节点。

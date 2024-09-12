@@ -3,6 +3,8 @@
 The characteristic of interaction log retrieval is its strong correlation with time. 
 Therefore, Labridge uses a retrieval method that combines similarity search and timestamp filtering for interaction log retrieval.
 
+![Interaction Log Retrieval](./images/chatlog_retrieve.png)
+
 ## Timestamp filtering
 Each **QA** log node records the corresponding timestamp. 
 Labridge filters the log nodes based on the input start and end times to narrow the search scope.

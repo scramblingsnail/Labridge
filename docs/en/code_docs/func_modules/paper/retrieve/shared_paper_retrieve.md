@@ -1,0 +1,1 @@
+:::labridge.func_modules.paper.retrieve.shared_paper_retrieve

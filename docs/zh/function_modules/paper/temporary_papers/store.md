@@ -1,6 +1,8 @@
 # 个人近期文献库结构
 
-每个临时文献库都是一个向量数据库。
+每个临时文献库都是一个向量数据库，存储每个用户各自近期的文献。其结构如下图所示：
+
+![个人近期文献库结构](../images/personal_papers_structure.png)
 
 - 临时文献文件存放在项目路径 `documents\tmp_papers\{user_id}`, 临时文献库是 **user-specific** 的。
 - 每个文献库存在一个根节点(root node), 所有的文献节点(paper node)都是根节点的子节点。

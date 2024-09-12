@@ -2,6 +2,8 @@
 
 Experiment logs are stored in a vector database.
 
+![Storage structure of personal experimental logs](./images/experiment_log_structure.png)
+
 - There is a root node in the database, and all experiment nodes are the children of this root node.
 - Each experiment node includes the following information:
 

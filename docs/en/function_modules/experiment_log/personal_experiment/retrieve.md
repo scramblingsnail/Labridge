@@ -3,6 +3,8 @@
 The experiment log is related to time, therefore, Labridge adopts a multi-level retrieval + timestamp filtering method 
 based on the [storage structure](store.md) of the experiment log.
 
+![Personal experiment log retrieval](./images/experiment_log_retrieve.png)
+
 ## The first retrieval step
 In the first retrieval step, Labridge retrieves the most likely `experiment_top_k` experiments 
 based on the similarity between the Query vector and the descriptions of all experiment nodes. 

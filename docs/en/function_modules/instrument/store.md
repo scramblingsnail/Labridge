@@ -2,6 +2,8 @@
 
 Information about experimental instruments is stored in a vector database.
 
+![Storage structure of instrument information](./images/instrument_structure.png)
+
 - There is a root node in the database, and all instrument nodes are the children of this root node.
 - Each instrument node contains the following information:
 

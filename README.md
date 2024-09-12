@@ -14,6 +14,21 @@ Labridge基于 `Llamaindex` 与 `Mindspore`, 使用ReAct + CoT Prompt框架进�
 
 ![Framework](./docs/zh/agent_tools/tools/images/react_tools.png)
 
+## 项目文档
+我们提供详细的中英文项目文档与源码文档，细节请参阅如下文档：
+
+**中文文档**
+
+[中文文档地址一](https://scramblingsnail.github.io/Labridge/)
+
+[中文文档地址二](https://labridge.readthedocs.io/zh-cn/latest/)
+
+**英文文档**
+
+[英文文档地址一](https://scramblingsnail.github.io/Labridge/en/)
+
+[英文文档地址二](https://labridge.readthedocs.io/zh-cn/latest/en/)
+
 ## 环境
 
 `python==3.8`
@@ -61,18 +76,3 @@ Web客户端具体细节请参考
 
 App客户端具体细节请参考
 [App](./docs/zh/interface/app.md)
-
-## 项目文档
-我们提供详细的中英文项目文档与源码文档，细节请参阅如下文档：
-
-**中文文档**
-
-[中文文档地址一](https://scramblingsnail.github.io/Labridge/)
-
-[中文文档地址二](https://labridge.readthedocs.io/zh-cn/latest/)
-
-**英文文档**
-
-[英文文档地址一](https://scramblingsnail.github.io/Labridge/en/)
-
-[英文文档地址二](https://labridge.readthedocs.io/zh-cn/latest/en/)

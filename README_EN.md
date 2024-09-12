@@ -15,6 +15,21 @@ construct agents.
 
 ![Framework](./docs/en/agent_tools/tools/images/react_tools.png)
 
+## Project documents
+We provide elaborated project documents and code documents, refer to the documents below for details.
+
+**ZH Docs**
+
+[ZH doc website 1](https://scramblingsnail.github.io/Labridge/)
+
+[ZH doc website 2](https://labridge.readthedocs.io/zh-cn/latest/)
+
+**EN Docs**
+
+[EN doc website 1](https://scramblingsnail.github.io/Labridge/en/)
+
+[EN doc website 2](https://labridge.readthedocs.io/zh-cn/latest/en/)
+
 ## Environment
 
 `python==3.8`
@@ -64,18 +79,3 @@ For details about Web client, refer to
 
 For details about App client, refer to
 [App](./docs/en/interface/app.md)
-
-## Project documents
-We provide elaborated project documents and code documents, refer to the documents below for details.
-
-**ZH Docs**
-
-[ZH doc website 1](https://scramblingsnail.github.io/Labridge/)
-
-[ZH doc website 2](https://labridge.readthedocs.io/zh-cn/latest/)
-
-**EN Docs**
-
-[EN doc website 1](https://scramblingsnail.github.io/Labridge/en/)
-
-[EN doc website 2](https://labridge.readthedocs.io/zh-cn/latest/en/)

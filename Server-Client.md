@@ -9,6 +9,16 @@
 - user_id: 用户名
 - password: 用户密码
 
+Sign in:
+
+- Post URL: `/accounts/log-up`
+- Return: 若成功返回user_id，失败返回None
+
+Log up:
+
+- Post URL: `/accounts/log-up`
+- Return: 若成功返回user_id，失败返回None
+
 ### Chat with text:
 [ClientTextReq](labridge/interface/http_server):
 - text (str): 用户的消息字符串

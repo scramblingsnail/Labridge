@@ -168,6 +168,7 @@ class MindsporeLLM(CustomLLM):
 			gen_tokens += token
 			yield CompletionResponse(text=gen_tokens, delta=token)
 
+
 class MindsporeEmbedding(BaseEmbedding):
 	r"""
 	The Embedding model based on Mindspore framework and MindNLP.
@@ -187,7 +188,7 @@ class MindsporeEmbedding(BaseEmbedding):
 		default=True,
 		description="Normalize embeddings or not."
 	)
-	query_instruction: Optional[str] = Field(
+	query_instrhuouction: Optional[str] = Field(
 		description="Instruction to prepend to query text."
 	)
 	text_instruction: Optional[str] = Field(

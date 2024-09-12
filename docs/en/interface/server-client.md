@@ -2,7 +2,22 @@
 
 ## Data Structure
 
-## Data updated by clients：
+### User log up, log in:
+[ClientLogInUpReq](labridge/interface/http_server):
+- user_id: the user id of a lab member
+- password: given password
+
+Sign in:
+
+- Post URL: `/accounts/log-up`
+- Return: return user_id if success，otherwise return None
+
+Log up:
+
+- Post URL: `/accounts/log-up`
+- Return: return user_id if success，otherwise return None
+
+## Data uploaded by clients：
 
 ### Chat with text:
 **ClientTextReq**:

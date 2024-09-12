@@ -20,7 +20,7 @@
     
     
       
-        <title>Index - Labridge</title>
+        <title>基于昇腾软硬件的项目部署 - Labridge</title>
       
     
     
@@ -77,6 +77,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -112,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Index
+              基于昇腾软硬件的项目部署
             
           </span>
         </div>
@@ -7579,6 +7584,34 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ailabridge" class="md-nav__link">
+    <span class="md-ellipsis">
+      昇腾AI芯片加速Labridge运行
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#labridge" class="md-nav__link">
+    <span class="md-ellipsis">
+      昇思赋能Labridge
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -7609,9 +7642,16 @@
   
 
 
-  <h1>Index</h1>
-
-
+<h1 id="_1">基于昇腾软硬件的项目部署<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>基于昇腾的软硬件生态，我们对Labridge的项目部署采用了多层次的部署方式。</p>
+<p><img alt="基于昇腾软硬件的项目部署" src="images/deployment.png" /></p>
+<h2 id="ailabridge">昇腾AI芯片加速Labridge运行<a class="headerlink" href="#ailabridge" title="Permanent link">&para;</a></h2>
+<p>我们采用搭载昇腾AI芯片的 OrangePi 进行Embedding模型的部署，其搭载的昇腾AI芯片具备 <strong>20TOPS</strong> (FP16) AI算力，</p>
+<p>充分加速Labridge的信息检索，发挥数据本地部署的优势，保障数据安全。</p>
+<p>同时，大语言模型 (LLM) 部署在GPU服务器，通过HTTP与Embedding模型进行通信。</p>
+<h2 id="labridge">昇思赋能Labridge<a class="headerlink" href="#labridge" title="Permanent link">&para;</a></h2>
+<p>不论是Embedding模型还是LLM，都依赖于 <strong>Mindspore</strong> 深度学习框架与 <strong>MindNLP</strong> 自然语言处理套件实现，</p>
+<p>昇腾的软件生态赋予了Labridge灵魂与智能引擎。</p>
 
 
 

@@ -18,7 +18,7 @@ import 'package:labridge/message/audio_message.dart';
 import 'package:labridge/settings_route.dart';
 
 // For the testing purposes, you should probably use https://pub.dev/packages/uuid.
-String randomString() {
+String randomId() {
   const uuid = Uuid();
   return uuid.v8();
 }
@@ -274,7 +274,7 @@ class _MyHomePageState extends State<MyHomePage> {
       fileMessage = types.FileMessage(
         author: _user,
         createdAt: DateTime.now().millisecondsSinceEpoch,
-        id: randomString(),
+        id: randomId(),
         name: result.files.single.name,
         size: result.files.single.size,
         uri: !kIsWeb ? result.files.single.path! : result.files.single.name,
@@ -311,7 +311,7 @@ class _MyHomePageState extends State<MyHomePage> {
         author: _user,
         createdAt: DateTime.now().millisecondsSinceEpoch,
         height: image.height.toDouble(),
-        id: randomString(),
+        id: randomId(),
         name: result.name,
         size: bytes.length,
         uri: result.path,
@@ -356,6 +356,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       await OpenFilex.open(localPath);
     } else if (message is types.AudioMessage) {
+      await player.release();
       await player.play(DeviceFileSource(message.uri));
     }
   }
@@ -384,7 +385,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final textMessage = types.TextMessage(
       author: _user,
       createdAt: DateTime.now().millisecondsSinceEpoch,
-      id: randomString(),
+      id: randomId(),
       text: message.text,
     );
 
@@ -425,7 +426,7 @@ class _MyHomePageState extends State<MyHomePage> {
       final labridgeTextMessage = types.TextMessage(
         author: _labridge,
         createdAt: DateTime.now().millisecondsSinceEpoch,
-        id: randomString(),
+        id: randomId(),
         text: response['reply_text'].toString().trim(),
       );
       _addMessage(labridgeTextMessage);
@@ -438,7 +439,7 @@ class _MyHomePageState extends State<MyHomePage> {
         final labridgeAudioMessage = types.AudioMessage(
           author: _labridge,
           createdAt: DateTime.now().millisecondsSinceEpoch,
-          id: randomString(),
+          id: randomId(),
           name: p.basename(localPath),
           size: speechPathEntry.value,
           uri: localPath,
@@ -453,7 +454,7 @@ class _MyHomePageState extends State<MyHomePage> {
       final labridgeTextMessage = types.TextMessage(
         author: _labridge,
         createdAt: DateTime.now().millisecondsSinceEpoch,
-        id: randomString(),
+        id: randomId(),
         text: response['extra_info'].toString().trim(),
       );
       _addMessage(labridgeTextMessage);
@@ -469,7 +470,7 @@ class _MyHomePageState extends State<MyHomePage> {
         fileName = p.basename(fileName);
         final fileMessage = types.FileMessage(
           author: _labridge,
-          id: randomString(),
+          id: randomId(),
           name: fileName,
           size: referEntry.value,
           uri: 'remote:${referEntry.key}',

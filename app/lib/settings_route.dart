@@ -7,6 +7,8 @@ class SettingsRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(settings.enableComment);
+    print(settings.enableInstruct);
     return Scaffold(
       appBar: AppBar(
         title: const Text('设置'),
@@ -52,7 +54,7 @@ class SettingsRoute extends StatelessWidget {
             subtitle: const Text('指导Labridge的思考过程'),
             trailing: ToggleSwitch(
               minWidth: 90.0,
-              initialLabelIndex: settings.enableComment ? 0 : 1,
+              initialLabelIndex: settings.enableInstruct ? 0 : 1,
               cornerRadius: 20.0,
               activeFgColor: Colors.white,
               inactiveBgColor: Colors.grey,

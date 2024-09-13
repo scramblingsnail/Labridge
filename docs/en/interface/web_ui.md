@@ -1,7 +1,10 @@
 # Web user interface
 
 
-We provide an web interface for users to interact with Labridge, as following image. In the top tool bar user can read current server address, read current user account, sign up, log in or change settings. In left panel, user can input and send message to Labridge, read chat history. In right panel, selected article will be displayed here and user can read it in situ.
+We provide an web interface for users to interact with Labridge, as following image. 
+In the top tool bar user can read current server address, read current user account, sign up, log in 
+or change settings. In left panel, user can input and send message to Labridge, read chat history. 
+In right panel, selected article will be displayed here and user can read it in situ.
 
 ![](./images/web_interface.png)
 

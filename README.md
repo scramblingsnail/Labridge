@@ -30,7 +30,6 @@ Labridge基于 `Llamaindex` 与 `Mindspore`, 使用ReAct + CoT Prompt框架进�
 [英文文档地址二](https://labridge.readthedocs.io/zh-cn/latest/en/)
 
 ## 环境
-
 `python==3.8`
 `CUDA>=11.8`
 `node=v18.12.0`

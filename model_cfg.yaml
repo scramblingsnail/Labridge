@@ -1,5 +1,5 @@
 # Backend Framework
-backend: "mindspore" #"pytorch"
+backend: "pytorch" # "mindspore"
 
 # LLM path or name
 llm_name: "/root/autodl-tmp/glm-4-9b-chat"

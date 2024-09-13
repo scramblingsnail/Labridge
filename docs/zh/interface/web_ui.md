@@ -10,12 +10,12 @@
 
 ## Web 界面代码描述与编译流程
 
-web 项目代码在目录 `web-frontend-2` 下，使用 Vite + React + Typescript
+web 项目代码在目录 `web-frontend` 下，使用 Vite + React + Typescript
 
 预览：
 
 ```ps1
-python -m http.server -d .\web-frontend-2\dist\
+python -m http.server -d .\web-frontend\dist\
 ```
 
 然后浏览器访问 `http://localhost:8000/`，如需修改服务器地址，可在设置中修改：
@@ -27,7 +27,7 @@ python -m http.server -d .\web-frontend-2\dist\
 编译：
 
 ```ps1
-cd web-frontend-2
+cd web-frontend
 npm run dev # 开发模式，实时修改与浏览
 npm run build # 打包，用于发布
 ```

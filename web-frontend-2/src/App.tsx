@@ -13,9 +13,15 @@ import {
   Form,
   Checkbox,
   Tooltip,
+  Flex,
 } from "antd";
 
-import { SettingOutlined, FilePdfFilled } from "@ant-design/icons";
+import {
+  SettingOutlined,
+  FilePdfFilled,
+  LockOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 
 const styles = {
   lightBackground: "#FFFFFF",
@@ -199,7 +205,90 @@ function App() {
           </Form.Item>
         </Form>
       </Modal>
-      <Modal title="Sign Up"></Modal>
+      <Modal
+        title="Sign Up"
+        open={showSignupModal}
+        footer={null}
+        onCancel={() => setShowSignupModal(false)}
+        centered
+      >
+        <Form
+          name="login"
+          onFinish={async (values: any) => {
+            await axios.post(baseurl + "/accounts/sign-up", {
+              user_id: values.username,
+              password: values.password,
+            });
+            setShowSignupModal(false);
+            setUserID(values.username);
+          }}
+        >
+          <Form.Item
+            name="username"
+            rules={[{ required: true, message: "Please input your Username!" }]}
+          >
+            <Input prefix={<UserOutlined />} placeholder="Username" />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: "Please input your Password!" }]}
+          >
+            <Input
+              prefix={<LockOutlined />}
+              type="password"
+              placeholder="Password"
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button block type="primary" htmlType="submit">
+              Sign Up
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+      <Modal
+        title="Log In"
+        open={showLoginModal}
+        footer={null}
+        onCancel={() => setShowLoginModal(false)}
+        centered
+      >
+        <Form
+          name="login"
+          onFinish={async (values: any) => {
+            console.log("Received values of form: ", values);
+            setShowLoginModal(false);
+            await axios.post(baseurl + "/accounts/log-in", {
+              user_id: values.username,
+              password: values.password,
+            });
+            setShowSignupModal(false);
+            setUserID(values.username);
+          }}
+        >
+          <Form.Item
+            name="username"
+            rules={[{ required: true, message: "Please input your Username!" }]}
+          >
+            <Input prefix={<UserOutlined />} placeholder="Username" />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: "Please input your Password!" }]}
+          >
+            <Input
+              prefix={<LockOutlined />}
+              type="password"
+              placeholder="Password"
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button block type="primary" htmlType="submit">
+              Log in
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
       <div
         style={{
           height: "50px",
@@ -262,7 +351,7 @@ function App() {
         <div
           style={{
             height: "100%",
-            width:'calc(50% - 20px)',
+            width: "calc(50% - 20px)",
             display: "flex",
             flexDirection: "column",
           }}

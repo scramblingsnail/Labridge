@@ -11,12 +11,12 @@ Dialog to change settings:
 
 ## Web codes and compilation
 
-The web project code is located at `web-frontend-2`. Vite + React + Typescript are used.
+The web project code is located at `web-frontend`. Vite + React + Typescript are used.
 
 Preview:
 
 ```ps1
-python -m http.server -d .\web-frontend-2\dist\
+python -m http.server -d .\web-frontend\dist\
 ```
 
 Then open `http://localhost:8000/` in browser. The server address need to be changed, change it in settings:
@@ -28,7 +28,7 @@ Then open `http://localhost:8000/` in browser. The server address need to be cha
 Compile:
 
 ```ps1
-cd web-frontend-2
+cd web-frontend
 npm run dev # dev mode, to change and preview 
 npm run build # build, to release and distribute
 ```

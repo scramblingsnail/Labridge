@@ -69,7 +69,7 @@ bash run_server.sh
 ### 运行web前端
 
 ```
-python -m http.server -d .\web-frontend-2\dist\
+python -m http.server -d .\web-frontend\dist\
 ```
 
 浏览器访问 `http://localhost:8000/`

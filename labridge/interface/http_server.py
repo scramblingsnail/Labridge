@@ -344,6 +344,10 @@ async def get_file(user_id: str, req: ClientDownloadReq):
         )
         return FileResponse(path=error_path, filename=error_f_name)
 
+@app.get("/users/{user_id}/files/{filepath}")
+async def get_get_file(uesr_id:str, filepath:str):
+    return FileResponse(path=filepath)
+
 
 @app.get("/users/{user_id}/response")
 async def get_response(user_id: str):

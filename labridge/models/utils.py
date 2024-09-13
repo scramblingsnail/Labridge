@@ -1,12 +1,13 @@
 import torch
+import yaml
 
+from pathlib import Path
 from llama_index.llms.huggingface import HuggingFaceLLM
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
-from transformers.utils.quantization_config import BitsAndBytesConfig
 from llama_index.core.postprocessor import SentenceTransformerRerank
+from transformers.utils.quantization_config import BitsAndBytesConfig
 
-from .api.zhipu import ZhiPuLLM, ZhiPuEmbedding
-# from .mindspore_models import MindsporeLLM, MindsporeEmbedding
+from .local.mindspore_models import MindsporeLLM, MindsporeEmbedding
 
 
 def completion_to_prompt(completion):
@@ -41,33 +42,37 @@ def get_reranker(reranker_path: str = None, rerank_top_n: int = None):
 	return SentenceTransformerRerank(model=reranker_path, top_n=rerank_top_n)
 
 
+def load_model_config():
+	root = Path(__file__)
+	for idx in range(3):
+		root = root.parent
+
+	cfg_path = str(root / "model_cfg.yaml")
+
+	with open(cfg_path, 'r') as f:
+		config = yaml.safe_load(f)
+	return config
+
+
 def get_models(
 	model_path: str = None,
 	embed_model_path: str = None,
 	context_window: int = None,
 	max_new_tokens: int = None,
 	load_in_8bit: bool = True,
-	use_api: bool = True,
-	use_mindspore: bool = False,
 ):
-	qwen_path = '/root/autodl-tmp/Qwen2-7B-Instruct'
-	embedding_path = '/root/autodl-tmp/bge-large-zh-v1.5'
+	config = load_model_config()
+	backend = config.get("backend", "pytorch")
+	model_path = model_path or config.get("llm_name")
+	embed_model_path = embed_model_path or config.get("embedding_name")
 
-	model_path = model_path or qwen_path
-	embed_model_path = embed_model_path or embedding_path
-	context_window = context_window or 16000
-	max_new_tokens = max_new_tokens or 1024
+	context_window = context_window or config.get("context_window")
+	max_new_tokens = max_new_tokens or config.get("max_new_tokens")
 
-	if use_api:
-		llm = ZhiPuLLM()
-		# embed_model = HuggingFaceEmbedding(model_name=embed_model_path)
-		embed_model = ZhiPuEmbedding()
+	if backend.lower() == "mindspore":
+		llm = MindsporeLLM(model_name=model_path)
+		embed_model = MindsporeEmbedding(model_name=embed_model_path)
 		return llm, embed_model
-
-	# if use_mindspore:
-	# 	llm = MindsporeLLM()
-	# 	embed_model = MindsporeEmbedding(model_name=embed_model_path)
-	# 	return llm, embed_model
 
 	quantization_config = BitsAndBytesConfig(
 		load_in_8bit=load_in_8bit,

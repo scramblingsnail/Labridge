@@ -48,6 +48,7 @@ dependencies:
   record: ^5.1.2
   audioplayers: ^6.1.0
   toggle_switch: ^2.3.0
+  syncfusion_flutter_pdfviewer: ^26.2.14
 
 dev_dependencies:
   flutter_test:

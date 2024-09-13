@@ -11,7 +11,7 @@ Labridge支持多样化的交互方式：文字，语音，文件等；
 Labridge还支持使用户介入智能体的思考与决策的开发者模式。
 
 ![App交互方式1](./images/app_settings.jpg)
-![App交互方式2](./images/app_interface.jpg)
+![App交互方式2](./images/app_files.jpg)
 
 ## App代码描述与编译说明
 
@@ -40,6 +40,7 @@ lib
 │  main.dart
 │  settings.dart
 │  settings_route.dart
+│  pdf_viewer_route.dart
 │
 └─message
         audio_message.dart

@@ -11,7 +11,7 @@ Labridge supports multimedia interaction with users, such as text, speech, and f
 Labridge provides developer mode that makes users available to intervening the agent's thoughts and actions.
 
 ![App interface1](./images/app_settings.jpg)
-![App interface2](./images/app_interface.jpg)
+![App interface2](./images/app_files.jpg)
 
 ## Description of App codes and compilation
 
@@ -37,6 +37,7 @@ lib
 │  main.dart
 │  settings.dart
 │  settings_route.dart
+│  pdf_viewer_route.dart
 │
 └─message
         audio_message.dart

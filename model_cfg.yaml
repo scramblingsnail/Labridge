@@ -1,0 +1,9 @@
+# Backend Framework
+backend: "mindspore" #"pytorch"
+
+# LLM path or name
+llm_name: "/root/autodl-tmp/glm-4-9b-chat"
+embedding_name: "/root/autodl-tmp/bge-large-zh-v1.5"
+
+context_window: 16000
+max_new_tokens: 1024

@@ -1,13 +1,24 @@
 import asyncio
+import argparse
+import sys
 
 import fsspec
 import uvicorn
+
+
 from typing import Dict, Tuple, Optional
 
 from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.responses import StreamingResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+# from pathlib import Path
+#
+# root = Path(__file__)
+# for i in range(3):
+#     root = root.parent
+# sys.path.append(str(root))
+# print(sys.path)
 
 from labridge.agent.chat_msg.msg_types import ChatBuffer
 from labridge.agent.chat_agent import ChatAgent
@@ -333,13 +344,19 @@ async def get_file(user_id: str, req: ClientDownloadReq):
         )
         return FileResponse(path=error_path, filename=error_f_name)
 
+
 @app.get("/users/{user_id}/response")
 async def get_response(user_id: str):
     return ChatBuffer.get_agent_reply(user_id=user_id)
 
+
 @app.post("/users/{user_id}/clear_history")
 async def clear_history(user_id: str):
     ChatAgent.short_memory_manager.clear_memory(user_id=user_id)
+
+
+def run_http_server(host_url: str, port: int):
+    uvicorn.run(app, host=host_url, port=port, workers=1)
 
 
 if __name__ == "__main__":

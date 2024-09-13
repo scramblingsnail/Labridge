@@ -30,7 +30,7 @@ DEFAULT_MINDSPORE_MODEL = "ZhipuAI/glm-4-9b-chat"
 DEFAULT_MINDSPORE_EMBEDDING = "BAAI/bge-large-zh-v1.5"
 
 DEFAULT_MINDSPORE_GENERATE_KWARGS = {
-	"max_length": 100,
+	"max_length": 500,
 	"do_sample": True,
 	"top_k": 4,
 	"temperature": 0.01,
@@ -168,6 +168,7 @@ class MindsporeLLM(CustomLLM):
 			gen_tokens += token
 			yield CompletionResponse(text=gen_tokens, delta=token)
 
+
 class MindsporeEmbedding(BaseEmbedding):
 	r"""
 	The Embedding model based on Mindspore framework and MindNLP.
@@ -187,7 +188,7 @@ class MindsporeEmbedding(BaseEmbedding):
 		default=True,
 		description="Normalize embeddings or not."
 	)
-	query_instruction: Optional[str] = Field(
+	query_instrhuouction: Optional[str] = Field(
 		description="Instruction to prepend to query text."
 	)
 	text_instruction: Optional[str] = Field(
@@ -253,7 +254,7 @@ class MindsporeEmbedding(BaseEmbedding):
 
 
 if __name__ == "__main__":
-	llm = MindsporeLLM()
+	llm = MindsporeLLM(model_name="/root/autodl-tmp/glm-4-9b-chat")
 	response = llm.complete(prompt="Introduce the PPO algorithm.")
 	print(response.text)
 

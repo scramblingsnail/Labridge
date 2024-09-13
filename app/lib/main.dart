@@ -9,6 +9,7 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:labridge/chat_agent.dart';
+import 'package:labridge/pdf_viewer_route.dart';
 import 'package:labridge/settings.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:uuid/uuid.dart';
@@ -322,7 +323,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  void _handleMessageTap(BuildContext _, types.Message message) async {
+  void _handleMessageTap(BuildContext context, types.Message message) async {
     if (message is types.FileMessage) {
       var localPath = message.uri;
       if (message.uri.startsWith('remote:')) {
@@ -354,7 +355,13 @@ class _MyHomePageState extends State<MyHomePage> {
         }
       }
 
-      await OpenFilex.open(localPath);
+      // await OpenFilex.open(localPath);
+      if (context.mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) =>  PdfViewerRoute(pdfPath: localPath)),
+        );
+      }
     } else if (message is types.AudioMessage) {
       await player.release();
       await player.play(DeviceFileSource(message.uri));

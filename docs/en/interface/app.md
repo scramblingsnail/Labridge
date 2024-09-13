@@ -13,6 +13,10 @@ Labridge provides developer mode that makes users available to intervening the a
 ![App interface1](./images/app_settings.jpg)
 ![App interface2](./images/app_files.jpg)
 
+## Support viewing reference files
+
+![App viewer](./images/app_viewer.png)
+
 ## Description of App codes and compilation
 
 The app is developed using the Flutter framework and supports multiple platforms including Windows, MacOs, Android, Web, iOS, etc. Currently, it has been fully tested on Windows, Andriod, and Web.

@@ -13,6 +13,10 @@ Labridge还支持使用户介入智能体的思考与决策的开发者模式。
 ![App交互方式1](./images/app_settings.jpg)
 ![App交互方式2](./images/app_files.jpg)
 
+## 支持附件文件预览
+
+![App内文件预览](./images/app_viewer.png)
+
 ## App代码描述与编译说明
 
 App使用Flutter框架开发，支持Windows、MacOs、Android、Web、iOS等多种平台。目前已在

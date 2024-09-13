@@ -1,8 +1,0 @@
-body {
-  margin: 0;
-}
-
-textarea:focus {
-  outline: none !important;
-  box-shadow: none !important;
-}

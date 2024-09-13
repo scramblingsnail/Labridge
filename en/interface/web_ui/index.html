@@ -75,6 +75,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#web-user-interface" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -2444,6 +2449,19 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Web UI
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -2454,6 +2472,34 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#web-codes-and-compilation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Web codes and compilation
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -7585,6 +7631,25 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#web-codes-and-compilation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Web codes and compilation
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -7615,9 +7680,26 @@
   
 
 
-  <h1>Web UI</h1>
-
-
+<h1 id="web-user-interface">Web user interface<a class="headerlink" href="#web-user-interface" title="Permanent link">&para;</a></h1>
+<p>We provide an web interface for users to interact with Labridge, as following image. 
+In the top tool bar user can read current server address, read current user account, sign up, log in 
+or change settings. In left panel, user can input and send message to Labridge, read chat history. 
+In right panel, selected article will be displayed here and user can read it in situ.</p>
+<p><img alt="" src="../images/web_interface.png" /></p>
+<p>Dialog to change settings:</p>
+<p><img alt="" src="../images/web_settings.jpg" /></p>
+<h2 id="web-codes-and-compilation">Web codes and compilation<a class="headerlink" href="#web-codes-and-compilation" title="Permanent link">&para;</a></h2>
+<p>The web project code is located at <code>web-frontend</code>. Vite + React + Typescript are used.</p>
+<p>Preview:</p>
+<div class="highlight"><pre><span></span><code><span class="n">python</span> <span class="n">-m</span> <span class="n">http</span><span class="p">.</span><span class="n">server</span> <span class="n">-d</span> <span class="p">.\</span><span class="n">web-frontend</span><span class="p">\</span><span class="n">dist</span><span class="p">\</span>
+</code></pre></div>
+<p>Then open <code>http://localhost:8000/</code> in browser. The server address need to be changed, change it in settings:</p>
+<p><img alt="" src="../images/web_change_server_address.png" /></p>
+<p>Compile:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">web-frontend</span>
+<span class="n">npm</span> <span class="n">run</span> <span class="n">dev</span> <span class="c"># dev mode, to change and preview </span>
+<span class="n">npm</span> <span class="n">run</span> <span class="n">build</span> <span class="c"># build, to release and distribute</span>
+</code></pre></div>
 
 
 

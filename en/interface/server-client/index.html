@@ -2453,16 +2453,31 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#data-updated-by-clients" class="md-nav__link">
+    <nav class="md-nav" aria-label="Data Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-log-up-log-in" class="md-nav__link">
     <span class="md-ellipsis">
-      Data updated by clients：
+      User log up, log in:
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Data updated by clients：">
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-uploaded-by-clients" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data uploaded by clients：
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data uploaded by clients：">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -7764,16 +7779,31 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#data-updated-by-clients" class="md-nav__link">
+    <nav class="md-nav" aria-label="Data Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-log-up-log-in" class="md-nav__link">
     <span class="md-ellipsis">
-      Data updated by clients：
+      User log up, log in:
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Data updated by clients：">
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-uploaded-by-clients" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data uploaded by clients：
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data uploaded by clients：">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -7916,7 +7946,21 @@
 
 <h1 id="description-for-the-communication-between-the-server-and-client">Description for the communication between the Server and Client<a class="headerlink" href="#description-for-the-communication-between-the-server-and-client" title="Permanent link">&para;</a></h1>
 <h2 id="data-structure">Data Structure<a class="headerlink" href="#data-structure" title="Permanent link">&para;</a></h2>
-<h2 id="data-updated-by-clients">Data updated by clients：<a class="headerlink" href="#data-updated-by-clients" title="Permanent link">&para;</a></h2>
+<h3 id="user-log-up-log-in">User log up, log in:<a class="headerlink" href="#user-log-up-log-in" title="Permanent link">&para;</a></h3>
+<p><a href="labridge/interface/http_server">ClientLogInUpReq</a>:
+- user_id: the user id of a lab member
+- password: given password</p>
+<p>Sign in:</p>
+<ul>
+<li>Post URL: <code>/accounts/log-up</code></li>
+<li>Return: return user_id if success，otherwise return None</li>
+</ul>
+<p>Log up:</p>
+<ul>
+<li>Post URL: <code>/accounts/log-up</code></li>
+<li>Return: return user_id if success，otherwise return None</li>
+</ul>
+<h2 id="data-uploaded-by-clients">Data uploaded by clients：<a class="headerlink" href="#data-uploaded-by-clients" title="Permanent link">&para;</a></h2>
 <h3 id="chat-with-text">Chat with text:<a class="headerlink" href="#chat-with-text" title="Permanent link">&para;</a></h3>
 <p><strong>ClientTextReq</strong>:
 - text (str): The message string of the user</p>

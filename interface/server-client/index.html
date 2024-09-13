@@ -2468,6 +2468,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#user-log-up-log-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      User log up, log in:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#chat-with-text" class="md-nav__link">
     <span class="md-ellipsis">
       Chat with text:
@@ -7779,6 +7788,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#user-log-up-log-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      User log up, log in:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#chat-with-text" class="md-nav__link">
     <span class="md-ellipsis">
       Chat with text:
@@ -7919,6 +7937,20 @@
 <h1 id="serverclient">Server与Client之间的通信说明<a class="headerlink" href="#serverclient" title="Permanent link">&para;</a></h1>
 <h2 id="_1">数据结构：<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <h2 id="client">Client上传的数据：<a class="headerlink" href="#client" title="Permanent link">&para;</a></h2>
+<h3 id="user-log-up-log-in">User log up, log in:<a class="headerlink" href="#user-log-up-log-in" title="Permanent link">&para;</a></h3>
+<p><a href="labridge/interface/http_server">ClientLogInUpReq</a>:
+- user_id: 用户名
+- password: 用户密码</p>
+<p>Sign in:</p>
+<ul>
+<li>Post URL: <code>/accounts/log-up</code></li>
+<li>Return: 若成功返回user_id，失败返回None</li>
+</ul>
+<p>Log up:</p>
+<ul>
+<li>Post URL: <code>/accounts/log-up</code></li>
+<li>Return: 若成功返回user_id，失败返回None</li>
+</ul>
 <h3 id="chat-with-text">Chat with text:<a class="headerlink" href="#chat-with-text" title="Permanent link">&para;</a></h3>
 <p><a href="labridge/interface/http_server">ClientTextReq</a>:
 - text (str): 用户的消息字符串

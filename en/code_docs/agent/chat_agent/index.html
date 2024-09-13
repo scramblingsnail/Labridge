@@ -7940,8 +7940,7 @@ ranging papers, instruments and experiments.</p>
 <span class="normal">153</span>
 <span class="normal">154</span>
 <span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">LabChatAgent</span><span class="p">:</span>
+<span class="normal">156</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">LabChatAgent</span><span class="p">:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	This is the Chat agent following the ReAct framework, with access to multiple tools</span>
 <span class="sd">	ranging papers, instruments and experiments.</span>
@@ -8028,7 +8027,6 @@ ranging papers, instruments and experiments.</p>
 			<span class="n">references</span><span class="o">=</span><span class="n">ref_paths</span><span class="p">,</span>
 		<span class="p">)</span>
 		<span class="k">return</span> <span class="n">agent_response</span>
-
 
 	<span class="k">def</span> <span class="nf">get_tools</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AsyncBaseTool</span><span class="p">]:</span>
 <span class="w">		</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Available tools. &quot;&quot;&quot;</span>
@@ -8167,7 +8165,8 @@ ranging papers, instruments and experiments.</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\agent\chat_agent.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">123</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">122</span>
+<span class="normal">123</span>
 <span class="normal">124</span>
 <span class="normal">125</span>
 <span class="normal">126</span>
@@ -8180,8 +8179,7 @@ ranging papers, instruments and experiments.</p>
 <span class="normal">133</span>
 <span class="normal">134</span>
 <span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_tools</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AsyncBaseTool</span><span class="p">]:</span>
+<span class="normal">136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_tools</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AsyncBaseTool</span><span class="p">]:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Available tools. &quot;&quot;&quot;</span>
 	<span class="k">return</span> <span class="p">[</span>
 		<span class="n">ChatMemoryRetrieverTool</span><span class="p">(),</span>

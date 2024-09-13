@@ -2477,11 +2477,53 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#support-viewing-reference-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Support viewing reference files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#description-of-app-codes-and-compilation" class="md-nav__link">
     <span class="md-ellipsis">
       Description of App codes and compilation
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Description of App codes and compilation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compile
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -7659,11 +7701,53 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#support-viewing-reference-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Support viewing reference files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#description-of-app-codes-and-compilation" class="md-nav__link">
     <span class="md-ellipsis">
       Description of App codes and compilation
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Description of App codes and compilation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compile
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -7706,7 +7790,35 @@
 <p>Labridge provides developer mode that makes users available to intervening the agent's thoughts and actions.</p>
 <p><img alt="App interface1" src="../images/app_settings.jpg" />
 <img alt="App interface2" src="../images/app_files.jpg" /></p>
+<h2 id="support-viewing-reference-files">Support viewing reference files<a class="headerlink" href="#support-viewing-reference-files" title="Permanent link">&para;</a></h2>
+<p><img alt="App viewer" src="../images/app_viewer.png" /></p>
 <h2 id="description-of-app-codes-and-compilation">Description of App codes and compilation<a class="headerlink" href="#description-of-app-codes-and-compilation" title="Permanent link">&para;</a></h2>
+<p>The app is developed using the Flutter framework and supports multiple platforms including Windows, MacOs, Android, Web, iOS, etc. Currently, it has been fully tested on Windows, Andriod, and Web.</p>
+<h3 id="environment">Environment<a class="headerlink" href="#environment" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Flutter (Channel stable, 3.24.0, on Microsoft Windows [版本 10.0.22631.4169], locale zh-CN)</li>
+<li>Windows Version (Installed version of Windows is version 10 or higher)</li>
+<li>Android toolchain - develop for Android devices (Android SDK version 33.0.0)</li>
+<li>Chrome - develop for the web</li>
+<li>Visual Studio - develop Windows apps (Visual Studio Community 2022 17.11.3)</li>
+<li>Android Studio (version 2024.1)</li>
+<li>VS Code (version 1.93.0)</li>
+</ul>
+<h3 id="core">Core<a class="headerlink" href="#core" title="Permanent link">&para;</a></h3>
+<p>Core code is in <code>/app/lib</code>:</p>
+<div class="highlight"><pre><span></span><code>lib
+│<span class="w">  </span>chat_agent.dart
+│<span class="w">  </span>main.dart
+│<span class="w">  </span>settings.dart
+│<span class="w">  </span>settings_route.dart
+│<span class="w">  </span>pdf_viewer_route.dart
+│
+└─message
+<span class="w">        </span>audio_message.dart
+</code></pre></div>
+<p>The <code>main.dart</code> is the main page UI file, <code>chat_agent.dart</code> is responsible for communicating with the large model and processing user requests, and the remaining files are used to maintain the UI status.</p>
+<h3 id="compile">Compile<a class="headerlink" href="#compile" title="Permanent link">&para;</a></h3>
+<p>This app is developed with Flutter standards. For the compilation process, please refer to the <a href="https://docs.flutter.dev/deployment/android">Flutter official documentation</a></p>
 
 
 

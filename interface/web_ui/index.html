@@ -2493,7 +2493,7 @@
         <li class="md-nav__item">
   <a href="#web_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Web界面代码描述与编译流程
+      Web 界面代码描述与编译流程
     </span>
   </a>
   
@@ -7645,7 +7645,7 @@
         <li class="md-nav__item">
   <a href="#web_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Web界面代码描述与编译流程
+      Web 界面代码描述与编译流程
     </span>
   </a>
   
@@ -7682,10 +7682,24 @@
   
 
 
-<h1 id="web">Web交互界面<a class="headerlink" href="#web" title="Permanent link">&para;</a></h1>
-<p>我们为用户与Labridge的交互提供web交互界面，如下图所示。</p>
-<h2 id="web_1">Web界面代码描述与编译流程<a class="headerlink" href="#web_1" title="Permanent link">&para;</a></h2>
-<p>使用了什么语言，基于什么框架开发，如何进行编译。</p>
+<h1 id="web">Web 交互界面<a class="headerlink" href="#web" title="Permanent link">&para;</a></h1>
+<p>我们为用户与 Labridge 的交互提供 web 交互界面，如下图所示。上部工具栏可查看服务器地址、当前用户，进行登录、修改设置等操作。左侧为聊天窗口，
+可用于输入和查看聊天内容。右侧为文件展示窗口，可用于预览参考文件，如阅读相关论文。</p>
+<p><img alt="" src="../images/web_interface.png" /></p>
+<p>支持自定义服务器地址等多个参数</p>
+<p><img alt="" src="../images/web_settings.jpg" /></p>
+<h2 id="web_1">Web 界面代码描述与编译流程<a class="headerlink" href="#web_1" title="Permanent link">&para;</a></h2>
+<p>web 项目代码在目录 <code>web-frontend</code> 下，使用 Vite + React + Typescript</p>
+<p>预览：</p>
+<div class="highlight"><pre><span></span><code><span class="n">python</span> <span class="n">-m</span> <span class="n">http</span><span class="p">.</span><span class="n">server</span> <span class="n">-d</span> <span class="p">.\</span><span class="n">web-frontend</span><span class="p">\</span><span class="n">dist</span><span class="p">\</span>
+</code></pre></div>
+<p>然后浏览器访问 <code>http://localhost:8000/</code>，如需修改服务器地址，可在设置中修改：</p>
+<p><img alt="" src="../images/web_change_server_address.png" /></p>
+<p>编译：</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">web-frontend</span>
+<span class="n">npm</span> <span class="n">run</span> <span class="n">dev</span> <span class="c"># 开发模式，实时修改与浏览</span>
+<span class="n">npm</span> <span class="n">run</span> <span class="n">build</span> <span class="c"># 打包，用于发布</span>
+</code></pre></div>
 
 
 

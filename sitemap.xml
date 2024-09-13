@@ -2,2086 +2,2086 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
     <url>
         <loc>None./</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="None"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/"/>
     </url>
     <url>
         <loc>Noneagent_tools/prompt_framework/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/prompt_framework/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/prompt_framework/"/>
     </url>
     <url>
         <loc>Noneagent_tools/tools/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/"/>
     </url>
     <url>
         <loc>Noneagent_tools/tools/base/tool_base/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/base/tool_base/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/base/tool_base/"/>
     </url>
     <url>
         <loc>Noneagent_tools/tools/base/tool_log/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/base/tool_log/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/base/tool_log/"/>
     </url>
     <url>
         <loc>Noneagent_tools/tools/chat_history/chat_memory_retrieve_tool/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/chat_history/chat_memory_retrieve_tool/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/chat_history/chat_memory_retrieve_tool/"/>
     </url>
     <url>
         <loc>Noneagent_tools/tools/experiment_log/create_new_experiment_log/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/experiment_log/create_new_experiment_log/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/experiment_log/create_new_experiment_log/"/>
     </url>
     <url>
         <loc>Noneagent_tools/tools/experiment_log/experiment_log_retrieve_tool/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/experiment_log/experiment_log_retrieve_tool/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/experiment_log/experiment_log_retrieve_tool/"/>
     </url>
     <url>
         <loc>Noneagent_tools/tools/experiment_log/record_experiment_log_tool/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/experiment_log/record_experiment_log_tool/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/experiment_log/record_experiment_log_tool/"/>
     </url>
     <url>
         <loc>Noneagent_tools/tools/experiment_log/set_current_experiment_tool/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/experiment_log/set_current_experiment_tool/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/experiment_log/set_current_experiment_tool/"/>
     </url>
     <url>
         <loc>Noneagent_tools/tools/interact/collect_and_authorize_tool/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/interact/collect_and_authorize_tool/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/interact/collect_and_authorize_tool/"/>
     </url>
     <url>
         <loc>Noneagent_tools/tools/shared_papers/shared_paper_retrieve_tool/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/shared_papers/shared_paper_retrieve_tool/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/shared_papers/shared_paper_retrieve_tool/"/>
     </url>
     <url>
         <loc>Noneagent_tools/tools/temporary_papers/add_new_recent_paper_tool/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/temporary_papers/add_new_recent_paper_tool/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/temporary_papers/add_new_recent_paper_tool/"/>
     </url>
     <url>
         <loc>Noneagent_tools/tools/temporary_papers/arxiv_search_download_tool/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/temporary_papers/arxiv_search_download_tool/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/temporary_papers/arxiv_search_download_tool/"/>
     </url>
     <url>
         <loc>Noneagent_tools/tools/temporary_papers/recent_paper_retrieve_tool/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/temporary_papers/recent_paper_retrieve_tool/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/temporary_papers/recent_paper_retrieve_tool/"/>
     </url>
     <url>
         <loc>Noneagent_tools/tools/temporary_papers/recent_paper_summarize_tool/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/temporary_papers/recent_paper_summarize_tool/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/temporary_papers/recent_paper_summarize_tool/"/>
     </url>
     <url>
         <loc>Nonecode_docs/accounts/super_users/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/accounts/super_users/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/accounts/super_users/"/>
     </url>
     <url>
         <loc>Nonecode_docs/accounts/users/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/accounts/users/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/accounts/users/"/>
     </url>
     <url>
         <loc>Nonecode_docs/agent/chat_agent/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/agent/chat_agent/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/agent/chat_agent/"/>
     </url>
     <url>
         <loc>Nonecode_docs/agent/chat_msg/msg_types/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/agent/chat_msg/msg_types/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/agent/chat_msg/msg_types/"/>
     </url>
     <url>
         <loc>Nonecode_docs/agent/react/prompt/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/agent/react/prompt/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/agent/react/prompt/"/>
     </url>
     <url>
         <loc>Nonecode_docs/agent/react/react/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/agent/react/react/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/agent/react/react/"/>
     </url>
     <url>
         <loc>Nonecode_docs/agent/react/react_chat_format/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/agent/react/react_chat_format/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/agent/react/react_chat_format/"/>
     </url>
     <url>
         <loc>Nonecode_docs/agent/react/react_step/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/agent/react/react_step/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/agent/react/react_step/"/>
     </url>
     <url>
         <loc>Nonecode_docs/callback/base/operation_base/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/callback/base/operation_base/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/callback/base/operation_base/"/>
     </url>
     <url>
         <loc>Nonecode_docs/callback/base/operation_log/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/callback/base/operation_log/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/callback/base/operation_log/"/>
     </url>
     <url>
         <loc>Nonecode_docs/callback/experiment_log/new_experiment/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/callback/experiment_log/new_experiment/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/callback/experiment_log/new_experiment/"/>
     </url>
     <url>
         <loc>Nonecode_docs/callback/experiment_log/set_current_experiment/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/callback/experiment_log/set_current_experiment/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/callback/experiment_log/set_current_experiment/"/>
     </url>
     <url>
         <loc>Nonecode_docs/callback/paper/add_recent_paper/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/callback/paper/add_recent_paper/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/callback/paper/add_recent_paper/"/>
     </url>
     <url>
         <loc>Nonecode_docs/callback/paper/paper_download/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/callback/paper/paper_download/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/callback/paper/paper_download/"/>
     </url>
     <url>
         <loc>Nonecode_docs/callback/paper/paper_summarize/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/callback/paper/paper_summarize/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/callback/paper/paper_summarize/"/>
     </url>
     <url>
         <loc>Nonecode_docs/common/prompt/llm_doc_choice_select/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/common/prompt/llm_doc_choice_select/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/common/prompt/llm_doc_choice_select/"/>
     </url>
     <url>
         <loc>Nonecode_docs/common/query_engine/query_engines/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/common/query_engine/query_engines/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/common/query_engine/query_engines/"/>
     </url>
     <url>
         <loc>Nonecode_docs/common/utils/chat/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/common/utils/chat/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/common/utils/chat/"/>
     </url>
     <url>
         <loc>Nonecode_docs/common/utils/time/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/common/utils/time/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/common/utils/time/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/instrument/prompt/llm_instrument_choice_select/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/instrument/prompt/llm_instrument_choice_select/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/instrument/prompt/llm_instrument_choice_select/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/instrument/retrieve/instrument_retriever/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/instrument/retrieve/instrument_retriever/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/instrument/retrieve/instrument_retriever/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/instrument/store/instrument_store/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/instrument/store/instrument_store/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/instrument/store/instrument_store/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/memory/base/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/memory/base/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/memory/base/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/memory/chat/chat_memory/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/memory/chat/chat_memory/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/memory/chat/chat_memory/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/memory/chat/retrieve/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/memory/chat/retrieve/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/memory/chat/retrieve/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/memory/chat/short_memory/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/memory/chat/short_memory/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/memory/chat/short_memory/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/memory/experiment/experiment_log/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/memory/experiment/experiment_log/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/memory/experiment/experiment_log/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/memory/experiment/retrieve_log/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/memory/experiment/retrieve_log/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/memory/experiment/retrieve_log/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/paper/download/arxiv/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/download/arxiv/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/download/arxiv/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/paper/download/async_utils/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/download/async_utils/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/download/async_utils/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/paper/parse/paper_reader/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/parse/paper_reader/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/parse/paper_reader/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/paper/parse/extractors/metadata_extract/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/parse/extractors/metadata_extract/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/parse/extractors/metadata_extract/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/paper/parse/extractors/source_analyze/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/parse/extractors/source_analyze/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/parse/extractors/source_analyze/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/paper/parse/parsers/auto/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/parse/parsers/auto/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/parse/parsers/auto/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/paper/parse/parsers/base/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/parse/parsers/base/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/parse/parsers/base/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/paper/parse/parsers/default_parser/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/parse/parsers/default_parser/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/parse/parsers/default_parser/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/paper/parse/parsers/ieee_parser/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/parse/parsers/ieee_parser/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/parse/parsers/ieee_parser/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/paper/parse/parsers/nature_parser/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/parse/parsers/nature_parser/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/parse/parsers/nature_parser/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/paper/prompt/store/dir_summary/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/prompt/store/dir_summary/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/prompt/store/dir_summary/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/paper/prompt/synthesize/paper_summarize/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/prompt/synthesize/paper_summarize/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/prompt/synthesize/paper_summarize/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/paper/prompt/synthesize/synthesize/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/prompt/synthesize/synthesize/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/prompt/synthesize/synthesize/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/paper/retrieve/paper_retriever/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/retrieve/paper_retriever/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/retrieve/paper_retriever/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/paper/retrieve/shared_paper_retrieve/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/retrieve/shared_paper_retrieve/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/retrieve/shared_paper_retrieve/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/paper/retrieve/temporary_paper_retriever/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/retrieve/temporary_paper_retriever/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/retrieve/temporary_paper_retriever/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/paper/store/paper_store/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/store/paper_store/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/store/paper_store/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/paper/store/shared_paper_store/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/store/shared_paper_store/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/store/shared_paper_store/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/paper/store/temporary_store/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/store/temporary_store/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/store/temporary_store/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/paper/synthesizer/summarize/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/synthesizer/summarize/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/synthesizer/summarize/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/reference/base/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/reference/base/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/reference/base/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/reference/instrument/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/reference/instrument/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/reference/instrument/"/>
     </url>
     <url>
         <loc>Nonecode_docs/func_modules/reference/paper/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/reference/paper/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/reference/paper/"/>
     </url>
     <url>
         <loc>Nonecode_docs/interact/authorize/authorize/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/authorize/authorize/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/authorize/authorize/"/>
     </url>
     <url>
         <loc>Nonecode_docs/interact/collect/pipeline/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/collect/pipeline/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/collect/pipeline/"/>
     </url>
     <url>
         <loc>Nonecode_docs/interact/collect/utils/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/collect/utils/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/collect/utils/"/>
     </url>
     <url>
         <loc>Nonecode_docs/interact/collect/collector/common_collector/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/collect/collector/common_collector/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/collect/collector/common_collector/"/>
     </url>
     <url>
         <loc>Nonecode_docs/interact/collect/collector/select_collector/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/collect/collector/select_collector/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/collect/collector/select_collector/"/>
     </url>
     <url>
         <loc>Nonecode_docs/interact/collect/manager/collect_manager/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/collect/manager/collect_manager/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/collect/manager/collect_manager/"/>
     </url>
     <url>
         <loc>Nonecode_docs/interact/collect/types/common_info/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/collect/types/common_info/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/collect/types/common_info/"/>
     </url>
     <url>
         <loc>Nonecode_docs/interact/collect/types/info_base/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/collect/types/info_base/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/collect/types/info_base/"/>
     </url>
     <url>
         <loc>Nonecode_docs/interact/collect/types/select_info/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/collect/types/select_info/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/collect/types/select_info/"/>
     </url>
     <url>
         <loc>Nonecode_docs/interact/prompt/authorize/analyze_agree/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/prompt/authorize/analyze_agree/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/prompt/authorize/analyze_agree/"/>
     </url>
     <url>
         <loc>Nonecode_docs/interact/prompt/collect/collect_info/common_info/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/prompt/collect/collect_info/common_info/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/prompt/collect/collect_info/common_info/"/>
     </url>
     <url>
         <loc>Nonecode_docs/interact/prompt/collect/collect_info/prompt_keys/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/prompt/collect/collect_info/prompt_keys/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/prompt/collect/collect_info/prompt_keys/"/>
     </url>
     <url>
         <loc>Nonecode_docs/interact/prompt/collect/collect_info/select_info/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/prompt/collect/collect_info/select_info/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/prompt/collect/collect_info/select_info/"/>
     </url>
     <url>
         <loc>Nonecode_docs/interact/prompt/collect/manager/abort/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/prompt/collect/manager/abort/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/prompt/collect/manager/abort/"/>
     </url>
     <url>
         <loc>Nonecode_docs/interact/prompt/collect/manager/do_modify/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/prompt/collect/manager/do_modify/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/prompt/collect/manager/do_modify/"/>
     </url>
     <url>
         <loc>Nonecode_docs/interact/prompt/collect/manager/verify/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/prompt/collect/manager/verify/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/prompt/collect/manager/verify/"/>
     </url>
     <url>
         <loc>Nonecode_docs/interact/prompt/collect/modify_info/common_info/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/prompt/collect/modify_info/common_info/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/prompt/collect/modify_info/common_info/"/>
     </url>
     <url>
         <loc>Nonecode_docs/interact/prompt/collect/modify_info/prompt_keys/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/prompt/collect/modify_info/prompt_keys/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/prompt/collect/modify_info/prompt_keys/"/>
     </url>
     <url>
         <loc>Nonecode_docs/interact/prompt/collect/modify_info/select_info/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/prompt/collect/modify_info/select_info/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/prompt/collect/modify_info/select_info/"/>
     </url>
     <url>
         <loc>Nonecode_docs/interface/http_server/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interface/http_server/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interface/http_server/"/>
     </url>
     <url>
         <loc>Nonecode_docs/interface/utils/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interface/utils/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interface/utils/"/>
     </url>
     <url>
         <loc>Nonecode_docs/models/local/mindspore_models/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/models/local/mindspore_models/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/models/local/mindspore_models/"/>
     </url>
     <url>
         <loc>Nonecode_docs/models/remote/remote_models/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/models/remote/remote_models/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/models/remote/remote_models/"/>
     </url>
     <url>
         <loc>Nonecode_docs/models/remote/remote_server/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/models/remote/remote_server/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/models/remote/remote_server/"/>
     </url>
     <url>
         <loc>Nonecode_docs/tools/utils/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/utils/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/utils/"/>
     </url>
     <url>
         <loc>Nonecode_docs/tools/base/function_base_tools/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/base/function_base_tools/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/base/function_base_tools/"/>
     </url>
     <url>
         <loc>Nonecode_docs/tools/base/tool_base/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/base/tool_base/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/base/tool_base/"/>
     </url>
     <url>
         <loc>Nonecode_docs/tools/base/tool_log/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/base/tool_log/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/base/tool_log/"/>
     </url>
     <url>
         <loc>Nonecode_docs/tools/common/date_time/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/common/date_time/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/common/date_time/"/>
     </url>
     <url>
         <loc>Nonecode_docs/tools/instrument/retrieve/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/instrument/retrieve/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/instrument/retrieve/"/>
     </url>
     <url>
         <loc>Nonecode_docs/tools/interact/collect_and_authorize/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/interact/collect_and_authorize/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/interact/collect_and_authorize/"/>
     </url>
     <url>
         <loc>Nonecode_docs/tools/memory/chat/retrieve/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/memory/chat/retrieve/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/memory/chat/retrieve/"/>
     </url>
     <url>
         <loc>Nonecode_docs/tools/memory/experiment/insert/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/memory/experiment/insert/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/memory/experiment/insert/"/>
     </url>
     <url>
         <loc>Nonecode_docs/tools/memory/experiment/retrieve/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/memory/experiment/retrieve/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/memory/experiment/retrieve/"/>
     </url>
     <url>
         <loc>Nonecode_docs/tools/paper/download/arxiv_download/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/paper/download/arxiv_download/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/paper/download/arxiv_download/"/>
     </url>
     <url>
         <loc>Nonecode_docs/tools/paper/shared_papers/query/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/paper/shared_papers/query/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/paper/shared_papers/query/"/>
     </url>
     <url>
         <loc>Nonecode_docs/tools/paper/shared_papers/retriever/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/paper/shared_papers/retriever/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/paper/shared_papers/retriever/"/>
     </url>
     <url>
         <loc>Nonecode_docs/tools/paper/shared_papers/utils/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/paper/shared_papers/utils/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/paper/shared_papers/utils/"/>
     </url>
     <url>
         <loc>Nonecode_docs/tools/paper/temporary_papers/insert/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/paper/temporary_papers/insert/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/paper/temporary_papers/insert/"/>
     </url>
     <url>
         <loc>Nonecode_docs/tools/paper/temporary_papers/paper_retriever/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/paper/temporary_papers/paper_retriever/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/paper/temporary_papers/paper_retriever/"/>
     </url>
     <url>
         <loc>Nonecode_docs/tools/paper/temporary_papers/paper_summarize/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/paper/temporary_papers/paper_summarize/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/paper/temporary_papers/paper_summarize/"/>
     </url>
     <url>
         <loc>Nonedemonstration/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonedemonstration/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/demonstration/"/>
     </url>
     <url>
         <loc>Nonedemonstration/developer_mode/comment_mode/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonedemonstration/developer_mode/comment_mode/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/demonstration/developer_mode/comment_mode/"/>
     </url>
     <url>
         <loc>Nonedemonstration/developer_mode/instruct_mode/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonedemonstration/developer_mode/instruct_mode/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/demonstration/developer_mode/instruct_mode/"/>
     </url>
     <url>
         <loc>Nonedemonstration/experiment_log/record_log/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonedemonstration/experiment_log/record_log/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/demonstration/experiment_log/record_log/"/>
     </url>
     <url>
         <loc>Nonedemonstration/experiment_log/retrieve_log/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonedemonstration/experiment_log/retrieve_log/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/demonstration/experiment_log/retrieve_log/"/>
     </url>
     <url>
         <loc>Nonedemonstration/instrument/instrument_docs/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonedemonstration/instrument/instrument_docs/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/demonstration/instrument/instrument_docs/"/>
     </url>
     <url>
         <loc>Nonedemonstration/instrument/instrument_operations/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonedemonstration/instrument/instrument_operations/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/demonstration/instrument/instrument_operations/"/>
     </url>
     <url>
         <loc>Nonedemonstration/paper/paper_download/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonedemonstration/paper/paper_download/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/demonstration/paper/paper_download/"/>
     </url>
     <url>
         <loc>Nonedemonstration/paper/recent_papers_qa/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonedemonstration/paper/recent_papers_qa/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/demonstration/paper/recent_papers_qa/"/>
     </url>
     <url>
         <loc>Nonedemonstration/paper/shared_papers/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonedemonstration/paper/shared_papers/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/demonstration/paper/shared_papers/"/>
     </url>
     <url>
         <loc>Nonedeployment/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonedeployment/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/deployment/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/chat_history/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/chat_history/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/chat_history/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/chat_history/short-term_history/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/chat_history/short-term_history/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/chat_history/short-term_history/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/chat_history/long-term_history/retrieve/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/chat_history/long-term_history/retrieve/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/chat_history/long-term_history/retrieve/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/chat_history/long-term_history/store/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/chat_history/long-term_history/store/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/chat_history/long-term_history/store/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/experiment_log/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/experiment_log/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/experiment_log/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/experiment_log/personal_experiment/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/experiment_log/personal_experiment/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/experiment_log/personal_experiment/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/experiment_log/personal_experiment/retrieve/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/experiment_log/personal_experiment/retrieve/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/experiment_log/personal_experiment/retrieve/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/experiment_log/personal_experiment/store/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/experiment_log/personal_experiment/store/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/experiment_log/personal_experiment/store/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/experiment_log/shared_experiment/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/experiment_log/shared_experiment/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/experiment_log/shared_experiment/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/instrument/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/instrument/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/instrument/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/instrument/retrieve/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/instrument/retrieve/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/instrument/retrieve/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/instrument/store/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/instrument/store/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/instrument/store/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/paper/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/paper/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/paper/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/paper/shared_papers/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/paper/shared_papers/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/paper/shared_papers/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/paper/shared_papers/parse/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/paper/shared_papers/parse/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/paper/shared_papers/parse/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/paper/shared_papers/retrieve/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/paper/shared_papers/retrieve/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/paper/shared_papers/retrieve/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/paper/shared_papers/store/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/paper/shared_papers/store/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/paper/shared_papers/store/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/paper/temporary_papers/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/paper/temporary_papers/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/paper/temporary_papers/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/paper/temporary_papers/retrieve/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/paper/temporary_papers/retrieve/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/paper/temporary_papers/retrieve/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/paper/temporary_papers/store/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/paper/temporary_papers/store/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/paper/temporary_papers/store/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/paper/temporary_papers/download/arXiv/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/paper/temporary_papers/download/arXiv/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/paper/temporary_papers/download/arXiv/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/reference/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/reference/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/reference/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/reference/instrument_reference/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/reference/instrument_reference/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/reference/instrument_reference/"/>
     </url>
     <url>
         <loc>Nonefunction_modules/reference/paper_reference/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/reference/paper_reference/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/reference/paper_reference/"/>
     </url>
     <url>
         <loc>Noneinterface/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneinterface/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/interface/"/>
     </url>
     <url>
         <loc>Noneinterface/app/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneinterface/app/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/interface/app/"/>
     </url>
     <url>
         <loc>Noneinterface/server-client/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneinterface/server-client/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/interface/server-client/"/>
     </url>
     <url>
         <loc>Noneinterface/web_ui/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneinterface/web_ui/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/interface/web_ui/"/>
     </url>
     <url>
         <loc>Noneoverview/introduction/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneoverview/introduction/"/>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/introduction/"/>
     </url>
     <url>
         <loc>Noneen/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="None"/>
     </url>
     <url>
         <loc>Noneen/agent_tools/prompt_framework/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/prompt_framework/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/prompt_framework/"/>
     </url>
     <url>
         <loc>Noneen/agent_tools/tools/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/"/>
     </url>
     <url>
         <loc>Noneen/agent_tools/tools/base/tool_base/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/base/tool_base/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/base/tool_base/"/>
     </url>
     <url>
         <loc>Noneen/agent_tools/tools/base/tool_log/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/base/tool_log/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/base/tool_log/"/>
     </url>
     <url>
         <loc>Noneen/agent_tools/tools/chat_history/chat_memory_retrieve_tool/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/chat_history/chat_memory_retrieve_tool/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/chat_history/chat_memory_retrieve_tool/"/>
     </url>
     <url>
         <loc>Noneen/agent_tools/tools/experiment_log/create_new_experiment_log/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/experiment_log/create_new_experiment_log/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/experiment_log/create_new_experiment_log/"/>
     </url>
     <url>
         <loc>Noneen/agent_tools/tools/experiment_log/experiment_log_retrieve_tool/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/experiment_log/experiment_log_retrieve_tool/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/experiment_log/experiment_log_retrieve_tool/"/>
     </url>
     <url>
         <loc>Noneen/agent_tools/tools/experiment_log/record_experiment_log_tool/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/experiment_log/record_experiment_log_tool/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/experiment_log/record_experiment_log_tool/"/>
     </url>
     <url>
         <loc>Noneen/agent_tools/tools/experiment_log/set_current_experiment_tool/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/experiment_log/set_current_experiment_tool/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/experiment_log/set_current_experiment_tool/"/>
     </url>
     <url>
         <loc>Noneen/agent_tools/tools/interact/collect_and_authorize_tool/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/interact/collect_and_authorize_tool/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/interact/collect_and_authorize_tool/"/>
     </url>
     <url>
         <loc>Noneen/agent_tools/tools/shared_papers/shared_paper_retrieve_tool/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/shared_papers/shared_paper_retrieve_tool/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/shared_papers/shared_paper_retrieve_tool/"/>
     </url>
     <url>
         <loc>Noneen/agent_tools/tools/temporary_papers/add_new_recent_paper_tool/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/temporary_papers/add_new_recent_paper_tool/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/temporary_papers/add_new_recent_paper_tool/"/>
     </url>
     <url>
         <loc>Noneen/agent_tools/tools/temporary_papers/arxiv_search_download_tool/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/temporary_papers/arxiv_search_download_tool/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/temporary_papers/arxiv_search_download_tool/"/>
     </url>
     <url>
         <loc>Noneen/agent_tools/tools/temporary_papers/recent_paper_retrieve_tool/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/temporary_papers/recent_paper_retrieve_tool/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/temporary_papers/recent_paper_retrieve_tool/"/>
     </url>
     <url>
         <loc>Noneen/agent_tools/tools/temporary_papers/recent_paper_summarize_tool/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/agent_tools/tools/temporary_papers/recent_paper_summarize_tool/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneagent_tools/tools/temporary_papers/recent_paper_summarize_tool/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/accounts/super_users/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/accounts/super_users/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/accounts/super_users/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/accounts/users/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/accounts/users/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/accounts/users/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/agent/chat_agent/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/agent/chat_agent/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/agent/chat_agent/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/agent/chat_msg/msg_types/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/agent/chat_msg/msg_types/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/agent/chat_msg/msg_types/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/agent/react/prompt/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/agent/react/prompt/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/agent/react/prompt/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/agent/react/react/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/agent/react/react/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/agent/react/react/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/agent/react/react_chat_format/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/agent/react/react_chat_format/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/agent/react/react_chat_format/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/agent/react/react_step/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/agent/react/react_step/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/agent/react/react_step/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/callback/base/operation_base/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/callback/base/operation_base/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/callback/base/operation_base/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/callback/base/operation_log/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/callback/base/operation_log/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/callback/base/operation_log/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/callback/experiment_log/new_experiment/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/callback/experiment_log/new_experiment/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/callback/experiment_log/new_experiment/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/callback/experiment_log/set_current_experiment/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/callback/experiment_log/set_current_experiment/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/callback/experiment_log/set_current_experiment/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/callback/paper/add_recent_paper/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/callback/paper/add_recent_paper/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/callback/paper/add_recent_paper/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/callback/paper/paper_download/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/callback/paper/paper_download/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/callback/paper/paper_download/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/callback/paper/paper_summarize/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/callback/paper/paper_summarize/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/callback/paper/paper_summarize/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/common/prompt/llm_doc_choice_select/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/common/prompt/llm_doc_choice_select/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/common/prompt/llm_doc_choice_select/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/common/query_engine/query_engines/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/common/query_engine/query_engines/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/common/query_engine/query_engines/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/common/utils/chat/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/common/utils/chat/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/common/utils/chat/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/common/utils/time/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/common/utils/time/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/common/utils/time/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/instrument/prompt/llm_instrument_choice_select/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/instrument/prompt/llm_instrument_choice_select/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/instrument/prompt/llm_instrument_choice_select/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/instrument/retrieve/instrument_retriever/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/instrument/retrieve/instrument_retriever/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/instrument/retrieve/instrument_retriever/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/instrument/store/instrument_store/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/instrument/store/instrument_store/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/instrument/store/instrument_store/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/memory/base/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/memory/base/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/memory/base/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/memory/chat/chat_memory/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/memory/chat/chat_memory/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/memory/chat/chat_memory/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/memory/chat/retrieve/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/memory/chat/retrieve/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/memory/chat/retrieve/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/memory/chat/short_memory/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/memory/chat/short_memory/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/memory/chat/short_memory/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/memory/experiment/experiment_log/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/memory/experiment/experiment_log/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/memory/experiment/experiment_log/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/memory/experiment/retrieve_log/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/memory/experiment/retrieve_log/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/memory/experiment/retrieve_log/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/paper/download/arxiv/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/download/arxiv/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/download/arxiv/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/paper/download/async_utils/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/download/async_utils/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/download/async_utils/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/paper/parse/paper_reader/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/parse/paper_reader/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/parse/paper_reader/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/paper/parse/extractors/metadata_extract/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/parse/extractors/metadata_extract/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/parse/extractors/metadata_extract/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/paper/parse/extractors/source_analyze/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/parse/extractors/source_analyze/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/parse/extractors/source_analyze/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/paper/parse/parsers/auto/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/parse/parsers/auto/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/parse/parsers/auto/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/paper/parse/parsers/base/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/parse/parsers/base/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/parse/parsers/base/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/paper/parse/parsers/default_parser/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/parse/parsers/default_parser/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/parse/parsers/default_parser/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/paper/parse/parsers/ieee_parser/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/parse/parsers/ieee_parser/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/parse/parsers/ieee_parser/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/paper/parse/parsers/nature_parser/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/parse/parsers/nature_parser/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/parse/parsers/nature_parser/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/paper/prompt/store/dir_summary/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/prompt/store/dir_summary/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/prompt/store/dir_summary/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/paper/prompt/synthesize/paper_summarize/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/prompt/synthesize/paper_summarize/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/prompt/synthesize/paper_summarize/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/paper/prompt/synthesize/synthesize/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/prompt/synthesize/synthesize/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/prompt/synthesize/synthesize/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/paper/retrieve/paper_retriever/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/retrieve/paper_retriever/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/retrieve/paper_retriever/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/paper/retrieve/shared_paper_retrieve/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/retrieve/shared_paper_retrieve/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/retrieve/shared_paper_retrieve/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/paper/retrieve/temporary_paper_retriever/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/retrieve/temporary_paper_retriever/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/retrieve/temporary_paper_retriever/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/paper/store/paper_store/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/store/paper_store/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/store/paper_store/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/paper/store/shared_paper_store/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/store/shared_paper_store/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/store/shared_paper_store/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/paper/store/temporary_store/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/store/temporary_store/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/store/temporary_store/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/paper/synthesizer/summarize/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/paper/synthesizer/summarize/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/paper/synthesizer/summarize/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/reference/base/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/reference/base/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/reference/base/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/reference/instrument/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/reference/instrument/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/reference/instrument/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/func_modules/reference/paper/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/func_modules/reference/paper/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/func_modules/reference/paper/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/interact/authorize/authorize/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/authorize/authorize/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/authorize/authorize/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/interact/collect/pipeline/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/collect/pipeline/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/collect/pipeline/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/interact/collect/utils/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/collect/utils/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/collect/utils/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/interact/collect/collector/common_collector/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/collect/collector/common_collector/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/collect/collector/common_collector/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/interact/collect/collector/select_collector/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/collect/collector/select_collector/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/collect/collector/select_collector/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/interact/collect/manager/collect_manager/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/collect/manager/collect_manager/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/collect/manager/collect_manager/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/interact/collect/types/common_info/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/collect/types/common_info/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/collect/types/common_info/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/interact/collect/types/info_base/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/collect/types/info_base/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/collect/types/info_base/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/interact/collect/types/select_info/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/collect/types/select_info/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/collect/types/select_info/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/interact/prompt/authorize/analyze_agree/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/prompt/authorize/analyze_agree/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/prompt/authorize/analyze_agree/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/interact/prompt/collect/collect_info/common_info/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/prompt/collect/collect_info/common_info/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/prompt/collect/collect_info/common_info/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/interact/prompt/collect/collect_info/prompt_keys/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/prompt/collect/collect_info/prompt_keys/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/prompt/collect/collect_info/prompt_keys/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/interact/prompt/collect/collect_info/select_info/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/prompt/collect/collect_info/select_info/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/prompt/collect/collect_info/select_info/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/interact/prompt/collect/manager/abort/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/prompt/collect/manager/abort/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/prompt/collect/manager/abort/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/interact/prompt/collect/manager/do_modify/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/prompt/collect/manager/do_modify/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/prompt/collect/manager/do_modify/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/interact/prompt/collect/manager/verify/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/prompt/collect/manager/verify/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/prompt/collect/manager/verify/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/interact/prompt/collect/modify_info/common_info/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/prompt/collect/modify_info/common_info/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/prompt/collect/modify_info/common_info/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/interact/prompt/collect/modify_info/prompt_keys/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/prompt/collect/modify_info/prompt_keys/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/prompt/collect/modify_info/prompt_keys/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/interact/prompt/collect/modify_info/select_info/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interact/prompt/collect/modify_info/select_info/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interact/prompt/collect/modify_info/select_info/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/interface/http_server/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interface/http_server/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interface/http_server/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/interface/utils/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/interface/utils/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/interface/utils/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/models/local/mindspore_models/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/models/local/mindspore_models/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/models/local/mindspore_models/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/models/remote/remote_models/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/models/remote/remote_models/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/models/remote/remote_models/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/models/remote/remote_server/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/models/remote/remote_server/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/models/remote/remote_server/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/tools/utils/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/utils/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/utils/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/tools/base/function_base_tools/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/base/function_base_tools/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/base/function_base_tools/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/tools/base/tool_base/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/base/tool_base/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/base/tool_base/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/tools/base/tool_log/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/base/tool_log/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/base/tool_log/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/tools/common/date_time/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/common/date_time/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/common/date_time/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/tools/instrument/retrieve/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/instrument/retrieve/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/instrument/retrieve/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/tools/interact/collect_and_authorize/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/interact/collect_and_authorize/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/interact/collect_and_authorize/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/tools/memory/chat/retrieve/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/memory/chat/retrieve/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/memory/chat/retrieve/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/tools/memory/experiment/insert/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/memory/experiment/insert/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/memory/experiment/insert/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/tools/memory/experiment/retrieve/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/memory/experiment/retrieve/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/memory/experiment/retrieve/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/tools/paper/download/arxiv_download/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/paper/download/arxiv_download/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/paper/download/arxiv_download/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/tools/paper/shared_papers/query/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/paper/shared_papers/query/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/paper/shared_papers/query/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/tools/paper/shared_papers/retriever/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/paper/shared_papers/retriever/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/paper/shared_papers/retriever/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/tools/paper/shared_papers/utils/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/paper/shared_papers/utils/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/paper/shared_papers/utils/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/tools/paper/temporary_papers/insert/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/paper/temporary_papers/insert/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/paper/temporary_papers/insert/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/tools/paper/temporary_papers/paper_retriever/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/paper/temporary_papers/paper_retriever/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/paper/temporary_papers/paper_retriever/"/>
     </url>
     <url>
         <loc>Noneen/code_docs/tools/paper/temporary_papers/paper_summarize/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/code_docs/tools/paper/temporary_papers/paper_summarize/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonecode_docs/tools/paper/temporary_papers/paper_summarize/"/>
     </url>
     <url>
         <loc>Noneen/demonstration/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/demonstration/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonedemonstration/"/>
     </url>
     <url>
         <loc>Noneen/demonstration/developer_mode/comment_mode/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/demonstration/developer_mode/comment_mode/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonedemonstration/developer_mode/comment_mode/"/>
     </url>
     <url>
         <loc>Noneen/demonstration/developer_mode/instruct_mode/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/demonstration/developer_mode/instruct_mode/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonedemonstration/developer_mode/instruct_mode/"/>
     </url>
     <url>
         <loc>Noneen/demonstration/experiment_log/record_log/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/demonstration/experiment_log/record_log/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonedemonstration/experiment_log/record_log/"/>
     </url>
     <url>
         <loc>Noneen/demonstration/experiment_log/retrieve_log/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/demonstration/experiment_log/retrieve_log/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonedemonstration/experiment_log/retrieve_log/"/>
     </url>
     <url>
         <loc>Noneen/demonstration/instrument/instrument_docs/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/demonstration/instrument/instrument_docs/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonedemonstration/instrument/instrument_docs/"/>
     </url>
     <url>
         <loc>Noneen/demonstration/instrument/instrument_operations/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/demonstration/instrument/instrument_operations/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonedemonstration/instrument/instrument_operations/"/>
     </url>
     <url>
         <loc>Noneen/demonstration/paper/paper_download/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/demonstration/paper/paper_download/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonedemonstration/paper/paper_download/"/>
     </url>
     <url>
         <loc>Noneen/demonstration/paper/recent_papers_qa/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/demonstration/paper/recent_papers_qa/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonedemonstration/paper/recent_papers_qa/"/>
     </url>
     <url>
         <loc>Noneen/demonstration/paper/shared_papers/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/demonstration/paper/shared_papers/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonedemonstration/paper/shared_papers/"/>
     </url>
     <url>
         <loc>Noneen/deployment/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/deployment/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonedeployment/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/chat_history/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/chat_history/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/chat_history/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/chat_history/short-term_history/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/chat_history/short-term_history/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/chat_history/short-term_history/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/chat_history/long-term_history/retrieve/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/chat_history/long-term_history/retrieve/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/chat_history/long-term_history/retrieve/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/chat_history/long-term_history/store/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/chat_history/long-term_history/store/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/chat_history/long-term_history/store/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/experiment_log/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/experiment_log/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/experiment_log/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/experiment_log/personal_experiment/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/experiment_log/personal_experiment/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/experiment_log/personal_experiment/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/experiment_log/personal_experiment/retrieve/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/experiment_log/personal_experiment/retrieve/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/experiment_log/personal_experiment/retrieve/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/experiment_log/personal_experiment/store/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/experiment_log/personal_experiment/store/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/experiment_log/personal_experiment/store/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/experiment_log/shared_experiment/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/experiment_log/shared_experiment/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/experiment_log/shared_experiment/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/instrument/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/instrument/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/instrument/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/instrument/retrieve/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/instrument/retrieve/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/instrument/retrieve/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/instrument/store/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/instrument/store/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/instrument/store/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/paper/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/paper/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/paper/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/paper/shared_papers/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/paper/shared_papers/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/paper/shared_papers/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/paper/shared_papers/parse/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/paper/shared_papers/parse/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/paper/shared_papers/parse/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/paper/shared_papers/retrieve/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/paper/shared_papers/retrieve/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/paper/shared_papers/retrieve/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/paper/shared_papers/store/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/paper/shared_papers/store/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/paper/shared_papers/store/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/paper/temporary_papers/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/paper/temporary_papers/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/paper/temporary_papers/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/paper/temporary_papers/retrieve/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/paper/temporary_papers/retrieve/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/paper/temporary_papers/retrieve/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/paper/temporary_papers/store/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/paper/temporary_papers/store/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/paper/temporary_papers/store/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/paper/temporary_papers/download/arXiv/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/paper/temporary_papers/download/arXiv/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/paper/temporary_papers/download/arXiv/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/reference/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/reference/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/reference/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/reference/instrument_reference/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/reference/instrument_reference/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/reference/instrument_reference/"/>
     </url>
     <url>
         <loc>Noneen/function_modules/reference/paper_reference/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/function_modules/reference/paper_reference/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Nonefunction_modules/reference/paper_reference/"/>
     </url>
     <url>
         <loc>Noneen/interface/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/interface/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneinterface/"/>
     </url>
     <url>
         <loc>Noneen/interface/app/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/interface/app/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneinterface/app/"/>
     </url>
     <url>
         <loc>Noneen/interface/server-client/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/interface/server-client/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneinterface/server-client/"/>
     </url>
     <url>
         <loc>Noneen/interface/web_ui/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/interface/web_ui/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneinterface/web_ui/"/>
     </url>
     <url>
         <loc>Noneen/overview/introduction/</loc>
-        <lastmod>2024-09-12</lastmod>
+        <lastmod>2024-09-13</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/introduction/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneoverview/introduction/"/>

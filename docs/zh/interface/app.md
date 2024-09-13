@@ -44,6 +44,7 @@ lib
 │  main.dart
 │  settings.dart
 │  settings_route.dart
+│  pdf_viewer_route.dart
 │
 └─message
         audio_message.dart

@@ -7,8 +7,6 @@ class SettingsRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(settings.enableComment);
-    print(settings.enableInstruct);
     return Scaffold(
       appBar: AppBar(
         title: const Text('设置'),

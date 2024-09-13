@@ -66,14 +66,25 @@ bash run_server.sh
 使用Orange Pi部署需要额外GPU服务器，以及Orange Pi与GPU服务器之间的HTTP通信，Orange Pi 负责Embedding与OCR等轻量级任务，GPU服务器负责LLM计算任务。
 请参考[Remote LLM源代码](./labridge/models/remote/remote_models.py)与[Remote LLM server源代码](./labridge/models/remote/remote_server.py)
 
+### 运行web前端
+
+```
+python -m http.server -d .\web-frontend-2\dist\
+```
+
+浏览器访问 `http://localhost:8000/`
+
+Web客户端具体细节请参考
+[Web](./docs/zh/interface/web_ui.md)
+
+
 ### 服务端与客户端通信说明
 服务端与客户端之间通过 HTTP 通信，细节请参考[通信说明](./docs/zh/interface/server-client.md)。
 
 ### 客户端界面
 Labridge提供Web与App版的客户端界面，请在客户端设置相应的服务器地址。
 
-Web客户端具体细节请参考
-[Web](./docs/zh/interface/web_ui.md)
+
 
 App客户端具体细节请参考
 [App](./docs/zh/interface/app.md)

@@ -262,7 +262,7 @@ function App() {
         <div
           style={{
             height: "100%",
-            flexGrow: 1,
+            width:'calc(50% - 20px)',
             display: "flex",
             flexDirection: "column",
           }}
@@ -377,7 +377,7 @@ function App() {
               <div style={{ padding: "0 20px", paddingTop: "20px" }}>
                 <Input.TextArea
                   value={userInput}
-                  rows={4}
+                  rows={2}
                   style={{
                     background: "transparent",
                     fontSize: styles.fontSize,

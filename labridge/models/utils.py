@@ -7,8 +7,7 @@ from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.core.postprocessor import SentenceTransformerRerank
 from transformers.utils.quantization_config import BitsAndBytesConfig
 
-from .api.zhipu import ZhiPuLLM, ZhiPuEmbedding
-# from .local.mindspore_models import MindsporeLLM, MindsporeEmbedding
+from .local.mindspore_models import MindsporeLLM, MindsporeEmbedding
 
 
 def completion_to_prompt(completion):
@@ -61,7 +60,6 @@ def get_models(
 	context_window: int = None,
 	max_new_tokens: int = None,
 	load_in_8bit: bool = True,
-	use_api: bool = True,
 ):
 	config = load_model_config()
 	backend = config.get("backend", "pytorch")
@@ -71,16 +69,10 @@ def get_models(
 	context_window = context_window or config.get("context_window")
 	max_new_tokens = max_new_tokens or config.get("max_new_tokens")
 
-	if use_api:
-		llm = ZhiPuLLM()
-		# embed_model = HuggingFaceEmbedding(model_name=embed_model_path)
-		embed_model = ZhiPuEmbedding()
+	if backend.lower() == "mindspore":
+		llm = MindsporeLLM(model_name=model_path)
+		embed_model = MindsporeEmbedding(model_name=embed_model_path)
 		return llm, embed_model
-
-	# if backend.lower() == "mindspore":
-	# 	llm = MindsporeLLM()
-	# 	embed_model = MindsporeEmbedding(model_name=embed_model_path)
-	# 	return llm, embed_model
 
 	quantization_config = BitsAndBytesConfig(
 		load_in_8bit=load_in_8bit,

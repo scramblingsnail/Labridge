@@ -39,11 +39,12 @@ Labridge基于 `Llamaindex` 与 `Mindspore`, 使用ReAct + CoT Prompt框架进�
 [requirements_mindspore](./requirements/requirements_mindspore.txt)
 
 ## Requirements (Pytorch版本)
-
 [requirements](./requirements/requirements.txt)
 
 ## 模型设置
 在[模型配置文件](./model_cfg.yaml)中配置相应的深度学习框架后端、LLM模型名、Embedding模型名等参数。
+
+建议自行从Huggingface上下载相应模型到本地。
 
 ## 服务端与客户端
 

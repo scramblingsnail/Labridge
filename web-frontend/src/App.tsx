@@ -13,9 +13,15 @@ import {
   Form,
   Checkbox,
   Tooltip,
+  Flex,
 } from "antd";
 
-import { SettingOutlined, FilePdfFilled } from "@ant-design/icons";
+import {
+  SettingOutlined,
+  FilePdfFilled,
+  LockOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 
 const styles = {
   lightBackground: "#FFFFFF",
@@ -37,48 +43,18 @@ function App() {
   const [inOneChatRound, setInOneChatRound] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [userSettings, setUserSettings] = useState({
+  const defaultUserSettings = {
     reply_in_speech: false,
     enable_instruct: false,
     enable_comment: false,
-  });
-  const messagesExample = [
-    {
-      role: "user",
-      content: "给我下一篇 in-memory computing的文章",
-    },
-    {
-      role: "system",
-      content:
-        "\n为您在 arXiv 检索到如下文献，请告诉我您感兴趣的文献序号（数字）哦。\n",
-      extraInfo:
-        "\n**文献 1**:\n标题: Hardware Security in Spin-Based Computing-In-Memory: Analysis, Exploits, and Mitigation Techniques\n摘要: \n\tComputing-in-memory (CIM) is proposed to alleviate the processor-memory data\ntransfer bottleneck in traditional Von-Neumann architectures, and\nspintronics-based magnetic memory has demonstrated many facilitation in\nimplementing CIM paradigm. Since hardware security has become one of the major\nconcerns in circuit designs, this paper, for the first time, investigates\nspin-based computing-in-memory (SpinCIM) from a security perspective. We focus\non two fundamental questions: 1) how the new SpinCIM computing paradigm can be\nexploited to enhance hardware security? 2) what security concerns has this new\nSpinCIM computing paradigm incurred?\n\n\n\n**文献 2**:\n标题: The Landscape of Compute-near-memory and Compute-in-memory: A Research and Commercial Overview\n摘要: \n\tIn today's data-centric world, where data fuels numerous application domains,\nwith machine learning at the forefront, handling the enormous volume of data\nefficiently in terms of time and energy presents a formidable challenge.\nConventional computing systems and accelerators are continually being pushed to\ntheir limits to stay competitive. In this context, computing near-memory (CNM)\nand computing-in-memory (CIM) have emerged as potentially game-changing\nparadigms. This survey introduces the basics of CNM and CIM architectures,\nincluding their underlying technologies and working principles. We focus\nparticularly on CIM and CNM architectures that have either been prototyped or\ncommercialized. While surveying the evolving CIM and CNM landscape in academia\nand industry, we discuss the potential benefits in terms of performance,\nenergy, and cost, along with the challenges associated with these cutting-edge\ncomputing paradigms.\n\n\n\n**文献 3**:\n标题: Methodologies, Workloads, and Tools for Processing-in-Memory: Enabling the Adoption of Data-Centric Architectures\n摘要: \n\tThe increasing prevalence and growing size of data in modern applications\nhave led to high costs for computation in traditional processor-centric\ncomputing systems. Moving large volumes of data between memory devices (e.g.,\nDRAM) and computing elements (e.g., CPUs, GPUs) across bandwidth-limited memory\nchannels can consume more than 60% of the total energy in modern systems. To\nmitigate these costs, the processing-in-memory (PIM) paradigm moves computation\ncloser to where the data resides, reducing (and in some cases eliminating) the\nneed to move data between memory and the processor. There are two main\napproaches to PIM: (1) processing-near-memory (PnM), where PIM logic is added\nto the same die as memory or to the logic layer of 3D-stacked memory; and (2)\nprocessing-using-memory (PuM), which uses the operational principles of memory\ncells to perform computation. Many works from academia and industry have shown\nthe benefits of PnM and PuM for a wide range of workloads from different\ndomains. However, fully adopting PIM in commercial systems is still very\nchallenging due to the lack of tools and system support for PIM architectures\nacross the computer architecture stack, which includes: (i) workload\ncharacterization methodologies and benchmark suites targeting PIM\narchitectures; (ii) frameworks that can facilitate the implementation of\ncomplex operations and algorithms using the underlying PIM primitives; (iii)\ncompiler support and compiler optimizations targeting PIM architectures; (iv)\noperating system support for PIM-aware virtual memory, memory management, data\nallocation, and data mapping; and (v) efficient data coherence and consistency\nmechanisms. Our goal in this work is to provide tools and system support for\nPnM and PuM architectures, aiming to ease the adoption of PIM in current and\nfuture systems.\n",
-    },
-    {
-      role: "user",
-      content: "1",
-    },
-    {
-      role: "system",
-      content:
-        "\n我将为您执行如下操作，请问您希望执行该操作吗？\n\n**操作描述：**\n\n为 realzhao 从arXiv下载如下文献, 并加入ta的临时文献库:\n\n\n**标题**: Hardware Security in Spin-Based Computing-In-Memory: Analysis, Exploits, and Mitigation Techniques\n**存储路径**: E:\\yzz\\Labridge\\documents\\tmp_papers\\realzhao\\Hardware Security in Spin-Based Computing-In-Memory: Analysis, Exploits, and Mitigation Techniques.pdf\n\n",
-      extraInfo: null,
-    },
-    {
-      role: "user",
-      content: "嗯对",
-    },
-    {
-      role: "system",
-      content:
-        "I have downloaded a paper titled 'Hardware Security in Spin-Based Computing-In-Memory: Analysis, Exploits, and Mitigation Techniques' for you. You can find it at the following path: E:\\\\yzz\\\\Labridge\\\\documents\\\\tmp_papers\\\\realzhao\\\\Hardware Security in Spin-Based Computing-In-Memory: Analysis, Exploits, and Mitigation Techniques.pdf.\n\n**REFERENCE:**\n\t**Title:** Hardware Security in Spin-Based Computing-In-Memory: Analysis, Exploits, and Mitigation Techniques\n\t这篇文章由realzhao持有，可以与ta多多交流哦。",
-      extraInfo: null,
-      files: [
-        "E:\\yzz\\Labridge\\documents\\tmp_papers\\realzhao\\Hardware Security in Spin-Based Computing-In-Memory: Analysis, Exploits, and Mitigation Techniques.pdf",
-        "E:\\yzz\\Labridge\\documents\\tmp_papers\\realzhao\\Hardware Security in Spin-Based Computing-In-Memory: Analysis, Exploits, and Mitigation Techniques.pdf",
-      ],
-    },
-  ];
+  };
+  const [userSettings, setUserSettings] = useState<typeof defaultUserSettings>(
+    JSON.parse(
+      localStorage.getItem("userSettings") ||
+        JSON.stringify(defaultUserSettings)
+    )
+  );
+  localStorage.setItem("userSettings", JSON.stringify(userSettings));
   const [chatMessages, setChatMessages] = useState<
     {
       role: "user" | "system";
@@ -199,7 +175,90 @@ function App() {
           </Form.Item>
         </Form>
       </Modal>
-      <Modal title="Sign Up"></Modal>
+      <Modal
+        title="Sign Up"
+        open={showSignupModal}
+        footer={null}
+        onCancel={() => setShowSignupModal(false)}
+        centered
+      >
+        <Form
+          name="login"
+          onFinish={async (values: any) => {
+            await axios.post(baseurl + "/accounts/sign-up", {
+              user_id: values.username,
+              password: values.password,
+            });
+            setShowSignupModal(false);
+            setUserID(values.username);
+          }}
+        >
+          <Form.Item
+            name="username"
+            rules={[{ required: true, message: "Please input your Username!" }]}
+          >
+            <Input prefix={<UserOutlined />} placeholder="Username" />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: "Please input your Password!" }]}
+          >
+            <Input
+              prefix={<LockOutlined />}
+              type="password"
+              placeholder="Password"
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button block type="primary" htmlType="submit">
+              Sign Up
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+      <Modal
+        title="Log In"
+        open={showLoginModal}
+        footer={null}
+        onCancel={() => setShowLoginModal(false)}
+        centered
+      >
+        <Form
+          name="login"
+          onFinish={async (values: any) => {
+            console.log("Received values of form: ", values);
+            setShowLoginModal(false);
+            await axios.post(baseurl + "/accounts/log-in", {
+              user_id: values.username,
+              password: values.password,
+            });
+            setShowSignupModal(false);
+            setUserID(values.username);
+          }}
+        >
+          <Form.Item
+            name="username"
+            rules={[{ required: true, message: "Please input your Username!" }]}
+          >
+            <Input prefix={<UserOutlined />} placeholder="Username" />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: "Please input your Password!" }]}
+          >
+            <Input
+              prefix={<LockOutlined />}
+              type="password"
+              placeholder="Password"
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button block type="primary" htmlType="submit">
+              Log in
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
       <div
         style={{
           height: "50px",
@@ -262,7 +321,7 @@ function App() {
         <div
           style={{
             height: "100%",
-            width:'calc(50% - 20px)',
+            width: "calc(50% - 20px)",
             display: "flex",
             flexDirection: "column",
           }}
@@ -341,10 +400,10 @@ function App() {
                       }}
                     >
                       {message.files &&
-                        message.files.map((filepath, _i) => {
+                        message.files.map((filepath, i) => {
                           const fileName = filepath.split(/[\\\/]/).pop();
                           return (
-                            <div style={{ display: "flex", gap: "20px" }}>
+                            <div key={i} style={{ display: "flex", gap: "20px" }}>
                               <Button
                                 icon={<FilePdfFilled />}
                                 onClick={() =>

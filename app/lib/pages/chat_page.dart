@@ -7,6 +7,7 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:labridge/chat_agent.dart';
+import 'package:labridge/pages/login_page.dart';
 import 'package:labridge/pdf_viewer_route.dart';
 import 'package:uuid/uuid.dart';
 import 'package:path/path.dart' as p;
@@ -19,8 +20,6 @@ const uuid = Uuid();
 
 final _labridgeId = uuid.v5(Uuid.NAMESPACE_URL, 'Labridge');
 final _labridge = types.User(id: _labridgeId, firstName: 'Labridge');
-
-
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key, required this.userName});
@@ -61,8 +60,7 @@ class _ChatPageState extends State<ChatPage> {
     super.initState();
     chatAgent = ChatAgent(widget.userName);
     _user = types.User(
-        id: '82091008-a484-4a89-ae75-a22bf8d6f3ac',
-        firstName: widget.userName);
+        id: '82091008-a484-4a89-ae75-a22bf8d6f3ac', firstName: widget.userName);
   }
 
   @override
@@ -124,36 +122,62 @@ class _ChatPageState extends State<ChatPage> {
       ),
       drawer: Drawer(
         // width: 200,
-        child: ListView(
-          padding: EdgeInsets.zero,
+        child: Column(
           children: [
-            const SizedBox(
-              height: 100,
-              child: DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Color(0xff1d1c21),
-                ),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Labridge',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+            Column(
+              // padding: EdgeInsets.zero,
+              children: [
+                const SizedBox(
+                  height: 100,
+                  child: DrawerHeader(
+                    decoration: BoxDecoration(
+                      color: Color(0xff1d1c21),
+                    ),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Labridge',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
                 ),
+                ListTile(
+                  title: const Text('设置'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SettingsPage()),
+                    );
+                  },
+                )
+              ],
+            ),
+            Expanded(child: Container()),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              child: SizedBox(
+                width: double.infinity,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor:
+                        Theme.of(context).colorScheme.primaryContainer,
+                  ),
+                  onPressed: () {
+                    settings.clearUserInfo();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
+                  },
+                  child: const Text('登出'),
+                ),
               ),
             ),
-            ListTile(
-              title: const Text('设置'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SettingsPage()),
-                );
-              },
-            )
           ],
         ),
       ),

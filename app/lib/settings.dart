@@ -11,15 +11,20 @@ class Settings {
   final SharedPreferencesAsync asyncPrefs = SharedPreferencesAsync();
 
   // late final SharedPreferences prefsWithCache;
-  Future<String?> get userNameInPrefs async => await asyncPrefs.getString('userName');
+  Future<String?> get userNameInPrefs async =>
+      await asyncPrefs.getString('userName');
+
   set userName(String name) {
     asyncPrefs.setString('userName', name);
   }
 
   Future<String?> get passwordInPrefs => asyncPrefs.getString('password');
+
   set password(String password) {
     asyncPrefs.setString('password', password);
   }
 
-
+  void clearUserInfo() {
+    asyncPrefs.clear(allowList: <String>{'userName', 'password'});
+  }
 }

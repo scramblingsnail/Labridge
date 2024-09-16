@@ -7,6 +7,7 @@ import 'package:labridge/pages/login_page.dart';
 import 'package:labridge/pages/chat_page.dart';
 import 'package:labridge/settings.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 // For the testing purposes, you should probably use https://pub.dev/packages/uuid.
 

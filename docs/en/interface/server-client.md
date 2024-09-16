@@ -4,6 +4,7 @@
 
 ### User log up, log in:
 [ClientLogInUpReq](labridge/interface/http_server):
+
 - user_id: the user id of a lab member
 - password: given password
 
@@ -21,12 +22,14 @@ Log up:
 
 ### Chat with text:
 **ClientTextReq**:
+
 - text (str): The message string of the user
 
 Post URL: `/users/{user_id}/chat_text`
 
 ### Download File:
 **ClientDownloadReq**:
+
 - filepath (str): The path of the requested file
 
 Post URL: `/users/{user_id}/files/bytes`
@@ -49,6 +52,7 @@ Get URL: `/users/{user_id}/response`
 
 ### Returned data structure
 **ServerReply**:
+
 - reply_text (str): The reply string of the agent
 - valid (bool): Whether this reply is valid. If it is invalid, the client should keep requesting until receiving a valid response.
 - references (Dict[str, int]): Key -- the path of the reference file, Value -- the file size of the ref file
@@ -57,6 +61,7 @@ Get URL: `/users/{user_id}/response`
 the corresponding `Inner` URL.
 
 **ServerSpeechReply**:
+
 - reply_speech (str): The file path of the agent's speech reply
 - valid (bool):  Whether this reply is valid. If it is invalid, the client should keep requesting until receiving a valid response.
 - references (Dict[str, int]): Key -- the path of the reference file, Value -- the file size of the ref file

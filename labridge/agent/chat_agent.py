@@ -51,8 +51,10 @@ class LabChatAgent:
 		users = self._account_manager.get_users()
 		self._chatting_status = {user: False for user in users}
 
-	def update_users(self):
-		self._account_manager = AccountManager()
+	def update_chatting_status(self):
+		users = self._account_manager.get_users()
+		new_chatting_status = {user: False for user in users if user not in self._chatting_status.keys()}
+		self._chatting_status.update(new_chatting_status)
 
 	@property
 	def chat_engine(self) -> InstructReActAgent:
@@ -157,4 +159,3 @@ class LabChatAgent:
 
 
 ChatAgent = LabChatAgent()
-get_models()

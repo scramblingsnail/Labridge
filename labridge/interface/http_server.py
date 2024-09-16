@@ -88,7 +88,7 @@ async def user_login(req: ClientLogInUpReq):
 async def user_sign_up(req: ClientLogInUpReq):
     account_manager = AccountManager()
     account_manager.add_user(user_id=req.user_id, password=req.password)
-    ChatAgent.update_users()
+    ChatAgent.update_chatting_status()
     ChatBuffer.update_buffer_for_new_users()
     return AccountResponse(user_id=req.user_id)
 

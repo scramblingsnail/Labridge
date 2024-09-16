@@ -1,0 +1,471 @@
+import 'package:audioplayers/audioplayers.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:labridge/chat_agent.dart';
+import 'package:labridge/pdf_viewer_route.dart';
+import 'package:uuid/uuid.dart';
+import 'package:path/path.dart' as p;
+import 'package:labridge/message/audio_message.dart';
+import 'package:labridge/pages/settings_page.dart';
+
+import '../main.dart';
+
+const uuid = Uuid();
+
+final _labridgeId = uuid.v5(Uuid.NAMESPACE_URL, 'Labridge');
+final _labridge = types.User(id: _labridgeId, firstName: 'Labridge');
+
+
+
+class ChatPage extends StatefulWidget {
+  const ChatPage({super.key, required this.userName});
+
+  final String userName;
+
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
+  final List<types.Message> _messages = [];
+
+  // final chatAgent = ChatAgent('yichenzhao');
+
+  final player = AudioPlayer();
+  late final ChatAgent chatAgent;
+  late final types.User _user;
+
+  bool _isInnerChat = false;
+
+  // bool _clearButtonVisible = false;
+  double _clearButtonWidth = 0.0;
+  Color _textColor = Colors.transparent;
+
+  int _waitForUploadingContentsCount = 0;
+  PlatformFile? waitForUploadingFile;
+  Uint8List? waitForUploadingFileBytes;
+  types.FileMessage? fileMessage;
+
+  String randomId() {
+    const uuid = Uuid();
+    return uuid.v8();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    chatAgent = ChatAgent(widget.userName);
+    _user = types.User(
+        id: '82091008-a484-4a89-ae75-a22bf8d6f3ac',
+        firstName: widget.userName);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.grey[100],
+        // 防止滚动时变色
+        scrolledUnderElevation: 0.0,
+        centerTitle: true,
+        title: const Text(
+          'Labridge',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            width: _clearButtonWidth,
+            height: 30,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              child: TextButton(
+                onPressed: _clearButtonWidth != 0.0
+                    ? () {
+                        setState(() {
+                          _messages.clear();
+                          _textColor = Colors.transparent;
+                          _clearButtonWidth = 0.0;
+                        });
+                        chatAgent.clearHistory();
+                      }
+                    : null,
+                style: TextButton.styleFrom(
+                    backgroundColor: Colors.blueAccent,
+                    side: BorderSide.none,
+                    padding: const EdgeInsets.all(0)),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    '清空',
+                    style: TextStyle(
+                        color: _textColor,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ),
+            onEnd: () {
+              setState(() {
+                _textColor = Colors.white;
+              });
+            },
+          ),
+        ],
+        // titleTextStyle: const TextStyle(color: Colors.white),
+      ),
+      drawer: Drawer(
+        // width: 200,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const SizedBox(
+              height: 100,
+              child: DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Color(0xff1d1c21),
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Labridge',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              title: const Text('设置'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SettingsPage()),
+                );
+              },
+            )
+          ],
+        ),
+      ),
+      // extendBodyBehindAppBar: true,
+      body: Chat(
+        messages: _messages,
+        audioMessageBuilder: _audioMessageBuilder,
+        onAttachmentPressed: _handleAttachmentPressed,
+        onMessageTap: _handleMessageTap,
+        onPreviewDataFetched: _handlePreviewDataFetched,
+        onSendPressed: _handleSendPressed,
+        usePreviewData: false,
+        showUserNames: true,
+        user: _user,
+        theme: DefaultChatTheme(
+            attachmentButtonIcon: _waitForUploadingContentsCount == 0
+                ? const Icon(
+                    Icons.attach_file_rounded,
+                    color: Colors.white,
+                  )
+                : Badge.count(
+                    count: 1,
+                    backgroundColor: Colors.blue,
+                    child: const Icon(
+                      Icons.attach_file_rounded,
+                      color: Colors.white,
+                    ),
+                  )),
+      ),
+    );
+  }
+
+  void _addMessage(types.Message message) {
+    setState(() {
+      _messages.insert(0, message);
+    });
+  }
+
+  void _handleAttachmentPressed() {
+    showModalBottomSheet<void>(
+      context: context,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(16))),
+      builder: (BuildContext context) => SafeArea(
+        child: SizedBox(
+          height: 144,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              TextButton(
+                style: TextButton.styleFrom(
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(16)))),
+                onPressed: () {
+                  Navigator.pop(context);
+                  _handleImageSelection();
+                },
+                child: const Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text('Photo'),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _handleFileSelection();
+                },
+                child: const Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text('File'),
+                ),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text('Cancel'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _audioMessageBuilder(types.AudioMessage message,
+      {required messageWidth}) {
+    return AudioMessageBlock(message: message, messageWidth: messageWidth);
+  }
+
+  void _handleFileSelection() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.any,
+      allowMultiple: false,
+    );
+
+    if (result != null && result.files.isNotEmpty) {
+      fileMessage = types.FileMessage(
+        author: _user,
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        id: randomId(),
+        name: result.files.single.name,
+        size: result.files.single.size,
+        uri: !kIsWeb ? result.files.single.path! : result.files.single.name,
+      );
+      // result.files.single.bytes
+      // if (!kIsWeb) {
+      //   waitForUploadingFileBytes =
+      //   await File(result.files.single.path!).readAsBytes();
+      // } else {
+      waitForUploadingFileBytes = result.files.first.bytes;
+      // }
+
+      waitForUploadingFile = result.files.single;
+      setState(() {
+        _waitForUploadingContentsCount = 1;
+      });
+
+      // _addMessage(message);
+    }
+  }
+
+  void _handleImageSelection() async {
+    final result = await ImagePicker().pickImage(
+      imageQuality: 70,
+      maxWidth: 1440,
+      source: ImageSource.gallery,
+    );
+
+    if (result != null) {
+      final bytes = await result.readAsBytes();
+      final image = await decodeImageFromList(bytes);
+
+      final message = types.ImageMessage(
+        author: _user,
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        height: image.height.toDouble(),
+        id: randomId(),
+        name: result.name,
+        size: bytes.length,
+        uri: result.path,
+        width: image.width.toDouble(),
+      );
+
+      _addMessage(message);
+    }
+  }
+
+  void _handleMessageTap(BuildContext context, types.Message message) async {
+    if (message is types.FileMessage) {
+      var localPath = message.uri;
+      if (message.uri.startsWith('remote:')) {
+        try {
+          final index =
+              _messages.indexWhere((element) => element.id == message.id);
+          final updatedMessage =
+              (_messages[index] as types.FileMessage).copyWith(
+            isLoading: true,
+          );
+
+          setState(() {
+            _messages[index] = updatedMessage;
+          });
+
+          /// remove tag
+          localPath = await chatAgent.downloadFile(localPath.substring(7));
+        } finally {
+          final index =
+              _messages.indexWhere((element) => element.id == message.id);
+          final updatedMessage =
+              (_messages[index] as types.FileMessage).copyWith(
+            isLoading: null,
+          );
+
+          setState(() {
+            _messages[index] = updatedMessage;
+          });
+        }
+      }
+
+      // await OpenFilex.open(localPath);
+      if (context.mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PdfViewerRoute(pdfPath: localPath)),
+        );
+      }
+    } else if (message is types.AudioMessage) {
+      await player.release();
+      await player.play(DeviceFileSource(message.uri));
+    }
+  }
+
+  /// 预览功能的回调函数
+  void _handlePreviewDataFetched(
+    types.TextMessage message,
+    types.PreviewData previewData,
+  ) {
+    final index = _messages.indexWhere((element) => element.id == message.id);
+    final updatedMessage = (_messages[index] as types.TextMessage).copyWith(
+      previewData: previewData,
+    );
+
+    setState(() {
+      _messages[index] = updatedMessage;
+    });
+  }
+
+  void _handleSendPressed(types.PartialText message) async {
+    /// TODO: performance
+    setState(() {
+      _clearButtonWidth = 90.0;
+    });
+
+    final textMessage = types.TextMessage(
+      author: _user,
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      id: randomId(),
+      text: message.text,
+    );
+
+    _addMessage(textMessage);
+    Map<String, dynamic> response;
+
+    /// 发送消息并等待响应
+    if (_waitForUploadingContentsCount == 0) {
+      chatAgent.query(
+        message.text,
+        isInnerChat: _isInnerChat,
+        replyInSpeech: settings.replyInSpeech,
+        enableComment: settings.enableComment,
+        enableInstruct: settings.enableInstruct,
+      );
+      response = await chatAgent.singleGetResponse();
+    } else {
+      _addMessage(fileMessage!);
+      setState(() {
+        _waitForUploadingContentsCount = 0;
+      });
+      chatAgent.queryInFile(
+        waitForUploadingFileBytes!,
+        waitForUploadingFile!.name,
+        message.text,
+        isInnerChat: _isInnerChat,
+        replyInSpeech: settings.replyInSpeech,
+        enableComment: settings.enableComment,
+        enableInstruct: settings.enableInstruct,
+      );
+      response = await chatAgent.singleGetResponse();
+    }
+
+    _isInnerChat = response['inner_chat'];
+
+    /// update message
+    if (response.containsKey('reply_text')) {
+      final labridgeTextMessage = types.TextMessage(
+        author: _labridge,
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        id: randomId(),
+        text: response['reply_text'].toString().trim(),
+      );
+      _addMessage(labridgeTextMessage);
+    } else {
+      final replySpeechPaths = Map<String, int>.from(response['reply_speech']);
+
+      for (final speechPathEntry in replySpeechPaths.entries) {
+        var localPath = await chatAgent.downloadFile(speechPathEntry.key);
+        // print(localPath);
+        final labridgeAudioMessage = types.AudioMessage(
+          author: _labridge,
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          id: randomId(),
+          name: p.basename(localPath),
+          size: speechPathEntry.value,
+          uri: localPath,
+          duration: const Duration(seconds: 4),
+        );
+        _addMessage(labridgeAudioMessage);
+      }
+    }
+
+    /// process extra_info
+    if (response['extra_info'] != null) {
+      final labridgeTextMessage = types.TextMessage(
+        author: _labridge,
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        id: randomId(),
+        text: response['extra_info'].toString().trim(),
+      );
+      _addMessage(labridgeTextMessage);
+    }
+
+    if (response['references'] != null) {
+      // print('object');
+
+      final references = Map<String, int>.from(response['references']);
+      // print(references.keys);
+      for (final referEntry in references.entries) {
+        var fileName = referEntry.key.replaceAll('\\', '/');
+        fileName = p.basename(fileName);
+        final fileMessage = types.FileMessage(
+          author: _labridge,
+          id: randomId(),
+          name: fileName,
+          size: referEntry.value,
+          uri: 'remote:${referEntry.key}',
+        );
+
+        _addMessage(fileMessage);
+      }
+    }
+  }
+}

@@ -2,11 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
+import 'package:labridge/settings.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
-
-// const baseUrl = "http://210.28.142.241:6006";
-const baseUrl = "http://210.28.141.187:80";
 
 class ChatAgent {
   final String userId;
@@ -50,8 +48,6 @@ class ChatAgent {
         encoding: Encoding.getByName('utf-8'));
   }
 
-  void queryInSpeech(List data) async {}
-
   Future<int> queryInFile(
     Uint8List fileBytes,
     String fileName,
@@ -89,6 +85,7 @@ class ChatAgent {
 
       if (reply.body.isNotEmpty) {
         /// Server no utf-8 header set, we should re-decode
+        // print(getResponseUrl);
         final replyMap =
             json.decode(utf8.decode(reply.bodyBytes)) as Map<String, dynamic>;
         if (replyMap.containsKey('valid') && replyMap['valid'] as bool) {
@@ -115,7 +112,6 @@ class ChatAgent {
     // var reader = ChunkedStreamReader(
     //     response.stream);
     final documentDir = (await getTemporaryDirectory()).path;
-
 
     remoteFilePath = remoteFilePath.replaceAll('\\', '/');
 

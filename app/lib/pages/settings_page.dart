@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:labridge/main.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
-class SettingsRoute extends StatelessWidget {
-  const SettingsRoute({super.key});
+class SettingsPage extends StatelessWidget {
+  const SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -7947,9 +7947,11 @@
 <h1 id="description-for-the-communication-between-the-server-and-client">Description for the communication between the Server and Client<a class="headerlink" href="#description-for-the-communication-between-the-server-and-client" title="Permanent link">&para;</a></h1>
 <h2 id="data-structure">Data Structure<a class="headerlink" href="#data-structure" title="Permanent link">&para;</a></h2>
 <h3 id="user-log-up-log-in">User log up, log in:<a class="headerlink" href="#user-log-up-log-in" title="Permanent link">&para;</a></h3>
-<p><a href="labridge/interface/http_server">ClientLogInUpReq</a>:
-- user_id: the user id of a lab member
-- password: given password</p>
+<p><a href="labridge/interface/http_server">ClientLogInUpReq</a>:</p>
+<ul>
+<li>user_id: the user id of a lab member</li>
+<li>password: given password</li>
+</ul>
 <p>Sign in:</p>
 <ul>
 <li>Post URL: <code>/accounts/log-up</code></li>
@@ -7962,12 +7964,16 @@
 </ul>
 <h2 id="data-uploaded-by-clients">Data uploaded by clients：<a class="headerlink" href="#data-uploaded-by-clients" title="Permanent link">&para;</a></h2>
 <h3 id="chat-with-text">Chat with text:<a class="headerlink" href="#chat-with-text" title="Permanent link">&para;</a></h3>
-<p><strong>ClientTextReq</strong>:
-- text (str): The message string of the user</p>
+<p><strong>ClientTextReq</strong>:</p>
+<ul>
+<li>text (str): The message string of the user</li>
+</ul>
 <p>Post URL: <code>/users/{user_id}/chat_text</code></p>
 <h3 id="download-file">Download File:<a class="headerlink" href="#download-file" title="Permanent link">&para;</a></h3>
-<p><strong>ClientDownloadReq</strong>:
-- filepath (str): The path of the requested file</p>
+<p><strong>ClientDownloadReq</strong>:</p>
+<ul>
+<li>filepath (str): The path of the requested file</li>
+</ul>
 <p>Post URL: <code>/users/{user_id}/files/bytes</code></p>
 <h3 id="chat-with-file">Chat with file:<a class="headerlink" href="#chat-with-file" title="Permanent link">&para;</a></h3>
 <ul>
@@ -7985,20 +7991,24 @@
 <h2 id="get-reply-from-the-server">Get reply from the server:<a class="headerlink" href="#get-reply-from-the-server" title="Permanent link">&para;</a></h2>
 <p>Get URL: <code>/users/{user_id}/response</code></p>
 <h3 id="returned-data-structure">Returned data structure<a class="headerlink" href="#returned-data-structure" title="Permanent link">&para;</a></h3>
-<p><strong>ServerReply</strong>:
-- reply_text (str): The reply string of the agent
-- valid (bool): Whether this reply is valid. If it is invalid, the client should keep requesting until receiving a valid response.
-- references (Dict[str, int]): Key -- the path of the reference file, Value -- the file size of the ref file
-- error (str): The error message. If no error occurs, it is <code>None</code>
-- inner_chat (bool): Whether this reply is an <code>inner</code> reply. If <code>True</code>, the client should send the user's next message to
-the corresponding <code>Inner</code> URL.</p>
-<p><strong>ServerSpeechReply</strong>:
-- reply_speech (str): The file path of the agent's speech reply
-- valid (bool):  Whether this reply is valid. If it is invalid, the client should keep requesting until receiving a valid response.
-- references (Dict[str, int]): Key -- the path of the reference file, Value -- the file size of the ref file
-- inner_chat: Optional[bool]: Whether this reply is an <code>inner</code> reply. If <code>True</code>, the client should send the user's next message to
-the corresponding <code>Inner</code> URL.
-- error (str): The error message. If no error occurs, it is <code>None</code></p>
+<p><strong>ServerReply</strong>:</p>
+<ul>
+<li>reply_text (str): The reply string of the agent</li>
+<li>valid (bool): Whether this reply is valid. If it is invalid, the client should keep requesting until receiving a valid response.</li>
+<li>references (Dict[str, int]): Key -- the path of the reference file, Value -- the file size of the ref file</li>
+<li>error (str): The error message. If no error occurs, it is <code>None</code></li>
+<li>inner_chat (bool): Whether this reply is an <code>inner</code> reply. If <code>True</code>, the client should send the user's next message to
+the corresponding <code>Inner</code> URL.</li>
+</ul>
+<p><strong>ServerSpeechReply</strong>:</p>
+<ul>
+<li>reply_speech (str): The file path of the agent's speech reply</li>
+<li>valid (bool):  Whether this reply is valid. If it is invalid, the client should keep requesting until receiving a valid response.</li>
+<li>references (Dict[str, int]): Key -- the path of the reference file, Value -- the file size of the ref file</li>
+<li>inner_chat: Optional[bool]: Whether this reply is an <code>inner</code> reply. If <code>True</code>, the client should send the user's next message to
+the corresponding <code>Inner</code> URL.</li>
+<li>error (str): The error message. If no error occurs, it is <code>None</code></li>
+</ul>
 <h2 id="corresponding-inner-url">Corresponding Inner URL:<a class="headerlink" href="#corresponding-inner-url" title="Permanent link">&para;</a></h2>
 <h3 id="chat-with-text_1">Chat with text:<a class="headerlink" href="#chat-with-text_1" title="Permanent link">&para;</a></h3>
 <p>Inner URL: <code>/users/{user_id}/inner_chat_text</code></p>

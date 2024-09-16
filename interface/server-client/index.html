@@ -7938,9 +7938,11 @@
 <h2 id="_1">数据结构：<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <h2 id="client">Client上传的数据：<a class="headerlink" href="#client" title="Permanent link">&para;</a></h2>
 <h3 id="user-log-up-log-in">User log up, log in:<a class="headerlink" href="#user-log-up-log-in" title="Permanent link">&para;</a></h3>
-<p><a href="labridge/interface/http_server">ClientLogInUpReq</a>:
-- user_id: 用户名
-- password: 用户密码</p>
+<p><a href="labridge/interface/http_server">ClientLogInUpReq</a>:</p>
+<ul>
+<li>user_id: 用户名</li>
+<li>password: 用户密码</li>
+</ul>
 <p>Sign in:</p>
 <ul>
 <li>Post URL: <code>/accounts/log-up</code></li>
@@ -7952,15 +7954,19 @@
 <li>Return: 若成功返回user_id，失败返回None</li>
 </ul>
 <h3 id="chat-with-text">Chat with text:<a class="headerlink" href="#chat-with-text" title="Permanent link">&para;</a></h3>
-<p><a href="labridge/interface/http_server">ClientTextReq</a>:
-- text (str): 用户的消息字符串
-- reply_in_speech (bool): 用户希望得到语音回复还是文本回复。
-- enable_instruct (bool): 当前轮次QA, 用户是否介入Agent的Reasoning
-- enable_comment (bool): 当前轮次QA, 用户是否介入Agent的Acting</p>
+<p><a href="labridge/interface/http_server">ClientTextReq</a>:</p>
+<ul>
+<li>text (str): 用户的消息字符串</li>
+<li>reply_in_speech (bool): 用户希望得到语音回复还是文本回复。</li>
+<li>enable_instruct (bool): 当前轮次QA, 用户是否介入Agent的Reasoning</li>
+<li>enable_comment (bool): 当前轮次QA, 用户是否介入Agent的Acting</li>
+</ul>
 <p>Post URL: <code>/users/{user_id}/chat_text</code></p>
 <h3 id="download-file">Download File:<a class="headerlink" href="#download-file" title="Permanent link">&para;</a></h3>
-<p><a href="labridge/interface/http_server.py">ClientDownloadReq</a>:
-- filepath (str): 申请下载的文件路径</p>
+<p><a href="labridge/interface/http_server.py">ClientDownloadReq</a>:</p>
+<ul>
+<li>filepath (str): 申请下载的文件路径</li>
+</ul>
 <p>Post URL: <code>/users/{user_id}/files/bytes</code></p>
 <h3 id="chat-with-file">Chat with file:<a class="headerlink" href="#chat-with-file" title="Permanent link">&para;</a></h3>
 <ul>
@@ -7982,18 +7988,22 @@
 <h2 id="server">从Server获取回复:<a class="headerlink" href="#server" title="Permanent link">&para;</a></h2>
 <p>Get URL: <code>/users/{user_id}/response</code></p>
 <h3 id="_2">返回的数据结构<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
-<p><a href="labridge/agent/chat_msg/msg_types.py">ServerReply</a>:
-- reply_text (str): Agent的回复字符串
-- valid (bool): 本回复是否是有效回复，若没有得到有效回复，客户端应轮询直至获得有效回复
-- references (Dict[str, int]): 参考文件在server的存储路径与文件字节数。
-- error (str): 错误信息，如果没有错误，则为<code>None</code>.
-- inner_chat (bool): 本回复是否是一个Chat调用内部的回复。如果为<code>True</code>, 客户端应该把用户接下来的回复发送到相应的 <code>Inner</code> URL.</p>
-<p><a href="labridge/agent/chat_msg/msg_types.py">ServerSpeechReply</a>:
-- reply_speech (Dict[str, int]): Key: Agent回复的语音文件在Server的存储路径, Value: 语音文件字节数。
-- valid (bool): 本回复是否是有效回复，若没有得到有效回复，客户端应轮询直至获得有效回复
-- references (Dict[str, int]): 参考文件在server的存储路径与文件字节数。
-- inner_chat: Optional[bool] = False
-- error (str): 错误信息，如果没有错误，则为<code>None</code>.</p>
+<p><a href="labridge/agent/chat_msg/msg_types.py">ServerReply</a>:</p>
+<ul>
+<li>reply_text (str): Agent的回复字符串</li>
+<li>valid (bool): 本回复是否是有效回复，若没有得到有效回复，客户端应轮询直至获得有效回复</li>
+<li>references (Dict[str, int]): 参考文件在server的存储路径与文件字节数。</li>
+<li>error (str): 错误信息，如果没有错误，则为<code>None</code>.</li>
+<li>inner_chat (bool): 本回复是否是一个Chat调用内部的回复。如果为<code>True</code>, 客户端应该把用户接下来的回复发送到相应的 <code>Inner</code> URL.</li>
+</ul>
+<p><a href="labridge/agent/chat_msg/msg_types.py">ServerSpeechReply</a>:</p>
+<ul>
+<li>reply_speech (Dict[str, int]): Key: Agent回复的语音文件在Server的存储路径, Value: 语音文件字节数。</li>
+<li>valid (bool): 本回复是否是有效回复，若没有得到有效回复，客户端应轮询直至获得有效回复</li>
+<li>references (Dict[str, int]): 参考文件在server的存储路径与文件字节数。</li>
+<li>inner_chat: Optional[bool] = False</li>
+<li>error (str): 错误信息，如果没有错误，则为<code>None</code>.</li>
+</ul>
 <h2 id="inner-url">相应的 Inner URL:<a class="headerlink" href="#inner-url" title="Permanent link">&para;</a></h2>
 <h3 id="chat-with-text_1">Chat with text:<a class="headerlink" href="#chat-with-text_1" title="Permanent link">&para;</a></h3>
 <p>Inner URL: <code>/users/{user_id}/inner_chat_text</code></p>

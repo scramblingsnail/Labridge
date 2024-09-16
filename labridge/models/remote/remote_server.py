@@ -37,7 +37,7 @@ class ModelOutput(BaseModel):
 
 
 rsp_ok = {"status": "ok"}
-llm = load_server_llm(use_mindspore=True)
+llm = load_server_llm()
 
 
 @app.post("/user_input")
@@ -46,11 +46,16 @@ def post_user_input(req: HTTPChatMessage):
 	response = llm.complete(local_query)
 	return ModelOutput(output=str(response))
 
+
 @app.post("/async_user_input")
 async def apost_user_input(req: HTTPChatMessage):
 	local_query = req.text
 	response = await llm.acomplete(local_query)
 	return ModelOutput(output=str(response))
+
+
+def run_remote_model(host: str, port: int):
+	uvicorn.run(app, host=host, port=port, workers=1)
 
 
 if __name__ == "__main__":

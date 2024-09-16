@@ -343,6 +343,15 @@ class ChatMsgBuffer(object):
 		self.agent_reply_buffer = {user: None for user in users}
 		self.config_buffer = {user: ChatConfig() for user in users}
 
+	def update_buffer_for_new_users(self):
+		users = self.account_manager.get_users()
+		new_user_msg_buffer = {user: [] for user in users if user not in self.user_msg_buffer.keys()}
+		new_agent_reply_buffer = {user: None for user in users if user not in self.agent_reply_buffer.keys()}
+		new_config_buffer = {user: ChatConfig() for user in users if user not in self.config_buffer.keys()}
+		self.user_msg_buffer.update(new_user_msg_buffer)
+		self.agent_reply_buffer.update(new_agent_reply_buffer)
+		self.config_buffer.update(new_config_buffer)
+
 	def clear_user_msg(self, user_id: str):
 		r"""
 		Clear a user's messages in the buffer.

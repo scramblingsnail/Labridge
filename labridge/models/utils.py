@@ -7,7 +7,7 @@ from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.core.postprocessor import SentenceTransformerRerank
 from transformers.utils.quantization_config import BitsAndBytesConfig
 
-from .local.mindspore_models import MindsporeLLM, MindsporeEmbedding
+from .remote.remote_models import RemoteLLM
 
 
 def completion_to_prompt(completion):
@@ -70,8 +70,24 @@ def get_models(
 	max_new_tokens = max_new_tokens or config.get("max_new_tokens")
 
 	if backend.lower() == "mindspore":
-		llm = MindsporeLLM(model_name=model_path)
+		from .local.mindspore_models import MindsporeEmbedding
+
 		embed_model = MindsporeEmbedding(model_name=embed_model_path)
+	else:
+		embed_model = HuggingFaceEmbedding(model_name=embed_model_path)
+
+	use_remote_llm = config.get("use_remote_llm")
+	if use_remote_llm:
+		remote_host = config.get("remote_host")
+		remote_port = config.get("remote_port")
+		remote_base_url = f"http://{remote_host}:{remote_port}"
+		llm = RemoteLLM(base_url=remote_base_url)
+		return llm, embed_model
+
+	if backend.lower() == "mindspore":
+		from .local.mindspore_models import MindsporeLLM
+
+		llm = MindsporeLLM(model_name=model_path)
 		return llm, embed_model
 
 	quantization_config = BitsAndBytesConfig(
@@ -96,5 +112,4 @@ def get_models(
 		completion_to_prompt=completion_to_prompt,
 		model_kwargs=model_kwargs
 	)
-	embed_model = HuggingFaceEmbedding(model_name=embed_model_path)
 	return llm, embed_model

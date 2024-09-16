@@ -14,8 +14,7 @@ from llama_index.core.base.llms.types import (
 	CompletionResponseGen,
 )
 
-from typing import Any
-from typing import Union, List
+from typing import Any, Optional, Union, List
 
 
 DEFAULT_LLM_TIMEOUT = Timeout(timeout=600)
@@ -30,8 +29,10 @@ class RemoteModelType(Enum):
 	LLM = "llm"
 	Embed = "embedding"
 
+
 class RemoteModelInput(BaseModel):
 	text: str
+
 
 class RemoteModelOutput(BaseModel):
 	model_type: RemoteModelType
@@ -191,17 +192,16 @@ class RemoteLLM(CustomLLM):
 	def __init__(
 		self,
 		base_url: str,
-		llm_url: str,
-		async_llm_url: str,
+		llm_url: Optional[str] = None,
+		async_llm_url: Optional[str] = None,
 		context_window: int = 16000,
 		num_output: int = 1024,
 		model_name: str = "remote",
 		is_chat_model: bool = False,
 
 	):
-		base_url = base_url or DEFAULT_BASE_URL
-		llm_url = llm_url or DEFAULT_LLM_URL
-		async_llm_url = async_llm_url or DEFAULT_ASYNC_LLM_URL
+		llm_url = llm_url or f"{base_url}/user_input"
+		async_llm_url = async_llm_url or f"{base_url}/async_user_input"
 		self._client = ModelClient(
 			base_url=URL(base_url),
 			model_type=RemoteModelType.LLM,
@@ -212,7 +212,7 @@ class RemoteLLM(CustomLLM):
 		super().__init__(
 			base_url=base_url,
 			llm_url=llm_url,
-			async_llm_url = async_llm_url,
+			async_llm_url=async_llm_url,
 			context_window=context_window,
 			num_output=num_output,
 			model_name=model_name,
@@ -239,7 +239,6 @@ class RemoteLLM(CustomLLM):
 			return CompletionResponse(text=response)
 		except Exception as e:
 			return CompletionResponse(text=e)
-
 
 	@llm_completion_callback()
 	async def acomplete(self, prompt: str, **kwargs: Any) -> CompletionResponse:
@@ -273,29 +272,28 @@ class RemoteLLM(CustomLLM):
 if __name__ == "__main__":
 	llm = RemoteLLM(
 		base_url=DEFAULT_BASE_URL,
-		llm_url=DEFAULT_LLM_URL,
-		async_llm_url=DEFAULT_ASYNC_LLM_URL,
 	)
+	print("model loaded")
 
-	# query_str = "你好呀，你叫什么名字？"
-	# ss = llm.complete(query_str)
-	# print(ss)
+	query_str = "你好呀，你叫什么名字？"
+	ss = llm.complete(query_str)
+	print(ss)
 
-	query_str_1 = "介绍一下PPO算法"
-	query_str_2 = "介绍一下SAC算法"
-
-	async def main():
-		task1 = asyncio.create_task(
-			llm.acomplete(query_str_1)
-		)
-		task2 = asyncio.create_task(
-			llm.acomplete(query_str_2)
-		)
-
-		answer_1 = await task1
-		answer_2 = await task2
-
-		print(">>> Answer 1: \n", answer_1)
-		print(">>> Answer 2: \n", answer_2)
-
-	asyncio.run(main())
+	# query_str_1 = "介绍一下PPO算法"
+	# query_str_2 = "介绍一下SAC算法"
+	#
+	# async def main():
+	# 	task1 = asyncio.create_task(
+	# 		llm.acomplete(query_str_1)
+	# 	)
+	# 	task2 = asyncio.create_task(
+	# 		llm.acomplete(query_str_2)
+	# 	)
+	#
+	# 	answer_1 = await task1
+	# 	answer_2 = await task2
+	#
+	# 	print(">>> Answer 1: \n", answer_1)
+	# 	print(">>> Answer 2: \n", answer_2)
+	#
+	# asyncio.run(main())

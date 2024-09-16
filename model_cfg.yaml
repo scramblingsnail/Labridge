@@ -4,6 +4,16 @@ backend: "pytorch" # "mindspore"
 # LLM path or name
 llm_name: "/root/autodl-tmp/glm-4-9b-chat"
 embedding_name: "/root/autodl-tmp/bge-large-zh-v1.5"
-
 context_window: 16000
 max_new_tokens: 1024
+
+# Remote LLM
+use_remote_llm: True
+remote_model_name: "/root/autodl-tmp/Qwen2-7B-Instruct"
+remote_generate_kwargs: {"temperature": 0.01, "top_k": 4, "top_p": 0.95}
+remote_backend: "pytorch" # "mindspore"
+remote_context_window: 8000
+remote_max_new_tokens: 1024
+
+remote_host: "127.0.0.1"
+remote_port: 6006

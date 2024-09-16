@@ -84,11 +84,12 @@ async def user_login(req: ClientLogInUpReq):
         return AccountResponse()
 
 
-@app.post("/accounts/log-up")
-async def user_log_up(req: ClientLogInUpReq):
+@app.post("/accounts/sign-up")
+async def user_sign_up(req: ClientLogInUpReq):
     account_manager = AccountManager()
     account_manager.add_user(user_id=req.user_id, password=req.password)
     ChatAgent.update_users()
+    ChatBuffer.update_buffer_for_new_users()
     return AccountResponse(user_id=req.user_id)
 
 

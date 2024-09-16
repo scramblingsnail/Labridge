@@ -1,9 +1,10 @@
 import torch
+import yaml
 
+from pathlib import Path
 from llama_index.llms.huggingface import HuggingFaceLLM
 from transformers.utils.quantization_config import BitsAndBytesConfig
 
-from ..api.zhipu import ZhiPuLLM
 from ..local.mindspore_models import MindsporeLLM
 
 
@@ -40,22 +41,31 @@ def messages_to_prompt(messages):
 	return prompt
 
 
+def load_server_model_config():
+	root = Path(__file__)
+	for idx in range(4):
+		root = root.parent
+
+	cfg_path = str(root / "model_cfg.yaml")
+
+	with open(cfg_path, 'r') as f:
+		config = yaml.safe_load(f)
+	return config
+
+
 def load_server_llm(
 	model_path: str = None,
 	context_window: int = None,
 	max_new_tokens: int = None,
 	generate_kwargs: dict = None,
 	load_in_8bit: bool = True,
-	use_api: bool = False,
 	use_mindspore: bool = False,
 ):
-	model_path = model_path or DEFAULT_SERVER_LLM_PATH
-	context_window = context_window or DEFAULT_SERVER_CONTEXT_WINDOW
-	max_new_tokens = max_new_tokens or DEFAULT_SERVER_MAX_NEW_TOKENS
-	generate_kwargs = generate_kwargs or DEFAULT_SERVER_GENERATE_KWARGS
-	if use_api:
-		llm = ZhiPuLLM()
-		return llm
+	config = load_server_model_config()
+	model_path = model_path or config["remote_model_name"]
+	context_window = context_window or config["remote_context_window"]
+	max_new_tokens = max_new_tokens or config["remote_max_new_tokens"]
+	generate_kwargs = generate_kwargs or config["remote_generate_kwargs"]
 
 	if use_mindspore:
 		llm = MindsporeLLM()

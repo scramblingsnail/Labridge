@@ -3,3 +3,6 @@ venv/
 __pycache__/
 .vscode/settings.json
 site/
+documents/
+storage/
+labridge/models/api

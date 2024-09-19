@@ -19,7 +19,6 @@ import soundfile
 
 from typing import Optional
 from pathlib import Path
-from scipy.signal import resample
 
 
 STATUS_FIRST_FRAME = 0  # 第一帧的标识

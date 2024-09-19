@@ -11,14 +11,24 @@ from wsgiref.handlers import format_date_time
 from datetime import datetime
 from time import mktime
 import _thread as thread
+import numpy as np
 import fsspec
 
 from typing import Optional
+from pathlib import Path
 
 
 STATUS_FIRST_FRAME = 0  # 第一帧的标识
 STATUS_CONTINUE_FRAME = 1  # 中间帧标识
 STATUS_LAST_FRAME = 2  # 最后一帧的标识
+
+
+def wav2pcm(wav_path, pcm_path, data_type=np.int16):
+    f = open(wav_path, "rb")
+    f.seek(0)
+    f.read(44)
+    data = np.fromfile(f, dtype=data_type)
+    data.tofile(pcm_path)
 
 
 class WsParam(object):
@@ -63,7 +73,6 @@ class WsParam(object):
         url = url + '?' + urlencode(v)
         # print("date: ",date)
         # print("v: ",v)
-        # 此处打印出建立连接时候的url,参考本demo的时候可取消上方打印的注释，比对相同参数时生成的url与自己代码生成的url是否一致
         # print('websocket url :', url)
         return url
 
@@ -91,7 +100,15 @@ class _ASRWorker(websocket.WebSocketApp):
     def transform(self, speech_path: str) -> Optional[str]:
         self.result_text = None
         if self.fs.exists(speech_path):
-            self.ws_param.AudioFile = speech_path
+            suffix = Path(speech_path).suffix
+            if suffix == ".pcm":
+                self.ws_param.AudioFile = speech_path
+            elif suffix == ".wav":
+                pcm_path = speech_path[:-4] + ".pcm"
+                wav2pcm(wav_path=speech_path, pcm_path=pcm_path)
+                self.ws_param.AudioFile = pcm_path
+            else:
+                return None
             self.run_forever(sslopt={"cert_reqs": ssl.CERT_NONE})
             return self.result_text
         return None
@@ -182,5 +199,5 @@ class _ASRWorker(websocket.WebSocketApp):
 websocket.enableTrace(False)
 ASRWorker = _ASRWorker()
 
-# text = ASRWorker.transform(speech_path=r"/root/zhisan/Labridge/labridge/interface/query_1.pcm")
+# text = ASRWorker.transform(speech_path=r"D:\python_works\Labridge\query_wav.wav")
 # print(text)

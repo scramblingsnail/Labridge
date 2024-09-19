@@ -5,37 +5,43 @@
 ## Client上传的数据：
 
 ### User log up, log in:
-[ClientLogInUpReq](labridge/interface/http_server):
+细节参见源码 `labridge/interface/http_server`
+
+#### ClientLogInUpReq:
 
 - user_id: 用户名
 - password: 用户密码
 
-Sign in:
+#### Sign in:
 
 - Post URL: `/accounts/log-up`
 - Return: 若成功返回user_id，失败返回None
 
-Log up:
+#### Log up:
 
 - Post URL: `/accounts/log-up`
 - Return: 若成功返回user_id，失败返回None
 
 ### Chat with text:
-[ClientTextReq](labridge/interface/http_server):
+细节参见源码 `labridge/interface/http_server`
+
+#### ClientTextReq:
 
 - text (str): 用户的消息字符串
 - reply_in_speech (bool): 用户希望得到语音回复还是文本回复。
 - enable_instruct (bool): 当前轮次QA, 用户是否介入Agent的Reasoning
 - enable_comment (bool): 当前轮次QA, 用户是否介入Agent的Acting
 
-Post URL: `/users/{user_id}/chat_text`
+#### Post URL: `/users/{user_id}/chat_text`
 
 ### Download File:
-[ClientDownloadReq](labridge/interface/http_server.py):
+细节参见源码 `labridge/interface/http_server`
+
+#### ClientDownloadReq:
 
 - filepath (str): 申请下载的文件路径
 
-Post URL: `/users/{user_id}/files/bytes`
+#### Post URL: `/users/{user_id}/files/bytes`
 
 ### Chat with file:
 - file (bytes): 上传文件的二进制数据
@@ -45,20 +51,24 @@ Post URL: `/users/{user_id}/files/bytes`
 - enable_instruct (bool): 当前轮次QA, 用户是否介入Agent的Reasoning
 - enable_comment (bool): 当前轮次QA, 用户是否介入Agent的Acting
 
-Post URL: `/users/{user_id}/chat_with_file`
+#### Post URL: `/users/{user_id}/chat_with_file`
 
 ### Chat with speech:
 - file (bytes): 语音文件的二进制数据
+- file_suffix (str): 语音文件的后缀。支持： `.wav`
+- reply_in_speech (bool): 用户希望得到语音回复还是文本回复。
 - enable_instruct (bool): 当前轮次QA, 用户是否介入Agent的Reasoning
 - enable_comment (bool): 当前轮次QA, 用户是否介入Agent的Acting
 
-Post URL: `/users/{user_id}/chat_speech`
+#### Post URL: `/users/{user_id}/chat_speech`
 
 ## 从Server获取回复:
-Get URL: `/users/{user_id}/response`
+### Get URL: `/users/{user_id}/response`
 
 ### 返回的数据结构
-[ServerReply](labridge/agent/chat_msg/msg_types.py):
+细节参见源码 `labridge/agent/chat_msg/msg_types.py`
+
+#### ServerReply:
 
 - reply_text (str): Agent的回复字符串
 - valid (bool): 本回复是否是有效回复，若没有得到有效回复，客户端应轮询直至获得有效回复
@@ -66,7 +76,7 @@ Get URL: `/users/{user_id}/response`
 - error (str): 错误信息，如果没有错误，则为`None`.
 - inner_chat (bool): 本回复是否是一个Chat调用内部的回复。如果为`True`, 客户端应该把用户接下来的回复发送到相应的 `Inner` URL.
 
-[ServerSpeechReply](labridge/agent/chat_msg/msg_types.py):
+#### ServerSpeechReply:
 
 - reply_speech (Dict[str, int]): Key: Agent回复的语音文件在Server的存储路径, Value: 语音文件字节数。
 - valid (bool): 本回复是否是有效回复，若没有得到有效回复，客户端应轮询直至获得有效回复

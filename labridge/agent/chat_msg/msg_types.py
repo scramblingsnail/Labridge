@@ -22,8 +22,11 @@ CLIENT_READY_FOR_DOWNLOAD = "ReadyForDownload"
 
 USER_TMP_DIR = "tmp"
 
-USER_SPEECH_NAME = "user_speech.pcm"
+USER_SPEECH_NAME = "user_speech"
+SUPPORT_USER_SPEECH_SUFFIX = [".wav"]
+
 AGENT_SPEECH_NAME = "agent_reply"
+
 
 
 class BaseClientMessage(BaseModel):
@@ -256,7 +259,8 @@ class UserMsgFormatter(object):
 		for msg in msgs:
 			if isinstance(msg, ChatSpeechMessage):
 				user_str = self._speech_to_text(msg=msg)
-				user_queries.append(user_str)
+				if user_str:
+					user_queries.append(user_str)
 			elif isinstance(msg, FileWithTextMessage):
 				system_str, user_str = self._formatted_file_with_text(msg=msg, file_idx=file_idx)
 				file_idx += 1
@@ -344,6 +348,12 @@ class ChatMsgBuffer(object):
 		self.config_buffer = {user: ChatConfig() for user in users}
 
 	def update_buffer_for_new_users(self):
+		r"""
+		When new users are registered, update the buffer.
+
+		Returns:
+			None
+		"""
 		users = self.account_manager.get_users()
 		new_user_msg_buffer = {user: [] for user in users if user not in self.user_msg_buffer.keys()}
 		new_agent_reply_buffer = {user: None for user in users if user not in self.agent_reply_buffer.keys()}
@@ -431,9 +441,14 @@ class ChatMsgBuffer(object):
 		packed_msgs = self.user_msg_formatter.formatted_msgs(msgs=[text_msg])
 		return packed_msgs
 
-	def default_user_speech_path(self, user_id: str) -> str:
+	def default_user_speech_path(self, user_id: str, speech_suffix: str) -> str:
 		r""" Default save path of a user's speech. """
-		user_speech_path = self._root / f"{USER_TMP_DIR}/{user_id}/{USER_SPEECH_NAME}"
+		if speech_suffix not in SUPPORT_USER_SPEECH_SUFFIX:
+			raise ValueError(
+				f"The audio file type {speech_suffix} is not supported,"
+				f"use one of {SUPPORT_USER_SPEECH_SUFFIX} instead."
+			)
+		user_speech_path = self._root / f"{USER_TMP_DIR}/{user_id}/{USER_SPEECH_NAME}{speech_suffix}"
 		dir_pth = str(user_speech_path.parent)
 		if not self._fs.exists(dir_pth):
 			self._fs.mkdirs(dir_pth)

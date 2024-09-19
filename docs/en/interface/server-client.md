@@ -24,6 +24,9 @@ Log up:
 **ClientTextReq**:
 
 - text (str): The message string of the user
+- reply_in_speech (bool): 用户希望得到语音回复还是文本回复。
+- enable_instruct (bool): 当前轮次QA, 用户是否介入Agent的Reasoning
+- enable_comment (bool): 当前轮次QA, 用户是否介入Agent的Acting
 
 Post URL: `/users/{user_id}/chat_text`
 

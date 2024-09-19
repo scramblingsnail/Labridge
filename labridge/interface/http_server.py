@@ -75,7 +75,7 @@ async def single_chat(user_id: str):
 
 
 @app.post("/accounts/log-in")
-async def user_login(req: ClientLogInUpReq):
+async def user_log_in(req: ClientLogInUpReq):
     account_manager = AccountManager()
     log_in = account_manager.user_log_in(user_id=req.user_id, password=req.password)
     if log_in:
@@ -126,9 +126,9 @@ async def post_inner_chat_with_file(
     file: bytes = File(),
     file_name: str = Form(),
     text: str = Form(),
-    reply_in_speech: bool = False,
-    enable_instruct: bool = False,
-    enable_comment: bool = False,
+    reply_in_speech: bool = Form(),
+    enable_instruct: bool = Form(),
+    enable_comment: bool = Form(),
 ):
     tmp_path = ChatBuffer.default_tmp_file_path(
         user_id=user_id,
@@ -159,8 +159,8 @@ async def post_chat_with_file(
     file_name: str = Form(),
     text: str = Form(),
     reply_in_speech: bool = Form(),
-    enable_instruct: bool = False,
-    enable_comment: bool = False,
+    enable_instruct: bool = Form(),
+    enable_comment: bool = Form(),
 ):
     tmp_path = ChatBuffer.default_tmp_file_path(
         user_id=user_id,
@@ -187,70 +187,16 @@ async def post_chat_with_file(
         await single_chat(user_id=user_id)
 
 
-# @app.post("/users/{user_id}/inner_chat_with_file/app")
-# async def post_inner_chat_with_file_app(
-#     user_id: str,
-#     file: bytes,
-#     file_name: str,
-#     text: str,
-#     reply_in_speech: bool = False,
-# ):
-#     tmp_path = ChatBuffer.default_tmp_file_path(
-#         user_id=user_id,
-#         file_name=file_name,
-#     )
-#     save_temporary_file(
-#         tmp_path=tmp_path,
-#         file_bytes=file,
-#     )
-#     user_msg = FileWithTextMessage(
-#         user_id=user_id,
-#         attached_text=text,
-#         file_path=tmp_path,
-#         reply_in_speech=reply_in_speech,
-#     )
-#     ChatBuffer.put_user_msg(user_msg=user_msg)
-#
-#
-# @app.post("/users/{user_id}/chat_with_file/app")
-# async def post_chat_with_file_app(
-#     user_id: str,
-#     file: bytes,
-#     file_name: str,
-#     text: str,
-#     reply_in_speech: bool = False,
-# ):
-#     tmp_path = ChatBuffer.default_tmp_file_path(
-#         user_id=user_id,
-#         file_name=file_name,
-#     )
-#
-#     save_temporary_file(
-#         tmp_path=tmp_path,
-#         file_bytes=file,
-#     )
-#
-#     user_msg = FileWithTextMessage(
-#         user_id=user_id,
-#         attached_text=text,
-#         file_path=tmp_path,
-#         reply_in_speech=reply_in_speech,
-#     )
-#
-#     ChatBuffer.put_user_msg(user_msg=user_msg)
-#
-#     if not ChatAgent.is_chatting(user_id=user_id):
-#         await single_chat(user_id=user_id)
-
-
 @app.post("/users/{user_id}/inner_chat_speech")
 async def post_inner_chat_speech(
     user_id: str,
     file: bytes = File(),
-    enable_instruct: bool = False,
-    enable_comment: bool = False,
+    file_suffix: str = Form(),
+    reply_in_speech: bool = Form(),
+    enable_instruct: bool = Form(),
+    enable_comment: bool = Form(),
 ):
-    speech_path = ChatBuffer.default_user_speech_path(user_id=user_id)
+    speech_path = ChatBuffer.default_user_speech_path(user_id=user_id, speech_suffix=file_suffix)
     save_temporary_file(
         tmp_path=speech_path,
         file_bytes=file,
@@ -258,7 +204,7 @@ async def post_inner_chat_speech(
     user_msg = ChatSpeechMessage(
         user_id=user_id,
         speech_path=speech_path,
-        reply_in_speech=True,
+        reply_in_speech=reply_in_speech,
         enable_instruct=enable_instruct,
         enable_comment=enable_comment,
     )
@@ -269,8 +215,9 @@ async def post_inner_chat_speech(
 async def post_chat_speech(
     user_id: str,
     file: bytes = File(),
-    enable_instruct: bool = False,
-    enable_comment: bool = False,
+    reply_in_speech: bool = Form(),
+    enable_instruct: bool = Form(),
+    enable_comment: bool = Form(),
 ):
     speech_path = ChatBuffer.default_user_speech_path(user_id=user_id)
     save_temporary_file(
@@ -281,7 +228,7 @@ async def post_chat_speech(
     user_msg = ChatSpeechMessage(
         user_id=user_id,
         speech_path=speech_path,
-        reply_in_speech=True,
+        reply_in_speech=reply_in_speech,
         enable_instruct=enable_instruct,
         enable_comment=enable_comment,
     )
@@ -291,46 +238,6 @@ async def post_chat_speech(
     if not ChatAgent.is_chatting(user_id=user_id):
         await single_chat(user_id=user_id)
 
-
-# @app.post("/users/{user_id}/inner_chat_speech/app")
-# async def post_chat_speech_app(user_id: str, file: bytes = File()):
-#     speech_path = ChatBuffer.default_user_speech_path(user_id=user_id)
-#     save_temporary_file(
-#         tmp_path=speech_path,
-#         file_bytes=file,
-#     )
-#     user_msg = ChatSpeechMessage(
-#         user_id=user_id,
-#         speech_path=speech_path,
-#         reply_in_speech=True,
-#     )
-#     ChatBuffer.put_user_msg(user_msg=user_msg)
-#
-#
-# @app.post("/users/{user_id}/chat_speech/app")
-# async def post_chat_speech_app(user_id: str, file: Tuple[str, bytes]):
-#
-#     print(user_id)
-#     print(type(file))
-#     print(file)
-#     raise ValueError
-#
-#     speech_path = ChatBuffer.default_user_speech_path(user_id=user_id)
-#     save_temporary_file(
-#         tmp_path=speech_path,
-#         file_bytes=file,
-#     )
-#
-#     user_msg = ChatSpeechMessage(
-#         user_id=user_id,
-#         speech_path=speech_path,
-#         reply_in_speech=True,
-#     )
-#
-#     ChatBuffer.put_user_msg(user_msg=user_msg)
-#
-#     if not ChatAgent.is_chatting(user_id=user_id):
-#         await single_chat(user_id=user_id)
 
 @app.post("/users/{user_id}/files/bytes")
 async def get_file(user_id: str, req: ClientDownloadReq):
@@ -344,6 +251,7 @@ async def get_file(user_id: str, req: ClientDownloadReq):
             user_id=user_id,
         )
         return FileResponse(path=error_path, filename=error_f_name)
+
 
 @app.get("/users/{user_id}/files/{filepath}")
 async def get_get_file(uesr_id:str, filepath:str):

@@ -187,5 +187,5 @@ TTSWorker = _TTSWorker()
 # )
 # TTSWorker.transform(
 #     text=text,
-#     speech_name="/root/zhisan/Labridge/labridge/interface/query_wav",
+#     speech_name="D:/python_works/Labridge/query_wav",
 # )

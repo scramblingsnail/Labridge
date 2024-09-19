@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
@@ -7,8 +9,11 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:labridge/chat_agent.dart';
+import 'package:labridge/message/message_input.dart';
 import 'package:labridge/pages/login_page.dart';
 import 'package:labridge/pdf_viewer_route.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:record/record.dart';
 import 'package:uuid/uuid.dart';
 import 'package:path/path.dart' as p;
 import 'package:labridge/message/audio_message.dart';
@@ -16,14 +21,11 @@ import 'package:labridge/pages/settings_page.dart';
 
 import '../main.dart';
 
-const uuid = Uuid();
-
-final _labridgeId = uuid.v5(Uuid.NAMESPACE_URL, 'Labridge');
-final _labridge = types.User(id: _labridgeId, firstName: 'Labridge');
-
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key, required this.userName});
 
+  /// userName determines server URL.
+  /// It should be a registered name in server.
   final String userName;
 
   @override
@@ -31,43 +33,103 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+  /// chat messages list
   final List<types.Message> _messages = [];
 
-  // final chatAgent = ChatAgent('yichenzhao');
-
+  /// audio player instance
   final player = AudioPlayer();
-  late final ChatAgent chatAgent;
-  late final types.User _user;
+  final recorder = AudioRecorder();
 
+  /// unique id
+  final uuid = const Uuid();
+
+  late final _labridgeId = uuid.v5(Uuid.NAMESPACE_URL, 'Labridge');
+  late final _labridge = types.User(id: _labridgeId, firstName: 'Labridge');
+
+  late final ChatAgent chatAgent = ChatAgent(widget.userName);
+  late final types.User _user = types.User(
+      id: '82091008-a484-4a89-ae75-a22bf8d6f3ac', firstName: widget.userName);
+
+  late final String audioFileStorageDirectory;
+
+
+  /// denote current chat status defined in our LLM server
   bool _isInnerChat = false;
 
-  // bool _clearButtonVisible = false;
   double _clearButtonWidth = 0.0;
-  Color _textColor = Colors.transparent;
+
+  /// can be [Colors.transparent] or [Colors.white]
+  /// When message length > 1, [_clearButtonTextColor] is set [Colors.white]
+  Color _clearButtonTextColor = Colors.transparent;
 
   int _waitForUploadingContentsCount = 0;
+
+  /// [waitForUploadingFile] is a file instance storing file which will be uploaded to server
   PlatformFile? waitForUploadingFile;
+
+  /// stores bytes of file
   Uint8List? waitForUploadingFileBytes;
+
+  /// Message instance in chat
   types.FileMessage? fileMessage;
 
-  String randomId() {
-    const uuid = Uuid();
+  final OverlayEntry overlayEntry =
+      OverlayEntry(builder: (BuildContext context) {
+    return Center(
+        child: Opacity(
+            opacity: 0.5,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.grey, borderRadius: BorderRadius.circular(8)),
+              width: 100,
+              height: 100,
+              child: const Column(
+                children: [
+                  Icon(
+                    Icons.keyboard_voice,
+                    size: 80,
+                  ),
+                  Text(
+                    '录音中',
+                    style: TextStyle(
+                        fontSize: 12,
+                        decoration: TextDecoration.none,
+                        color: Colors.white70),
+                  )
+                ],
+              ),
+            )));
+  });
+
+  /// [randomUniqueId] can generate unique id for each message
+  String randomUniqueId() {
     return uuid.v8();
+  }
+
+  @override
+  void dispose() {
+    overlayEntry.remove();
+    overlayEntry.dispose();
+
+    recorder.dispose();
+
+    super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    chatAgent = ChatAgent(widget.userName);
-    _user = types.User(
-        id: '82091008-a484-4a89-ae75-a22bf8d6f3ac', firstName: widget.userName);
+    getTemporaryDirectory().then((Directory directory) {
+      audioFileStorageDirectory = directory.path;
+    });
+    recorder.hasPermission();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
+        // elevation: 0.2,
         backgroundColor: Colors.grey[100],
         // 防止滚动时变色
         scrolledUnderElevation: 0.0,
@@ -76,6 +138,11 @@ class _ChatPageState extends State<ChatPage> {
           'Labridge',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
+        shape: Border(
+            bottom: BorderSide(
+          color: Colors.grey[200]!,
+          width: 0.5,
+        )),
         actions: [
           AnimatedContainer(
             duration: const Duration(milliseconds: 300),
@@ -88,7 +155,7 @@ class _ChatPageState extends State<ChatPage> {
                     ? () {
                         setState(() {
                           _messages.clear();
-                          _textColor = Colors.transparent;
+                          _clearButtonTextColor = Colors.transparent;
                           _clearButtonWidth = 0.0;
                         });
                         chatAgent.clearHistory();
@@ -103,7 +170,7 @@ class _ChatPageState extends State<ChatPage> {
                   child: Text(
                     '清空',
                     style: TextStyle(
-                        color: _textColor,
+                        color: _clearButtonTextColor,
                         fontWeight: FontWeight.w400,
                         fontSize: 14),
                     textAlign: TextAlign.center,
@@ -113,7 +180,7 @@ class _ChatPageState extends State<ChatPage> {
             ),
             onEnd: () {
               setState(() {
-                _textColor = Colors.white;
+                _clearButtonTextColor = Colors.white;
               });
             },
           ),
@@ -192,28 +259,75 @@ class _ChatPageState extends State<ChatPage> {
         usePreviewData: false,
         showUserNames: true,
         user: _user,
+        customBottomWidget: CustomMessageInput(
+          handleSendPressed: _handleSendPressed,
+          handleAttachmentPressed: _handleAttachmentPressed,
+          onTapUp: (_) async {
+            await recorder.stop();
+            overlayEntry.remove();
+            _sendAudioMessage();
+          },
+          onTapDown: (_) async {
+            Overlay.of(context).insert(overlayEntry);
+            await recorder.start(const RecordConfig(encoder: AudioEncoder.wav),
+                path: '$audioFileStorageDirectory/user_audio.wav');
+          },
+          onTapCancel: () {
+            overlayEntry.remove();
+            recorder.cancel();
+          },
+        ),
         theme: DefaultChatTheme(
-            attachmentButtonIcon: _waitForUploadingContentsCount == 0
-                ? const Icon(
-                    Icons.attach_file_rounded,
-                    color: Colors.white,
-                  )
-                : Badge.count(
-                    count: 1,
-                    backgroundColor: Colors.blue,
-                    child: const Icon(
-                      Icons.attach_file_rounded,
-                      color: Colors.white,
-                    ),
-                  )),
+            backgroundColor: Colors.grey[100]!,
+            secondaryColor: Colors.white,
+            attachmentButtonIcon: Row(
+              children: [
+                _waitForUploadingContentsCount == 0
+                    ? const Icon(
+                        Icons.attach_file_rounded,
+                        color: Colors.white,
+                      )
+                    : Badge.count(
+                        count: 1,
+                        backgroundColor: Colors.blue,
+                        child: const Icon(
+                          Icons.attach_file_rounded,
+                          color: Colors.white,
+                        ),
+                      ),
+              ],
+            )),
       ),
     );
   }
 
-  void _addMessage(types.Message message) {
+  void _addMessageToChat(types.Message message) {
     setState(() {
       _messages.insert(0, message);
     });
+  }
+
+  void _sendAudioMessage() async {
+    final filePath = '$audioFileStorageDirectory/user_audio.wav';
+    final file = File(filePath);
+    final fileBytes = await file.readAsBytes();
+    // final fileSize = await file.
+    final audioMessage = types.AudioMessage(
+      author: _user,
+      duration: const Duration(milliseconds: 1),
+      id: randomUniqueId(),
+      name: 'my speech',
+      size: fileBytes.length,
+      uri: '$audioFileStorageDirectory/user_audio.wav',
+    );
+
+    _addMessageToChat(audioMessage);
+
+    chatAgent.chatWithAudio(fileBytes, isInnerChat: _isInnerChat);
+
+    var response = await chatAgent.singleGetResponse();
+    _parserReplyContent(response);
+    // await recorder.start(const RecordConfig(encoder: AudioEncoder.wav), path: '$documentDir/test.wav');
   }
 
   void _handleAttachmentPressed() {
@@ -279,7 +393,7 @@ class _ChatPageState extends State<ChatPage> {
       fileMessage = types.FileMessage(
         author: _user,
         createdAt: DateTime.now().millisecondsSinceEpoch,
-        id: randomId(),
+        id: randomUniqueId(),
         name: result.files.single.name,
         size: result.files.single.size,
         uri: !kIsWeb ? result.files.single.path! : result.files.single.name,
@@ -316,14 +430,14 @@ class _ChatPageState extends State<ChatPage> {
         author: _user,
         createdAt: DateTime.now().millisecondsSinceEpoch,
         height: image.height.toDouble(),
-        id: randomId(),
+        id: randomUniqueId(),
         name: result.name,
         size: bytes.length,
         uri: result.path,
         width: image.width.toDouble(),
       );
 
-      _addMessage(message);
+      _addMessageToChat(message);
     }
   }
 
@@ -388,6 +502,69 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
+  void _parserReplyContent(Map<String, dynamic> response) async {
+    _isInnerChat = response['inner_chat'];
+
+    /// determine which reply was sent from server
+    /// {'reply_text' : string } or {'reply_speech' : Map<String, int>}
+    /// For more information, please see  https://github.com/scramblingsnail/Labridge/blob/main/docs/zh/interface/server-client.md
+    if (response.containsKey('reply_text')) {
+      final labridgeTextMessage = types.TextMessage(
+        author: _labridge,
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        id: randomUniqueId(),
+        text: response['reply_text'].toString().trim(),
+      );
+      _addMessageToChat(labridgeTextMessage);
+    } else {
+      final replySpeechPaths = Map<String, int>.from(response['reply_speech']);
+
+      for (final speechPathEntry in replySpeechPaths.entries) {
+        var localPath = await chatAgent.downloadFile(speechPathEntry.key);
+        // print(localPath);
+        final labridgeAudioMessage = types.AudioMessage(
+          author: _labridge,
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          id: randomUniqueId(),
+          name: p.basename(localPath),
+          size: speechPathEntry.value,
+          uri: localPath,
+          duration: const Duration(seconds: 4),
+        );
+        _addMessageToChat(labridgeAudioMessage);
+      }
+    }
+
+    /// process extra_info
+    if (response['extra_info'] != null) {
+      final labridgeTextMessage = types.TextMessage(
+        author: _labridge,
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        id: randomUniqueId(),
+        text: response['extra_info'].toString().trim(),
+      );
+      _addMessageToChat(labridgeTextMessage);
+    }
+
+    /// Reference Files. For example, research articles
+    if (response['references'] != null) {
+      final references = Map<String, int>.from(response['references']);
+      for (final referEntry in references.entries) {
+        var fileName = referEntry.key.replaceAll('\\', '/');
+        fileName = p.basename(fileName);
+        final fileMessage = types.FileMessage(
+          author: _labridge,
+          id: randomUniqueId(),
+          name: fileName,
+          size: referEntry.value,
+          uri: 'remote:${referEntry.key}',
+        );
+
+        _addMessageToChat(fileMessage);
+      }
+    }
+  }
+
   void _handleSendPressed(types.PartialText message) async {
     /// TODO: performance
     setState(() {
@@ -397,16 +574,17 @@ class _ChatPageState extends State<ChatPage> {
     final textMessage = types.TextMessage(
       author: _user,
       createdAt: DateTime.now().millisecondsSinceEpoch,
-      id: randomId(),
+      id: randomUniqueId(),
       text: message.text,
     );
 
-    _addMessage(textMessage);
+    _addMessageToChat(textMessage);
+
     Map<String, dynamic> response;
 
     /// 发送消息并等待响应
     if (_waitForUploadingContentsCount == 0) {
-      chatAgent.query(
+      chatAgent.chatWithText(
         message.text,
         isInnerChat: _isInnerChat,
         replyInSpeech: settings.replyInSpeech,
@@ -415,11 +593,12 @@ class _ChatPageState extends State<ChatPage> {
       );
       response = await chatAgent.singleGetResponse();
     } else {
-      _addMessage(fileMessage!);
+      _addMessageToChat(fileMessage!);
       setState(() {
         _waitForUploadingContentsCount = 0;
       });
-      chatAgent.queryInFile(
+
+      chatAgent.chatWithFile(
         waitForUploadingFileBytes!,
         waitForUploadingFile!.name,
         message.text,
@@ -431,65 +610,6 @@ class _ChatPageState extends State<ChatPage> {
       response = await chatAgent.singleGetResponse();
     }
 
-    _isInnerChat = response['inner_chat'];
-
-    /// update message
-    if (response.containsKey('reply_text')) {
-      final labridgeTextMessage = types.TextMessage(
-        author: _labridge,
-        createdAt: DateTime.now().millisecondsSinceEpoch,
-        id: randomId(),
-        text: response['reply_text'].toString().trim(),
-      );
-      _addMessage(labridgeTextMessage);
-    } else {
-      final replySpeechPaths = Map<String, int>.from(response['reply_speech']);
-
-      for (final speechPathEntry in replySpeechPaths.entries) {
-        var localPath = await chatAgent.downloadFile(speechPathEntry.key);
-        // print(localPath);
-        final labridgeAudioMessage = types.AudioMessage(
-          author: _labridge,
-          createdAt: DateTime.now().millisecondsSinceEpoch,
-          id: randomId(),
-          name: p.basename(localPath),
-          size: speechPathEntry.value,
-          uri: localPath,
-          duration: const Duration(seconds: 4),
-        );
-        _addMessage(labridgeAudioMessage);
-      }
-    }
-
-    /// process extra_info
-    if (response['extra_info'] != null) {
-      final labridgeTextMessage = types.TextMessage(
-        author: _labridge,
-        createdAt: DateTime.now().millisecondsSinceEpoch,
-        id: randomId(),
-        text: response['extra_info'].toString().trim(),
-      );
-      _addMessage(labridgeTextMessage);
-    }
-
-    if (response['references'] != null) {
-      // print('object');
-
-      final references = Map<String, int>.from(response['references']);
-      // print(references.keys);
-      for (final referEntry in references.entries) {
-        var fileName = referEntry.key.replaceAll('\\', '/');
-        fileName = p.basename(fileName);
-        final fileMessage = types.FileMessage(
-          author: _labridge,
-          id: randomId(),
-          name: fileName,
-          size: referEntry.value,
-          uri: 'remote:${referEntry.key}',
-        );
-
-        _addMessage(fileMessage);
-      }
-    }
+    _parserReplyContent(response);
   }
 }

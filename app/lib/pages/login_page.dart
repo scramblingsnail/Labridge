@@ -25,13 +25,19 @@ class LoginPage extends StatelessWidget {
     if (states.contains(WidgetState.pressed)) {
       return const BoxDecoration(
         gradient: LinearGradient(
-          colors: <Color>[Color(0xff1677ff), Color(0xff1677ff)],
+          colors: <Color>[
+            Color(0xff1677ff),
+            Color(0xff1677ff),
+          ],
         ),
       );
     }
     return const BoxDecoration(
       gradient: LinearGradient(
-        colors: <Color>[Color(0x991677ff), Color(0xff1677ff)],
+        colors: <Color>[
+          Color(0x991677ff),
+          Color(0xff1677ff),
+        ],
       ),
     );
   }
@@ -41,9 +47,14 @@ class LoginPage extends StatelessWidget {
     var response = await http.post(url,
         body: json.encode({"user_id": userName, "password": password}),
         headers: {'Content-Type': "application/json; charset=utf-8"});
-    if (response.statusCode == 200 && json.decode(response.body) != null) {
-      return true;
-    } else {
+    try {
+      if (response.statusCode == 200 &&
+          json.decode(response.body)['user_id'] != null) {
+        return true;
+      } else {
+        return false;
+      }
+    } on Exception {
       return false;
     }
   }
@@ -134,12 +145,11 @@ class LoginPage extends StatelessWidget {
                             settings.userName = userNameTextController.text;
                             settings.password = passwordTextController.text;
                             if (context.mounted) {
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ChatPage(
-                                          userName:
-                                              userNameTextController.text,
+                                          userName: userNameTextController.text,
                                         )),
                               );
                             }
@@ -184,12 +194,11 @@ class LoginPage extends StatelessWidget {
                             settings.userName = userNameTextController.text;
                             settings.password = passwordTextController.text;
                             if (context.mounted) {
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ChatPage(
-                                          userName:
-                                              userNameTextController.text,
+                                          userName: userNameTextController.text,
                                         )),
                               );
                             }

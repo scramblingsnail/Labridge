@@ -1,20 +1,17 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:labridge/pages/login_page.dart';
 import 'package:labridge/pages/chat_page.dart';
 import 'package:labridge/settings.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 // For the testing purposes, you should probably use https://pub.dev/packages/uuid.
 
 final settings = Settings();
 
 void main() async {
-
   runApp(const MyApp());
   if (Platform.isAndroid) {
     SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
@@ -33,7 +30,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp(
         home: MyHomePage(),
-        theme: ThemeData(textTheme: GoogleFonts.notoSansScTextTheme()),
+        theme: ThemeData(
+          textTheme: GoogleFonts.notoSansScTextTheme(),
+        ),
         debugShowCheckedModeBanner: false,
       );
 }
@@ -49,13 +48,19 @@ class MyHomePage extends StatelessWidget {
         future: _getUserName,
         builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
           if (!snapshot.hasError) {
+            /// if you have logged in llm server, navigate to ChatPage
+            /// or navigate to LoginPage
             if (snapshot.data != null) {
-              return  ChatPage(userName: snapshot.data!,);
+              return ChatPage(
+                userName: snapshot.data!,
+              );
             } else {
               return LoginPage();
             }
           } else {
-            return const Center(child: Text('Error'),);
+            return const Center(
+              child: Text('Error'),
+            );
           }
         });
   }

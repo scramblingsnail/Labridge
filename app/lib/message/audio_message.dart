@@ -16,22 +16,24 @@ class AudioMessageBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
+      color: Theme.of(context).colorScheme.primaryContainer,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: Theme.of(context).colorScheme.primary,
               borderRadius: BorderRadius.circular(21),
             ),
             height: 42,
             width: 42,
-            child: const Icon(Icons.multitrack_audio_rounded),
+            child: const Icon(Icons.multitrack_audio_rounded, color: Colors.white,),
           ),
           Flexible(
             child: Container(
               margin: const EdgeInsetsDirectional.only(
                 start: 16,
+                end: 8
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

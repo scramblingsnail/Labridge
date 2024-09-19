@@ -238,7 +238,7 @@ class RemoteLLM(CustomLLM):
 			)
 			return CompletionResponse(text=response)
 		except Exception as e:
-			return CompletionResponse(text=e)
+			return CompletionResponse(text=f"{e}")
 
 	@llm_completion_callback()
 	async def acomplete(self, prompt: str, **kwargs: Any) -> CompletionResponse:
@@ -251,7 +251,7 @@ class RemoteLLM(CustomLLM):
 			)
 			return CompletionResponse(text=response)
 		except Exception as e:
-			return CompletionResponse(text=e)
+			return CompletionResponse(text=f"{e}")
 
 	@llm_completion_callback()
 	def stream_complete(self, prompt: str, **kwargs: Any) -> CompletionResponseGen:

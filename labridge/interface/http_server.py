@@ -255,7 +255,7 @@ async def get_file(user_id: str, req: ClientDownloadReq):
 
 
 @app.get("/users/{user_id}/files/{filepath}")
-async def get_get_file(uesr_id:str, filepath:str):
+async def get_get_file(user_id: str, filepath: str):
     return FileResponse(path=filepath)
 
 

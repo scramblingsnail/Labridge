@@ -13,9 +13,13 @@ from time import mktime
 import _thread as thread
 import numpy as np
 import fsspec
+import wave
+import librosa
+import soundfile
 
 from typing import Optional
 from pathlib import Path
+from scipy.signal import resample
 
 
 STATUS_FIRST_FRAME = 0  # 第一帧的标识
@@ -24,11 +28,30 @@ STATUS_LAST_FRAME = 2  # 最后一帧的标识
 
 
 def wav2pcm(wav_path, pcm_path, data_type=np.int16):
-    f = open(wav_path, "rb")
-    f.seek(0)
-    f.read(44)
-    data = np.fromfile(f, dtype=data_type)
-    data.tofile(pcm_path)
+    target_sr = 16000
+    wav_f = wave.open(wav_path, "r")
+    channels = wav_f.getnchannels()
+    fr = wav_f.getframerate()
+    wav_f.close()
+
+    if channels > 1:
+        wav_data, sr = librosa.load(wav_path, mono=False)
+        mono_data = wav_data[0].copy()
+    else:
+        mono_data, sr = librosa.load(wav_path, mono=True)
+
+    target_path = Path(wav_path).parent / "mono_16k_speech.wav"
+    if fr != target_sr:
+        target_data = librosa.resample(mono_data, orig_sr=sr, target_sr=target_sr)
+    else:
+        target_data = mono_data
+    soundfile.write(target_path, target_data, samplerate=target_sr)
+
+    mono_target_f = open(target_path, "rb")
+    mono_target_f.seek(0)
+    mono_target_f.read(44)
+    mono_target_data = np.fromfile(mono_target_f, dtype=data_type)
+    mono_target_data.tofile(pcm_path)
 
 
 class WsParam(object):
@@ -199,5 +222,5 @@ class _ASRWorker(websocket.WebSocketApp):
 websocket.enableTrace(False)
 ASRWorker = _ASRWorker()
 
-# text = ASRWorker.transform(speech_path=r"D:\python_works\Labridge\query_wav.wav")
+# text = ASRWorker.transform(speech_path=r"D:\python_works\Labridge\user_speech.wav")
 # print(text)

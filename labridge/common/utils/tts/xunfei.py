@@ -116,6 +116,8 @@ class _TTSWorker(websocket.WebSocketApp):
 
     def transform(self, text: str, speech_name: str):
         self.speech_name = speech_name
+        with open(self.pcm_path, 'wb') as f:
+            pass
         self.ws_param.set_data(text=text)
         self.run_forever(sslopt={"cert_reqs": ssl.CERT_NONE})
         pcm2wav(

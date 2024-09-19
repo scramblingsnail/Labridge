@@ -2,43 +2,43 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
+import 'package:labridge/settings.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
-// const baseUrl = "http://210.28.142.241:6006";
-const baseUrl = "http://210.28.141.187:80";
-
 class ChatAgent {
   final String userId;
-  final String postTextUrl;
+  final String chatTextUrl;
   final String getResponseUrl;
-  final String postInnerTextUrl;
+  final String innerChatTextUrl;
   final String clearHistoryUrl;
-  final String postSpeechUrl;
+  final String chatSpeechUrl;
+  final String innerChatSpeechUrl;
   final String downFileUrl;
-  final String postFileUrl;
-  final String postInnerFileUrl;
+  final String chatFileUrl;
+  final String innerChatFileUrl;
   final http.Client client;
 
   ChatAgent(this.userId)
-      : postTextUrl = '$baseUrl/users/$userId/chat_text',
+      : chatTextUrl = '$baseUrl/users/$userId/chat_text',
         getResponseUrl = '$baseUrl/users/$userId/response',
-        postInnerTextUrl = '$baseUrl/users/$userId/inner_chat_text',
+        innerChatTextUrl = '$baseUrl/users/$userId/inner_chat_text',
         clearHistoryUrl = '$baseUrl/users/$userId/clear_history',
-        postSpeechUrl = '$baseUrl/users/$userId/chat_speech',
+        chatSpeechUrl = '$baseUrl/users/$userId/chat_speech',
+        innerChatSpeechUrl = '$baseUrl/users/$userId/inner_chat_speech',
         downFileUrl = '$baseUrl/users/$userId/files/bytes',
-        postFileUrl = '$baseUrl/users/$userId/chat_with_file',
-        postInnerFileUrl = '$baseUrl/users/$userId/inner_chat_with_file',
+        chatFileUrl = '$baseUrl/users/$userId/chat_with_file',
+        innerChatFileUrl = '$baseUrl/users/$userId/inner_chat_with_file',
         client = http.Client();
 
-  void query(
+  void chatWithText(
     String message, {
     required bool isInnerChat,
     bool replyInSpeech = false,
     bool enableInstruct = false,
     bool enableComment = false,
   }) async {
-    final url = isInnerChat ? postInnerTextUrl : postTextUrl;
+    final url = isInnerChat ? innerChatTextUrl : chatTextUrl;
     client.post(Uri.parse(url),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
@@ -50,9 +50,8 @@ class ChatAgent {
         encoding: Encoding.getByName('utf-8'));
   }
 
-  void queryInSpeech(List data) async {}
-
-  Future<int> queryInFile(
+  /// Query about some info with uploaded file. If you want query with audio, you should use [chatWithAudio]
+  Future<int> chatWithFile(
     Uint8List fileBytes,
     String fileName,
     String message, {
@@ -61,11 +60,33 @@ class ChatAgent {
     bool enableInstruct = false,
     bool enableComment = false,
   }) async {
-    final url = isInnerChat ? postInnerFileUrl : postFileUrl;
+    final url = isInnerChat ? innerChatFileUrl : chatFileUrl;
     var request = http.MultipartRequest('POST', Uri.parse(url))
       ..fields['file_name'] = fileName
       ..fields['text'] = message
       ..fields['reply_in_speech'] = json.encode(replyInSpeech)
+      ..fields['enable_instruct'] = json.encode(enableInstruct)
+      ..fields['enable_comment'] = json.encode(enableComment)
+      ..files.add(http.MultipartFile.fromBytes('file', fileBytes));
+    var response = await request.send();
+    /// Response denotes uploading status
+    return response.statusCode;
+  }
+
+  Future<int> chatWithAudio(
+      Uint8List fileBytes,
+      // String fileName,
+      {
+        required bool isInnerChat,
+        // bool replyInSpeech = false,
+        bool enableInstruct = false,
+        bool enableComment = false,
+      }) async {
+    final url = isInnerChat ? innerChatSpeechUrl : chatSpeechUrl;
+    var request = http.MultipartRequest('POST', Uri.parse(url))
+      // ..fields['file_name'] = fileName
+      // ..fields['text'] = message
+      // ..fields['reply_in_speech'] = json.encode(replyInSpeech)
       ..fields['enable_instruct'] = json.encode(enableInstruct)
       ..fields['enable_comment'] = json.encode(enableComment)
       ..files.add(http.MultipartFile.fromBytes('file', fileBytes));
@@ -89,6 +110,7 @@ class ChatAgent {
 
       if (reply.body.isNotEmpty) {
         /// Server no utf-8 header set, we should re-decode
+        // print(getResponseUrl);
         final replyMap =
             json.decode(utf8.decode(reply.bodyBytes)) as Map<String, dynamic>;
         if (replyMap.containsKey('valid') && replyMap['valid'] as bool) {
@@ -115,7 +137,6 @@ class ChatAgent {
     // var reader = ChunkedStreamReader(
     //     response.stream);
     final documentDir = (await getTemporaryDirectory()).path;
-
 
     remoteFilePath = remoteFilePath.replaceAll('\\', '/');
 

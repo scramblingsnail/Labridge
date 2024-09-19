@@ -215,11 +215,12 @@ async def post_inner_chat_speech(
 async def post_chat_speech(
     user_id: str,
     file: bytes = File(),
+    file_suffix: str = Form(),
     reply_in_speech: bool = Form(),
     enable_instruct: bool = Form(),
     enable_comment: bool = Form(),
 ):
-    speech_path = ChatBuffer.default_user_speech_path(user_id=user_id)
+    speech_path = ChatBuffer.default_user_speech_path(user_id=user_id, speech_suffix=file_suffix)
     save_temporary_file(
         tmp_path=speech_path,
         file_bytes=file,

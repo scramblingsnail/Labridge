@@ -33,7 +33,7 @@ class AudioMessageBlock extends StatelessWidget {
             child: Container(
               margin: const EdgeInsetsDirectional.only(
                 start: 16,
-                end: 8
+                end: 4
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

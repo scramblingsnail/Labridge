@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:labridge/settings.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
+import 'package:http_parser/http_parser.dart';
 
 class ChatAgent {
   final String userId;
@@ -67,29 +68,40 @@ class ChatAgent {
       ..fields['reply_in_speech'] = json.encode(replyInSpeech)
       ..fields['enable_instruct'] = json.encode(enableInstruct)
       ..fields['enable_comment'] = json.encode(enableComment)
-      ..files.add(http.MultipartFile.fromBytes('file', fileBytes));
+      ..files.add(http.MultipartFile.fromBytes(
+        'file',
+        fileBytes,
+        filename: fileName,
+        contentType: MediaType('multipart', 'form-data'),
+      ));
     var response = await request.send();
+
     /// Response denotes uploading status
     return response.statusCode;
   }
 
   Future<int> chatWithAudio(
-      Uint8List fileBytes,
-      // String fileName,
-      {
-        required bool isInnerChat,
-        // bool replyInSpeech = false,
-        bool enableInstruct = false,
-        bool enableComment = false,
-      }) async {
+    Uint8List fileBytes,
+    String fileName, {
+    required bool isInnerChat,
+    required bool replyInSpeech,
+    required bool enableInstruct,
+    required bool enableComment,
+  }) async {
     final url = isInnerChat ? innerChatSpeechUrl : chatSpeechUrl;
     var request = http.MultipartRequest('POST', Uri.parse(url))
       // ..fields['file_name'] = fileName
       // ..fields['text'] = message
-      // ..fields['reply_in_speech'] = json.encode(replyInSpeech)
+      ..fields['file_suffix'] = '.wav'
+      ..fields['reply_in_speech'] = json.encode(replyInSpeech)
       ..fields['enable_instruct'] = json.encode(enableInstruct)
       ..fields['enable_comment'] = json.encode(enableComment)
-      ..files.add(http.MultipartFile.fromBytes('file', fileBytes));
+      ..files.add(http.MultipartFile.fromBytes(
+        'file',
+        fileBytes,
+        filename: fileName,
+        contentType: MediaType('multipart', 'form-data'),
+      ));
     var response = await request.send();
 
     return response.statusCode;
@@ -123,7 +135,7 @@ class ChatAgent {
     }
   }
 
-  Future<String> downloadFile(String remoteFilePath) async {
+  Future<String> downloadFile(String remoteFilePath, {String? localFileName}) async {
     // final streamResponse = await client
     //     .post(Uri.parse(downFileUrl), body: {'filepath': remoteFilePath});
     // final response = await http.Response.fromStream(response)
@@ -138,10 +150,12 @@ class ChatAgent {
     //     response.stream);
     final documentDir = (await getTemporaryDirectory()).path;
 
-    remoteFilePath = remoteFilePath.replaceAll('\\', '/');
+    if (localFileName == null) {
+      remoteFilePath = remoteFilePath.replaceAll('\\', '/');
+      localFileName = p.basename(remoteFilePath);
+    }
 
-    var fileName = p.basename(remoteFilePath);
-    final localFilePath = '$documentDir/$fileName';
+    final localFilePath = '$documentDir/$localFileName';
     if (!File(localFilePath).existsSync()) {
       final file = File(localFilePath);
       var sink = file.openWrite();

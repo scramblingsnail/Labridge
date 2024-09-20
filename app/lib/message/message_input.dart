@@ -87,6 +87,7 @@ class _CustomMessageInputState extends State<CustomMessageInput> {
                             builder: (context, states, child) {
                           return states.waitForUploadingContentsCount == 0
                               ? IconButton(
+                            visualDensity: VisualDensity.adaptivePlatformDensity,
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 8),
                                   onPressed: widget.handleAttachmentPressed,
@@ -102,6 +103,7 @@ class _CustomMessageInputState extends State<CustomMessageInput> {
                                       Theme.of(context).colorScheme.primary,
                                   child: IconButton(
                                     // padding:
+                                    visualDensity: VisualDensity.adaptivePlatformDensity,
                                     //     const EdgeInsets.symmetric(vertical: 8),
                                     onPressed: widget.handleAttachmentPressed,
                                     icon: Icon(
@@ -113,6 +115,7 @@ class _CustomMessageInputState extends State<CustomMessageInput> {
                                 );
                         }),
                         IconButton(
+                          visualDensity: VisualDensity.adaptivePlatformDensity,
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           onPressed: () {
                             sendText(_inputController.text);

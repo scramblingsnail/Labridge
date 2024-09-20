@@ -63,8 +63,6 @@ class _ChatPageState extends State<ChatPage> {
   /// When message length > 1, [_clearButtonTextColor] is set [Colors.white]
   Color _clearButtonTextColor = Colors.transparent;
 
-  // int _waitForUploadingContentsCount = 0;
-
   /// [waitForUploadingFile] is a file instance storing file which will be uploaded to server
   PlatformFile? waitForUploadingFile;
 
@@ -115,6 +113,7 @@ class _ChatPageState extends State<ChatPage> {
     overlayEntry.dispose();
 
     /// ensure audio recorder has been disposed
+    /// refer tp [record](https://pub.dev/packages/record)
     recorder.dispose();
 
     super.dispose();

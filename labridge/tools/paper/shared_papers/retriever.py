@@ -13,6 +13,10 @@ from labridge.func_modules.paper.retrieve.paper_retriever import (
 	PAPER_TOP_K,
 	PAPER_RETRIEVE_TOP_K,
 )
+from labridge.func_modules.paper.retrieve.shared_paper_retrieve import (
+	SharedPaperRetriever,
+
+)
 from labridge.func_modules.paper.parse.extractors.metadata_extract import (
 	PAPER_POSSESSOR,
 	PAPER_TITLE,
@@ -57,16 +61,21 @@ class SharedPaperRetrieverTool(RetrieverBaseTool):
 	):
 		self._llm = llm or Settings.llm
 		self._embed_model = embed_model or Settings.embed_model
-		paper_retriever = PaperRetriever.from_storage(
+		paper_retriever = SharedPaperRetriever.from_storage(
 			llm=self._llm,
 			embed_model=self._embed_model,
-			vector_similarity_top_k=vector_similarity_top_k,
-			summary_similarity_top_k=summary_similarity_top_k,
-			docs_top_k=docs_top_k,
-			re_retrieve_top_k=re_retrieve_top_k,
-			final_use_context=final_use_context,
-			final_use_summary=final_use_summary,
 		)
+
+		# paper_retriever = PaperRetriever.from_storage(
+		# 	llm=self._llm,
+		# 	embed_model=self._embed_model,
+		# 	vector_similarity_top_k=vector_similarity_top_k,
+		# 	summary_similarity_top_k=summary_similarity_top_k,
+		# 	docs_top_k=docs_top_k,
+		# 	re_retrieve_top_k=re_retrieve_top_k,
+		# 	final_use_context=final_use_context,
+		# 	final_use_summary=final_use_summary,
+		# )
 		super().__init__(
 			name=SharedPaperRetrieverTool.__name__,
 			retriever=paper_retriever,

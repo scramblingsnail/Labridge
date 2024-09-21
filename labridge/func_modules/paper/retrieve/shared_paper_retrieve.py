@@ -259,7 +259,7 @@ class SharedPaperRetriever:
 		return cls(
 			llm=llm,
 			embed_model=embed_model,
-			shared_vector_index = shared_vector_index,
+			shared_vector_index=shared_vector_index,
 			vector_similarity_top_k=vector_similarity_top_k,
 			papers_top_k=papers_top_k,
 			re_retrieve_top_k=re_retrieve_top_k,

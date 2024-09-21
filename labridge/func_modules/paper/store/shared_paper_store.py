@@ -888,9 +888,9 @@ if __name__ == "__main__":
 	root_node = paper_store.notes_vector_index.docstore.get_node(node_id=SHARED_PAPER_ROOT_NODE_NAME)
 
 	acc = AccountManager()
-	# acc.add_user(user_id="赵懿晨", password="123456")
+	acc.add_user(user_id="赵懿晨", password="123456")
 
-	# acc.add_user(user_id="杨再正", password="123456")
+	acc.add_user(user_id="杨再正", password="123456")
 
 	zhisan_papers = [
 		r"D:\python_works\Labridge\documents\papers\杨再正\存算一体\2018 NC Efficient and self-adaptive in-situ learning in multilayer memristor neural networks.pdf",
@@ -901,27 +901,39 @@ if __name__ == "__main__":
 	]
 
 	zhaoyichen_papers = [
-		r"D:\python_works\Labridge\documents\papers\张三\强化学习\PPO.pdf",
-		r"D:\python_works\Labridge\documents\papers\张三\深度学习编译\The_Deep_Learning_Compiler_A_Comprehensive_Survey.pdf",
-		r"D:\python_works\Labridge\documents\papers\张三\深度学习编译\An_In-depth_Comparison_of_Compilers_for_Deep_Neural_Networks_on_Hardware.pdf",
-		r"D:\python_works\Labridge\documents\papers\张三\深度学习编译\CIM\A Compilation Tool for Computation Offloading in ReRAM-based CIM Architectures.pdf",
-		r"D:\python_works\Labridge\documents\papers\张三\深度学习编译\CIM\A_Compilation_Framework_for_SRAM_Computing-in-Memory_Systems_With_Optimized_Weight_Mapping_and_Error_Correction.pdf",
-		r"D:\python_works\Labridge\documents\papers\张三\深度学习编译\CIM\C4CAM_ACompiler for CAM-based In-memory Accelerators.pdf",
-		r"D:\python_works\Labridge\documents\papers\张三\深度学习编译\CIM\CIM-MLC_AMulti-level Compilation Stack for Computing-in-memory accelerators.pdf",
-		r"D:\python_works\Labridge\documents\papers\张三\深度学习编译\CIM\CIMAX-Compiler_An_End-to-End_ANN_Compiler_for_Heterogeneous_Computing-in-Memory_Platform.pdf",
+		r"D:\python_works\Labridge\documents\papers\赵懿晨\强化学习\PPO.pdf",
+		r"D:\python_works\Labridge\documents\papers\赵懿晨\深度学习编译\The_Deep_Learning_Compiler_A_Comprehensive_Survey.pdf",
+		r"D:\python_works\Labridge\documents\papers\赵懿晨\深度学习编译\An_In-depth_Comparison_of_Compilers_for_Deep_Neural_Networks_on_Hardware.pdf",
+		r"D:\python_works\Labridge\documents\papers\赵懿晨\深度学习编译\CIM\A Compilation Tool for Computation Offloading in ReRAM-based CIM Architectures.pdf",
+		r"D:\python_works\Labridge\documents\papers\赵懿晨\深度学习编译\CIM\A_Compilation_Framework_for_SRAM_Computing-in-Memory_Systems_With_Optimized_Weight_Mapping_and_Error_Correction.pdf",
+		r"D:\python_works\Labridge\documents\papers\赵懿晨\深度学习编译\CIM\C4CAM_ACompiler for CAM-based In-memory Accelerators.pdf",
+		r"D:\python_works\Labridge\documents\papers\赵懿晨\深度学习编译\CIM\CIM-MLC_AMulti-level Compilation Stack for Computing-in-memory accelerators.pdf",
+		r"D:\python_works\Labridge\documents\papers\赵懿晨\深度学习编译\CIM\CIMAX-Compiler_An_End-to-End_ANN_Compiler_for_Heterogeneous_Computing-in-Memory_Platform.pdf",
 	]
 
-	# failed_papers = paper_store.insert_papers(
-	# 	user_id="杨再正",
-	# 	enable_summarize=False,
-	# 	paper_paths=zhisan_papers,
-	# 	papers_root_dir=r"D:\python_works\Labridge\documents\papers\杨再正",
-	# )
+	failed_papers = paper_store.insert_papers(
+		user_id="杨再正",
+		enable_summarize=False,
+		paper_paths=zhisan_papers,
+		papers_root_dir=r"D:\python_works\Labridge\documents\papers\杨再正",
+	)
 
-	# if failed_papers is not None:
-	# 	print(failed_papers)
-	# else:
-	# 	print("No failure.")
+	if failed_papers is not None:
+		print(failed_papers)
+	else:
+		print("No failure.")
+
+	failed_papers = paper_store.insert_papers(
+		user_id="赵懿晨",
+		enable_summarize=False,
+		paper_paths=zhisan_papers,
+		papers_root_dir=r"D:\python_works\Labridge\documents\papers\赵懿晨",
+	)
+
+	if failed_papers is not None:
+		print(failed_papers)
+	else:
+		print("No failure.")
 
 	# paper_store.insert_note(
 	# 	doi="10.1038/s41467-018-04484-2",

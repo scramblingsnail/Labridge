@@ -191,6 +191,7 @@ class PaperReader:
 				extra_metadata=extra_metadata,
 			)
 			if paper_metadata is None:
+				print(f"Loading DOI failed: {file_path}")
 				return None
 
 			for meta_doc in metadata_docs:

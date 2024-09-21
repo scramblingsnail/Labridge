@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
+import 'package:labridge/chat_states.dart';
+import 'package:provider/provider.dart';
 
 class CustomMessageInput extends StatefulWidget {
   const CustomMessageInput({
@@ -70,22 +72,51 @@ class _CustomMessageInputState extends State<CustomMessageInput> {
                 textCapitalization: TextCapitalization.sentences,
                 maxLines: null,
                 decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
+                  contentPadding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
                   border: const OutlineInputBorder(
                     borderSide: BorderSide.none,
                     borderRadius: BorderRadius.all(Radius.circular(12)),
                   ),
                   hintText: "请输入内容",
                   suffixIcon: Padding(
-                    padding: const EdgeInsets.only(right: 12),
+                    padding: const EdgeInsets.only(right: 8),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
+                        Consumer<ChatLabridgeStates>(
+                            builder: (context, states, child) {
+                          return states.waitForUploadingContentsCount == 0
+                              ? IconButton(
+                            visualDensity: VisualDensity.adaptivePlatformDensity,
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  onPressed: widget.handleAttachmentPressed,
+                                  icon: Icon(
+                                    Icons.attach_file_rounded,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                )
+                              : Badge.count(
+                                  count: 1,
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.primary,
+                                  child: IconButton(
+                                    // padding:
+                                    visualDensity: VisualDensity.adaptivePlatformDensity,
+                                    //     const EdgeInsets.symmetric(vertical: 8),
+                                    onPressed: widget.handleAttachmentPressed,
+                                    icon: Icon(
+                                      Icons.attach_file_rounded,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                                  ),
+                                );
+                        }),
                         IconButton(
-                            onPressed: widget.handleAttachmentPressed,
-                            icon: Icon(Icons.attach_file_rounded,
-                                color: Theme.of(context).colorScheme.primary)),
-                        IconButton(
+                          visualDensity: VisualDensity.adaptivePlatformDensity,
+                          padding: const EdgeInsets.symmetric(vertical: 8),
                           onPressed: () {
                             sendText(_inputController.text);
                           },

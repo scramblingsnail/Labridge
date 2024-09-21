@@ -34,10 +34,10 @@ def wav2pcm(wav_path, pcm_path, data_type=np.int16):
     wav_f.close()
 
     if channels > 1:
-        wav_data, sr = librosa.load(wav_path, mono=False)
+        wav_data, sr = librosa.load(wav_path, mono=False, sr=fr)
         mono_data = wav_data[0].copy()
     else:
-        mono_data, sr = librosa.load(wav_path, mono=True)
+        mono_data, sr = librosa.load(wav_path, mono=True, sr=fr)
 
     target_path = Path(wav_path).parent / "mono_16k_speech.wav"
     if fr != target_sr:

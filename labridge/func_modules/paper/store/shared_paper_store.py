@@ -636,6 +636,7 @@ class SharedPaperStorage(object):
 			nodes=chunk_docs,
 			transformations=self._default_overlapped_transformations,
 		)
+		print("chunk node metadata: \n", overlapped_chunk_nodes[0].metadata)
 		self._insert_as_child_nodes(node=paper_node, child_nodes=overlapped_chunk_nodes)
 		for chunk_node in overlapped_chunk_nodes:
 			self._update_node(node_id=chunk_node.node_id, node=chunk_node)
@@ -892,23 +893,24 @@ if __name__ == "__main__":
 
 	acc.add_user(user_id="杨再正", password="123456")
 
+	root_dir = paper_store._root
 	zhisan_papers = [
-		r"D:\python_works\Labridge\documents\papers\杨再正\存算一体\2018 NC Efficient and self-adaptive in-situ learning in multilayer memristor neural networks.pdf",
-		r"D:\python_works\Labridge\documents\papers\杨再正\存算一体\2019 wangzhongrui In situ training of feed-forward and recurrent convolutional memristor network.pdf",
-		r"D:\python_works\Labridge\documents\papers\杨再正\神经网络量化\post-training-quantization\Quantization_quantizatoin and_Training_of_Neural_Networks_for_Efficient_Integer-Arithmetic-Only_Inference.pdf",
-		r"D:\python_works\Labridge\documents\papers\杨再正\神经网络量化\training-aware-quantization\Gong_Differentiable_Soft_Quantization_Bridging_Full-Precision_and_Low-Bit_Neural_Networks_ICCV_2019_paper.pdf",
-		r"D:\python_works\Labridge\documents\papers\杨再正\神经网络量化\training-aware-quantization\XNOR-Net.pdf",
+		fr"{root_dir}\documents\papers\杨再正\存算一体\2018 NC Efficient and self-adaptive in-situ learning in multilayer memristor neural networks.pdf",
+		fr"{root_dir}\documents\papers\杨再正\存算一体\2019 wangzhongrui In situ training of feed-forward and recurrent convolutional memristor network.pdf",
+		fr"{root_dir}\documents\papers\杨再正\神经网络量化\post-training-quantization\Quantization_quantizatoin and_Training_of_Neural_Networks_for_Efficient_Integer-Arithmetic-Only_Inference.pdf",
+		fr"{root_dir}\documents\papers\杨再正\神经网络量化\training-aware-quantization\Gong_Differentiable_Soft_Quantization_Bridging_Full-Precision_and_Low-Bit_Neural_Networks_ICCV_2019_paper.pdf",
+		fr"{root_dir}\documents\papers\杨再正\神经网络量化\training-aware-quantization\XNOR-Net.pdf",
 	]
 
 	zhaoyichen_papers = [
-		r"D:\python_works\Labridge\documents\papers\赵懿晨\强化学习\PPO.pdf",
-		r"D:\python_works\Labridge\documents\papers\赵懿晨\深度学习编译\The_Deep_Learning_Compiler_A_Comprehensive_Survey.pdf",
-		r"D:\python_works\Labridge\documents\papers\赵懿晨\深度学习编译\An_In-depth_Comparison_of_Compilers_for_Deep_Neural_Networks_on_Hardware.pdf",
-		r"D:\python_works\Labridge\documents\papers\赵懿晨\深度学习编译\CIM\A Compilation Tool for Computation Offloading in ReRAM-based CIM Architectures.pdf",
-		r"D:\python_works\Labridge\documents\papers\赵懿晨\深度学习编译\CIM\A_Compilation_Framework_for_SRAM_Computing-in-Memory_Systems_With_Optimized_Weight_Mapping_and_Error_Correction.pdf",
-		r"D:\python_works\Labridge\documents\papers\赵懿晨\深度学习编译\CIM\C4CAM_ACompiler for CAM-based In-memory Accelerators.pdf",
-		r"D:\python_works\Labridge\documents\papers\赵懿晨\深度学习编译\CIM\CIM-MLC_AMulti-level Compilation Stack for Computing-in-memory accelerators.pdf",
-		r"D:\python_works\Labridge\documents\papers\赵懿晨\深度学习编译\CIM\CIMAX-Compiler_An_End-to-End_ANN_Compiler_for_Heterogeneous_Computing-in-Memory_Platform.pdf",
+		fr"{root_dir}\documents\papers\赵懿晨\强化学习\PPO.pdf",
+		fr"{root_dir}\documents\papers\赵懿晨\深度学习编译\The_Deep_Learning_Compiler_A_Comprehensive_Survey.pdf",
+		fr"{root_dir}\documents\papers\赵懿晨\深度学习编译\An_In-depth_Comparison_of_Compilers_for_Deep_Neural_Networks_on_Hardware.pdf",
+		fr"{root_dir}\documents\papers\赵懿晨\深度学习编译\CIM\A Compilation Tool for Computation Offloading in ReRAM-based CIM Architectures.pdf",
+		fr"{root_dir}\documents\papers\赵懿晨\深度学习编译\CIM\A_Compilation_Framework_for_SRAM_Computing-in-Memory_Systems_With_Optimized_Weight_Mapping_and_Error_Correction.pdf",
+		fr"{root_dir}\documents\papers\赵懿晨\深度学习编译\CIM\C4CAM_ACompiler for CAM-based In-memory Accelerators.pdf",
+		fr"{root_dir}\documents\papers\赵懿晨\深度学习编译\CIM\CIM-MLC_AMulti-level Compilation Stack for Computing-in-memory accelerators.pdf",
+		fr"{root_dir}\documents\papers\赵懿晨\深度学习编译\CIM\CIMAX-Compiler_An_End-to-End_ANN_Compiler_for_Heterogeneous_Computing-in-Memory_Platform.pdf",
 	]
 
 	failed_papers = paper_store.insert_papers(
@@ -926,7 +928,7 @@ if __name__ == "__main__":
 	failed_papers = paper_store.insert_papers(
 		user_id="赵懿晨",
 		enable_summarize=False,
-		paper_paths=zhisan_papers,
+		paper_paths=zhaoyichen_papers,
 		papers_root_dir=r"D:\python_works\Labridge\documents\papers\赵懿晨",
 	)
 

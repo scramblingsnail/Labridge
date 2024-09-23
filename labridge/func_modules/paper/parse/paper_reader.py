@@ -16,7 +16,6 @@ from llama_index.core.readers.file.base import is_default_fs
 from llama_index.core.utils import print_text
 from llama_index.core.llms import LLM
 
-from .extractors.doi import CrossRefWorker
 from .parsers.base import MetadataContents, ChunkContents, CONTENT_TYPE_NAME
 from .parsers.auto import auto_parse_paper
 from .extractors.source_analyze import PaperSourceAnalyzer

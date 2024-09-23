@@ -917,7 +917,7 @@ if __name__ == "__main__":
 		user_id="杨再正",
 		enable_summarize=False,
 		paper_paths=zhisan_papers,
-		papers_root_dir=r"D:\python_works\Labridge\documents\papers\杨再正",
+		papers_root_dir=fr"{root_dir}\documents\papers\杨再正",
 	)
 
 	if failed_papers is not None:
@@ -929,7 +929,7 @@ if __name__ == "__main__":
 		user_id="赵懿晨",
 		enable_summarize=False,
 		paper_paths=zhaoyichen_papers,
-		papers_root_dir=r"D:\python_works\Labridge\documents\papers\赵懿晨",
+		papers_root_dir=fr"{root_dir}\documents\papers\赵懿晨",
 	)
 
 	if failed_papers is not None:

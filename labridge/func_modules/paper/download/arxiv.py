@@ -18,28 +18,27 @@ Extra_Descriptions = {
 }
 
 
-
 class ArxivClient(Client):
 	r"""
-	 Similar to the class `Client` in the package `arxiv`.
-	 The method `_format_url` is corrected here to enable advanced search.
+	Similar to the class `Client` in the package `arxiv`.
+	The method `_format_url` is corrected here to enable advanced search.
 
-	 For details about advanced search in arXiv, refer to
-	 [Details of Query Construction](https://info.arxiv.org/help/api/user-manual.html#query_details)
+	For details about advanced search in arXiv, refer to
+	[Details of Query Construction](https://info.arxiv.org/help/api/user-manual.html#query_details)
 
-	 Advanced search fields:
-	 |	prefix	|	explanation		|
-	 |:--------:|:-----------------:|
-	 |ti		|Title				|
-	 |au		|Author				|
-	 |abs		|Abstract			|
-	 |co		|Comment			|
-	 |jr		|Journal Reference	|
-	 |cat		|Subject Category	|
-	 |rn		|Report Number		|
-	 |id_list	|Id list			|
-	 |all		|All of the above	|
-	 """
+	Advanced search fields:
+	|	prefix	|	explanation		|
+	|:--------:|:-----------------:|
+	|ti		|Title				|
+	|au		|Author				|
+	|abs		|Abstract			|
+	|co		|Comment			|
+	|jr		|Journal Reference	|
+	|cat		|Subject Category	|
+	|rn		|Report Number		|
+	|id_list	|Id list			|
+	|all		|All of the above	|
+	"""
 
 	page_size: int
 	"""
@@ -301,23 +300,26 @@ class ArxivSearcher(object):
 			sort_order=SortOrder.Descending,
 		)
 
-	def search(self, search_str: str) -> List[Result]:
+	def search(self, search_str: str, max_results_num: int = None) -> List[Result]:
 		r"""
 		Search according to the title or abstract.
 
 		Args:
 			search_str (str): The search string, typically the title or abstract.
+			max_results_num (int): Maximum num of results. Defaults to None.
 
 		Returns:
 			List[Result]: The search results.
 		"""
-		query = f"ti:{search_str}+OR+abs:{search_str}"
+		# query = f"ti:{search_str}+OR+abs:{search_str}"
+		query = f"ti:{search_str}"
 		self.searcher.query = query
+		max_results_num = max_results_num or self.max_results_num
 		count = 0
 		results = []
 		for result in self.client.results(search=self.searcher):
 			count += 1
 			results.append(result)
-			if count >= self.max_results_num:
+			if count >= max_results_num:
 				break
 		return results

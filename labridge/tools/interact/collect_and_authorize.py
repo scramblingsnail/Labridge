@@ -70,7 +70,6 @@ class CollectAndAuthorizeTool(CallBackBaseTool):
 	def required_infos(self) -> List[CollectingInfoBase]:
 		r""" The required infos. """
 
-
 	@abstractmethod
 	def required_info_dict(self) -> Dict[str, str]:
 		r""" The required info names and their descriptions """

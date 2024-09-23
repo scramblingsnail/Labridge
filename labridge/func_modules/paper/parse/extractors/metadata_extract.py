@@ -11,7 +11,7 @@ from typing import Dict, List, Union, Tuple, Optional
 from pathlib import Path
 
 from labridge.common.query_engine.query_engines import SingleQueryEngine
-from .doi import CrossRefWorker
+from .doi import DOIWorker
 
 
 r""" a dictionary of {'metadata': 'description'} """
@@ -76,7 +76,7 @@ class PaperMetadataExtractor:
 			self.llm = llm
 
 		self.prompt_tmpl = self.get_prompt_tmpl()
-		self.crossref_worker = CrossRefWorker()
+		self.doi_worker = DOIWorker()
 		self.query_engine = SingleQueryEngine(llm=llm, prompt_tmpl=self.prompt_tmpl)
 		self.max_retry_times = max_retry_times
 
@@ -276,7 +276,7 @@ class PaperMetadataExtractor:
 		# find doi according to title
 		doi = paper_metadata.get(PAPER_DOI, None)
 		if doi is None:
-			doi = self.crossref_worker.find_doi_by_title(title=title)
+			doi = self.doi_worker.find_doi_by_title(title=title)
 		if doi is None:
 			print("DOI find fails.")
 			return None

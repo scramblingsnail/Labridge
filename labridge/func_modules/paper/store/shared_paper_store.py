@@ -17,6 +17,7 @@ Notes: The note of the corresponding context. (Note node type.)
 """
 
 import fsspec
+import json
 
 from llama_index.core.indices import VectorStoreIndex
 from llama_index.core.embeddings import BaseEmbedding
@@ -27,6 +28,11 @@ from llama_index.core.node_parser import SentenceSplitter
 from llama_index.core.response import Response
 from llama_index.core.llms import LLM
 from llama_index.core.readers import SimpleDirectoryReader
+from llama_index.core.vector_stores.types import (
+	MetadataFilters,
+	MetadataFilter,
+	FilterOperator,
+)
 from llama_index.core.schema import (
 	TextNode,
 	NodeRelationship,
@@ -34,12 +40,15 @@ from llama_index.core.schema import (
 	BaseNode,
 	TransformComponent,
 	NodeWithScore,
+	MetadataMode,
 )
 
 from pathlib import Path
+from collections import defaultdict
 from typing import Dict, Any, List, Optional, Tuple, cast
 
 from labridge.accounts.users import AccountManager
+from labridge.common.utils.time import get_time, str_to_datetime
 from labridge.func_modules.paper.parse.extractors.metadata_extract import PAPER_REL_FILE_PATH, PAPER_DOI
 from labridge.func_modules.paper.parse.paper_reader import PaperReader, SHARED_PAPER_WAREHOUSE_DIR
 from labridge.func_modules.paper.parse.parsers.base import CONTENT_TYPE_NAME
@@ -58,7 +67,14 @@ SHARED_PAPER_NODE_TYPE = "node_type"
 SHARED_PAPER_SUMMARY_KEY = "summary"
 SHARED_PAPER_DOI_KEY = "paper_doi"
 
-SHARED_PAPER_PAGE_KEY = "page_label"
+SHARED_PAPER_PAGE_LABEL_KEY = "page_label"
+SHARED_PAPER_TOTAL_PAGES_KEY = "total_pages"
+
+SHARED_PAPER_CHUNK_INIT_NOTE_KEY = "init_note_id"
+SHARED_PAPER_CHUNK_LAST_NOTE_KEY = "last_note_id"
+
+SHARED_NOTE_DATE_KEY = "date"
+SHARED_NOTE_TIME_KEY = "time"
 
 
 class SharedPaperNodeType(object):
@@ -97,6 +113,8 @@ class MarkAsChunkForNote(TransformComponent):
 	def __call__(self, nodes: List["BaseNode"], **kwargs: Any) -> List["BaseNode"]:
 		for node in nodes:
 			node.metadata[SHARED_PAPER_NODE_TYPE] = SharedPaperNoteNodeType.PAPER_CHUNK
+			node.metadata[SHARED_PAPER_CHUNK_INIT_NOTE_KEY] = None
+			node.metadata[SHARED_PAPER_CHUNK_LAST_NOTE_KEY] = None
 		return nodes
 
 
@@ -106,10 +124,72 @@ class UserNote(object):
 		doi: str,
 		user_id: str,
 		note: str,
+		date_str: str = None,
+		time_str: str = None,
+		timestamp: str = None,
 	):
 		self.doi = doi
 		self.user_id = user_id
 		self.note = note
+		if timestamp is None and None in (date_str, time_str):
+			raise ValueError("timestamp and (date_str, time_str) cannot both be None.")
+
+		self.timestamp = timestamp or f"{date_str} {time_str}"
+
+	def dumps(self) -> str:
+		class_dict = {
+			"doi": self.doi,
+			"user_id": self.user_id,
+			"note": self.note,
+			"timestamp": self.timestamp,
+		}
+		return json.dumps(class_dict)
+
+	@classmethod
+	def loads(cls, dumped_str: str):
+		class_dict = json.loads(dumped_str)
+		return cls(
+			doi=class_dict["doi"],
+			user_id=class_dict["user_id"],
+			note=class_dict["note"],
+			timestamp=class_dict["timestamp"],
+		)
+
+
+class ChunkNote(object):
+	def __init__(
+		self,
+		doi: str,
+		page_label: int,
+		chunk_content: str,
+		notes: List[UserNote],
+	):
+		self.doi = doi
+		self.page_label = page_label
+		self.chunk_content = chunk_content
+		self.notes = notes
+
+	def dumps(self) -> str:
+		dumped_notes = [user_note.dumps() for user_note in self.notes]
+		class_dict = {
+			"doi": self.doi,
+			"page_label": self.page_label,
+			"chunk_content": self.chunk_content,
+			"notes": json.dumps(dumped_notes),
+		}
+		return json.dumps(class_dict)
+
+	@classmethod
+	def loads(cls, dumped_str):
+		class_dict = json.loads(dumped_str)
+		dumped_notes = json.loads(class_dict["notes"])
+		notes = [UserNote.loads(note_str) for note_str in dumped_notes]
+		return cls(
+			doi=class_dict["doi"],
+			page_label=class_dict["page_label"],
+			chunk_content=class_dict["chunk_content"],
+			notes=notes,
+		)
 
 
 def dummy_file_metadata_func(file_path: str) -> Dict:
@@ -292,12 +372,12 @@ class SharedPaperStorage(object):
 	@property
 	def _default_overlapped_transformations(self):
 		r""" Transformations for chunks in vector_index """
-		return [SentenceSplitter(chunk_size=1024, chunk_overlap=256, include_metadata=True), MarkAsChunk()]
+		return [SentenceSplitter(chunk_size=1024, chunk_overlap=256, include_metadata=False), MarkAsChunk()]
 
 	@property
 	def _default_non_overlapped_transformations(self):
 		r""" Transformation for chunks in notes_vector_index """
-		return [SentenceSplitter(chunk_size=128, chunk_overlap=0, include_metadata=False), MarkAsChunkForNote()]
+		return [SentenceSplitter(chunk_size=128, chunk_overlap=0, include_metadata=True), MarkAsChunkForNote()]
 
 	def _update_node(self, node_id: str, node: BaseNode):
 		r""" Update a node in the vector_index, if the node with `node_id` does not exist, create one. """
@@ -436,11 +516,14 @@ class SharedPaperStorage(object):
 
 	def _new_note_node(self, user_id: str, note: str) -> BaseNode:
 		r""" Create a new note node. """
+		date, h_m_s = get_time()
 		node = TextNode(
 			text=note,
 			metadata={
 				SHARED_PAPER_NODE_TYPE: SharedPaperNoteNodeType.NOTE,
 				"user_id": user_id,
+				SHARED_NOTE_DATE_KEY: [date, ],
+				SHARED_NOTE_TIME_KEY: [h_m_s, ],
 			}
 		)
 		return node
@@ -637,6 +720,11 @@ class SharedPaperStorage(object):
 		dir_node, paper_node = self._new_paper_node(dir_node=dir_node, paper_info=paper_metadata)
 		self._update_node(node_id=dir_node.node_id, node=dir_node)
 
+		for doc in chunk_docs:
+			# TODO: check whether useful for break the warning that metadata str is longer than chunk content.
+			all_metadata_keys = list(doc.metadata.keys())
+			doc.excluded_embed_metadata_keys = all_metadata_keys
+			doc.excluded_llm_metadata_keys = all_metadata_keys
 		# overlapped nodes
 		overlapped_chunk_nodes = run_transformations(
 			nodes=chunk_docs,
@@ -646,22 +734,6 @@ class SharedPaperStorage(object):
 		self._insert_as_child_nodes(node=paper_node, child_nodes=overlapped_chunk_nodes)
 		for chunk_node in overlapped_chunk_nodes:
 			self._update_node(node_id=chunk_node.node_id, node=chunk_node)
-
-		# insert non-overlapped nodes to notes_index as child nodes of doi node.
-		# paper_doi = paper_metadata[PAPER_DOI]
-		# doi_node = self._new_doi_node(doi=paper_doi)
-		#
-		# for doc in chunk_docs:
-		# 	doc.metadata = dict()
-		# non_overlapped_chunk_nodes = run_transformations(
-		# 	nodes=chunk_docs,
-		# 	transformations=self._default_non_overlapped_transformations,
-		# )
-		#
-		# self._insert_as_child_nodes(node=doi_node, child_nodes=non_overlapped_chunk_nodes)
-		# for chunk_node in non_overlapped_chunk_nodes:
-		# 	self._update_note_index_node(node_id=chunk_node.node_id, node=chunk_node)
-		# self._update_note_index_node(node_id=doi_node.node_id, node=doi_node)
 
 		# extra docs
 		self._insert_as_child_nodes(node=paper_node, child_nodes=extra_docs)
@@ -673,7 +745,6 @@ class SharedPaperStorage(object):
 
 		paper_doi = paper_metadata[PAPER_DOI]
 		self.insert_doi_node(paper_doi=paper_doi, paper_path=paper_path)
-
 		return paper_node.node_id
 
 	def insert_doi_node(
@@ -708,8 +779,12 @@ class SharedPaperStorage(object):
 		# insert non-overlapped nodes to notes_index as child nodes of doi node.
 		doi_node = self._new_doi_node(doi=paper_doi)
 
+		pages_num = len(paper_docs)
 		for doc in paper_docs:
-			doc.metadata = {SHARED_PAPER_PAGE_KEY: doc.metadata[SHARED_PAPER_PAGE_KEY]}
+			doc.metadata = {
+				SHARED_PAPER_PAGE_LABEL_KEY: doc.metadata[SHARED_PAPER_PAGE_LABEL_KEY],
+				SHARED_PAPER_TOTAL_PAGES_KEY: pages_num,
+			}
 		non_overlapped_chunk_nodes = run_transformations(
 			nodes=paper_docs,
 			transformations=self._default_non_overlapped_transformations,
@@ -830,44 +905,142 @@ class SharedPaperStorage(object):
 	def insert_note(
 		self,
 		doi: str,
+		page_label: int,
 		user_id: str,
-		notes: Dict[str, str],
-	):
+		chunk_info: str,
+		note: str,
+	) -> bool:
 		r"""
 		Insert a note into the notes vector index.
 
 		Args:
 			doi (str): The DOI of the corresponding paper.
+			page_label (int): The page label of the note location.
 			user_id (str): The user id of a Lab member.
-			notes (Dict[str, str]): key -- corresponding paper content; value -- the user's note.
+			chunk_info (str): The chunk info corresponding to the note
+			note (str): The user's note.
 
 		Returns:
-			None
+			bool: successful or not.
 		"""
 		doi_node = self._get_notes_index_node(node_id=doi)
 		if doi_node is None:
-			return
+			return False
+
+		paper_pages_num = doi_node.child_nodes[0].metadata[SHARED_PAPER_TOTAL_PAGES_KEY]
+		if page_label > paper_pages_num:
+			return False
 
 		chunk_ids = [node.node_id for node in doi_node.child_nodes]
+		page_label_filter = MetadataFilter(
+			key=SHARED_PAPER_PAGE_LABEL_KEY,
+			value=str(page_label),
+			operator=FilterOperator.EQ
+		)
 		retriever = self.notes_vector_index.as_retriever(similarity_top_k=1)
 		retriever._node_ids = chunk_ids
+		retriever._filters = MetadataFilters(filters=[page_label_filter])
 
-		record = []
-		for chunk_info in notes.keys():
-			retrieved_nodes = retriever.retrieve(chunk_info)
-			target_node_id = retrieved_nodes[0].node_id
-			record.append((target_node_id, notes[chunk_info]))
+		retrieved_nodes = retriever.retrieve(chunk_info)
+		if not retrieved_nodes:
+			return False
 
-		for target_id, note_str in record:
-			chunk_node = self._get_notes_index_node(node_id=target_id)
-			note_node = self._new_note_node(
-				user_id=user_id,
-				note=note_str,
-			)
-			self._insert_as_child_nodes(node=chunk_node, child_nodes=[note_node])
-			self._update_note_index_node(node_id=chunk_node.node_id, node=chunk_node)
-			self._update_note_index_node(node_id=note_node.node_id, node=note_node)
+		target_node_id = retrieved_nodes[0].node_id
+		chunk_node = self._get_notes_index_node(node_id=target_node_id)
+		note_node = self._new_note_node(
+			user_id=user_id,
+			note=note,
+		)
+		if chunk_node.metadata[SHARED_PAPER_CHUNK_LAST_NOTE_KEY] is None:
+			chunk_node.metadata[SHARED_PAPER_CHUNK_INIT_NOTE_KEY] = note_node.node_id
+			chunk_node.metadata[SHARED_PAPER_CHUNK_LAST_NOTE_KEY] = note_node.node_id
+		else:
+			last_note_id = chunk_node.metadata[SHARED_PAPER_CHUNK_LAST_NOTE_KEY]
+			last_note = self._get_notes_index_node(node_id=last_note_id)
+			last_note.relationships[NodeRelationship.NEXT] = RelatedNodeInfo(node_id=note_node.node_id)
+			note_node.relationships[NodeRelationship.PREVIOUS] = RelatedNodeInfo(node_id=last_note_id)
+			chunk_node.metadata[SHARED_PAPER_CHUNK_LAST_NOTE_KEY] = note_node.node_id
+			self._update_note_index_node(node_id=last_note_id, node=last_note)
+
+		self._insert_as_child_nodes(node=chunk_node, child_nodes=[note_node])
+		self._update_note_index_node(node_id=chunk_node.node_id, node=chunk_node)
+		self._update_note_index_node(node_id=note_node.node_id, node=note_node)
 		self.persist_notes()
+		return True
+
+	def _get_chunk_notes(
+		self,
+		chunk_node: BaseNode,
+	) -> Optional[ChunkNote]:
+		r"""
+		Get the notes belonging to the chunk node.
+
+		Args:
+			chunk_node (BaseNode): The chunk node.
+
+		Returns:
+			Optional[ChunkNote]
+		"""
+		init_note_id = chunk_node.metadata[SHARED_PAPER_CHUNK_INIT_NOTE_KEY]
+		if init_note_id is None:
+			return None
+
+		note_node = self._get_notes_index_node(node_id=init_note_id)
+		doi = chunk_node.parent_node.node_id
+		all_notes = []
+		while note_node is not None:
+			user_note = UserNote(
+				doi=doi,
+				note=note_node.text,
+				date_str=note_node.metadata[SHARED_NOTE_DATE_KEY],
+				time_str=note_node.metadata[SHARED_NOTE_TIME_KEY],
+				user_id=note_node.metadata["user_id"],
+			)
+			all_notes.append(user_note)
+			next_note = note_node.next_node
+			if next_note:
+				note_node = self._get_notes_index_node(node_id=next_note.node_id)
+			else:
+				note_node = None
+		page_label = int(chunk_node.metadata[SHARED_PAPER_PAGE_LABEL_KEY])
+		return ChunkNote(
+			chunk_content=chunk_node.get_content(metadata_mode=MetadataMode.NONE),
+			doi=doi,
+			page_label=page_label,
+			notes=all_notes,
+		)
+
+	def get_all_notes(
+		self,
+		doi: str,
+	) -> Optional[List[ChunkNote]]:
+		r"""
+		Get all notes of a paper.
+
+		Args:
+			doi (str): The DOI of a paper.
+
+		Returns:
+			Optional[List[ChunkNote]]: The notes.
+		"""
+		doi_node = self._get_notes_index_node(node_id=doi)
+		if doi_node is None:
+			return None
+		page_notes = defaultdict(list)
+		chunk_ids = [node.node_id for node in doi_node.child_nodes]
+
+		for chunk_id in chunk_ids:
+			chunk_node = self._get_notes_index_node(node_id=chunk_id)
+			chunk_note = self._get_chunk_notes(chunk_node=chunk_node)
+			if chunk_note:
+				page_label = int(chunk_node.metadata[SHARED_PAPER_PAGE_LABEL_KEY])
+				page_notes[page_label].append(chunk_note)
+		pages = [(label, page_notes[label]) for label in page_notes.keys()]
+		pages.sort(key=lambda x: x[0], reverse=False)
+		all_notes = []
+		for page in pages:
+			all_notes.extend(page[1])
+		return all_notes
 
 	def get_notes(
 		self,
@@ -989,30 +1162,6 @@ if __name__ == "__main__":
 
 	add_papers(user_id="杨再正", papers=zhisan_papers, user_root=fr"{root_dir}\documents\papers\杨再正")
 	add_papers(user_id="赵懿晨", papers=zhaoyichen_papers, user_root=fr"{root_dir}\documents\papers\赵懿晨")
-
-	# failed_papers = paper_store.insert_papers(
-	# 	user_id="杨再正",
-	# 	enable_summarize=False,
-	# 	paper_paths=zhisan_papers,
-	# 	papers_root_dir=fr"{root_dir}\documents\papers\杨再正",
-	# )
-	#
-	# if failed_papers is not None:
-	# 	print(failed_papers)
-	# else:
-	# 	print("No failure.")
-	#
-	# failed_papers = paper_store.insert_papers(
-	# 	user_id="赵懿晨",
-	# 	enable_summarize=False,
-	# 	paper_paths=zhaoyichen_papers,
-	# 	papers_root_dir=fr"{root_dir}\documents\papers\赵懿晨",
-	# )
-	#
-	# if failed_papers is not None:
-	# 	print(failed_papers)
-	# else:
-	# 	print("No failure.")
 
 	# paper_store.insert_note(
 	# 	doi="10.1038/s41467-018-04484-2",

@@ -15,7 +15,6 @@ DELTA_TIME_FLAG_MAPPING = {
 }
 
 
-
 def get_time() -> Tuple[str, str]:
 	r"""
 	Get current date time in `DATE_FORMAT` and `TIME_FORMAT`
@@ -26,6 +25,7 @@ def get_time() -> Tuple[str, str]:
 	now = time.strftime(f"{DATE_FORMAT} {TIME_FORMAT}")
 	date, h_m_s = now.split()
 	return date, h_m_s
+
 
 def datetime_to_str(date_time: datetime.datetime) -> Tuple[str, str]:
 	r"""

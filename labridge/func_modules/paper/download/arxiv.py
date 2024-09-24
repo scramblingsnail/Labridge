@@ -4,6 +4,7 @@ import datetime
 
 from llama_index.readers.web import SimpleWebPageReader
 from pathlib import Path
+from enum import Enum
 from arxiv import Search, Client, SortCriterion, SortOrder, Result
 from typing import Optional, List, Dict
 
@@ -18,6 +19,12 @@ Extra_Descriptions = {
 }
 
 
+class ArxivSearchMode(int, Enum):
+	Title = 1
+	DOI = 2
+	TitleAbstract = 3
+
+
 class ArxivClient(Client):
 	r"""
 	Similar to the class `Client` in the package `arxiv`.
@@ -28,14 +35,14 @@ class ArxivClient(Client):
 
 	Advanced search fields:
 	|	prefix	|	explanation		|
-	|:--------:|:-----------------:|
-	|ti		|Title				|
-	|au		|Author				|
+	|:---------:|:-----------------:|
+	|ti			|Title				|
+	|au			|Author				|
 	|abs		|Abstract			|
-	|co		|Comment			|
-	|jr		|Journal Reference	|
+	|co			|Comment			|
+	|jr			|Journal Reference	|
 	|cat		|Subject Category	|
-	|rn		|Report Number		|
+	|rn			|Report Number		|
 	|id_list	|Id list			|
 	|all		|All of the above	|
 	"""
@@ -300,20 +307,44 @@ class ArxivSearcher(object):
 			sort_order=SortOrder.Descending,
 		)
 
-	def search(self, search_str: str, max_results_num: int = None) -> List[Result]:
+	def construct_query(
+		self,
+		search_str: str,
+		search_mode: ArxivSearchMode,
+	) -> str:
+		if search_mode == ArxivSearchMode.Title:
+			return f"ti:{search_str}"
+		elif search_mode == ArxivSearchMode.DOI:
+			return f"doi:{search_str}"
+		elif search_mode == ArxivSearchMode.TitleAbstract:
+			return f"ti:{search_str}+OR+abs:{search_str}"
+		else:
+			raise ValueError("Unsupported search mode.")
+
+	def search(
+		self,
+		search_str: str,
+		max_results_num: int = None,
+		search_mode: ArxivSearchMode = None,
+	) -> List[Result]:
 		r"""
 		Search according to the title or abstract.
 
 		Args:
 			search_str (str): The search string, typically the title or abstract.
 			max_results_num (int): Maximum num of results. Defaults to None.
+			search_mode (ArxivSearchMode): Search mode.
 
 		Returns:
 			List[Result]: The search results.
 		"""
 		# query = f"ti:{search_str}+OR+abs:{search_str}"
-		query = f"ti:{search_str}"
-		self.searcher.query = query
+		# query = f"ti:{search_str}"
+		search_mode = search_mode or ArxivSearchMode.Title
+		self.searcher.query = self.construct_query(
+			search_str=search_str,
+			search_mode=search_mode,
+		)
 		max_results_num = max_results_num or self.max_results_num
 		count = 0
 		results = []

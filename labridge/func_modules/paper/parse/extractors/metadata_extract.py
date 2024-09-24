@@ -23,21 +23,35 @@ PAPER_POSSESSOR = "Possessor"
 PAPER_DOI = "DOI"
 
 DEFAULT_NECESSARY_METADATA = {
-	PAPER_TITLE: "The title often appears as a single concise sentence at the head of a paper.",
-	PAPER_ABSTRACT: "abstract often appears as the first paragraph in the text of a paper. "
-				"It generally includes 100 to 300 words. Use the original text",
-	"Authors": "The authors name often appears at the header of a paper, following the title."
-			   "And the name of authors are separated by separators such as commas.",
-	PAPER_LEVEL_KEYWORDS: "You must extract several keywords of the paper. "
-						  "Output the keywords in a comma-separated format.",
+	PAPER_TITLE: (
+		"The title often appears as a single concise sentence at the head of a paper."
+	),
+	PAPER_ABSTRACT: (
+		"abstract often appears as the first paragraph in the text of a paper. "
+		"It generally includes 100 to 300 words. Use the original text"
+	),
+	PAPER_DOI: (
+		"DOI is the identifier of a paper. It is composed of digits and separators '/', '.' and '-'. "
+		"DOI always start with '10.'"
+	),
+	"Authors": (
+		"The authors name often appears at the header of a paper, following the title."
+		"And the name of authors are separated by separators such as commas."
+	),
+	PAPER_LEVEL_KEYWORDS: (
+		"You must extract several keywords of the paper. "
+		"Output the keywords in a comma-separated format."
+	),
 }
 
 DEFAULT_OPTIONAL_METADATA = {
-	"Paper type": "You'd better judge whether the paper is a review(survey) or an article. \n"
-				  "A review(survey) summarizes, synthesizes, and evaluates existing research on a particular topic."
-				  "Besides, in a review, the keywords 'review' or 'survey' generally appear in its Abstract or Title, "
-				  "it's a simple way to judge whether it is a review or not.\n"
-				  "An article inform, educate, or present original research findings.\n",
+	"Paper type": (
+		"You'd better judge whether the paper is a review(survey) or an article. \n"
+		"A review(survey) summarizes, synthesizes, and evaluates existing research on a particular topic."
+		"Besides, in a review, the keywords 'review' or 'survey' generally appear in its Abstract or Title, "
+		"it's a simple way to judge whether it is a review or not.\n"
+		"An article inform, educate, or present original research findings.\n"
+	),
 	"Institutes": "The institute of the authors, often appears with the authors at the head of the paper.",
 	"Publish year": "The publication year of the paper."
 }
@@ -275,8 +289,7 @@ class PaperMetadataExtractor:
 
 		# find doi according to title
 		doi = paper_metadata.get(PAPER_DOI, None)
-		if doi is None:
-			doi = self.doi_worker.find_doi_by_title(title=title)
+		doi = self.doi_worker.find_doi_by_title(title=title, input_doi=doi)
 		if doi is None:
 			print("DOI find fails.")
 			return None

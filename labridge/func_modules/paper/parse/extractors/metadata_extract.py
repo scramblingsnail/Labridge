@@ -116,32 +116,50 @@ class PaperMetadataExtractor:
 		necessary_metadata = necessary_metadata or self.necessary_metadata
 		optional_metadata = optional_metadata or self.optional_metadata
 
-		tmpl = ("Here is the first page of a research paper. "
-				"You need try to extract some information from it.\n\n"
-				"The NECESSARY metadata that you MUST extract contain:\n")
+		tmpl = (
+			"Here is the first page of a research paper. "
+			"You need try to extract some information from it.\n\n"
+			"The NECESSARY metadata that you MUST extract contain:\n"
+		)
 		necessary_metadata_names = ', '.join(list(necessary_metadata.keys()))
 		tmpl += necessary_metadata_names
-		tmpl += ("\n\nIt is better to extract the following metadata,"
-				 "But if a optional metadata does not appear in the paper, you do not need to output it.\n")
+		tmpl += (
+			"\n\nIt is better to extract the following metadata,"
+			"But if a optional metadata does not appear in the paper, you do not need to output it.\n"
+		)
 		optional_metadata_names = ', '.join(list(optional_metadata.keys()))
 		tmpl += optional_metadata_names
-		tmpl += ("\n\n"
-				 "Here are some suggestions for you to extract these metadata:")
+		tmpl += (
+			"\n\n"
+			"Here are some suggestions for you to extract these metadata:"
+		)
 		tmpl += "\n\nSuggestions for extracting NECESSARY metadata:\n"
 
 		for key in necessary_metadata.keys():
 			tmpl += f"**{key}**: {necessary_metadata[key]}\n"
 
-		tmpl += ("\n\n"
-				 "Suggestions for extracting optional metadata:\n")
+		tmpl += (
+			"\n\n"
+			"Suggestions for extracting optional metadata:\n"
+		)
 		for key in optional_metadata.keys():
 			tmpl += f"**{key}**: {optional_metadata[key]}\n"
-		tmpl += ("\n\n"
-				 "The first page of the paper is as follows:\n"
-				 "{}")
-		tmpl += ("\n\nOutput your extracted metadata as the following FORMAT:\n"
-				 "**metadata_name**: <extracted corresponding metadata>\n\n"
-				 "List your extracted metadata as follows:\n\n")
+		tmpl += (
+			"\n\n"
+			"The first page of the paper is as follows:\n"
+			"{}"
+		)
+		tmpl += (
+			"\n\nOutput your extracted metadata as the following FORMAT:\n"
+			"**metadata_name**: <extracted corresponding metadata>\n\n"
+			"For example:\n"
+			"**Title**: Chaotic dynamics in memristor\n"
+			"**DOI**: 10.2003-233/1245\n\n"
+			"You should output valid extracted metadata, DO NOT output the given example:\n"
+			"**Title**: Chaotic dynamics in memristor\n"
+			"**DOI**: 10.2003-233/1245\n\n"
+			"Now list your extracted metadata as follows:\n\n"
+		)
 
 		for key in necessary_metadata.keys():
 			tmpl += f"**{key}**: \n\n"

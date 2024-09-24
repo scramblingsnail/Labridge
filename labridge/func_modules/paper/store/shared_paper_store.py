@@ -26,6 +26,7 @@ from llama_index.core.storage import StorageContext
 from llama_index.core.node_parser import SentenceSplitter
 from llama_index.core.response import Response
 from llama_index.core.llms import LLM
+from llama_index.core.readers import SimpleDirectoryReader
 from llama_index.core.schema import (
 	TextNode,
 	NodeRelationship,
@@ -57,6 +58,7 @@ SHARED_PAPER_NODE_TYPE = "node_type"
 SHARED_PAPER_SUMMARY_KEY = "summary"
 SHARED_PAPER_DOI_KEY = "paper_doi"
 
+SHARED_PAPER_PAGE_KEY = "page_label"
 
 
 class SharedPaperNodeType(object):
@@ -108,6 +110,10 @@ class UserNote(object):
 		self.doi = doi
 		self.user_id = user_id
 		self.note = note
+
+
+def dummy_file_metadata_func(file_path: str) -> Dict:
+	return {}
 
 
 class SharedPaperStorage(object):
@@ -642,20 +648,20 @@ class SharedPaperStorage(object):
 			self._update_node(node_id=chunk_node.node_id, node=chunk_node)
 
 		# insert non-overlapped nodes to notes_index as child nodes of doi node.
-		paper_doi = paper_metadata[PAPER_DOI]
-		doi_node = self._new_doi_node(doi=paper_doi)
-
-		for doc in chunk_docs:
-			doc.metadata = dict()
-		non_overlapped_chunk_nodes = run_transformations(
-			nodes=chunk_docs,
-			transformations=self._default_non_overlapped_transformations,
-		)
-
-		self._insert_as_child_nodes(node=doi_node, child_nodes=non_overlapped_chunk_nodes)
-		for chunk_node in non_overlapped_chunk_nodes:
-			self._update_note_index_node(node_id=chunk_node.node_id, node=chunk_node)
-		self._update_note_index_node(node_id=doi_node.node_id, node=doi_node)
+		# paper_doi = paper_metadata[PAPER_DOI]
+		# doi_node = self._new_doi_node(doi=paper_doi)
+		#
+		# for doc in chunk_docs:
+		# 	doc.metadata = dict()
+		# non_overlapped_chunk_nodes = run_transformations(
+		# 	nodes=chunk_docs,
+		# 	transformations=self._default_non_overlapped_transformations,
+		# )
+		#
+		# self._insert_as_child_nodes(node=doi_node, child_nodes=non_overlapped_chunk_nodes)
+		# for chunk_node in non_overlapped_chunk_nodes:
+		# 	self._update_note_index_node(node_id=chunk_node.node_id, node=chunk_node)
+		# self._update_note_index_node(node_id=doi_node.node_id, node=doi_node)
 
 		# extra docs
 		self._insert_as_child_nodes(node=paper_node, child_nodes=extra_docs)
@@ -664,7 +670,56 @@ class SharedPaperStorage(object):
 			self._update_node(node_id=doc.node_id, node=doc)
 
 		self._update_node(node_id=paper_node.node_id, node=paper_node)
+
+		paper_doi = paper_metadata[PAPER_DOI]
+		self.insert_doi_node(paper_doi=paper_doi, paper_path=paper_path)
+
 		return paper_node.node_id
+
+	def insert_doi_node(
+		self,
+		paper_doi: str,
+		paper_path: str,
+	) -> Optional[BaseNode]:
+		r"""
+		Insert a DOI node and its corresponding chunk nodes as children into the note index.
+
+		Args:
+			paper_doi (str): The DOI of a paper.
+			paper_path (str): The paper path.
+
+		Returns:
+			Optional[BaseNode]: If the DOI node already exists or is successfully created, return the DOI node.
+				If fails, return None.
+		"""
+		existing_node = self._get_notes_index_node(node_id=paper_doi)
+		if existing_node:
+			return existing_node
+
+		try:
+			paper_docs = SimpleDirectoryReader.load_file(
+				input_file=Path(paper_path),
+				file_extractor={},
+				file_metadata=dummy_file_metadata_func,
+			)
+		except:
+			return None
+
+		# insert non-overlapped nodes to notes_index as child nodes of doi node.
+		doi_node = self._new_doi_node(doi=paper_doi)
+
+		for doc in paper_docs:
+			doc.metadata = {SHARED_PAPER_PAGE_KEY: doc.metadata[SHARED_PAPER_PAGE_KEY]}
+		non_overlapped_chunk_nodes = run_transformations(
+			nodes=paper_docs,
+			transformations=self._default_non_overlapped_transformations,
+		)
+
+		self._insert_as_child_nodes(node=doi_node, child_nodes=non_overlapped_chunk_nodes)
+		for chunk_node in non_overlapped_chunk_nodes:
+			self._update_note_index_node(node_id=chunk_node.node_id, node=chunk_node)
+		self._update_note_index_node(node_id=doi_node.node_id, node=doi_node)
+		return doi_node
 
 	def insert_papers(
 		self,
@@ -890,8 +945,27 @@ if __name__ == "__main__":
 
 	acc = AccountManager()
 	acc.add_user(user_id="赵懿晨", password="123456")
-
 	acc.add_user(user_id="杨再正", password="123456")
+
+
+	def add_papers(user_id: str, papers: List[str], user_root: str):
+		max_try = 3
+		try_idx = 0
+		remain_papers = papers
+
+		while remain_papers and try_idx < max_try:
+			print(f"Try {try_idx}")
+			remain_papers = paper_store.insert_papers(
+				user_id=user_id,
+				enable_summarize=False,
+				paper_paths=remain_papers,
+				papers_root_dir=user_root,
+			)
+			try_idx += 1
+
+		if remain_papers:
+			print("Failed papers: \n", remain_papers)
+
 
 	root_dir = paper_store._root
 	zhisan_papers = [
@@ -913,29 +987,32 @@ if __name__ == "__main__":
 		fr"{root_dir}\documents\papers\赵懿晨\深度学习编译\CIM\CIMAX-Compiler_An_End-to-End_ANN_Compiler_for_Heterogeneous_Computing-in-Memory_Platform.pdf",
 	]
 
-	failed_papers = paper_store.insert_papers(
-		user_id="杨再正",
-		enable_summarize=False,
-		paper_paths=zhisan_papers,
-		papers_root_dir=fr"{root_dir}\documents\papers\杨再正",
-	)
+	add_papers(user_id="杨再正", papers=zhisan_papers, user_root=fr"{root_dir}\documents\papers\杨再正")
+	add_papers(user_id="赵懿晨", papers=zhaoyichen_papers, user_root=fr"{root_dir}\documents\papers\赵懿晨")
 
-	if failed_papers is not None:
-		print(failed_papers)
-	else:
-		print("No failure.")
-
-	failed_papers = paper_store.insert_papers(
-		user_id="赵懿晨",
-		enable_summarize=False,
-		paper_paths=zhaoyichen_papers,
-		papers_root_dir=fr"{root_dir}\documents\papers\赵懿晨",
-	)
-
-	if failed_papers is not None:
-		print(failed_papers)
-	else:
-		print("No failure.")
+	# failed_papers = paper_store.insert_papers(
+	# 	user_id="杨再正",
+	# 	enable_summarize=False,
+	# 	paper_paths=zhisan_papers,
+	# 	papers_root_dir=fr"{root_dir}\documents\papers\杨再正",
+	# )
+	#
+	# if failed_papers is not None:
+	# 	print(failed_papers)
+	# else:
+	# 	print("No failure.")
+	#
+	# failed_papers = paper_store.insert_papers(
+	# 	user_id="赵懿晨",
+	# 	enable_summarize=False,
+	# 	paper_paths=zhaoyichen_papers,
+	# 	papers_root_dir=fr"{root_dir}\documents\papers\赵懿晨",
+	# )
+	#
+	# if failed_papers is not None:
+	# 	print(failed_papers)
+	# else:
+	# 	print("No failure.")
 
 	# paper_store.insert_note(
 	# 	doi="10.1038/s41467-018-04484-2",

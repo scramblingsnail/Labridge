@@ -720,11 +720,11 @@ class SharedPaperStorage(object):
 		dir_node, paper_node = self._new_paper_node(dir_node=dir_node, paper_info=paper_metadata)
 		self._update_node(node_id=dir_node.node_id, node=dir_node)
 
-		for doc in chunk_docs:
-			# TODO: check whether useful for break the warning that metadata str is longer than chunk content.
-			all_metadata_keys = list(doc.metadata.keys())
-			doc.excluded_embed_metadata_keys = all_metadata_keys
-			doc.excluded_llm_metadata_keys = all_metadata_keys
+		# for doc in chunk_docs:
+		# 	# TODO: check whether useful for break the warning that metadata str is longer than chunk content.
+		# 	all_metadata_keys = list(doc.metadata.keys())
+		# 	doc.excluded_embed_metadata_keys = []
+		# 	doc.excluded_llm_metadata_keys = all_metadata_keys
 		# overlapped nodes
 		overlapped_chunk_nodes = run_transformations(
 			nodes=chunk_docs,

@@ -129,17 +129,19 @@ class SharedPaperRetrieverTool(RetrieverBaseTool):
 		ref_infos = []
 		for node_score in nodes:
 			ref_doc_id = node_score.node.ref_doc_id
-			if ref_doc_id not in doc_ids:
+			if ref_doc_id and ref_doc_id not in doc_ids:
 				doc_ids.append(ref_doc_id)
 				title = node_score.node.metadata.get(PAPER_TITLE) or ref_doc_id
 				possessor = node_score.node.metadata.get(PAPER_POSSESSOR)
 				rel_path = node_score.node.metadata.get(PAPER_REL_FILE_PATH)
+				doi = node_score.node.metadata.get(PAPER_DOI)
 				if rel_path is None:
 					raise ValueError("Invalid database.")
 				paper_info = PaperInfo(
 					title=title,
 					possessor=possessor,
 					file_path=str(self.root / rel_path),
+					doi=doi,
 				)
 				ref_infos.append(paper_info)
 				doc_titles.append(title)

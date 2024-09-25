@@ -351,10 +351,10 @@ class SharedPaperRetriever:
 			summary = paper_summaries[paper_id]
 			summary_node = TextNode(
 				text=f"Title: {title}\n\nSummary:\n{summary}",
-				metadata={
-					PAPER_REL_FILE_PATH: paper_node.metadata[PAPER_REL_FILE_PATH],
-				}
+				metadata=paper_node.child_nodes[0].metadata,
 			)
+			self._exclude_all_llm_metadata([summary_node])
+			self._exclude_all_embedding_metadata([summary_node])
 			summary_nodes.append(NodeWithScore(node=summary_node))
 
 		retrieved_nodes.extend(summary_nodes)

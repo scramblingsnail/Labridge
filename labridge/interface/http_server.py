@@ -1,5 +1,6 @@
 import asyncio
 import argparse
+import json
 import sys
 
 import fsspec
@@ -12,17 +13,9 @@ from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.responses import StreamingResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-# from pathlib import Path
-#
-# root = Path(__file__)
-# for i in range(3):
-#     root = root.parent
-# sys.path.append(str(root))
-# print(sys.path)
-
 from labridge.agent.chat_msg.msg_types import ChatBuffer
-from labridge.agent.chat_agent import ChatAgent
-from labridge.agent.chat_msg.msg_types import ChatTextMessage, FileWithTextMessage, ChatSpeechMessage
+from labridge.agent.chat_agent import ChatAgent, CacheSharedPaperStorage
+from labridge.agent.chat_msg.msg_types import ChatTextMessage, FileWithTextMessage, ChatSpeechMessage, PaperNotesReply
 from labridge.interface.utils import save_temporary_file, read_server_file, error_file
 from labridge.accounts.users import AccountManager
 
@@ -48,6 +41,18 @@ class ClientTextReq(BaseModel):
 
 class ClientDownloadReq(BaseModel):
     filepath: str
+
+
+class ClientGetPaperNotesReq(BaseModel):
+    doi: str
+
+
+class ClientAddPaperNoteReq(BaseModel):
+    user_id: str
+    doi: str
+    page_label: int
+    chunk_info: str
+    note: str
 
 
 class ClientLogInUpReq(BaseModel):
@@ -252,6 +257,26 @@ async def get_file(user_id: str, req: ClientDownloadReq):
             user_id=user_id,
         )
         return FileResponse(path=error_path, filename=error_f_name)
+
+
+@app.post("/users/{user_id}/paper_notes/add_note")
+async def add_paper_note(user_id: str, req: ClientAddPaperNoteReq):
+    status = CacheSharedPaperStorage.insert_note(
+        doi=req.doi,
+        page_label=req.page_label,
+        chunk_info=req.chunk_info,
+        user_id=req.user_id,
+        note=req.note,
+    )
+    return status
+
+
+@app.get("/users/{user_id}/paper_notes/get_note")
+async def get_paper_notes(user_id: str, req: ClientGetPaperNotesReq):
+    doi = req.doi
+    all_notes = CacheSharedPaperStorage.get_all_notes(doi=doi)
+    note_jsons = [note.dumps() for note in all_notes]
+    return PaperNotesReply(chunk_notes=note_jsons)
 
 
 @app.get("/users/{user_id}/files/{filepath}")

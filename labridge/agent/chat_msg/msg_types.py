@@ -172,6 +172,10 @@ class AgentResponse(BaseModel):
 	references: Optional[List[str]]
 
 
+class PaperNotesReply(BaseModel):
+	chunk_notes: List[str]
+
+
 class ServerReply(BaseModel):
 	r"""
 	The server's text reply.

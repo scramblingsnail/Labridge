@@ -22,6 +22,22 @@
 - Post URL: `/accounts/log-up`
 - Return: 若成功返回user_id，失败返回None
 
+### Shared paper notes:
+
+### Get notes:
+
+- doi (str): 之前服务器返回的该文献的DOI字符串
+
+#### Get URL: `/users/{user_id}/paper_notes/get_note`
+
+### Add note:
+
+- user_id (str): 记录该文献笔记的用户名
+- doi (str): 该文献的DOI字符串
+- page_label (int): 该笔记记录位置的文献页码（从1开始）
+- chunk_info (str): 该笔记对应的文中文本（如用户划的文本）
+- note (str): 笔记文本
+
 ### Chat with text:
 细节参见源码 `labridge/interface/http_server`
 

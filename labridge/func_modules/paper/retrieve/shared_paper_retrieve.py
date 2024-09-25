@@ -228,7 +228,7 @@ class SharedPaperRetriever:
 		vector_similarity_top_k: int = PAPER_VECTOR_TOP_K,
 		papers_top_k: int = PAPER_TOP_K,
 		re_retrieve_top_k: int = PAPER_RETRIEVE_TOP_K,
-		final_use_context: bool = True,
+		final_use_context: bool = False,
 		final_use_summary: bool = True,
 	):
 		self.paper_summary_post_selector = PaperSummaryLLMPostSelector(

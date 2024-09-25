@@ -27,6 +27,7 @@ from llama_index.core.storage import StorageContext
 from llama_index.core.node_parser import SentenceSplitter
 from llama_index.core.response import Response
 from llama_index.core.llms import LLM
+from llama_index.core import Settings
 from llama_index.core.readers import SimpleDirectoryReader
 from llama_index.core.vector_stores.types import (
 	MetadataFilters,
@@ -906,8 +907,8 @@ class SharedPaperStorage(object):
 		self,
 		doi: str,
 		page_label: int,
-		user_id: str,
 		chunk_info: str,
+		user_id: str,
 		note: str,
 	) -> bool:
 		r"""
@@ -923,6 +924,7 @@ class SharedPaperStorage(object):
 		Returns:
 			bool: successful or not.
 		"""
+		self._account_manager.check_valid_user(user_id=user_id)
 		doi_node = self._get_notes_index_node(node_id=doi)
 		if doi_node is None:
 			return False

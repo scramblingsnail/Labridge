@@ -26,6 +26,7 @@ from labridge.tools.memory.experiment.insert import (
 )
 
 from labridge.func_modules.memory.chat.short_memory import ShortMemoryManager
+from labridge.func_modules.paper.store.shared_paper_store import SharedPaperStorage
 
 
 from typing import Optional, List, Union, Dict
@@ -159,3 +160,4 @@ class LabChatAgent:
 
 
 ChatAgent = LabChatAgent()
+CacheSharedPaperStorage = SharedPaperStorage.from_default(llm=Settings.llm, embed_model=Settings.embed_model)

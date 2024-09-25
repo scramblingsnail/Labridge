@@ -1015,7 +1015,7 @@ class SharedPaperStorage(object):
 	def get_all_notes(
 		self,
 		doi: str,
-	) -> Optional[List[ChunkNote]]:
+	) -> List[ChunkNote]:
 		r"""
 		Get all notes of a paper.
 
@@ -1027,7 +1027,7 @@ class SharedPaperStorage(object):
 		"""
 		doi_node = self._get_notes_index_node(node_id=doi)
 		if doi_node is None:
-			return None
+			return []
 		page_notes = defaultdict(list)
 		chunk_ids = [node.node_id for node in doi_node.child_nodes]
 

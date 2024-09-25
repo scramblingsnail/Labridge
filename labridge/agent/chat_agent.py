@@ -139,18 +139,13 @@ class LabChatAgent:
 		]
 
 	def get_chat_engine(self) -> InstructReActAgent:
-		llm, embed_model = get_models()
-		Settings.embed_model = embed_model
-		Settings.llm = llm
 		tools = self.get_tools()
-
 		react_chat_formatter = ReActChatFormatter.from_defaults(system_header=LABRIDGE_CHAT_SYSTEM_HEADER)
-
 		chat_engine = InstructReActAgent.from_tools(
 			tools=tools,
 			react_chat_formatter=react_chat_formatter,
 			verbose=True,
-			llm=llm,
+			llm=Settings.llm,
 			memory=ChatMemoryBuffer.from_defaults(token_limit=3000),
 			enable_instruct=False,
 			enable_comment=False,
@@ -158,6 +153,10 @@ class LabChatAgent:
 		)
 		return chat_engine
 
+
+llm, embed_model = get_models()
+Settings.embed_model = embed_model
+Settings.llm = llm
 
 ChatAgent = LabChatAgent()
 CacheSharedPaperStorage = SharedPaperStorage.from_default(llm=Settings.llm, embed_model=Settings.embed_model)

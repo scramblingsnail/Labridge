@@ -11,7 +11,7 @@ from labridge.common.utils.asr.xunfei import ASRWorker
 from labridge.common.utils.tts.xunfei import TTSWorker
 from labridge.common.utils.time import get_time
 from labridge.accounts.users import AccountManager
-from labridge.func_modules.reference.base import REF_INFO_FILE_PATH_KEY
+from labridge.func_modules.reference.base import REF_INFO_FILE_PATH_KEY, REF_INFO_FILE_SIZE_KEY
 from pathlib import Path
 
 from typing import List, Optional
@@ -182,7 +182,7 @@ class ServerReply(BaseModel):
 
 	reply_text (str): The reply text.
 	valid (bool): Whether this reply contains valid information.
-	references (Optional[Dict[str, int]]): The infos of reference files and file size.
+	references (Optional[List[str]]): The infos of reference files.
 	error (Optional[str]): The error information. If no error, it is None.
 	inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.
 		- If this reply is the final response of the agent, it is False.
@@ -191,7 +191,7 @@ class ServerReply(BaseModel):
 	"""
 	reply_text: str
 	valid: bool
-	references: Optional[Dict[str, int]] = None
+	references: Optional[List[str]] = None
 	extra_info: Optional[str] = None
 	error: Optional[str] = None
 	inner_chat: Optional[bool] = False
@@ -489,13 +489,14 @@ class ChatMsgBuffer(object):
 			reply_str (str): The agent's reply string.
 			references (List[str]): The dumped string of reference info dict. Defaults to None.
 				The `file_path` is corresponding to the key `REF_INFO_FILE_PATH_KEY`.
+				The `file_size` is corresponding to the key `REF_INFO_FILE_SIZE_KEY`
 			inner_chat (bool): Whether the reply happens inside a chat.
 			extra_info (str): extra information generally with long texts.
 		"""
 		self.account_manager.check_valid_user(user_id=user_id)
 
 		if references is not None:
-			ref_dict = {}
+			ref_jsons = []
 			for ref_info_str in references:
 				ref_info_dict = json.loads(ref_info_str)
 				ref_path = ref_info_dict.get(REF_INFO_FILE_PATH_KEY, None)
@@ -503,9 +504,10 @@ class ChatMsgBuffer(object):
 					continue
 
 				ref_size = os.path.getsize(ref_path)
-				ref_dict[ref_info_str] = ref_size
-			if ref_dict:
-				references = ref_dict
+				ref_info_dict[REF_INFO_FILE_SIZE_KEY] = ref_size
+				ref_jsons.append(json.dumps(ref_info_dict))
+			if ref_jsons:
+				references = ref_jsons
 			else:
 				references = None
 

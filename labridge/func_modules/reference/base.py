@@ -2,6 +2,7 @@ from abc import abstractmethod
 
 REF_TYPE = "ref_type"
 REF_INFO_FILE_PATH_KEY = "ref_file_path"
+REF_INFO_FILE_SIZE_KEY = "ref_file_size"
 
 
 class RefInfoBase:

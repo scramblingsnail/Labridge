@@ -20,6 +20,7 @@ class InstrumentInfo(RefInfoBase):
 	):
 		self.instrument_id = instrument_id
 		self.super_users = super_users
+		super().__init__()
 
 	def dumps(self) -> str:
 		r""" Dump to a string in JSON format. """

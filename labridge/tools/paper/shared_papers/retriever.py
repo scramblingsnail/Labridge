@@ -21,6 +21,7 @@ from labridge.func_modules.paper.parse.extractors.metadata_extract import (
 	PAPER_POSSESSOR,
 	PAPER_TITLE,
 	PAPER_REL_FILE_PATH,
+	PAPER_DOI,
 )
 
 
@@ -141,7 +142,6 @@ class SharedPaperRetrieverTool(RetrieverBaseTool):
 					file_path=str(self.root / rel_path),
 				)
 				ref_infos.append(paper_info)
-
 				doc_titles.append(title)
 				doc_possessors.append(possessor)
 		return ref_infos

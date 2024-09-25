@@ -1,7 +1,7 @@
 import json
 
 from typing import List
-from .base import REF_TYPE, RefInfoBase
+from .base import REF_TYPE, RefInfoBase, REF_INFO_FILE_PATH_KEY
 
 
 class ExperimentLogRefInfo(RefInfoBase):
@@ -23,8 +23,8 @@ class ExperimentLogRefInfo(RefInfoBase):
 	):
 		self.date_time = date_time
 		self.log_str = log_str
-		self.attachment_path = attachment_path
 		self.experiment_name = experiment_name
+		super().__init__(ref_file_path=attachment_path)
 
 	def dumps(self) -> str:
 		r""" Dump to a string in JSON format. """
@@ -32,7 +32,7 @@ class ExperimentLogRefInfo(RefInfoBase):
 			REF_TYPE: ExperimentLogRefInfo.__name__,
 			"date_time": self.date_time,
 			"log_str": self.log_str,
-			"attachment_path": self.attachment_path,
+			REF_INFO_FILE_PATH_KEY: self.ref_file_path,
 			"experiment_name": self.experiment_name,
 		}
 		return json.dumps(info_dict)
@@ -44,11 +44,11 @@ class ExperimentLogRefInfo(RefInfoBase):
 			info_dict = json.loads(info_str)
 			date_time = info_dict["date_time"]
 			log_str = info_dict["log_str"]
-			attachment_path = info_dict["attachment_path"]
+			ref_file_path = info_dict[REF_INFO_FILE_PATH_KEY]
 			experiment_name = info_dict["experiment_name"]
 			return cls(
 				date_time=date_time,
-				attachment_path=attachment_path,
+				attachment_path=ref_file_path,
 				log_str=log_str,
 				experiment_name=experiment_name,
 			)

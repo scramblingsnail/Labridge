@@ -30,6 +30,6 @@ def ref_papers_str_to_user(ref_infos: List[PaperInfo]) -> str:
 
 
 def ref_papers_file_path(ref_infos: List[PaperInfo]) -> List[str]:
-	r""" Get all file paths of the PaperInfos. """
-	return [paper_info.file_path for paper_info in ref_infos]
+	r""" Get all dumped PaperInfos. """
+	return [paper_info.dumps() for paper_info in ref_infos]
 

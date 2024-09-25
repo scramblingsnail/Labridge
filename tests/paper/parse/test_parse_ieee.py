@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from labridge.paper.parse.parsers.ieee_parser import IEEEPaperParser, IEEE_CONTENT_NAMES
-from labridge.paper.parse.parsers.base import CONTENT_TYPE_NAME
+from labridge.func_modules.paper.parse.parsers.ieee_parser import IEEEPaperParser, IEEE_CONTENT_NAMES
+from labridge.func_modules.paper.parse.parsers.base import CONTENT_TYPE_NAME
 
 
 article_list = [

@@ -79,7 +79,7 @@ class CheckBaseTool(AsyncBaseTool):
 		if "kwargs" in argument_keys:
 			return kwargs
 
-		return {key: kwargs[key] for key in argument_keys}
+		return {key: kwargs[key] for key in argument_keys if key in kwargs}
 
 	@abstractmethod
 	def call(self, **kwargs) -> ToolOutput:

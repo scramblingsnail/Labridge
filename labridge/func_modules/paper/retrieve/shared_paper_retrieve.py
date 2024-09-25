@@ -52,7 +52,12 @@ from labridge.func_modules.paper.store.temporary_store import (
 	TMP_PAPER_DOC_NODE_TYPE,
 )
 from labridge.accounts.users import AccountManager
-from labridge.func_modules.paper.parse.extractors.metadata_extract import PAPER_POSSESSOR, PAPER_ABSTRACT, PAPER_TITLE
+from labridge.func_modules.paper.parse.extractors.metadata_extract import (
+	PAPER_POSSESSOR,
+	PAPER_ABSTRACT,
+	PAPER_TITLE,
+	PAPER_REL_FILE_PATH,
+)
 from labridge.func_modules.paper.store.shared_paper_store import (
 	SharedPaperNodeType,
 	SHARED_PAPER_NODE_TYPE,
@@ -125,23 +130,32 @@ class PaperSummaryLLMPostSelector:
 
 		paper_ids = list(paper_summaries.keys())
 		summaries = [paper_summaries[key] for key in paper_ids]
+		max_try = 3
 
 		for idx in range(0, len(summaries), self._choice_batch_size):
 			batch_summaries = summaries[idx: idx + self._choice_batch_size]
 			batch_paper_ids = paper_ids[idx: idx + self._choice_batch_size]
 			fmt_batch_str = self.format_batch_summaries(batch_summaries=batch_summaries)
 			# call each batch independently
-			raw_response = self._llm.predict(
-				self._choice_select_prompt,
-				context_str=fmt_batch_str,
-				query_str=item_to_be_retrieved,
-			)
-			raw_choices, relevances = self._parse_choice_select_answer_fn(raw_response, len(summaries))
-			choice_idxs = [choice - 1 for choice in raw_choices]
-			choice_ids = [batch_paper_ids[ci] for ci in choice_idxs]
+			batch_done = False
+			try_idx = 1
+			while not batch_done and try_idx < max_try:
+				try:
+					try_idx += 1
+					raw_response = self._llm.predict(
+						self._choice_select_prompt,
+						context_str=fmt_batch_str,
+						query_str=item_to_be_retrieved,
+					)
+					raw_choices, relevances = self._parse_choice_select_answer_fn(raw_response, len(summaries))
+					choice_idxs = [choice - 1 for choice in raw_choices]
+					choice_ids = [batch_paper_ids[ci] for ci in choice_idxs]
 
-			all_paper_ids.extend(choice_ids)
-			all_relevances.extend(relevances)
+					all_paper_ids.extend(choice_ids)
+					all_relevances.extend(relevances)
+					batch_done = True
+				except:
+					pass
 
 		zipped_list = list(zip(all_paper_ids, all_relevances))
 		sorted_list = sorted(zipped_list, key=lambda x: x[1], reverse=True)
@@ -169,24 +183,32 @@ class PaperSummaryLLMPostSelector:
 
 		paper_ids = list(paper_summaries.keys())
 		summaries = [paper_summaries[key] for key in paper_ids]
+		max_try = 3
 
 		for idx in range(0, len(summaries), self._choice_batch_size):
 			batch_summaries = summaries[idx: idx + self._choice_batch_size]
 			batch_paper_ids = paper_ids[idx: idx + self._choice_batch_size]
 			fmt_batch_str = self.format_batch_summaries(batch_summaries=batch_summaries)
 			# call each batch independently
-			raw_response = await self._llm.apredict(
-				self._choice_select_prompt,
-				context_str=fmt_batch_str,
-				query_str=item_to_be_retrieved,
-			)
+			batch_done = False
+			try_idx = 1
+			while not batch_done and try_idx < max_try:
+				try:
+					try_idx += 1
+					raw_response = await self._llm.apredict(
+						self._choice_select_prompt,
+						context_str=fmt_batch_str,
+						query_str=item_to_be_retrieved,
+					)
+					raw_choices, relevances = self._parse_choice_select_answer_fn(raw_response, len(summaries))
+					choice_idxs = [choice - 1 for choice in raw_choices]
+					choice_ids = [batch_paper_ids[ci] for ci in choice_idxs]
 
-			raw_choices, relevances = self._parse_choice_select_answer_fn(raw_response, len(summaries))
-			choice_idxs = [choice - 1 for choice in raw_choices]
-			choice_ids = [batch_paper_ids[ci] for ci in choice_idxs]
-
-			all_paper_ids.extend(choice_ids)
-			all_relevances.extend(relevances)
+					all_paper_ids.extend(choice_ids)
+					all_relevances.extend(relevances)
+					batch_done = True
+				except:
+					pass
 
 		zipped_list = list(zip(all_paper_ids, all_relevances))
 		sorted_list = sorted(zipped_list, key=lambda x: x[1], reverse=True)
@@ -495,7 +517,6 @@ class SharedPaperRetriever:
 if __name__ == "__main__":
 	import asyncio
 	from labridge.models.utils import get_models
-	from labridge.func_modules.paper.parse.extractors.metadata_extract import PAPER_REL_FILE_PATH
 
 	llm, embed_model = get_models()
 	ss = SharedPaperRetriever.from_storage(

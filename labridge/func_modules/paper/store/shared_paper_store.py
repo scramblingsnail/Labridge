@@ -372,7 +372,7 @@ class SharedPaperStorage(object):
 	@property
 	def _default_overlapped_transformations(self):
 		r""" Transformations for chunks in vector_index """
-		return [SentenceSplitter(chunk_size=1024, chunk_overlap=256, include_metadata=False), MarkAsChunk()]
+		return [SentenceSplitter(chunk_size=1024, chunk_overlap=256, include_metadata=True), MarkAsChunk()]
 
 	@property
 	def _default_non_overlapped_transformations(self):

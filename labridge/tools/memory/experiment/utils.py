@@ -35,5 +35,5 @@ def ref_experiment_log_str_to_user(log_refs: List[ExperimentLogRefInfo]) -> str:
 
 
 def ref_attachments_file_path(ref_infos: List[ExperimentLogRefInfo]) -> List[str]:
-	r""" Get all file paths of the ExperimentLogRefInfo. """
-	return [ref_info.attachment_path for ref_info in ref_infos if ref_info.attachment_path is not None]
+	r""" Get all dumped ExperimentLogRefInfo. """
+	return [ref_info.dumps() for ref_info in ref_infos if ref_info.attachment_path is not None]

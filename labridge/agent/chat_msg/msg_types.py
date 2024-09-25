@@ -11,6 +11,7 @@ from labridge.common.utils.asr.xunfei import ASRWorker
 from labridge.common.utils.tts.xunfei import TTSWorker
 from labridge.common.utils.time import get_time
 from labridge.accounts.users import AccountManager
+from labridge.func_modules.reference.base import REF_INFO_FILE_PATH_KEY
 from pathlib import Path
 
 from typing import List, Optional
@@ -26,7 +27,6 @@ USER_SPEECH_NAME = "user_speech"
 SUPPORT_USER_SPEECH_SUFFIX = [".wav"]
 
 AGENT_SPEECH_NAME = "agent_reply"
-
 
 
 class BaseClientMessage(BaseModel):
@@ -178,7 +178,7 @@ class ServerReply(BaseModel):
 
 	reply_text (str): The reply text.
 	valid (bool): Whether this reply contains valid information.
-	references (Optional[Dict[str, int]]): The paths of reference files and file size.
+	references (Optional[Dict[str, int]]): The infos of reference files and file size.
 	error (Optional[str]): The error information. If no error, it is None.
 	inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.
 		- If this reply is the final response of the agent, it is False.
@@ -483,7 +483,8 @@ class ChatMsgBuffer(object):
 		Args:
 			user_id (str): The user id of a Lab member.
 			reply_str (str): The agent's reply string.
-			references (List[str]): The paths of reference files. Defaults to None.
+			references (List[str]): The dumped string of reference info dict. Defaults to None.
+				The `file_path` is corresponding to the key `REF_INFO_FILE_PATH_KEY`.
 			inner_chat (bool): Whether the reply happens inside a chat.
 			extra_info (str): extra information generally with long texts.
 		"""
@@ -491,12 +492,14 @@ class ChatMsgBuffer(object):
 
 		if references is not None:
 			ref_dict = {}
-			for ref_path in references:
-				if not self._fs.exists(ref_path):
+			for ref_info_str in references:
+				ref_info_dict = json.loads(ref_info_str)
+				ref_path = ref_info_dict.get(REF_INFO_FILE_PATH_KEY, None)
+				if ref_path is None or not self._fs.exists(ref_path):
 					continue
 
 				ref_size = os.path.getsize(ref_path)
-				ref_dict[ref_path] = ref_size
+				ref_dict[ref_info_str] = ref_size
 			if ref_dict:
 				references = ref_dict
 			else:

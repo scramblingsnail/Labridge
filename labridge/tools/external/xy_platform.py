@@ -8,14 +8,14 @@ from labridge.tools.base.function_base_tools import CallBackBaseTool, FuncOutput
 from labridge.tools.base.tool_log import ToolLog, TOOL_OP_DESCRIPTION, TOOL_REFERENCES
 from labridge.callback.base.operation_log import OperationOutputLog, OP_DESCRIPTION, OP_REFERENCES
 from labridge.interact.authorize.authorize import operation_authorize, aoperation_authorize
-from labridge.callback.paper.add_paper import AddNewRecentPaperOperation
+from labridge.callback.external.xy_platform import XYPlatformOperation
 
 from typing import Any
 
 
-class AddNewRecentPaperTool(CallBackBaseTool):
+class XYPlatformMoveTool(CallBackBaseTool):
 	r"""
-	This tool is used to add a new paper into a specific user's recent papers storage.
+	This tool is used to move a motorized XY stage, the motorized XY stage can be moved along the `X` axis and `Y` axis.
 
 	Args:
 		llm (LLM): The used LLM. If not specified, the `Settings.llm` will be used.
@@ -32,10 +32,10 @@ class AddNewRecentPaperTool(CallBackBaseTool):
 		self._embed_model = embed_model or Settings.embed_model
 		self._verbose = verbose
 		super().__init__(
-			fn=self.add_paper,
-			async_fn=self.a_add_paper,
-			tool_name=AddNewRecentPaperTool.__name__,
-			callback_operation=AddNewRecentPaperOperation,
+			fn=self.move,
+			async_fn=self.amove,
+			tool_name=XYPlatformMoveTool.__name__,
+			callback_operation=XYPlatformOperation,
 		)
 
 	def log(self, **kwargs: Any) -> ToolLog:
@@ -50,18 +50,25 @@ class AddNewRecentPaperTool(CallBackBaseTool):
 			log_to_system=log_to_system,
 		)
 
-	def add_paper(
+	def move(
 		self,
 		user_id: str,
-		paper_file_path: str,
+		x_direction: int,
+		x_movement: int,
+		y_direction: int,
+		y_movement: int,
 	) -> FuncOutputWithLog:
 		r"""
-		This tool is used to add a new paper to a specific user's recent papers storage.
+		This tool is used to move a motorized XY stage along the `X` axis and `Y` axis.
 
 		Args:
-			user_id (str): The user_id of a lab member.
-			paper_file_path (str): The file path of the paper to be added. Browse the chat context or tool logs
-				to get the correct and valid file path.
+			user_id: The user id of a Lab member.
+			x_direction (int): An integer representing the moving direction in `x` axis. 0 means moving to left, 1 means moving to right.
+			x_movement (int): The distance moved along `x` axis. unit: milimeter.
+				If there is no need to move along `x` axis, use integer 0 as the input.
+			y_direction (int): An integer representing the moving direction in `y` axis. 0 means moving down, 1 means moving up.
+			y_movement (int): The distance moved along `y` axis. unit: milimeter.
+				If there is no need to move along `x` axis, use integer 0 as the input.
 
 		Returns:
 			FuncOutputWithLog: The output and log.
@@ -69,8 +76,10 @@ class AddNewRecentPaperTool(CallBackBaseTool):
 		# This docstring is used as the tool description.
 		op_name = self._callback_operation.__name__
 		kwargs = {
-			"user_id": user_id,
-			"paper_file_path": paper_file_path,
+			"x_direction": x_direction,
+			"x_movement": x_movement,
+			"y_direction": y_direction,
+			"y_movement": y_movement,
 		}
 
 		kwargs_str = json.dumps(kwargs)
@@ -85,22 +94,29 @@ class AddNewRecentPaperTool(CallBackBaseTool):
 		log_dict = {"operation_log": operation_log}
 
 		return FuncOutputWithLog(
-			fn_output=f"Have Added the paper {paper_file_path} to recent papers of the user {user_id}",
+			fn_output=f"Have successfully moved the motorized XY stage according to the instruct of the user {user_id}",
 			fn_log=log_dict,
 		)
 
-	async def a_add_paper(
+	async def amove(
 		self,
 		user_id: str,
-		paper_file_path: str,
+		x_direction: int,
+		x_movement: int,
+		y_direction: int,
+		y_movement: int,
 	) -> FuncOutputWithLog:
 		r"""
-		This tool is used to add a new paper to a specific user's recent papers storage.
+		This tool is used to move a motorized XY stage along the `X` axis and `Y` axis.
 
 		Args:
-			user_id (str): The user_id of a lab member.
-			paper_file_path (str): The file path of the paper to be added. Browse the chat context or tool logs
-				to get the correct and valid file path.
+			user_id: The user id of a Lab member.
+			x_direction (int): An integer representing the moving direction in `x` axis. 0 means moving to left, 1 means moving to right.
+			x_movement (int): The distance moved along `x` axis. unit: milimeter.
+				If there is no need to move along `x` axis, use integer 0 as the input.
+			y_direction (int): An integer representing the moving direction in `y` axis. 0 means moving down, 1 means moving up.
+			y_movement (int): The distance moved along `y` axis. unit: milimeter.
+				If there is no need to move along `x` axis, use integer 0 as the input.
 
 		Returns:
 			FuncOutputWithLog: The output and log.
@@ -108,8 +124,10 @@ class AddNewRecentPaperTool(CallBackBaseTool):
 		# This docstring is used as the tool description.
 		op_name = self._callback_operation.__name__
 		kwargs = {
-			"user_id": user_id,
-			"paper_file_path": paper_file_path,
+			"x_direction": x_direction,
+			"x_movement": x_movement,
+			"y_direction": y_direction,
+			"y_movement": y_movement,
 		}
 
 		kwargs_str = json.dumps(kwargs)
@@ -121,34 +139,9 @@ class AddNewRecentPaperTool(CallBackBaseTool):
 			embed_model=self._embed_model,
 			verbose=self._verbose,
 		)
-
 		log_dict = {"operation_log": operation_log}
+
 		return FuncOutputWithLog(
-			fn_output=f"Have Added the paper {paper_file_path} to recent papers of the user {user_id}",
+			fn_output=f"Have successfully moved the motorized XY stage according to the instruct of the user {user_id}",
 			fn_log=log_dict,
 		)
-
-
-if __name__ == "__main__":
-	from labridge.tools.utils import unpack_tool_output
-	from labridge.models.utils import get_models
-
-	llm, embed_model = get_models()
-
-	tt = AddNewRecentPaperTool(
-		llm=llm,
-		embed_model=embed_model,
-	)
-
-	tool_output = tt.call(
-		user_id="杨再正",
-		paper_file_path="/root/zhisan/Labridge/documents/tmp_papers/杨再正/TorchProbe: Fuzzing Dynamic Deep Learning Compilers.pdf"
-	)
-
-	tool_output, tool_log = unpack_tool_output(tool_out_json=tool_output.content)
-
-	print(tool_output)
-
-	tool_log = ToolLog.loads(tool_log)
-	print("to user: \n", tool_log.log_to_user)
-	print("to system: \n", tool_log.log_to_system)

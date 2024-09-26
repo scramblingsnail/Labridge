@@ -27,7 +27,6 @@ class CallBackOperationBase(object):
 		self._embed_model = embed_model
 		self._verbose = verbose
 
-
 	@abstractmethod
 	def operation_description(self, **kwargs) -> str:
 		r""" This method return the description of the operation, which is presented to the users. """

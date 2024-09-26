@@ -173,7 +173,8 @@ class AgentResponse(BaseModel):
 
 
 class PaperNotesReply(BaseModel):
-	chunk_notes: List[str]
+	chunk_contents: Optional[Dict[str, str]]
+	user_notes: Optional[List[dict]]
 
 
 class ServerReply(BaseModel):
@@ -182,7 +183,7 @@ class ServerReply(BaseModel):
 
 	reply_text (str): The reply text.
 	valid (bool): Whether this reply contains valid information.
-	references (Optional[List[str]]): The infos of reference files.
+	references (Optional[List[dict]]): The infos of reference files.
 	error (Optional[str]): The error information. If no error, it is None.
 	inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.
 		- If this reply is the final response of the agent, it is False.
@@ -191,7 +192,7 @@ class ServerReply(BaseModel):
 	"""
 	reply_text: str
 	valid: bool
-	references: Optional[List[str]] = None
+	references: Optional[List[dict]] = None
 	extra_info: Optional[str] = None
 	error: Optional[str] = None
 	inner_chat: Optional[bool] = False
@@ -204,7 +205,7 @@ class ServerSpeechReply(BaseModel):
 	reply_speech (Dict[str, int]): The path of the agent's speech file.
 	valid (bool): Whether the reply contains valid information. When receiving an invalid reply,
 		the client should continue to get the server's reply until get a valid reply.
-	references (Optional[List[str]]): The paths of reference files.
+	references (Optional[List[dict]]): The paths of reference files.
 	inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.
 		- If this reply is the final response of the agent, it is False.
 		- If this reply is an internal response such as collecting information from the user or getting authorization,
@@ -212,7 +213,7 @@ class ServerSpeechReply(BaseModel):
 	"""
 	reply_speech: Dict[str, int]
 	valid: bool
-	references: Optional[List[str]] = None
+	references: Optional[List[dict]] = None
 	extra_info: Optional[str] = None
 	error: Optional[str] = None
 	inner_chat: Optional[bool] = False
@@ -496,7 +497,7 @@ class ChatMsgBuffer(object):
 		self.account_manager.check_valid_user(user_id=user_id)
 
 		if references is not None:
-			ref_jsons = []
+			ref_infos = []
 			for ref_info_str in references:
 				ref_info_dict = json.loads(ref_info_str)
 				ref_path = ref_info_dict.get(REF_INFO_FILE_PATH_KEY, None)
@@ -505,9 +506,9 @@ class ChatMsgBuffer(object):
 
 				ref_size = os.path.getsize(ref_path)
 				ref_info_dict[REF_INFO_FILE_SIZE_KEY] = ref_size
-				ref_jsons.append(json.dumps(ref_info_dict))
-			if ref_jsons:
-				references = ref_jsons
+				ref_infos.append(ref_info_dict)
+			if ref_infos:
+				references = ref_infos
 			else:
 				references = None
 

@@ -29,17 +29,18 @@
 - doi (str): 之前服务器返回的该文献的DOI字符串
 
 #### 返回数据结构
-- chunk_notes (List[str]): 一个列表，列表中每个元素为每个位置存在的笔记，每个元素是一个Json字符串，代表一个字典，该字典包含如下key:
+
+- chunk_contents (Optional[Dict[str, str]]): 若没有任何笔记，为 `None`; 
+若存在笔记，这是一个字典，key为每个位置的文献文本的哈希值，value为文献文本内容。
+- user_notes (Optional[List[Dict[str, Any]]]): 若没有任何笔记，为 `None`;
+若存在笔记，这是一个列表，列表中每个元素为一条笔记，是一个字典，该字典包含如下key:
     
     - doi: 文献DOI；类型：str
-    - page_label: 该笔记序列所在的页数（从1开始）；类型：int
-    - chunk_content: 该笔记序列所在位置的文献文本；类型：str
-    - notes: 该处的笔记序列，这是一个Json字符串，代表一个列表；列表中每个元素为一个字典，代表单条笔记，该字典包含如下key：
-
-        - doi: 文献DOI；类型：str
-        - user_id: 记下该条笔记的用户ID；类型：str
-        - note: 笔记文本；类型：str
-        - timestamp: 笔记记录时间；类型：str
+    - page_label: 该笔记所在的页数（从1开始）；类型：int
+    - chunk_hash: 该笔记所对应文献文本的哈希值；类型：str
+    - user_id: 记下该条笔记的用户ID；类型：str
+    - note: 笔记文本；类型：str
+    - timestamp: 笔记记录时间；类型：str
 
 #### Get URL: `/users/{user_id}/paper_notes/get_note`
 
@@ -101,7 +102,7 @@
 
 - reply_text (str): Agent的回复字符串
 - valid (bool): 本回复是否是有效回复，若没有得到有效回复，客户端应轮询直至获得有效回复
-- references (Optional[List[str]]): 参考文件信息，若没有参考文件，为None；若有，是一个列表。列表中每个元素是一个字典的Json字符串；该字典中有如下key具有有效信息：
+- references (Optional[List[dict]]): 参考文件信息，若没有参考文件，为None；若有，是一个列表。列表中每个元素是一个字典；该字典中有如下key具有有效信息：
 
     - ref_file_path: 文件存储路径；value类型为：str
     - ref_file_size: 文件大小；value类型为：str
@@ -113,7 +114,7 @@
 
 - reply_speech (Dict[str, int]): Key: Agent回复的语音文件在Server的存储路径, Value: 语音文件字节数。
 - valid (bool): 本回复是否是有效回复，若没有得到有效回复，客户端应轮询直至获得有效回复
-- references (Optional[List[str]]): 参考文件信息，若没有参考文件，为None；若有，是一个列表。列表中每个元素是一个字典的Json字符串；该字典中有如下key具有有效信息：
+- references (Optional[List[dict]]): 参考文件信息，若没有参考文件，为None；若有，是一个列表。列表中每个元素是一个字典；该字典中有如下key具有有效信息：
 
     - ref_file_path: 文件存储路径；value类型为：str
     - ref_file_size: 文件大小；value类型为：str

@@ -18,6 +18,7 @@ Notes: The note of the corresponding context. (Note node type.)
 
 import fsspec
 import json
+import hashlib
 
 from llama_index.core.indices import VectorStoreIndex
 from llama_index.core.embeddings import BaseEmbedding
@@ -46,7 +47,7 @@ from llama_index.core.schema import (
 
 from pathlib import Path
 from collections import defaultdict
-from typing import Dict, Any, List, Optional, Tuple, cast
+from typing import Dict, Any, List, Optional, Tuple, cast, Union
 
 from labridge.accounts.users import AccountManager
 from labridge.common.utils.time import get_time, str_to_datetime
@@ -123,6 +124,8 @@ class UserNote(object):
 	def __init__(
 		self,
 		doi: str,
+		page_label: int,
+		chunk_hash: str,
 		user_id: str,
 		note: str,
 		date_str: str = None,
@@ -130,6 +133,8 @@ class UserNote(object):
 		timestamp: str = None,
 	):
 		self.doi = doi
+		self.page_label = page_label
+		self.chunk_hash = chunk_hash
 		self.user_id = user_id
 		self.note = note
 		if timestamp is None and None in (date_str, time_str):
@@ -137,24 +142,36 @@ class UserNote(object):
 
 		self.timestamp = timestamp or f"{date_str} {time_str}"
 
-	def dumps(self) -> str:
+	def to_dict(self) -> Dict[str, Any]:
 		class_dict = {
 			"doi": self.doi,
+			"page_label": self.page_label,
+			"chunk_hash": self.chunk_hash,
 			"user_id": self.user_id,
 			"note": self.note,
 			"timestamp": self.timestamp,
 		}
+		return class_dict
+
+	def dumps(self) -> str:
+		class_dict = self.to_dict()
 		return json.dumps(class_dict)
 
 	@classmethod
-	def loads(cls, dumped_str: str):
-		class_dict = json.loads(dumped_str)
+	def load_from_dict(cls, class_dict: dict):
 		return cls(
 			doi=class_dict["doi"],
+			page_label=class_dict["page_label"],
+			chunk_hash=class_dict["chunk_hash"],
 			user_id=class_dict["user_id"],
 			note=class_dict["note"],
 			timestamp=class_dict["timestamp"],
 		)
+
+	@classmethod
+	def loads(cls, dumped_str: str):
+		class_dict = json.loads(dumped_str)
+		return cls.load_from_dict(class_dict=class_dict)
 
 
 class ChunkNote(object):
@@ -168,29 +185,41 @@ class ChunkNote(object):
 		self.doi = doi
 		self.page_label = page_label
 		self.chunk_content = chunk_content
+		self.chunk_hash = hashlib.sha256(self.chunk_content.encode("utf-8")).hexdigest()
 		self.notes = notes
+		for n in self.notes:
+			if n.chunk_hash != self.chunk_hash:
+				raise ValueError(f"This note belongs to chunk hash {n.chunk_hash}, not this chunk: {self.chunk_hash}")
 
-	def dumps(self) -> str:
-		dumped_notes = [user_note.dumps() for user_note in self.notes]
+	def to_dict(self) -> Dict[str, Any]:
+		note_dicts = [user_note.to_dict() for user_note in self.notes]
 		class_dict = {
 			"doi": self.doi,
 			"page_label": self.page_label,
 			"chunk_content": self.chunk_content,
-			"notes": json.dumps(dumped_notes),
+			"chunk_hash": self.chunk_hash,
+			"notes": note_dicts,
 		}
+		return class_dict
+
+	def dumps(self) -> str:
+		class_dict = self.to_dict()
 		return json.dumps(class_dict)
 
 	@classmethod
-	def loads(cls, dumped_str):
-		class_dict = json.loads(dumped_str)
-		dumped_notes = json.loads(class_dict["notes"])
-		notes = [UserNote.loads(note_str) for note_str in dumped_notes]
+	def load_from_dict(cls, class_dict):
+		user_notes = [UserNote.load_from_dict(class_dict=note_dict) for note_dict in class_dict["notes"]]
 		return cls(
 			doi=class_dict["doi"],
 			page_label=class_dict["page_label"],
 			chunk_content=class_dict["chunk_content"],
-			notes=notes,
+			notes=user_notes,
 		)
+
+	@classmethod
+	def loads(cls, dumped_str):
+		class_dict = json.loads(dumped_str)
+		return cls.load_from_dict(class_dict=class_dict)
 
 
 def dummy_file_metadata_func(file_path: str) -> Dict:
@@ -228,7 +257,7 @@ class SharedPaperStorage(object):
 				/			\												/			\
 			Chunk_1			Chunk_k										Chunk_1			Chunk_k
 		/			\																/			\
-	Note_1			Note_l														Note_1			Note_l
+	Note_1-->next-->Note_l														Note_1-->next-->Note_l
 	```
 
 	The `PaperReader` is used to parse content and metadata from the paper pdf.
@@ -268,6 +297,7 @@ class SharedPaperStorage(object):
 		self._account_manager = AccountManager()
 		self.paper_reader = PaperReader(llm=llm)
 		self._summarizer = PaperBatchSummarize(llm=llm)
+		self._hash_worker = hashlib.sha256()
 
 	@classmethod
 	def from_storage(
@@ -731,7 +761,6 @@ class SharedPaperStorage(object):
 			nodes=chunk_docs,
 			transformations=self._default_overlapped_transformations,
 		)
-		print("chunk node metadata: \n", overlapped_chunk_nodes[0].metadata)
 		self._insert_as_child_nodes(node=paper_node, child_nodes=overlapped_chunk_nodes)
 		for chunk_node in overlapped_chunk_nodes:
 			self._update_node(node_id=chunk_node.node_id, node=chunk_node)
@@ -989,10 +1018,16 @@ class SharedPaperStorage(object):
 
 		note_node = self._get_notes_index_node(node_id=init_note_id)
 		doi = chunk_node.parent_node.node_id
+		page_label = int(chunk_node.metadata[SHARED_PAPER_PAGE_LABEL_KEY])
+		chunk_content = chunk_node.get_content(metadata_mode=MetadataMode.NONE)
+		self._hash_worker.update(chunk_content.encode("utf-8"))
+		chunk_hash = self._hash_worker.hexdigest()
 		all_notes = []
 		while note_node is not None:
 			user_note = UserNote(
 				doi=doi,
+				page_label=page_label,
+				chunk_hash=chunk_hash,
 				note=note_node.text,
 				date_str=note_node.metadata[SHARED_NOTE_DATE_KEY],
 				time_str=note_node.metadata[SHARED_NOTE_TIME_KEY],
@@ -1004,9 +1039,9 @@ class SharedPaperStorage(object):
 				note_node = self._get_notes_index_node(node_id=next_note.node_id)
 			else:
 				note_node = None
-		page_label = int(chunk_node.metadata[SHARED_PAPER_PAGE_LABEL_KEY])
+
 		return ChunkNote(
-			chunk_content=chunk_node.get_content(metadata_mode=MetadataMode.NONE),
+			chunk_content=chunk_content,
 			doi=doi,
 			page_label=page_label,
 			notes=all_notes,
@@ -1015,19 +1050,25 @@ class SharedPaperStorage(object):
 	def get_all_notes(
 		self,
 		doi: str,
-	) -> List[ChunkNote]:
+		dict_mode: bool = False,
+	) -> Optional[Union[List[ChunkNote], Tuple[dict, list]]]:
 		r"""
 		Get all notes of a paper.
 
 		Args:
 			doi (str): The DOI of a paper.
+			dict_mode (bool): Return as a dict.
 
 		Returns:
-			Optional[List[ChunkNote]]: The notes.
+			Optional[Union[List[ChunkNote], Tuple[dict, list]]]: The notes.
+
+				- If no note, return None.
+				- If dict_mode is False, return List[ChunkNote].
+				- If dict_mode is True, return chunk_mapping (Dict[str,str]), flatten_notes (List[Dict[str, Any]])
 		"""
 		doi_node = self._get_notes_index_node(node_id=doi)
 		if doi_node is None:
-			return []
+			return None
 		page_notes = defaultdict(list)
 		chunk_ids = [node.node_id for node in doi_node.child_nodes]
 
@@ -1039,10 +1080,24 @@ class SharedPaperStorage(object):
 				page_notes[page_label].append(chunk_note)
 		pages = [(label, page_notes[label]) for label in page_notes.keys()]
 		pages.sort(key=lambda x: x[0], reverse=False)
-		all_notes = []
+		all_notes: List[ChunkNote] = []
 		for page in pages:
 			all_notes.extend(page[1])
-		return all_notes
+
+		if not all_notes:
+			return None
+
+		if not dict_mode:
+			return all_notes
+
+		chunk_mapping = dict()
+		flatten_notes = list()
+		for each_chunk_note in all_notes:
+			chunk_mapping[each_chunk_note.chunk_hash] = each_chunk_note.chunk_content
+			note_dict = each_chunk_note.to_dict()
+			flatten_notes.extend(note_dict["notes"])
+
+		return chunk_mapping, flatten_notes
 
 	def get_notes(
 		self,

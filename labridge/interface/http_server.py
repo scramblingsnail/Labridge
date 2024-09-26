@@ -274,9 +274,12 @@ async def add_paper_note(user_id: str, req: ClientAddPaperNoteReq):
 @app.get("/users/{user_id}/paper_notes/get_note")
 async def get_paper_notes(user_id: str, req: ClientGetPaperNotesReq):
     doi = req.doi
-    all_notes = CacheSharedPaperStorage.get_all_notes(doi=doi)
-    note_jsons = [note.dumps() for note in all_notes]
-    return PaperNotesReply(chunk_notes=note_jsons)
+    results = CacheSharedPaperStorage.get_all_notes(doi=doi, dict_mode=True)
+    if results:
+        chunk_contents, user_notes = results
+        return PaperNotesReply(chunk_contents=chunk_contents, user_notes=user_notes)
+
+    return PaperNotesReply(chunk_contents=None, user_notes=None)
 
 
 @app.get("/users/{user_id}/files/{filepath}")

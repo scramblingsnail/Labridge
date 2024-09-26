@@ -2,6 +2,7 @@ from . import experiment_log, instrument, paper
 from .experiment_log import *
 from .instrument import *
 from .paper import *
+from .external import *
 from .base.operation_base import CallBackOperationBase
 
 

@@ -17,6 +17,7 @@ class XYPlatformOperation(CallBackOperationBase):
 		llm: LLM = None,
 		embed_model: BaseEmbedding = None,
 		verbose: bool = False,
+		op_name: str = None,
 	):
 		embed_model = embed_model or Settings.embed_model
 		llm = llm or Settings.llm

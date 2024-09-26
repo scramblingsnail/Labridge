@@ -64,11 +64,11 @@ class XYPlatformMoveTool(CallBackBaseTool):
 		Args:
 			user_id: The user id of a Lab member.
 			x_direction (int): An integer representing the moving direction in `x` axis. 0 means moving to left, 1 means moving to right.
-			x_movement (int): The distance moved along `x` axis. unit: milimeter.
+			x_movement (int): The distance moved along `x` axis. unit: millimeter.
 				If there is no need to move along `x` axis, use integer 0 as the input.
 			y_direction (int): An integer representing the moving direction in `y` axis. 0 means moving down, 1 means moving up.
-			y_movement (int): The distance moved along `y` axis. unit: milimeter.
-				If there is no need to move along `x` axis, use integer 0 as the input.
+			y_movement (int): The distance moved along `y` axis. unit: millimeter.
+				If there is no need to move along `y` axis, use integer 0 as the input.
 
 		Returns:
 			FuncOutputWithLog: The output and log.
@@ -112,11 +112,11 @@ class XYPlatformMoveTool(CallBackBaseTool):
 		Args:
 			user_id: The user id of a Lab member.
 			x_direction (int): An integer representing the moving direction in `x` axis. 0 means moving to left, 1 means moving to right.
-			x_movement (int): The distance moved along `x` axis. unit: milimeter.
+			x_movement (int): The distance moved along `x` axis. unit: millimeter.
 				If there is no need to move along `x` axis, use integer 0 as the input.
 			y_direction (int): An integer representing the moving direction in `y` axis. 0 means moving down, 1 means moving up.
-			y_movement (int): The distance moved along `y` axis. unit: milimeter.
-				If there is no need to move along `x` axis, use integer 0 as the input.
+			y_movement (int): The distance moved along `y` axis. unit: millimeter.
+				If there is no need to move along `y` axis, use integer 0 as the input.
 
 		Returns:
 			FuncOutputWithLog: The output and log.

@@ -421,8 +421,44 @@ if __name__ == "__main__":
 	from labridge.models.utils import get_models
 
 	llm, embedding_model = get_models()
-
 	instruments = InstrumentStorage.from_default(embed_model=embedding_model)
+
+	instruments.add_instrument(
+		instrument_id="DSOX3012G示波器",
+		instrument_description=(
+			"DSOX3012G 100 MHz 示波器提供了 2 个模拟通道、4 Mpts 存储器和 1,000,000 波形/秒的捕获率，"
+			"以及 8.5 英寸电容触摸屏和区域触摸触发功能，同时标配嵌入式软件，其中可提供波形和测量直方图。\n"
+			"特点包括：\n"
+			"100 MHz 带宽和 2 个模拟通道。"
+			"8.5 英寸电容触摸屏让您可以轻松查看和分析信号。"
+			"独有的区域触摸触发技术让您只需几秒钟便可轻松隔离信号"
+			"高达 1,000,000 波形/秒的捕获率为您呈现更详细的信号细节。"
+			"高达 4 Mpts 的存储器可以捕获更多的数据。"
+			"支持全面升级，可以扩展测量功能：随时增加带宽、数字通道数量和先进的应用软件。"
+		),
+		instrument_doc_paths=["E:\yzz\Labridge\documents\instrument_raw_docs\InfiniiVision 3000G X-Series Oscilloscopes.pdf"],
+		super_user_ids=["杨再正"],
+	)
+
+	instruments.add_instrument(
+		instrument_id="手持测温热成像仪TP41",
+		instrument_description=(
+			"可以通过红外热成像获取电路板各区域的温度分布情况，进一步判断是否存在发热情况。\n"
+			"产品简介：\n"
+			"TP4系列是海康微影口袋型手持测温产品，搭载192*144红外探测器。800万像素的可见光相机模块，支持热成像和可见光视频拍照和录制功能，"
+			"再搭配上强大专业的手机APP和电脑软件，为每一位工程师提供更专业的红外热成像服务。"
+			"功能特性：\n"
+			"支持1.x~4.x连续数字变倍。"
+			"支持视频拍照和录制。"
+			"支持手机APP和电脑软件实时查看及二次分析。"
+			"测温范围-20℃-400℃。"
+			"支持扩展微距镜头。"
+		),
+		instrument_doc_paths=["E:\yzz\Labridge\documents\instrument_raw_docs\hkws.pdf"],
+		super_user_ids=["赵懿晨"],
+	)
+	instruments.persist()
+
 	ids = instruments.get_all_instruments()
 
 	ins_nodes = instruments.get_nodes(ids)

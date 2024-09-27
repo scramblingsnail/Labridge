@@ -263,7 +263,8 @@ class InstrumentRetriever:
 
 		self.set_retriever_top_k(self._final_top_k)
 		self.set_retriever_node_ids(node_ids=retrieve_range)
-		final_nodes = self.vector_index_retriever.retrieve(item_to_be_retrieved)
+		retrieved_nodes = self.vector_index_retriever.retrieve(item_to_be_retrieved)
+		final_nodes = [NodeWithScore(node=n) for n in instruments] + retrieved_nodes
 		return final_nodes
 
 	async def aretrieve(
@@ -299,7 +300,8 @@ class InstrumentRetriever:
 
 		self.set_retriever_top_k(self._final_top_k)
 		self.set_retriever_node_ids(node_ids=retrieve_range)
-		final_nodes = await self.vector_index_retriever.aretrieve(item_to_be_retrieved)
+		retrieved_nodes = await self.vector_index_retriever.aretrieve(item_to_be_retrieved)
+		final_nodes = [NodeWithScore(node=n) for n in instruments] + retrieved_nodes
 		return final_nodes
 
 

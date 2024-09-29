@@ -8020,7 +8020,8 @@ num_files_limit (Optional[int]): Maximum number of files to read.
 
               <details class="quote">
                 <summary>Source code in <code>labridge\func_modules\paper\parse\paper_reader.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 37</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 36</span>
+<span class="normal"> 37</span>
 <span class="normal"> 38</span>
 <span class="normal"> 39</span>
 <span class="normal"> 40</span>
@@ -8465,6 +8466,7 @@ num_files_limit (Optional[int]): Maximum number of files to read.
 				<span class="n">extra_metadata</span><span class="o">=</span><span class="n">extra_metadata</span><span class="p">,</span>
 			<span class="p">)</span>
 			<span class="k">if</span> <span class="n">paper_metadata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+				<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading DOI failed: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 				<span class="k">return</span> <span class="kc">None</span>
 
 			<span class="k">for</span> <span class="n">meta_doc</span> <span class="ow">in</span> <span class="n">metadata_docs</span><span class="p">:</span>
@@ -8682,7 +8684,8 @@ Assume the possessor is the first level directory under the paper warehouse.</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\paper\parse\paper_reader.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">120</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">119</span>
+<span class="normal">120</span>
 <span class="normal">121</span>
 <span class="normal">122</span>
 <span class="normal">123</span>
@@ -8700,8 +8703,7 @@ Assume the possessor is the first level directory under the paper warehouse.</p>
 <span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_paper_possessor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paper_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">138</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_paper_possessor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paper_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Get the possessor of this paper.</span>
 <span class="sd">	Assume the possessor is the first level directory under the paper warehouse.</span>
@@ -9040,7 +9042,8 @@ Might be None.</li>
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\paper\parse\paper_reader.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">141</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">140</span>
+<span class="normal">141</span>
 <span class="normal">142</span>
 <span class="normal">143</span>
 <span class="normal">144</span>
@@ -9162,6 +9165,7 @@ Might be None.</li>
 			<span class="n">extra_metadata</span><span class="o">=</span><span class="n">extra_metadata</span><span class="p">,</span>
 		<span class="p">)</span>
 		<span class="k">if</span> <span class="n">paper_metadata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading DOI failed: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 			<span class="k">return</span> <span class="kc">None</span>
 
 		<span class="k">for</span> <span class="n">meta_doc</span> <span class="ow">in</span> <span class="n">metadata_docs</span><span class="p">:</span>

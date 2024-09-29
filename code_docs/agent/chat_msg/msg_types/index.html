@@ -3377,6 +3377,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#labridge.agent.chat_msg.msg_types.ChatMsgBuffer.update_buffer_for_new_users" class="md-nav__link">
+    <span class="md-ellipsis">
+      update_buffer_for_new_users
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -8007,6 +8016,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#labridge.agent.chat_msg.msg_types.ChatMsgBuffer.update_buffer_for_new_users" class="md-nav__link">
+    <span class="md-ellipsis">
+      update_buffer_for_new_users
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -8203,15 +8221,15 @@ references (Optional[List[str]]): The paths of reference files.</p>
 
               <details class="quote">
                 <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">164</span>
 <span class="normal">165</span>
 <span class="normal">166</span>
 <span class="normal">167</span>
 <span class="normal">168</span>
-<span class="normal">169</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AgentResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AgentResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	The response of chat agent.</span>
 
@@ -8267,10 +8285,7 @@ enable_comment (bool): If True: enable the user to intervene into the agent's ac
 
               <details class="quote">
                 <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">32</span>
 <span class="normal">33</span>
 <span class="normal">34</span>
 <span class="normal">35</span>
@@ -8279,7 +8294,10 @@ enable_comment (bool): If True: enable the user to intervene into the agent's ac
 <span class="normal">38</span>
 <span class="normal">39</span>
 <span class="normal">40</span>
-<span class="normal">41</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BaseClientMessage</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BaseClientMessage</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	This is the base class for client&#39;s messages.</span>
 
@@ -8343,16 +8361,7 @@ transformed to speech before that.</p>
 
               <details class="quote">
                 <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">305</span>
-<span class="normal">306</span>
-<span class="normal">307</span>
-<span class="normal">308</span>
-<span class="normal">309</span>
-<span class="normal">310</span>
-<span class="normal">311</span>
-<span class="normal">312</span>
-<span class="normal">313</span>
-<span class="normal">314</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">314</span>
 <span class="normal">315</span>
 <span class="normal">316</span>
 <span class="normal">317</span>
@@ -8573,7 +8582,32 @@ transformed to speech before that.</p>
 <span class="normal">532</span>
 <span class="normal">533</span>
 <span class="normal">534</span>
-<span class="normal">535</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ChatMsgBuffer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="normal">535</span>
+<span class="normal">536</span>
+<span class="normal">537</span>
+<span class="normal">538</span>
+<span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ChatMsgBuffer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	This class includes buffers that manager the messages from users and the agent&#39;s corresponding reply.</span>
 
@@ -8615,6 +8649,12 @@ transformed to speech before that.</p>
 		<span class="bp">self</span><span class="o">.</span><span class="n">config_buffer</span> <span class="o">=</span> <span class="p">{</span><span class="n">user</span><span class="p">:</span> <span class="n">ChatConfig</span><span class="p">()</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span><span class="p">}</span>
 
 	<span class="k">def</span> <span class="nf">update_buffer_for_new_users</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">		</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		When new users are registered, update the buffer.</span>
+
+<span class="sd">		Returns:</span>
+<span class="sd">			None</span>
+<span class="sd">		&quot;&quot;&quot;</span>
 		<span class="n">users</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">account_manager</span><span class="o">.</span><span class="n">get_users</span><span class="p">()</span>
 		<span class="n">new_user_msg_buffer</span> <span class="o">=</span> <span class="p">{</span><span class="n">user</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span> <span class="k">if</span> <span class="n">user</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_msg_buffer</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
 		<span class="n">new_agent_reply_buffer</span> <span class="o">=</span> <span class="p">{</span><span class="n">user</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span> <span class="k">if</span> <span class="n">user</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent_reply_buffer</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
@@ -8702,9 +8742,14 @@ transformed to speech before that.</p>
 		<span class="n">packed_msgs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_msg_formatter</span><span class="o">.</span><span class="n">formatted_msgs</span><span class="p">(</span><span class="n">msgs</span><span class="o">=</span><span class="p">[</span><span class="n">text_msg</span><span class="p">])</span>
 		<span class="k">return</span> <span class="n">packed_msgs</span>
 
-	<span class="k">def</span> <span class="nf">default_user_speech_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+	<span class="k">def</span> <span class="nf">default_user_speech_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">speech_suffix</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">		</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Default save path of a user&#39;s speech. &quot;&quot;&quot;</span>
-		<span class="n">user_speech_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_root</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">USER_TMP_DIR</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">USER_SPEECH_NAME</span><span class="si">}</span><span class="s2">&quot;</span>
+		<span class="k">if</span> <span class="n">speech_suffix</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">SUPPORT_USER_SPEECH_SUFFIX</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+				<span class="sa">f</span><span class="s2">&quot;The audio file type </span><span class="si">{</span><span class="n">speech_suffix</span><span class="si">}</span><span class="s2"> is not supported,&quot;</span>
+				<span class="sa">f</span><span class="s2">&quot;use one of </span><span class="si">{</span><span class="n">SUPPORT_USER_SPEECH_SUFFIX</span><span class="si">}</span><span class="s2"> instead.&quot;</span>
+			<span class="p">)</span>
+		<span class="n">user_speech_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_root</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">USER_TMP_DIR</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">USER_SPEECH_NAME</span><span class="si">}{</span><span class="n">speech_suffix</span><span class="si">}</span><span class="s2">&quot;</span>
 		<span class="n">dir_pth</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">user_speech_path</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
 		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fs</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dir_pth</span><span class="p">):</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">_fs</span><span class="o">.</span><span class="n">mkdirs</span><span class="p">(</span><span class="n">dir_pth</span><span class="p">)</span>
@@ -8739,22 +8784,27 @@ transformed to speech before that.</p>
 <span class="sd">		Args:</span>
 <span class="sd">			user_id (str): The user id of a Lab member.</span>
 <span class="sd">			reply_str (str): The agent&#39;s reply string.</span>
-<span class="sd">			references (List[str]): The paths of reference files. Defaults to None.</span>
+<span class="sd">			references (List[str]): The dumped string of reference info dict. Defaults to None.</span>
+<span class="sd">				The `file_path` is corresponding to the key `REF_INFO_FILE_PATH_KEY`.</span>
+<span class="sd">				The `file_size` is corresponding to the key `REF_INFO_FILE_SIZE_KEY`</span>
 <span class="sd">			inner_chat (bool): Whether the reply happens inside a chat.</span>
 <span class="sd">			extra_info (str): extra information generally with long texts.</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">account_manager</span><span class="o">.</span><span class="n">check_valid_user</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">)</span>
 
 		<span class="k">if</span> <span class="n">references</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-			<span class="n">ref_dict</span> <span class="o">=</span> <span class="p">{}</span>
-			<span class="k">for</span> <span class="n">ref_path</span> <span class="ow">in</span> <span class="n">references</span><span class="p">:</span>
-				<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fs</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">ref_path</span><span class="p">):</span>
+			<span class="n">ref_infos</span> <span class="o">=</span> <span class="p">[]</span>
+			<span class="k">for</span> <span class="n">ref_info_str</span> <span class="ow">in</span> <span class="n">references</span><span class="p">:</span>
+				<span class="n">ref_info_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">ref_info_str</span><span class="p">)</span>
+				<span class="n">ref_path</span> <span class="o">=</span> <span class="n">ref_info_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">REF_INFO_FILE_PATH_KEY</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+				<span class="k">if</span> <span class="n">ref_path</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fs</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">ref_path</span><span class="p">):</span>
 					<span class="k">continue</span>
 
 				<span class="n">ref_size</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">ref_path</span><span class="p">)</span>
-				<span class="n">ref_dict</span><span class="p">[</span><span class="n">ref_path</span><span class="p">]</span> <span class="o">=</span> <span class="n">ref_size</span>
-			<span class="k">if</span> <span class="n">ref_dict</span><span class="p">:</span>
-				<span class="n">references</span> <span class="o">=</span> <span class="n">ref_dict</span>
+				<span class="n">ref_info_dict</span><span class="p">[</span><span class="n">REF_INFO_FILE_SIZE_KEY</span><span class="p">]</span> <span class="o">=</span> <span class="n">ref_size</span>
+				<span class="n">ref_infos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ref_info_dict</span><span class="p">)</span>
+			<span class="k">if</span> <span class="n">ref_infos</span><span class="p">:</span>
+				<span class="n">references</span> <span class="o">=</span> <span class="n">ref_infos</span>
 			<span class="k">else</span><span class="p">:</span>
 				<span class="n">references</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -8860,14 +8910,14 @@ transformed to speech before that.</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">355</span>
-<span class="normal">356</span>
-<span class="normal">357</span>
-<span class="normal">358</span>
-<span class="normal">359</span>
-<span class="normal">360</span>
-<span class="normal">361</span>
-<span class="normal">362</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">clear_user_msg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">clear_user_msg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Clear a user&#39;s messages in the buffer.</span>
 
@@ -8896,13 +8946,13 @@ transformed to speech before that.</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">442</span>
-<span class="normal">443</span>
-<span class="normal">444</span>
-<span class="normal">445</span>
-<span class="normal">446</span>
-<span class="normal">447</span>
-<span class="normal">448</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">default_agent_speech_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">default_agent_speech_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Default save path of agent&#39;s speech. &quot;&quot;&quot;</span>
 	<span class="n">agent_speech_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_root</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">USER_TMP_DIR</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">AGENT_SPEECH_NAME</span><span class="si">}</span><span class="s2">&quot;</span>
 	<span class="n">dir_pth</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">agent_speech_path</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
@@ -8930,12 +8980,12 @@ transformed to speech before that.</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">450</span>
-<span class="normal">451</span>
-<span class="normal">452</span>
-<span class="normal">453</span>
-<span class="normal">454</span>
-<span class="normal">455</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">default_tmp_file_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">default_tmp_file_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Default save path of the user&#39;s uploaded file. &quot;&quot;&quot;</span>
 	<span class="n">date</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_time</span><span class="p">()</span>
 	<span class="n">tmp_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_root</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">USER_TMP_DIR</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">date</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -8951,7 +9001,7 @@ transformed to speech before that.</p>
 
 
 <h4 id="labridge.agent.chat_msg.msg_types.ChatMsgBuffer.default_user_speech_path" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">labridge</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">chat_msg</span><span class="o">.</span><span class="n">msg_types</span><span class="o">.</span><span class="n">ChatMsgBuffer</span><span class="o">.</span><span class="n">default_user_speech_path</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">labridge</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">chat_msg</span><span class="o">.</span><span class="n">msg_types</span><span class="o">.</span><span class="n">ChatMsgBuffer</span><span class="o">.</span><span class="n">default_user_speech_path</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">speech_suffix</span><span class="p">)</span></code>
 
 <a href="#labridge.agent.chat_msg.msg_types.ChatMsgBuffer.default_user_speech_path" class="headerlink" title="Permanent link">&para;</a></h4>
 
@@ -8962,15 +9012,25 @@ transformed to speech before that.</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">434</span>
-<span class="normal">435</span>
-<span class="normal">436</span>
-<span class="normal">437</span>
-<span class="normal">438</span>
-<span class="normal">439</span>
-<span class="normal">440</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">default_user_speech_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">default_user_speech_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">speech_suffix</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Default save path of a user&#39;s speech. &quot;&quot;&quot;</span>
-	<span class="n">user_speech_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_root</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">USER_TMP_DIR</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">USER_SPEECH_NAME</span><span class="si">}</span><span class="s2">&quot;</span>
+	<span class="k">if</span> <span class="n">speech_suffix</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">SUPPORT_USER_SPEECH_SUFFIX</span><span class="p">:</span>
+		<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+			<span class="sa">f</span><span class="s2">&quot;The audio file type </span><span class="si">{</span><span class="n">speech_suffix</span><span class="si">}</span><span class="s2"> is not supported,&quot;</span>
+			<span class="sa">f</span><span class="s2">&quot;use one of </span><span class="si">{</span><span class="n">SUPPORT_USER_SPEECH_SUFFIX</span><span class="si">}</span><span class="s2"> instead.&quot;</span>
+		<span class="p">)</span>
+	<span class="n">user_speech_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_root</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">USER_TMP_DIR</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">USER_SPEECH_NAME</span><span class="si">}{</span><span class="n">speech_suffix</span><span class="si">}</span><span class="s2">&quot;</span>
 	<span class="n">dir_pth</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">user_speech_path</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
 	<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fs</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dir_pth</span><span class="p">):</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">_fs</span><span class="o">.</span><span class="n">mkdirs</span><span class="p">(</span><span class="n">dir_pth</span><span class="p">)</span>
@@ -9047,26 +9107,26 @@ otherwise, return an invalid reply.</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">516</span>
-<span class="normal">517</span>
-<span class="normal">518</span>
-<span class="normal">519</span>
-<span class="normal">520</span>
-<span class="normal">521</span>
-<span class="normal">522</span>
-<span class="normal">523</span>
-<span class="normal">524</span>
-<span class="normal">525</span>
-<span class="normal">526</span>
-<span class="normal">527</span>
-<span class="normal">528</span>
-<span class="normal">529</span>
-<span class="normal">530</span>
-<span class="normal">531</span>
-<span class="normal">532</span>
-<span class="normal">533</span>
-<span class="normal">534</span>
-<span class="normal">535</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_agent_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">ServerReply</span><span class="p">,</span> <span class="n">ServerSpeechReply</span><span class="p">]:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_agent_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">ServerReply</span><span class="p">,</span> <span class="n">ServerSpeechReply</span><span class="p">]:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Get the agent reply to a user from the buffer.</span>
 
@@ -9180,22 +9240,7 @@ If no user messages if put in until time is out, return None.</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">383</span>
-<span class="normal">384</span>
-<span class="normal">385</span>
-<span class="normal">386</span>
-<span class="normal">387</span>
-<span class="normal">388</span>
-<span class="normal">389</span>
-<span class="normal">390</span>
-<span class="normal">391</span>
-<span class="normal">392</span>
-<span class="normal">393</span>
-<span class="normal">394</span>
-<span class="normal">395</span>
-<span class="normal">396</span>
-<span class="normal">397</span>
-<span class="normal">398</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">398</span>
 <span class="normal">399</span>
 <span class="normal">400</span>
 <span class="normal">401</span>
@@ -9210,7 +9255,22 @@ If no user messages if put in until time is out, return None.</p>
 <span class="normal">410</span>
 <span class="normal">411</span>
 <span class="normal">412</span>
-<span class="normal">413</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">get_user_msg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">240</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PackedUserMessage</span><span class="p">]:</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">get_user_msg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">240</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PackedUserMessage</span><span class="p">]:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Wait until a user&#39;s messages are put into the buffer, and get them.</span>
 
@@ -9301,7 +9361,9 @@ If no user messages if put in until time is out, return None.</p>
             <td><code>references</code></td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The paths of reference files. Defaults to None.</p>
+                <p>The dumped string of reference info dict. Defaults to None.
+The <code>file_path</code> is corresponding to the key <code>REF_INFO_FILE_PATH_KEY</code>.
+The <code>file_size</code> is corresponding to the key <code>REF_INFO_FILE_SIZE_KEY</code></p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -9356,27 +9418,7 @@ If no user messages if put in until time is out, return None.</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">457</span>
-<span class="normal">458</span>
-<span class="normal">459</span>
-<span class="normal">460</span>
-<span class="normal">461</span>
-<span class="normal">462</span>
-<span class="normal">463</span>
-<span class="normal">464</span>
-<span class="normal">465</span>
-<span class="normal">466</span>
-<span class="normal">467</span>
-<span class="normal">468</span>
-<span class="normal">469</span>
-<span class="normal">470</span>
-<span class="normal">471</span>
-<span class="normal">472</span>
-<span class="normal">473</span>
-<span class="normal">474</span>
-<span class="normal">475</span>
-<span class="normal">476</span>
-<span class="normal">477</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">477</span>
 <span class="normal">478</span>
 <span class="normal">479</span>
 <span class="normal">480</span>
@@ -9413,7 +9455,32 @@ If no user messages if put in until time is out, return None.</p>
 <span class="normal">511</span>
 <span class="normal">512</span>
 <span class="normal">513</span>
-<span class="normal">514</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">put_agent_reply</span><span class="p">(</span>
+<span class="normal">514</span>
+<span class="normal">515</span>
+<span class="normal">516</span>
+<span class="normal">517</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span>
+<span class="normal">521</span>
+<span class="normal">522</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span>
+<span class="normal">527</span>
+<span class="normal">528</span>
+<span class="normal">529</span>
+<span class="normal">530</span>
+<span class="normal">531</span>
+<span class="normal">532</span>
+<span class="normal">533</span>
+<span class="normal">534</span>
+<span class="normal">535</span>
+<span class="normal">536</span>
+<span class="normal">537</span>
+<span class="normal">538</span>
+<span class="normal">539</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">put_agent_reply</span><span class="p">(</span>
 	<span class="bp">self</span><span class="p">,</span>
 	<span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 	<span class="n">reply_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -9427,22 +9494,27 @@ If no user messages if put in until time is out, return None.</p>
 <span class="sd">	Args:</span>
 <span class="sd">		user_id (str): The user id of a Lab member.</span>
 <span class="sd">		reply_str (str): The agent&#39;s reply string.</span>
-<span class="sd">		references (List[str]): The paths of reference files. Defaults to None.</span>
+<span class="sd">		references (List[str]): The dumped string of reference info dict. Defaults to None.</span>
+<span class="sd">			The `file_path` is corresponding to the key `REF_INFO_FILE_PATH_KEY`.</span>
+<span class="sd">			The `file_size` is corresponding to the key `REF_INFO_FILE_SIZE_KEY`</span>
 <span class="sd">		inner_chat (bool): Whether the reply happens inside a chat.</span>
 <span class="sd">		extra_info (str): extra information generally with long texts.</span>
 <span class="sd">	&quot;&quot;&quot;</span>
 	<span class="bp">self</span><span class="o">.</span><span class="n">account_manager</span><span class="o">.</span><span class="n">check_valid_user</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">)</span>
 
 	<span class="k">if</span> <span class="n">references</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-		<span class="n">ref_dict</span> <span class="o">=</span> <span class="p">{}</span>
-		<span class="k">for</span> <span class="n">ref_path</span> <span class="ow">in</span> <span class="n">references</span><span class="p">:</span>
-			<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fs</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">ref_path</span><span class="p">):</span>
+		<span class="n">ref_infos</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">for</span> <span class="n">ref_info_str</span> <span class="ow">in</span> <span class="n">references</span><span class="p">:</span>
+			<span class="n">ref_info_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">ref_info_str</span><span class="p">)</span>
+			<span class="n">ref_path</span> <span class="o">=</span> <span class="n">ref_info_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">REF_INFO_FILE_PATH_KEY</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+			<span class="k">if</span> <span class="n">ref_path</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fs</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">ref_path</span><span class="p">):</span>
 				<span class="k">continue</span>
 
 			<span class="n">ref_size</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">ref_path</span><span class="p">)</span>
-			<span class="n">ref_dict</span><span class="p">[</span><span class="n">ref_path</span><span class="p">]</span> <span class="o">=</span> <span class="n">ref_size</span>
-		<span class="k">if</span> <span class="n">ref_dict</span><span class="p">:</span>
-			<span class="n">references</span> <span class="o">=</span> <span class="n">ref_dict</span>
+			<span class="n">ref_info_dict</span><span class="p">[</span><span class="n">REF_INFO_FILE_SIZE_KEY</span><span class="p">]</span> <span class="o">=</span> <span class="n">ref_size</span>
+			<span class="n">ref_infos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ref_info_dict</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">ref_infos</span><span class="p">:</span>
+			<span class="n">references</span> <span class="o">=</span> <span class="n">ref_infos</span>
 		<span class="k">else</span><span class="p">:</span>
 			<span class="n">references</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -9518,24 +9590,24 @@ If no user messages if put in until time is out, return None.</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">364</span>
-<span class="normal">365</span>
-<span class="normal">366</span>
-<span class="normal">367</span>
-<span class="normal">368</span>
-<span class="normal">369</span>
-<span class="normal">370</span>
-<span class="normal">371</span>
-<span class="normal">372</span>
-<span class="normal">373</span>
-<span class="normal">374</span>
-<span class="normal">375</span>
-<span class="normal">376</span>
-<span class="normal">377</span>
-<span class="normal">378</span>
-<span class="normal">379</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">379</span>
 <span class="normal">380</span>
-<span class="normal">381</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">put_user_msg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_msg</span><span class="p">:</span> <span class="n">BaseClientMessage</span><span class="p">):</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">put_user_msg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_msg</span><span class="p">:</span> <span class="n">BaseClientMessage</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Put a new user message into the buffer.</span>
 
@@ -9595,17 +9667,17 @@ If no user messages if put in until time is out, return None.</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">334</span>
-<span class="normal">335</span>
-<span class="normal">336</span>
-<span class="normal">337</span>
-<span class="normal">338</span>
-<span class="normal">339</span>
-<span class="normal">340</span>
-<span class="normal">341</span>
-<span class="normal">342</span>
-<span class="normal">343</span>
-<span class="normal">344</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">reset_buffer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">reset_buffer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Reset the user_msg_buffer and agent_reply_buffer.</span>
 
@@ -9637,24 +9709,24 @@ If no user messages if put in until time is out, return None.</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">415</span>
-<span class="normal">416</span>
-<span class="normal">417</span>
-<span class="normal">418</span>
-<span class="normal">419</span>
-<span class="normal">420</span>
-<span class="normal">421</span>
-<span class="normal">422</span>
-<span class="normal">423</span>
-<span class="normal">424</span>
-<span class="normal">425</span>
-<span class="normal">426</span>
-<span class="normal">427</span>
-<span class="normal">428</span>
-<span class="normal">429</span>
-<span class="normal">430</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">430</span>
 <span class="normal">431</span>
-<span class="normal">432</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_get_user_text</span><span class="p">(</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_get_user_text</span><span class="p">(</span>
 	<span class="bp">self</span><span class="p">,</span>
 	<span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 	<span class="n">enable_instruct</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -9672,6 +9744,75 @@ If no user messages if put in until time is out, return None.</p>
 	<span class="p">)</span>
 	<span class="n">packed_msgs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_msg_formatter</span><span class="o">.</span><span class="n">formatted_msgs</span><span class="p">(</span><span class="n">msgs</span><span class="o">=</span><span class="p">[</span><span class="n">text_msg</span><span class="p">])</span>
 	<span class="k">return</span> <span class="n">packed_msgs</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="labridge.agent.chat_msg.msg_types.ChatMsgBuffer.update_buffer_for_new_users" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">labridge</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">chat_msg</span><span class="o">.</span><span class="n">msg_types</span><span class="o">.</span><span class="n">ChatMsgBuffer</span><span class="o">.</span><span class="n">update_buffer_for_new_users</span><span class="p">()</span></code>
+
+<a href="#labridge.agent.chat_msg.msg_types.ChatMsgBuffer.update_buffer_for_new_users" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+      <p>When new users are registered, update the buffer.</p>
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">RETURNS</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td class="doc-returns-details">
+              <div class="doc-md-description">
+                <p>None</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+            <details class="quote">
+              <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update_buffer_for_new_users</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	When new users are registered, update the buffer.</span>
+
+<span class="sd">	Returns:</span>
+<span class="sd">		None</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">users</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">account_manager</span><span class="o">.</span><span class="n">get_users</span><span class="p">()</span>
+	<span class="n">new_user_msg_buffer</span> <span class="o">=</span> <span class="p">{</span><span class="n">user</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span> <span class="k">if</span> <span class="n">user</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_msg_buffer</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+	<span class="n">new_agent_reply_buffer</span> <span class="o">=</span> <span class="p">{</span><span class="n">user</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span> <span class="k">if</span> <span class="n">user</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent_reply_buffer</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+	<span class="n">new_config_buffer</span> <span class="o">=</span> <span class="p">{</span><span class="n">user</span><span class="p">:</span> <span class="n">ChatConfig</span><span class="p">()</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span> <span class="k">if</span> <span class="n">user</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_buffer</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+	<span class="bp">self</span><span class="o">.</span><span class="n">user_msg_buffer</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_user_msg_buffer</span><span class="p">)</span>
+	<span class="bp">self</span><span class="o">.</span><span class="n">agent_reply_buffer</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_agent_reply_buffer</span><span class="p">)</span>
+	<span class="bp">self</span><span class="o">.</span><span class="n">config_buffer</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_config_buffer</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -9711,17 +9852,17 @@ If no user messages if put in until time is out, return None.</p>
 
               <details class="quote">
                 <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">100</span>
 <span class="normal">101</span>
 <span class="normal">102</span>
 <span class="normal">103</span>
 <span class="normal">104</span>
 <span class="normal">105</span>
 <span class="normal">106</span>
-<span class="normal">107</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ChatSpeechMessage</span><span class="p">(</span><span class="n">BaseClientMessage</span><span class="p">):</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ChatSpeechMessage</span><span class="p">(</span><span class="n">BaseClientMessage</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	This message includes:</span>
 
@@ -9780,17 +9921,17 @@ If no user messages if put in until time is out, return None.</p>
 
               <details class="quote">
                 <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">87</span>
 <span class="normal">88</span>
 <span class="normal">89</span>
 <span class="normal">90</span>
 <span class="normal">91</span>
 <span class="normal">92</span>
 <span class="normal">93</span>
-<span class="normal">94</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ChatTextMessage</span><span class="p">(</span><span class="n">BaseClientMessage</span><span class="p">):</span>
+<span class="normal">94</span>
+<span class="normal">95</span>
+<span class="normal">96</span>
+<span class="normal">97</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ChatTextMessage</span><span class="p">(</span><span class="n">BaseClientMessage</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	This message includes:</span>
 
@@ -9851,10 +9992,7 @@ If no user messages if put in until time is out, return None.</p>
 
               <details class="quote">
                 <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">47</span>
 <span class="normal">48</span>
 <span class="normal">49</span>
 <span class="normal">50</span>
@@ -9888,7 +10026,10 @@ If no user messages if put in until time is out, return None.</p>
 <span class="normal">78</span>
 <span class="normal">79</span>
 <span class="normal">80</span>
-<span class="normal">81</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">FileWithTextMessage</span><span class="p">(</span><span class="n">BaseClientMessage</span><span class="p">):</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">FileWithTextMessage</span><span class="p">(</span><span class="n">BaseClientMessage</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	This message includes:</span>
 
@@ -9957,17 +10098,17 @@ including the file info and the attached text.</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">62</span>
 <span class="normal">63</span>
 <span class="normal">64</span>
 <span class="normal">65</span>
 <span class="normal">66</span>
 <span class="normal">67</span>
 <span class="normal">68</span>
-<span class="normal">69</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	The formatted string that the client sends to the server for uploading request,</span>
 <span class="sd">	including the file info and the attached text.</span>
@@ -10015,10 +10156,7 @@ chat_group_id (Optional[str]): The ID of a chat group (If the messages are from 
 
               <details class="quote">
                 <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">113</span>
 <span class="normal">114</span>
 <span class="normal">115</span>
 <span class="normal">116</span>
@@ -10063,7 +10201,10 @@ chat_group_id (Optional[str]): The ID of a chat group (If the messages are from 
 <span class="normal">155</span>
 <span class="normal">156</span>
 <span class="normal">157</span>
-<span class="normal">158</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">PackedUserMessage</span><span class="p">:</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">PackedUserMessage</span><span class="p">:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Pack the user messages.</span>
 
@@ -10193,10 +10334,7 @@ chat_group_id (Optional[str]): The ID of a chat group (If the messages are from 
 
             <details class="quote">
               <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">144</span>
 <span class="normal">145</span>
 <span class="normal">146</span>
 <span class="normal">147</span>
@@ -10210,7 +10348,10 @@ chat_group_id (Optional[str]): The ID of a chat group (If the messages are from 
 <span class="normal">155</span>
 <span class="normal">156</span>
 <span class="normal">157</span>
-<span class="normal">158</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">loads</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dumped_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Load from a dumped JSON string.</span>
@@ -10261,7 +10402,7 @@ chat_group_id (Optional[str]): The ID of a chat group (If the messages are from 
       <p>The server's text reply.</p>
 <p>reply_text (str): The reply text.
 valid (bool): Whether this reply contains valid information.
-references (Optional[Dict[str, int]]): The paths of reference files and file size.
+references (Optional[List[dict]]): The infos of reference files.
 error (Optional[str]): The error information. If no error, it is None.
 inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.
         - If this reply is the final response of the agent, it is False.
@@ -10270,15 +10411,7 @@ inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.
 
               <details class="quote">
                 <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">180</span>
 <span class="normal">181</span>
 <span class="normal">182</span>
 <span class="normal">183</span>
@@ -10288,13 +10421,21 @@ inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.
 <span class="normal">187</span>
 <span class="normal">188</span>
 <span class="normal">189</span>
-<span class="normal">190</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ServerReply</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ServerReply</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	The server&#39;s text reply.</span>
 
 <span class="sd">	reply_text (str): The reply text.</span>
 <span class="sd">	valid (bool): Whether this reply contains valid information.</span>
-<span class="sd">	references (Optional[Dict[str, int]]): The paths of reference files and file size.</span>
+<span class="sd">	references (Optional[List[dict]]): The infos of reference files.</span>
 <span class="sd">	error (Optional[str]): The error information. If no error, it is None.</span>
 <span class="sd">	inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.</span>
 <span class="sd">		- If this reply is the final response of the agent, it is False.</span>
@@ -10303,7 +10444,7 @@ inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.
 <span class="sd">	&quot;&quot;&quot;</span>
 	<span class="n">reply_text</span><span class="p">:</span> <span class="nb">str</span>
 	<span class="n">valid</span><span class="p">:</span> <span class="nb">bool</span>
-	<span class="n">references</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+	<span class="n">references</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 	<span class="n">extra_info</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 	<span class="n">error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 	<span class="n">inner_chat</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
@@ -10350,7 +10491,7 @@ inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.
 <p>reply_speech (Dict[str, int]): The path of the agent's speech file.
 valid (bool): Whether the reply contains valid information. When receiving an invalid reply,
         the client should continue to get the server's reply until get a valid reply.
-references (Optional[List[str]]): The paths of reference files.
+references (Optional[List[dict]]): The paths of reference files.
 inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.
         - If this reply is the final response of the agent, it is False.
         - If this reply is an internal response such as collecting information from the user or getting authorization,
@@ -10358,15 +10499,7 @@ inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.
 
               <details class="quote">
                 <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">201</span>
 <span class="normal">202</span>
 <span class="normal">203</span>
 <span class="normal">204</span>
@@ -10376,14 +10509,22 @@ inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.
 <span class="normal">208</span>
 <span class="normal">209</span>
 <span class="normal">210</span>
-<span class="normal">211</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ServerSpeechReply</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ServerSpeechReply</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	The server&#39;s speech reply.</span>
 
 <span class="sd">	reply_speech (Dict[str, int]): The path of the agent&#39;s speech file.</span>
 <span class="sd">	valid (bool): Whether the reply contains valid information. When receiving an invalid reply,</span>
 <span class="sd">		the client should continue to get the server&#39;s reply until get a valid reply.</span>
-<span class="sd">	references (Optional[List[str]]): The paths of reference files.</span>
+<span class="sd">	references (Optional[List[dict]]): The paths of reference files.</span>
 <span class="sd">	inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.</span>
 <span class="sd">		- If this reply is the final response of the agent, it is False.</span>
 <span class="sd">		- If this reply is an internal response such as collecting information from the user or getting authorization,</span>
@@ -10391,7 +10532,7 @@ inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.
 <span class="sd">	&quot;&quot;&quot;</span>
 	<span class="n">reply_speech</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
 	<span class="n">valid</span><span class="p">:</span> <span class="nb">bool</span>
-	<span class="n">references</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+	<span class="n">references</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 	<span class="n">extra_info</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 	<span class="n">error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 	<span class="n">inner_chat</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
@@ -10438,15 +10579,7 @@ inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.
 
               <details class="quote">
                 <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">222</span>
 <span class="normal">223</span>
 <span class="normal">224</span>
 <span class="normal">225</span>
@@ -10501,7 +10634,16 @@ inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.
 <span class="normal">274</span>
 <span class="normal">275</span>
 <span class="normal">276</span>
-<span class="normal">277</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">UserMsgFormatter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">UserMsgFormatter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	This class transform the user&#39;s messages into specific formats and generate corresponding system messages.</span>
 <span class="sd">	&quot;&quot;&quot;</span>
@@ -10546,7 +10688,8 @@ inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.
 		<span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">msgs</span><span class="p">:</span>
 			<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">ChatSpeechMessage</span><span class="p">):</span>
 				<span class="n">user_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_speech_to_text</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
-				<span class="n">user_queries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">user_str</span><span class="p">)</span>
+				<span class="k">if</span> <span class="n">user_str</span><span class="p">:</span>
+					<span class="n">user_queries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">user_str</span><span class="p">)</span>
 			<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">FileWithTextMessage</span><span class="p">):</span>
 				<span class="n">system_str</span><span class="p">,</span> <span class="n">user_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_formatted_file_with_text</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="n">msg</span><span class="p">,</span> <span class="n">file_idx</span><span class="o">=</span><span class="n">file_idx</span><span class="p">)</span>
 				<span class="n">file_idx</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -10649,15 +10792,7 @@ inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.
 
             <details class="quote">
               <summary>Source code in <code>labridge\agent\chat_msg\msg_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">230</span>
-<span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">238</span>
 <span class="normal">239</span>
 <span class="normal">240</span>
 <span class="normal">241</span>
@@ -10696,7 +10831,16 @@ inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.
 <span class="normal">274</span>
 <span class="normal">275</span>
 <span class="normal">276</span>
-<span class="normal">277</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">formatted_msgs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msgs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseClientMessage</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">PackedUserMessage</span><span class="p">:</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">formatted_msgs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msgs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseClientMessage</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">PackedUserMessage</span><span class="p">:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Turn into formatted text message.</span>
 
@@ -10725,7 +10869,8 @@ inner_chat (Optional[bool]): Whether the reply is produced inside the Chat Call.
 	<span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">msgs</span><span class="p">:</span>
 		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">ChatSpeechMessage</span><span class="p">):</span>
 			<span class="n">user_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_speech_to_text</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
-			<span class="n">user_queries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">user_str</span><span class="p">)</span>
+			<span class="k">if</span> <span class="n">user_str</span><span class="p">:</span>
+				<span class="n">user_queries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">user_str</span><span class="p">)</span>
 		<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">FileWithTextMessage</span><span class="p">):</span>
 			<span class="n">system_str</span><span class="p">,</span> <span class="n">user_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_formatted_file_with_text</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="n">msg</span><span class="p">,</span> <span class="n">file_idx</span><span class="o">=</span><span class="n">file_idx</span><span class="p">)</span>
 			<span class="n">file_idx</span> <span class="o">+=</span> <span class="mi">1</span>

@@ -9071,7 +9071,7 @@
 			<span class="p">)</span>
 			<span class="k">return</span> <span class="n">CompletionResponse</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
 		<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-			<span class="k">return</span> <span class="n">CompletionResponse</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">e</span><span class="p">)</span>
+			<span class="k">return</span> <span class="n">CompletionResponse</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 	<span class="nd">@llm_completion_callback</span><span class="p">()</span>
 	<span class="k">async</span> <span class="k">def</span> <span class="nf">acomplete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CompletionResponse</span><span class="p">:</span>
@@ -9084,7 +9084,7 @@
 			<span class="p">)</span>
 			<span class="k">return</span> <span class="n">CompletionResponse</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
 		<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-			<span class="k">return</span> <span class="n">CompletionResponse</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">e</span><span class="p">)</span>
+			<span class="k">return</span> <span class="n">CompletionResponse</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 	<span class="nd">@llm_completion_callback</span><span class="p">()</span>
 	<span class="k">def</span> <span class="nf">stream_complete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CompletionResponseGen</span><span class="p">:</span>
@@ -9177,7 +9177,7 @@
 		<span class="p">)</span>
 		<span class="k">return</span> <span class="n">CompletionResponse</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
 	<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-		<span class="k">return</span> <span class="n">CompletionResponse</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">e</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">CompletionResponse</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -9219,7 +9219,7 @@
 		<span class="p">)</span>
 		<span class="k">return</span> <span class="n">CompletionResponse</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
 	<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-		<span class="k">return</span> <span class="n">CompletionResponse</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">e</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">CompletionResponse</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

@@ -8129,13 +8129,7 @@ Each sub dict contains:</p>
 
               <details class="quote">
                 <summary>Source code in <code>labridge\func_modules\paper\download\arxiv.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 96</span>
 <span class="normal"> 97</span>
 <span class="normal"> 98</span>
 <span class="normal"> 99</span>
@@ -8228,7 +8222,13 @@ Each sub dict contains:</p>
 <span class="normal">186</span>
 <span class="normal">187</span>
 <span class="normal">188</span>
-<span class="normal">189</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ArxivCategory</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ArxivCategory</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	The research fields category from arXiv.</span>
 
@@ -8417,13 +8417,7 @@ Each sub dict contains:</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\paper\download\arxiv.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">133</span>
 <span class="normal">134</span>
 <span class="normal">135</span>
 <span class="normal">136</span>
@@ -8460,7 +8454,13 @@ Each sub dict contains:</p>
 <span class="normal">167</span>
 <span class="normal">168</span>
 <span class="normal">169</span>
-<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">category_from_arxiv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arxiv_category_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">category_from_arxiv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arxiv_category_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Parse categories from arxiv.</span>
 
@@ -8525,13 +8525,13 @@ Each sub dict contains:</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\paper\download\arxiv.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">load_category</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">persist_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">fs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">fsspec</span><span class="o">.</span><span class="n">AbstractFileSystem</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">load_category</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">persist_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">fs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">fsspec</span><span class="o">.</span><span class="n">AbstractFileSystem</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">	</span><span class="sd">&quot;&quot;&quot;Load the research categories from a persist path.&quot;&quot;&quot;</span>
 	<span class="n">fs</span> <span class="o">=</span> <span class="n">fs</span> <span class="ow">or</span> <span class="n">fsspec</span><span class="o">.</span><span class="n">filesystem</span><span class="p">(</span><span class="s2">&quot;file&quot;</span><span class="p">)</span>
 	<span class="n">persist_path</span> <span class="o">=</span> <span class="n">persist_path</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">persist_path</span>
@@ -8559,16 +8559,16 @@ Each sub dict contains:</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\paper\download\arxiv.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">186</span>
 <span class="normal">187</span>
 <span class="normal">188</span>
-<span class="normal">189</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">save_category</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">persist_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">fs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">fsspec</span><span class="o">.</span><span class="n">AbstractFileSystem</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">save_category</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">persist_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">fs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">fsspec</span><span class="o">.</span><span class="n">AbstractFileSystem</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">	</span><span class="sd">&quot;&quot;&quot;Save the research categories from a persist path.&quot;&quot;&quot;</span>
 	<span class="n">persist_path</span> <span class="o">=</span> <span class="n">persist_path</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">persist_path</span>
 	<span class="n">fs</span> <span class="o">=</span> <span class="n">fs</span> <span class="ow">or</span> <span class="n">fsspec</span><span class="o">.</span><span class="n">filesystem</span><span class="p">(</span><span class="s2">&quot;file&quot;</span><span class="p">)</span>
@@ -8613,27 +8613,21 @@ The method <code>_format_url</code> is corrected here to enable advanced search.
 <p>For details about advanced search in arXiv, refer to
 <a href="https://info.arxiv.org/help/api/user-manual.html#query_details">Details of Query Construction</a></p>
 <p>Advanced search fields:
-|      prefix  |       explanation             |
-|:--------:|:-----------------:|
-|ti            |Title                          |
-|au            |Author                         |
-|abs           |Abstract                       |
-|co            |Comment                        |
-|jr            |Journal Reference      |
-|cat           |Subject Category       |
-|rn            |Report Number          |
-|id_list       |Id list                        |
-|all           |All of the above       |</p>
+|       prefix  |       explanation             |
+|:---------:|:-----------------:|
+|ti                     |Title                          |
+|au                     |Author                         |
+|abs            |Abstract                       |
+|co                     |Comment                        |
+|jr                     |Journal Reference      |
+|cat            |Subject Category       |
+|rn                     |Report Number          |
+|id_list        |Id list                        |
+|all            |All of the above       |</p>
 
               <details class="quote">
                 <summary>Source code in <code>labridge\func_modules\paper\download\arxiv.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">28</span>
 <span class="normal">29</span>
 <span class="normal">30</span>
 <span class="normal">31</span>
@@ -8692,27 +8686,33 @@ The method <code>_format_url</code> is corrected here to enable advanced search.
 <span class="normal">84</span>
 <span class="normal">85</span>
 <span class="normal">86</span>
-<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ArxivClient</span><span class="p">(</span><span class="n">Client</span><span class="p">):</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ArxivClient</span><span class="p">(</span><span class="n">Client</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">	 Similar to the class `Client` in the package `arxiv`.</span>
-<span class="sd">	 The method `_format_url` is corrected here to enable advanced search.</span>
+<span class="sd">	Similar to the class `Client` in the package `arxiv`.</span>
+<span class="sd">	The method `_format_url` is corrected here to enable advanced search.</span>
 
-<span class="sd">	 For details about advanced search in arXiv, refer to</span>
-<span class="sd">	 [Details of Query Construction](https://info.arxiv.org/help/api/user-manual.html#query_details)</span>
+<span class="sd">	For details about advanced search in arXiv, refer to</span>
+<span class="sd">	[Details of Query Construction](https://info.arxiv.org/help/api/user-manual.html#query_details)</span>
 
-<span class="sd">	 Advanced search fields:</span>
-<span class="sd">	 |	prefix	|	explanation		|</span>
-<span class="sd">	 |:--------:|:-----------------:|</span>
-<span class="sd">	 |ti		|Title				|</span>
-<span class="sd">	 |au		|Author				|</span>
-<span class="sd">	 |abs		|Abstract			|</span>
-<span class="sd">	 |co		|Comment			|</span>
-<span class="sd">	 |jr		|Journal Reference	|</span>
-<span class="sd">	 |cat		|Subject Category	|</span>
-<span class="sd">	 |rn		|Report Number		|</span>
-<span class="sd">	 |id_list	|Id list			|</span>
-<span class="sd">	 |all		|All of the above	|</span>
-<span class="sd">	 &quot;&quot;&quot;</span>
+<span class="sd">	Advanced search fields:</span>
+<span class="sd">	|	prefix	|	explanation		|</span>
+<span class="sd">	|:---------:|:-----------------:|</span>
+<span class="sd">	|ti			|Title				|</span>
+<span class="sd">	|au			|Author				|</span>
+<span class="sd">	|abs		|Abstract			|</span>
+<span class="sd">	|co			|Comment			|</span>
+<span class="sd">	|jr			|Journal Reference	|</span>
+<span class="sd">	|cat		|Subject Category	|</span>
+<span class="sd">	|rn			|Report Number		|</span>
+<span class="sd">	|id_list	|Id list			|</span>
+<span class="sd">	|all		|All of the above	|</span>
+<span class="sd">	&quot;&quot;&quot;</span>
 
 	<span class="n">page_size</span><span class="p">:</span> <span class="nb">int</span>
 <span class="w">	</span><span class="sd">&quot;&quot;&quot;</span>
@@ -8855,14 +8855,14 @@ be retrieved faster, but may require more round-trips.</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\paper\download\arxiv.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">query_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url_args</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">query_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url_args</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Formatted url for searching in arXiv. &quot;&quot;&quot;</span>
 	<span class="n">query</span> <span class="o">=</span> <span class="n">url_args</span><span class="p">[</span><span class="s2">&quot;search_query&quot;</span><span class="p">]</span>
 	<span class="n">suffix</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;search_query=</span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -8958,13 +8958,7 @@ be retrieved faster, but may require more round-trips.</p>
 
               <details class="quote">
                 <summary>Source code in <code>labridge\func_modules\paper\download\arxiv.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">198</span>
 <span class="normal">199</span>
 <span class="normal">200</span>
 <span class="normal">201</span>
@@ -9047,7 +9041,13 @@ be retrieved faster, but may require more round-trips.</p>
 <span class="normal">278</span>
 <span class="normal">279</span>
 <span class="normal">280</span>
-<span class="normal">281</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ArxivDailyDownloader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ArxivDailyDownloader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Get the recent relevant papers on arXiv.</span>
 
@@ -9196,17 +9196,17 @@ be retrieved faster, but may require more round-trips.</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\paper\download\arxiv.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span>
-<span class="normal">277</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">277</span>
 <span class="normal">278</span>
 <span class="normal">279</span>
 <span class="normal">280</span>
-<span class="normal">281</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">download_papers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paper_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Result</span><span class="p">,</span> <span class="nb">str</span><span class="p">]):</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">download_papers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paper_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Result</span><span class="p">,</span> <span class="nb">str</span><span class="p">]):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Download the selected papers.</span>
 
@@ -9272,13 +9272,7 @@ into a proper directory.</p>
 </details>
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\paper\download\arxiv.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span>
-<span class="normal">240</span>
-<span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">243</span>
 <span class="normal">244</span>
 <span class="normal">245</span>
 <span class="normal">246</span>
@@ -9304,7 +9298,13 @@ into a proper directory.</p>
 <span class="normal">266</span>
 <span class="normal">267</span>
 <span class="normal">268</span>
-<span class="normal">269</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_daily_papers_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relevant_categories</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Result</span><span class="p">]:</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_daily_papers_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relevant_categories</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Result</span><span class="p">]:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Get the recent papers relevant to the input categories.</span>
 
@@ -9439,13 +9439,7 @@ into a proper directory.</p>
 
               <details class="quote">
                 <summary>Source code in <code>labridge\func_modules\paper\download\arxiv.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">284</span>
-<span class="normal">285</span>
-<span class="normal">286</span>
-<span class="normal">287</span>
-<span class="normal">288</span>
-<span class="normal">289</span>
-<span class="normal">290</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">290</span>
 <span class="normal">291</span>
 <span class="normal">292</span>
 <span class="normal">293</span>
@@ -9478,7 +9472,40 @@ into a proper directory.</p>
 <span class="normal">320</span>
 <span class="normal">321</span>
 <span class="normal">322</span>
-<span class="normal">323</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ArxivSearcher</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ArxivSearcher</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	This class searches for papers in the arxiv.</span>
 
@@ -9498,24 +9525,51 @@ into a proper directory.</p>
 			<span class="n">sort_order</span><span class="o">=</span><span class="n">SortOrder</span><span class="o">.</span><span class="n">Descending</span><span class="p">,</span>
 		<span class="p">)</span>
 
-	<span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Result</span><span class="p">]:</span>
+	<span class="k">def</span> <span class="nf">construct_query</span><span class="p">(</span>
+		<span class="bp">self</span><span class="p">,</span>
+		<span class="n">search_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+		<span class="n">search_mode</span><span class="p">:</span> <span class="n">ArxivSearchMode</span><span class="p">,</span>
+	<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="k">if</span> <span class="n">search_mode</span> <span class="o">==</span> <span class="n">ArxivSearchMode</span><span class="o">.</span><span class="n">Title</span><span class="p">:</span>
+			<span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;ti:</span><span class="si">{</span><span class="n">search_str</span><span class="si">}</span><span class="s2">&quot;</span>
+		<span class="k">elif</span> <span class="n">search_mode</span> <span class="o">==</span> <span class="n">ArxivSearchMode</span><span class="o">.</span><span class="n">DOI</span><span class="p">:</span>
+			<span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;doi:</span><span class="si">{</span><span class="n">search_str</span><span class="si">}</span><span class="s2">&quot;</span>
+		<span class="k">elif</span> <span class="n">search_mode</span> <span class="o">==</span> <span class="n">ArxivSearchMode</span><span class="o">.</span><span class="n">TitleAbstract</span><span class="p">:</span>
+			<span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;ti:</span><span class="si">{</span><span class="n">search_str</span><span class="si">}</span><span class="s2">+OR+abs:</span><span class="si">{</span><span class="n">search_str</span><span class="si">}</span><span class="s2">&quot;</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unsupported search mode.&quot;</span><span class="p">)</span>
+
+	<span class="k">def</span> <span class="nf">search</span><span class="p">(</span>
+		<span class="bp">self</span><span class="p">,</span>
+		<span class="n">search_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+		<span class="n">max_results_num</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+		<span class="n">search_mode</span><span class="p">:</span> <span class="n">ArxivSearchMode</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+	<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Result</span><span class="p">]:</span>
 <span class="w">		</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		Search according to the title or abstract.</span>
 
 <span class="sd">		Args:</span>
 <span class="sd">			search_str (str): The search string, typically the title or abstract.</span>
+<span class="sd">			max_results_num (int): Maximum num of results. Defaults to None.</span>
+<span class="sd">			search_mode (ArxivSearchMode): Search mode.</span>
 
 <span class="sd">		Returns:</span>
 <span class="sd">			List[Result]: The search results.</span>
 <span class="sd">		&quot;&quot;&quot;</span>
-		<span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;ti:</span><span class="si">{</span><span class="n">search_str</span><span class="si">}</span><span class="s2">+OR+abs:</span><span class="si">{</span><span class="n">search_str</span><span class="si">}</span><span class="s2">&quot;</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">searcher</span><span class="o">.</span><span class="n">query</span> <span class="o">=</span> <span class="n">query</span>
+		<span class="c1"># query = f&quot;ti:{search_str}+OR+abs:{search_str}&quot;</span>
+		<span class="c1"># query = f&quot;ti:{search_str}&quot;</span>
+		<span class="n">search_mode</span> <span class="o">=</span> <span class="n">search_mode</span> <span class="ow">or</span> <span class="n">ArxivSearchMode</span><span class="o">.</span><span class="n">Title</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">searcher</span><span class="o">.</span><span class="n">query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">construct_query</span><span class="p">(</span>
+			<span class="n">search_str</span><span class="o">=</span><span class="n">search_str</span><span class="p">,</span>
+			<span class="n">search_mode</span><span class="o">=</span><span class="n">search_mode</span><span class="p">,</span>
+		<span class="p">)</span>
+		<span class="n">max_results_num</span> <span class="o">=</span> <span class="n">max_results_num</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_results_num</span>
 		<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
 		<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
 		<span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">results</span><span class="p">(</span><span class="n">search</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">searcher</span><span class="p">):</span>
 			<span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
 			<span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-			<span class="k">if</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_results_num</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="n">max_results_num</span><span class="p">:</span>
 				<span class="k">break</span>
 		<span class="k">return</span> <span class="n">results</span>
 </code></pre></div></td></tr></table></div>
@@ -9537,7 +9591,7 @@ into a proper directory.</p>
 
 
 <h4 id="labridge.func_modules.paper.download.arxiv.ArxivSearcher.search" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">labridge</span><span class="o">.</span><span class="n">func_modules</span><span class="o">.</span><span class="n">paper</span><span class="o">.</span><span class="n">download</span><span class="o">.</span><span class="n">arxiv</span><span class="o">.</span><span class="n">ArxivSearcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">search_str</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">labridge</span><span class="o">.</span><span class="n">func_modules</span><span class="o">.</span><span class="n">paper</span><span class="o">.</span><span class="n">download</span><span class="o">.</span><span class="n">arxiv</span><span class="o">.</span><span class="n">ArxivSearcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">search_str</span><span class="p">,</span> <span class="n">max_results_num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">search_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 <a href="#labridge.func_modules.paper.download.arxiv.ArxivSearcher.search" class="headerlink" title="Permanent link">&para;</a></h4>
 
@@ -9565,6 +9619,42 @@ into a proper directory.</p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
                       <code>str</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>max_results_num</code></td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>Maximum num of results. Defaults to None.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code>int</code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>None</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>search_mode</code></td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>Search mode.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="labridge.func_modules.paper.download.arxiv.ArxivSearchMode">ArxivSearchMode</span></code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>None</code>
                   </span>
               </p>
             </td>
@@ -9598,43 +9688,69 @@ into a proper directory.</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\paper\download\arxiv.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">304</span>
-<span class="normal">305</span>
-<span class="normal">306</span>
-<span class="normal">307</span>
-<span class="normal">308</span>
-<span class="normal">309</span>
-<span class="normal">310</span>
-<span class="normal">311</span>
-<span class="normal">312</span>
-<span class="normal">313</span>
-<span class="normal">314</span>
-<span class="normal">315</span>
-<span class="normal">316</span>
-<span class="normal">317</span>
-<span class="normal">318</span>
-<span class="normal">319</span>
-<span class="normal">320</span>
-<span class="normal">321</span>
-<span class="normal">322</span>
-<span class="normal">323</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Result</span><span class="p">]:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">search</span><span class="p">(</span>
+	<span class="bp">self</span><span class="p">,</span>
+	<span class="n">search_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+	<span class="n">max_results_num</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+	<span class="n">search_mode</span><span class="p">:</span> <span class="n">ArxivSearchMode</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Result</span><span class="p">]:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Search according to the title or abstract.</span>
 
 <span class="sd">	Args:</span>
 <span class="sd">		search_str (str): The search string, typically the title or abstract.</span>
+<span class="sd">		max_results_num (int): Maximum num of results. Defaults to None.</span>
+<span class="sd">		search_mode (ArxivSearchMode): Search mode.</span>
 
 <span class="sd">	Returns:</span>
 <span class="sd">		List[Result]: The search results.</span>
 <span class="sd">	&quot;&quot;&quot;</span>
-	<span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;ti:</span><span class="si">{</span><span class="n">search_str</span><span class="si">}</span><span class="s2">+OR+abs:</span><span class="si">{</span><span class="n">search_str</span><span class="si">}</span><span class="s2">&quot;</span>
-	<span class="bp">self</span><span class="o">.</span><span class="n">searcher</span><span class="o">.</span><span class="n">query</span> <span class="o">=</span> <span class="n">query</span>
+	<span class="c1"># query = f&quot;ti:{search_str}+OR+abs:{search_str}&quot;</span>
+	<span class="c1"># query = f&quot;ti:{search_str}&quot;</span>
+	<span class="n">search_mode</span> <span class="o">=</span> <span class="n">search_mode</span> <span class="ow">or</span> <span class="n">ArxivSearchMode</span><span class="o">.</span><span class="n">Title</span>
+	<span class="bp">self</span><span class="o">.</span><span class="n">searcher</span><span class="o">.</span><span class="n">query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">construct_query</span><span class="p">(</span>
+		<span class="n">search_str</span><span class="o">=</span><span class="n">search_str</span><span class="p">,</span>
+		<span class="n">search_mode</span><span class="o">=</span><span class="n">search_mode</span><span class="p">,</span>
+	<span class="p">)</span>
+	<span class="n">max_results_num</span> <span class="o">=</span> <span class="n">max_results_num</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_results_num</span>
 	<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
 	<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
 	<span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">results</span><span class="p">(</span><span class="n">search</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">searcher</span><span class="p">):</span>
 		<span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
 		<span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-		<span class="k">if</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_results_num</span><span class="p">:</span>
+		<span class="k">if</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="n">max_results_num</span><span class="p">:</span>
 			<span class="k">break</span>
 	<span class="k">return</span> <span class="n">results</span>
 </code></pre></div></td></tr></table></div>

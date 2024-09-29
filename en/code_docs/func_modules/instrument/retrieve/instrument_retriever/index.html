@@ -8221,7 +8221,9 @@ used as the finally retrieved nodes.</p>
 <span class="normal">300</span>
 <span class="normal">301</span>
 <span class="normal">302</span>
-<span class="normal">303</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">InstrumentRetriever</span><span class="p">:</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">InstrumentRetriever</span><span class="p">:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	This is a retriever retrieving in the instrument docs.</span>
 <span class="sd">	Hybrid retrieving is used.</span>
@@ -8442,7 +8444,8 @@ used as the finally retrieved nodes.</p>
 
 		<span class="bp">self</span><span class="o">.</span><span class="n">set_retriever_top_k</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_final_top_k</span><span class="p">)</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">set_retriever_node_ids</span><span class="p">(</span><span class="n">node_ids</span><span class="o">=</span><span class="n">retrieve_range</span><span class="p">)</span>
-		<span class="n">final_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector_index_retriever</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">item_to_be_retrieved</span><span class="p">)</span>
+		<span class="n">retrieved_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector_index_retriever</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">item_to_be_retrieved</span><span class="p">)</span>
+		<span class="n">final_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">NodeWithScore</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">instruments</span><span class="p">]</span> <span class="o">+</span> <span class="n">retrieved_nodes</span>
 		<span class="k">return</span> <span class="n">final_nodes</span>
 
 	<span class="k">async</span> <span class="k">def</span> <span class="nf">aretrieve</span><span class="p">(</span>
@@ -8478,7 +8481,8 @@ used as the finally retrieved nodes.</p>
 
 		<span class="bp">self</span><span class="o">.</span><span class="n">set_retriever_top_k</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_final_top_k</span><span class="p">)</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">set_retriever_node_ids</span><span class="p">(</span><span class="n">node_ids</span><span class="o">=</span><span class="n">retrieve_range</span><span class="p">)</span>
-		<span class="n">final_nodes</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector_index_retriever</span><span class="o">.</span><span class="n">aretrieve</span><span class="p">(</span><span class="n">item_to_be_retrieved</span><span class="p">)</span>
+		<span class="n">retrieved_nodes</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector_index_retriever</span><span class="o">.</span><span class="n">aretrieve</span><span class="p">(</span><span class="n">item_to_be_retrieved</span><span class="p">)</span>
+		<span class="n">final_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">NodeWithScore</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">instruments</span><span class="p">]</span> <span class="o">+</span> <span class="n">retrieved_nodes</span>
 		<span class="k">return</span> <span class="n">final_nodes</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -8566,8 +8570,7 @@ The contents of these retrieved nodes will be presented as the output.</p>
 
             <details class="quote">
               <summary>Source code in <code>labridge\func_modules\instrument\retrieve\instrument_retriever.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">269</span>
-<span class="normal">270</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">270</span>
 <span class="normal">271</span>
 <span class="normal">272</span>
 <span class="normal">273</span>
@@ -8600,7 +8603,9 @@ The contents of these retrieved nodes will be presented as the output.</p>
 <span class="normal">300</span>
 <span class="normal">301</span>
 <span class="normal">302</span>
-<span class="normal">303</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">aretrieve</span><span class="p">(</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">aretrieve</span><span class="p">(</span>
 	<span class="bp">self</span><span class="p">,</span>
 	<span class="n">item_to_be_retrieved</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">]:</span>
@@ -8633,7 +8638,8 @@ The contents of these retrieved nodes will be presented as the output.</p>
 
 	<span class="bp">self</span><span class="o">.</span><span class="n">set_retriever_top_k</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_final_top_k</span><span class="p">)</span>
 	<span class="bp">self</span><span class="o">.</span><span class="n">set_retriever_node_ids</span><span class="p">(</span><span class="n">node_ids</span><span class="o">=</span><span class="n">retrieve_range</span><span class="p">)</span>
-	<span class="n">final_nodes</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector_index_retriever</span><span class="o">.</span><span class="n">aretrieve</span><span class="p">(</span><span class="n">item_to_be_retrieved</span><span class="p">)</span>
+	<span class="n">retrieved_nodes</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector_index_retriever</span><span class="o">.</span><span class="n">aretrieve</span><span class="p">(</span><span class="n">item_to_be_retrieved</span><span class="p">)</span>
+	<span class="n">final_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">NodeWithScore</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">instruments</span><span class="p">]</span> <span class="o">+</span> <span class="n">retrieved_nodes</span>
 	<span class="k">return</span> <span class="n">final_nodes</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -8751,7 +8757,8 @@ The contents of these retrieved nodes will be presented as the output.</p>
 <span class="normal">264</span>
 <span class="normal">265</span>
 <span class="normal">266</span>
-<span class="normal">267</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dispatcher</span><span class="o">.</span><span class="n">span</span>
+<span class="normal">267</span>
+<span class="normal">268</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dispatcher</span><span class="o">.</span><span class="n">span</span>
 <span class="k">def</span> <span class="nf">retrieve</span><span class="p">(</span>
 	<span class="bp">self</span><span class="p">,</span>
 	<span class="n">item_to_be_retrieved</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -8790,7 +8797,8 @@ The contents of these retrieved nodes will be presented as the output.</p>
 
 	<span class="bp">self</span><span class="o">.</span><span class="n">set_retriever_top_k</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_final_top_k</span><span class="p">)</span>
 	<span class="bp">self</span><span class="o">.</span><span class="n">set_retriever_node_ids</span><span class="p">(</span><span class="n">node_ids</span><span class="o">=</span><span class="n">retrieve_range</span><span class="p">)</span>
-	<span class="n">final_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector_index_retriever</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">item_to_be_retrieved</span><span class="p">)</span>
+	<span class="n">retrieved_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector_index_retriever</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">item_to_be_retrieved</span><span class="p">)</span>
+	<span class="n">final_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">NodeWithScore</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">instruments</span><span class="p">]</span> <span class="o">+</span> <span class="n">retrieved_nodes</span>
 	<span class="k">return</span> <span class="n">final_nodes</span>
 </code></pre></div></td></tr></table></div>
             </details>

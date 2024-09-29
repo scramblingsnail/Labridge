@@ -8203,8 +8203,7 @@ and the getting final operation authorization from the user.</p>
 <span class="normal">249</span>
 <span class="normal">250</span>
 <span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">CollectAndAuthorizeTool</span><span class="p">(</span><span class="n">CallBackBaseTool</span><span class="p">):</span>
+<span class="normal">252</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">CollectAndAuthorizeTool</span><span class="p">(</span><span class="n">CallBackBaseTool</span><span class="p">):</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	This tool is the template for tools whose process involves information collection from users</span>
 <span class="sd">	and the getting final operation authorization from the user.</span>
@@ -8241,7 +8240,6 @@ and the getting final operation authorization from the user.</p>
 	<span class="nd">@abstractmethod</span>
 	<span class="k">def</span> <span class="nf">required_infos</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CollectingInfoBase</span><span class="p">]:</span>
 <span class="w">		</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; The required infos. &quot;&quot;&quot;</span>
-
 
 	<span class="nd">@abstractmethod</span>
 	<span class="k">def</span> <span class="nf">required_info_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
@@ -8528,7 +8526,8 @@ Finally, the agent will ask for the user's authorization to execute the operatio
 
             <details class="quote">
               <summary>Source code in <code>labridge\tools\interact\collect_and_authorize.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">186</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">185</span>
+<span class="normal">186</span>
 <span class="normal">187</span>
 <span class="normal">188</span>
 <span class="normal">189</span>
@@ -8594,8 +8593,7 @@ Finally, the agent will ask for the user's authorization to execute the operatio
 <span class="normal">249</span>
 <span class="normal">250</span>
 <span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">acollect_and_authorize</span><span class="p">(</span>
+<span class="normal">252</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">acollect_and_authorize</span><span class="p">(</span>
 	<span class="bp">self</span><span class="p">,</span>
 	<span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 	<span class="n">query_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -8755,7 +8753,8 @@ Finally, the agent will ask for the user's authorization to execute the operatio
 
             <details class="quote">
               <summary>Source code in <code>labridge\tools\interact\collect_and_authorize.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">116</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">115</span>
+<span class="normal">116</span>
 <span class="normal">117</span>
 <span class="normal">118</span>
 <span class="normal">119</span>
@@ -8822,8 +8821,7 @@ Finally, the agent will ask for the user's authorization to execute the operatio
 <span class="normal">180</span>
 <span class="normal">181</span>
 <span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">collect_and_authorize</span><span class="p">(</span>
+<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">collect_and_authorize</span><span class="p">(</span>
 	<span class="bp">self</span><span class="p">,</span>
 	<span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 	<span class="n">query_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -8971,7 +8969,8 @@ Finally, the agent will ask for the user's authorization to execute the operatio
 
             <details class="quote">
               <summary>Source code in <code>labridge\tools\interact\collect_and_authorize.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 78</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 77</span>
+<span class="normal"> 78</span>
 <span class="normal"> 79</span>
 <span class="normal"> 80</span>
 <span class="normal"> 81</span>
@@ -9006,8 +9005,7 @@ Finally, the agent will ask for the user's authorization to execute the operatio
 <span class="normal">110</span>
 <span class="normal">111</span>
 <span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ToolLog</span><span class="p">:</span>
+<span class="normal">113</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ToolLog</span><span class="p">:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Record the tool&#39;s logs.</span>
 
@@ -9069,9 +9067,9 @@ Finally, the agent will ask for the user's authorization to execute the operatio
 
             <details class="quote">
               <summary>Source code in <code>labridge\tools\interact\collect_and_authorize.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
 <span class="k">def</span> <span class="nf">required_info_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">	</span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; The required info names and their descriptions &quot;&quot;&quot;</span>
 </code></pre></div></td></tr></table></div>
